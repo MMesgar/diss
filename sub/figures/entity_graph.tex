@@ -1,0 +1,77 @@
+\begin{figure*}[!t]
+\centering
+\small
+\begin{tabular}{c}
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% bipartite graph for : wsj_1818%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+	\tikzstyle{entity}=[circle,thick,draw=black!90,fill=black!10,minimum size=6mm]
+        \tikzstyle{edge}=[draw=black!90, thick]
+       \begin{scope}
+       
+         \node [sentence] (s1) at (2,4) {\small{$s_1$}};
+         \node [sentence] (s2) at (6,4) {\small{$s_2$}};
+         \node [sentence] (s3) at (10.5,4) {\small{$s_3$}}; 
+         \node [sentence] (s4) at (16,4) {\small{$s_4$}}; 
+         \node [sentence] (s5) at (22,4) {\small{$s_5$}}; 
+         
+
+
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{ASSOCIATED}}] (e1)  at (-1.0,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{PRESS}}] (e2)  at (0.5,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{}}] (e3)  at (2,0) {\tiny{$...$}}; 
+	 \node [entity, fill=black!50, label=below:\rotatebox{+90}{\tiny{OFFICIALS}}] (e8)  at (3.5,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{POLICY}}] (e9)  at (5,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{MAKERS}}] (e10) at (6.50,0) {}; 
+         \node [entity, label=below:\rotatebox{+90}{\tiny{}}] (e11) at (8.0,0) {\tiny{$...$}}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{WASHINGTON}}] (e18) at (9.5,0) {}; 
+	 \node [entity, fill=black!50, label=below:\rotatebox{+90}{\tiny{BUREAUCRACY}}] (e19) at (11.0,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{HOURS}}] (e20) at (12.5,0) {}; 
+         \node [entity, label=below:\rotatebox{+90}{\tiny{GEAR}}] (e21) at (14.0,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{NEWS}}] (e22) at (15.5,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{}}] (e23) at (17.0,0) {\tiny{$...$}}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{TABLE}}] (e25) at (18.5,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{MAYOR}}] (e26) at (20,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{CHARLESTON}}] (e27) at (21.5,0) {\tiny{$...$}}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{HUGO}}] (e30) at (23.0,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{SENSE}}] (e31) at (24.5,0) {}; 
+	 \node [entity, label=below:\rotatebox{+90}{\tiny{FUNCTIONS}}] (e32) at (26,0) {}; 
+    
+         
+     \path[edge] (s1) edge [above] node[font=\tiny] {} (e1);
+	 \path[edge] (s1) edge [above] node[font=\tiny] {} (e2);
+     \path[edge] (s1) edge [above] node[font=\tiny] {} (e3);
+	 \path[edge, line width=0.3ex] (s1) edge [above] node[font=\tiny] {} (e8);
+     \path[edge] (s1) edge [above] node[font=\tiny] {} (e9);
+	 \path[edge] (s1) edge [above] node[font=\tiny] {} (e10);
+
+     \path[edge] (s2) edge [above] node[font=\tiny] {} (e11);
+	 \path[edge] (s2) edge [above] node[font=\tiny] {} (e18);
+     \path[edge, line width=0.3ex] (s2) edge [above] node[font=\tiny] {} (e19);
+	 \path[edge] (s2) edge [above] node[font=\tiny] {} (e20);
+     \path[edge] (s2) edge [above] node[font=\tiny] {} (e21);
+
+      \path[edge] (s3) edge [above] node[font=\tiny] {} (e22);
+	 \path[edge] (s3) edge [above] node[font=\tiny] {} (e23);
+	 \path[edge] (s3) edge [above] node[font=\tiny] {} (e25);
+     \path[edge, line width=0.3ex] (s3) edge [above] node[font=\tiny] {} (e8);
+
+	 \path[edge] (s4) edge [above] node[font=\tiny] {} (e26);
+	 \path[edge] (s4) edge [above] node[font=\tiny] {} (e27);
+	 \path[edge] (s4) edge [above] node[font=\tiny] {} (e30);
+	 \path[edge, line width=0.3ex] (s4) edge [above] node[font=\tiny] {} (e19);
+
+	 \path[edge] (s5) edge [above] node[font=\tiny] {} (e31);
+	 \path[edge] (s5) edge [above] node[font=\tiny] {} (e32);
+	 \path[edge, line width=0.3ex] (s5) edge [above] node[font=\tiny] {} (e19);
+
+
+
+               
+        \end{scope}        
+      \end{tikzpicture}
+\end{tabular}
+\caption{The entity graph representation of the text in Table \ref{t:sample_text}. Dark entities are shared by the sentences.}
+\label{f:entity_graph}
+\end{figure*}

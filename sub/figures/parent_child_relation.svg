@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:latexdraw="http://latexdraw.sourceforge.net/namespaces/latexdraw"
+    version="1.1" baseProfile="full">
+    <defs>
+        <marker overflow="visible" orient="auto" id="arrow2-187">
+            <path
+                d="M 0.0 0.0 L -4.7495614279725435 1.696271938561623 L -2.849736856783526 0.0 L -4.7495614279725435 -1.696271938561623 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-222">
+            <path
+                d="M 0.0 0.0 L -4.652083333333334 1.6614583333333335 L -2.79125 0.0 L -4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-255">
+            <path
+                d="M 0.0 0.0 L -4.652083333333334 1.6614583333333335 L -2.79125 0.0 L -4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-256">
+            <path
+                d="M 0.0 0.0 L 4.652083333333334 1.6614583333333335 L 2.79125 0.0 L 4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-256">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-260">
+            <path
+                d="M 0.0 0.0 L -4.652083333333334 1.6614583333333335 L -2.79125 0.0 L -4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-261">
+            <path
+                d="M 0.0 0.0 L -4.652083333333334 1.6614583333333335 L -2.79125 0.0 L -4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-262">
+            <path
+                d="M 0.0 0.0 L 4.652083333333334 1.6614583333333335 L 2.79125 0.0 L 4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-262">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-266">
+            <path
+                d="M 0.0 0.0 L 4.652083333333334 1.6614583333333335 L 2.79125 0.0 L 4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-266">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-270">
+            <path
+                d="M 0.0 0.0 L 4.652083333333334 1.6614583333333335 L 2.79125 0.0 L 4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-270">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-274">
+            <path
+                d="M 0.0 0.0 L -4.652083333333334 1.6614583333333335 L -2.79125 0.0 L -4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-275">
+            <path
+                d="M 0.0 0.0 L -4.652083333333334 1.6614583333333335 L -2.79125 0.0 L -4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-276">
+            <path
+                d="M 0.0 0.0 L -4.652083333333334 1.6614583333333335 L -2.79125 0.0 L -4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-278">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-279">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-280">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-281">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-282">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-283">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-284">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-285">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-286">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-287">
+            <path
+                d="M 0.0 0.0 L -4.652083333333334 1.6614583333333335 L -2.79125 0.0 L -4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-288">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-289">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-290">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-291">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-292">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-293">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-294">
+            <circle r="0.5" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow2-298">
+            <path
+                d="M 0.0 0.0 L -4.652083333333334 1.6614583333333335 L -2.79125 0.0 L -4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+    </defs>
+    <g>
+        <g latexdraw:type="circle" id="id176">
+            <circle cx="562.5" cy="61.5" r="11.5"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="none"/>
+        </g>
+        <g latexdraw:type="drawing" id="id178">
+            <g latexdraw:type="circle" id="id179">
+                <circle cx="316.0" cy="185.0" r="11.0"
+                    latexdraw:borderPos="outer" stroke-width="2.0"
+                    stroke="black" fill="none"/>
+            </g>
+            <g latexdraw:type="circle" id="id181">
+                <circle cx="358.0" cy="184.0" r="11.0"
+                    latexdraw:borderPos="outer" stroke-width="2.0"
+                    stroke="black" fill="none"/>
+            </g>
+            <g latexdraw:type="circle" id="id183">
+                <circle cx="750.0" cy="174.0" r="11.0"
+                    latexdraw:borderPos="outer" stroke-width="2.0"
+                    stroke="black" fill="none"/>
+            </g>
+            <g latexdraw:type="circle" id="id185">
+                <circle cx="792.0" cy="173.0" r="11.0"
+                    latexdraw:borderPos="outer" stroke-width="2.0"
+                    stroke="black" fill="none"/>
+            </g>
+            <g latexdraw:type="line" id="id187">
+                <line x1="762.0" x2="781.0" y1="173.0" y2="173.0"
+                    stroke-width="1.899999976158142" stroke="black"
+                    latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-187)"/>
+            </g>
+        </g>
+        <g latexdraw:type="drawing" id="id189">
+            <g latexdraw:type="drawing" id="id190">
+                <g latexdraw:type="circle" id="id191">
+                    <circle cx="-31.0" cy="346.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id193">
+                    <circle cx="14.0" cy="346.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id195">
+                    <circle cx="54.5" cy="344.5" r="10.5"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+            </g>
+            <g latexdraw:type="drawing" id="id198">
+                <g latexdraw:type="circle" id="id199">
+                    <circle cx="146.0" cy="343.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id201">
+                    <circle cx="191.0" cy="343.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id203">
+                    <circle cx="231.5" cy="341.5" r="10.5"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+            </g>
+            <g latexdraw:type="drawing" id="id206">
+                <g latexdraw:type="circle" id="id207">
+                    <circle cx="309.0" cy="342.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id209">
+                    <circle cx="354.0" cy="342.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id211">
+                    <circle cx="394.5" cy="340.5" r="10.5"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+            </g>
+            <g latexdraw:type="drawing" id="id214">
+                <g latexdraw:type="circle" id="id215">
+                    <circle cx="467.0" cy="342.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id217">
+                    <circle cx="512.0" cy="342.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id219">
+                    <circle cx="552.5" cy="340.5" r="10.5"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+            </g>
+            <g latexdraw:type="line" id="id222">
+                <line x1="367.0" x2="385.0" y1="342.0" y2="342.0"
+                    stroke-width="2.0" stroke="black"
+                    latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-222)"/>
+            </g>
+            <g latexdraw:type="drawing" id="id223">
+                <g latexdraw:type="circle" id="id224">
+                    <circle cx="614.0" cy="339.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id226">
+                    <circle cx="659.0" cy="339.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id228">
+                    <circle cx="699.5" cy="337.5" r="10.5"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+            </g>
+            <g latexdraw:type="drawing" id="id231">
+                <g latexdraw:type="circle" id="id232">
+                    <circle cx="777.0" cy="337.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id234">
+                    <circle cx="822.0" cy="337.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id236">
+                    <circle cx="862.5" cy="335.5" r="10.5"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+            </g>
+            <g latexdraw:type="drawing" id="id239">
+                <g latexdraw:type="circle" id="id240">
+                    <circle cx="915.0" cy="333.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id242">
+                    <circle cx="960.0" cy="333.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id244">
+                    <circle cx="1000.5" cy="331.5" r="10.5"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+            </g>
+            <g latexdraw:type="drawing" id="id247">
+                <g latexdraw:type="circle" id="id248">
+                    <circle cx="1065.0" cy="332.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id250">
+                    <circle cx="1110.0" cy="332.0" r="11.0"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+                <g latexdraw:type="circle" id="id252">
+                    <circle cx="1150.5" cy="330.5" r="10.5"
+                        latexdraw:borderPos="outer" stroke-width="2.0"
+                        stroke="black" fill="none"/>
+                </g>
+            </g>
+            <g latexdraw:type="line" id="id255">
+                <line x1="158.0" x2="180.0" y1="342.0" y2="343.0"
+                    stroke-width="2.0" stroke="black"
+                    latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-255)"/>
+            </g>
+            <g latexdraw:type="arc" id="id256">
+                <path
+                    d="M 548.0000000000001 332.99999999999983 A 40.0 40.0 0.0 0 0 468.0066099314672 332.2728474532996 "
+                    stroke-width="2.0" stroke="black" fill="none"
+                    latexdraw:rotationAngle="0.0"
+                    marker-start="url(#arrow1-256)" marker-end="url(#arrow2-256)"/>
+            </g>
+            <g latexdraw:type="line" id="id260">
+                <line x1="625.0" x2="649.0" y1="340.0" y2="340.0"
+                    stroke-width="2.0" stroke="black"
+                    latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-260)"/>
+            </g>
+            <g latexdraw:type="line" id="id261">
+                <line x1="835.0" x2="854.0" y1="339.0" y2="339.0"
+                    stroke-width="2.0" stroke="black"
+                    latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-261)"/>
+            </g>
+            <g latexdraw:type="arc" id="id262">
+                <path
+                    d="M 697.0000000000001 328.99999999999983 A 40.0 40.0 0.0 0 0 617.0066099314672 328.2728474532996 "
+                    stroke-width="2.0" stroke="black" fill="none"
+                    latexdraw:rotationAngle="0.0"
+                    marker-start="url(#arrow1-262)" marker-end="url(#arrow2-262)"/>
+            </g>
+            <g latexdraw:type="arc" id="id266">
+                <path
+                    d="M 857.0000000000001 328.99999999999983 A 40.0 40.0 0.0 0 0 777.0066099314672 328.2728474532996 "
+                    stroke-width="2.0" stroke="black" fill="none"
+                    latexdraw:rotationAngle="0.0"
+                    marker-start="url(#arrow1-266)" marker-end="url(#arrow2-266)"/>
+            </g>
+            <g latexdraw:type="arc" id="id270">
+                <path
+                    d="M 1147.0000000000002 324.99999999999386 A 40.0 40.0 0.0 0 0 1067.0066099314672 324.2728474533056 "
+                    stroke-width="2.0" stroke="black" fill="none"
+                    latexdraw:rotationAngle="0.0"
+                    marker-start="url(#arrow1-270)" marker-end="url(#arrow2-270)"/>
+            </g>
+            <g latexdraw:type="line" id="id274">
+                <line x1="1078.0" x2="1100.0" y1="335.0" y2="335.0"
+                    stroke-width="2.0" stroke="black"
+                    latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-274)"/>
+            </g>
+            <g latexdraw:type="line" id="id275">
+                <line x1="971.0" x2="991.0" y1="332.0" y2="331.0"
+                    stroke-width="2.0" stroke="black"
+                    latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-275)"/>
+            </g>
+            <g latexdraw:type="line" id="id276">
+                <line x1="928.0" x2="951.0" y1="336.0" y2="335.0"
+                    stroke-width="2.0" stroke="black"
+                    latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-276)"/>
+            </g>
+        </g>
+        <g latexdraw:type="line" id="id278">
+            <line x1="562.0" x2="366.0" y1="79.0" y2="168.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-278)"/>
+        </g>
+        <g latexdraw:type="line" id="id279">
+            <line x1="561.0" x2="748.0" y1="79.0" y2="161.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-279)"/>
+        </g>
+        <g latexdraw:type="line" id="id280">
+            <line x1="324.0" x2="20.0" y1="204.0" y2="324.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-280)"/>
+        </g>
+        <g latexdraw:type="line" id="id281">
+            <line x1="323.0" x2="200.0" y1="205.0" y2="320.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-281)"/>
+        </g>
+        <g latexdraw:type="line" id="id282">
+            <line x1="323.0" x2="348.0" y1="207.0" y2="324.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-282)"/>
+        </g>
+        <g latexdraw:type="line" id="id283">
+            <line x1="323.0" x2="491.0" y1="206.0" y2="286.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-283)"/>
+        </g>
+        <g latexdraw:type="line" id="id284">
+            <line x1="321.0" x2="624.0" y1="208.0" y2="280.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-284)"/>
+        </g>
+        <g latexdraw:type="line" id="id285">
+            <line x1="323.0" x2="778.0" y1="205.0" y2="300.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-285)"/>
+        </g>
+        <g latexdraw:type="line" id="id286">
+            <line x1="324.0" x2="937.0" y1="207.0" y2="296.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-286)"/>
+        </g>
+        <g latexdraw:type="line" id="id287">
+            <line x1="1120.0" x2="1140.0" y1="330.0" y2="330.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-287)"/>
+        </g>
+        <g latexdraw:type="line" id="id288">
+            <line x1="766.0" x2="200.0" y1="193.0" y2="320.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-288)"/>
+        </g>
+        <g latexdraw:type="line" id="id289">
+            <line x1="765.0" x2="348.0" y1="193.0" y2="324.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-289)"/>
+        </g>
+        <g latexdraw:type="line" id="id290">
+            <line x1="767.0" x2="490.0" y1="192.0" y2="286.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-290)"/>
+        </g>
+        <g latexdraw:type="line" id="id291">
+            <line x1="765.0" x2="624.0" y1="193.0" y2="280.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-291)"/>
+        </g>
+        <g latexdraw:type="line" id="id292">
+            <line x1="765.0" x2="778.0" y1="194.0" y2="298.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-292)"/>
+        </g>
+        <g latexdraw:type="line" id="id293">
+            <line x1="767.0" x2="936.0" y1="194.0" y2="295.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-293)"/>
+        </g>
+        <g latexdraw:type="line" id="id294">
+            <line x1="764.0" x2="1062.0" y1="192.0" y2="286.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-294)"/>
+        </g>
+        <g latexdraw:type="text" id="id295" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="541.0">
+            <text x="541.0" y="24.0"><![CDATA[NULL]]></text>
+        </g>
+        <g latexdraw:type="line" id="id298">
+            <line x1="563.0" x2="563.0" y1="27.0" y2="46.0"
+                stroke-width="2.0" stroke="black"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow2-298)"/>
+        </g>
+    </g>
+    <metadata>
+        <latexdraw:metadata>
+            <latexdraw:displayBorders>false</latexdraw:displayBorders>
+            <latexdraw:autoAdjust>true</latexdraw:autoAdjust>
+            <latexdraw:ppc>50</latexdraw:ppc>
+            <latexdraw:zoom>2.0</latexdraw:zoom>
+            <latexdraw:unit>cm</latexdraw:unit>
+            <latexdraw:classicGrid>false</latexdraw:classicGrid>
+            <latexdraw:gridGap>10</latexdraw:gridGap>
+            <latexdraw:code>0</latexdraw:code>
+            <latexdraw:displayGrid>true</latexdraw:displayGrid>
+            <latexdraw:magneticGrid>false</latexdraw:magneticGrid>
+            <latexdraw:autoUpdate>true</latexdraw:autoUpdate>
+            <latexdraw:version>2.0.8</latexdraw:version>
+            <latexdraw:size>
+                <latexdraw:width>1855</latexdraw:width>
+                <latexdraw:height>1204</latexdraw:height>
+            </latexdraw:size>
+            <latexdraw:position>
+                <latexdraw:x>65</latexdraw:x>
+                <latexdraw:y>24</latexdraw:y>
+            </latexdraw:position>
+            <latexdraw:dividerPosition>0.8566037735849057</latexdraw:dividerPosition>
+            <latexdraw:displayCodePanel>true</latexdraw:displayCodePanel>
+            <latexdraw:displayXScale>true</latexdraw:displayXScale>
+            <latexdraw:displayYScale>true</latexdraw:displayYScale>
+            <latexdraw:delimitorOpacity>130</latexdraw:delimitorOpacity>
+        </latexdraw:metadata>
+    </metadata>
+</svg>

@@ -1,0 +1,30 @@
+\begin{tabular}{c}
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.62]
+
+		 \tikzstyle{word}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        \tikzstyle{edge}=[draw, dashed,-]
+       \begin{scope}	
+         \node [word] (w1) at (0,0) {\tiny{$w_1$}};
+         \node [word] (w2) at (2,0) {\tiny{$w_2$}};
+         \node [word] (w3) at (4,0) {\tiny{$w_3$}}; 
+		
+		\node[fit=(w1)(w2)(w3), ellipse,draw,inner sep=-1.3cm, minimum height=1.5cm] {};         
+		
+		
+         \node [word] (w4) at (6,0) {\tiny{$w_4$}}; 
+	     \node [word] (w5) at (8,0) {\tiny{$w_5$}}; 
+    	\node[fit=(w4) (w5), ellipse,draw,,inner sep=-0.8cm, minimum height=1.2cm] {};         
+
+         
+         
+         \path[edge , bend right=60] (w4) edge [above] node[font=\tiny] {} (w1);
+		\path[edge, bend right=60, solid] (w4) edge [above] node[font=\tiny] {} (w2);
+		\path[edge, bend right=60] (w4) edge [above] node[font=\tiny] {} (w3);
+          
+        
+         \path[edge ,bend left=60] (w5) edge [above] node[font=\tiny] {} (w1);
+		\path[edge,bend left=60] (w5) edge [above] node[font=\tiny] {} (w2);
+		\path[edge,bend left=60, solid] (w5) edge [above] node[font=\tiny] {} (w3);
+        \end{scope}        
+      \end{tikzpicture}
+\end{tabular}
