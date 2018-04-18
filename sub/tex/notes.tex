@@ -1,0 +1,152 @@
+#####################################################################################
+\cite{todirascu16}
+#####################################################################################
+
+Although psycholinguistic experiments have shown that a higher level of cohesion and coherence between a pair of
+related sentences decreases their reading time (Kintsch et al., 1975; Mason and Just, 2004), the added
+value of these textual dimensions for readability models (compared to traditional features) remains unclear, 
+
+Coherence is defined as a “semantic property of discourse, based on the interpretation of each individual
+sentence relative to the interpretation of other sentences” (Van Dijk, 1977, 93)
+
+Cohesion is a property of text represented by explicit formal grammatical ties (discourse connectives)
+and lexical ties that signal how utterances or larger text parts are related to each other.
+
+In this article, we consider explicit lexical ties such as anaphoric, co-reference and lexical chains as
+cohesive features. We study the correlation between these cohesive features and text complexity
+
+
+#####################################################################################
+\cite{petersencasper15}
+#####################################################################################
+
+Good definition of coherence and three levels of coherence: intentional, attentional, organizational 
+
+Good related work
+The idea of more entity in a sentence meaning less coherent text
+
+Conveying the message that outdegree is not the best for the entity graph. They computed other graph properties.
+
+Evaluation on 
+	the sentence ordering task
+	Information Retrieval task (TREC): as post processing re-rank the retrieved documents
+
+Based on this paper: our model is a coherence model that captures local and global coherence.
+
+Entity-based models are based on the Centering theory.
+
+The model is unsupervised.
+
+Idea: using information entropy: information entropy is the expected value of the information content of a random variable. coherence score is the inverse of the entropy of entities
+
+A connection between probability of the entities and normalization method of the normalized entity graph. Another connection is Entity distance and Adjacent Topic flow.
+
+Check the highlighted references for further readings; they are good papers for coherence.
+
+#####################################################################################
+ \cite{} -- Micha Elsner's Thesis
+#####################################################################################
+At a high level, a coherent document discusses a sequence of topics in a structured way, with each topic
+tending to occupy a single segment of the text (Hearst, 1997; Galley et al., 2003).
+
+
+Inside each segment, adjacent sentences link to one another in a local structure, in which they share
+not just a general topic but some specific logical relationship.
+
+Local coherence models fall into several types: rhetorical models try to explicitly describe the way propositions link up to form an argument or narrative. 
+Lexical models capture the tendency for adjacent sentences to use similar vocabulary, since they
+express related propositions. 
+Entity-based models look at the way entities objects existing in the world are
+mentioned in the discourse.
+
+Marcu (1997) and Mellish et al. (1998), Both these papers focus on text generation; they take
+input in a non-linguistic format where the relationships between propositions are made explicit. 
+For texts that may or may not be coherent in the first place (such as those formed
+by extracting sentences from a multidocument collection), this problem is likely to be even worse. Pitler
+and Nenkova (2008) obtain some use from rhetorical structure in predicting readability for human-authored
+documents where rhetorical relations were marked by hand, suggesting that this type of information would
+indeed be useful if it were available.
+
+Lexical features, on the other hand, require no annotation at all; they are accessible directly from the text.
+However, their expressive power is limited; in general, lexical methods aim to measure similarity between
+pairs of sentences adjacent in a text, with little ability to predict the direction of the relationship or how it
+relates to a higher-level structure. Basic lexical methods restrict themselves to counting repeated words; a
+variety of metrics are covered in Lapata and Barzilay (2005). Information retrieval techniques, most notably
+TF-IDF (Jones, 1972), can be used to approximate the importance of each word. More sophisticated models
+aim to learn associations between different words (for instance, car is a good context for tire, or brakes
+(Prince, 1981)). Foltz et al. (1998) uses a separate dimensionality reduction phase, LSA (Deerwester et al.,
+1990) to learn words that are similar to one another. Lapata (2003) is the rst to learn word associations for
+local coherence directly, in a manner that respects ordering (so it is able to learn that ``tire" is not as good a
+context for ''car" as vice versa). Soricut and Marcu (2006) uses IBM model 1 (Brown et al., 1993) to learn
+these word associations.
+Work on lexical chains searches for larger-scale groups of related words which span multiple sentences;
+rather than relating each sentence to the next, they build larger structures, chains of related words which
+persist throughout a topical segment. As with other lexical methods, lexical chains require some basic method
+for finding significant repeated or similar words. Galley et al. (2003) uses TF-IDF; Morris and Hirst (1991)
+describes a variety of methods based on thesauri.
+
+The original motivation for computational coherence modeling was text planning; Marcu (1997) points out
+that a system attempting to explain a set of facts would require a way of ordering those facts, and that this
+ordering should result in coherent transitions between adjacent units of text.
+Jing and McKeown
+(1999) nds that human summarizers often reorder sentences to create more coherent output, suggesting that
+poor ordering can compromise readers' understanding; Barzilay et al. (2002) demonstrates this empirically,
+as does Lapata (2006). Barzilay et al. (2002) also observes that imposing a coherent ordering on the resulting
+set of sentences is non-trivial, motivating the use of coherence models to solve the problem. 
+
+Barzilay et al. (2002) use chronological information and topical clustering; Lapata (2003) learns word-to-word associations that typify coherent transitions;
+Lapata and Barzilay (2005) and Barzilay and Lapata (2005) use a syntactic model of information structure.
+
+In addition to text ordering, local coherence models have also been used to score the uency of texts 
+written by humans or produced by machine. Evaluation of human-authored text can characterize how difcult
+it is to read. The rst use of coherence modeling in this context is Foltz et al. (1998), who use similarity
+between adjacent sentences to measure readability of encyclopedia articles and a historical text. 
+
+Pitler and Nenkova (2008) models readers' reported difculty in reading WSJ news articles. 
+Scores for
+human-authored text are also useful in an educational context, since they can augment human grading for
+student essays. Miltsakaki and Kukich (2004), Higgins et al. (2004) and Burstein et al. (2010) model various
+aspects of coherence and nd that they are predictive of the grades eventually assigned.
+coherence modeling is an implicit ingredient in many attempts to understand the hidden structure
+of text. 
+
+%This article focuses on
+%local coherence, which captures text relatedness at the level of sentence-to sentence transitions. 
+%Local coherence is undoubtedly necessary for global coherence and has received considerable attention in computational linguistics (Foltz,
+%Kintsch, and Landauer 1998; Marcu 2000; Lapata 2003; Althaus, Karamanis, and Koller2004;Karamanisetal.2004
+
+%The entity grid, however, does not commit itself to fine-grained rankings of the centers or to a pre-specified transition rule. Instead, it provides a representation which can be constructed from relatively light-weight syntactic analyses, and in which the kinds of rules specified by the theory will be efficiently learnable.
+
+%Lapata (2003) gives the first model for learning word associations for coherence from data.
+%Her model gives the probability of a sentence W with words $w_i$ following a sentence V with words $V_j$ as:
+%$P(W) = \prod_{i} \prod_{j}p(w_i|v_j)$
+%This model explains each word w as produced by a predecessor word v, although which word in the previous
+%sentence should serve as predecessor for each w is unknown.
+%
+%Soricut and Marcu (2006), inspired by a personal communication from Kevin Knight, use IBM model 1
+%(Brown et al., 1993) to learn word-to-word associations.
+%
+%IBM uses hidden variables to obtain a true generative
+%model with the same lexical parameterization as Lapata (2003).
+%
+%IBM solves the problem that we do not know the correct predecessor word vj for each wi by introducing
+%a hidden alignment variable ai 2 [0::j] which indicates precisely which previous word is responsible for each
+%current word.
+%
+%Because IBM-1 has hidden variables, its parameters cannot be learned by direct estimation; conventionally,
+%EM or variational EM are used instead.
+%
+%Elsner's implementation of IBM-1 produces and conditions on nouns and verbs only;
+%
+#####################################################################################
+\cite{Barzilay} Modeling Local Coherence: An Entity-Based Approach
+#####################################################################################
+Linguistic Modeling.
+Entity-based accounts of local coherence have a long tradition
+within the linguistic and cognitive science literature (Kuno 1972; Chafe 1976; Halliday
+and Hasan 1976; Karttunen 1976; Clark and Haviland 1977; Prince 1981; Grosz, Joshi,
+and Weinstein 1995). A unifying assumption underlying different approaches is that
+discourse coherence is achieved in view of the way discourse entities are introduced
+and discussed.This observation is commonly formalized by devising constraints on the
+linguistic realization and distribution of discourse entities in coherent texts.
+

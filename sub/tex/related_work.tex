@@ -1,0 +1,482 @@
+\chapter{Related Work}
+\label{chapt:related_work}
+
+\section{Entity-based Models}
+\label{sec:rel_work_entity_based_models}
+
+In accordance with Mellish et al. (1998a) and Kibble and Power (2000) among others, text structuring is assumed to be a search task where different possible solutions are generated and evaluated according to scores assigned by a metric. 
+
+As most literature in text linguistics argues (Halliday and Hassan 1976, Lyons 1981, De Beaugrande and Dressler 1981, inter alia), a text processes coherence which is to say that the content is organized in a way that is easy for humans to read and understand. 
+
+An example of entity coherence from (Karamanis 2004 thesis p.4):
+
+\begin{tabular}{l}
+This exhibit is an amphora. \\
+Amphora have an ovoid body and two looped handles, reaching from the shoulders up. \\
+They were produced in two major variations: type A and the type with a neck.  \\
+This exhibit is a type A amphora.  \\
+It comes from the archaic period. 
+\end{tabular}
+
+The first sentence in this example introduces two entities, namely the referent of the phrases ``this exhibit" and ``an amphora". 
+The discourse continues with two sentences providing information about the characteristics of amphoras and their  variations. 
+Then, the current exhibit is identified as belonging to one of these variations and the text concludes with additional information about the current exhibit. 
+Thus, the organization of the text can be seen as evolving around some general patterns for introducing and discussing entities sentence after sentence . 
+
+
+In this thesis, entity coherence and lexical cohesion as two main relevant factors for descriptive texts are assessed while additional constraints such as rhetorical relations (Mann and Thompson 1987) are considered only to the limited extent that the datasets available for the study allow us. 
+
+According to RST, a natural text can be described as a tree-like hierarchical structure with rhetorical relations applying recursively between adjacent spans of text as well as between larger text spans already related via a rhetorical relation. For each pair of text spans related via rhetorical relation, RST distinguishes between the span which is more important to the writer propose (the nucleus of the relation) and the span that simply supports the nucleus (termed the satellite) which can often be deleted without severely impairing the comprehensibility of the text. 
+
+Kramanis (2004 thesis) identities which component of RST-based models fails to make the appropriate applications about the role of entity coherence.
+ELABORATION relation in RST has been chracterized as the weakest of RST relations in that its semantic role is simply one of providing more details (Scott and de Souze 90, p.60). 
+This is surprising that this relations is the most frequent relation in the corpus analysis done by Marcu (2000, p.438). 
+Knott et al (2001) suggest that ELABORATION, be eliminated from the RST relations and replaced by a theory of entity coherence. 
+The main operational unit in the suggested framework of text structure is the entity chain that consists of a sequence of RS-trees connected with each other linearly via subsequent entity links. 
+In their model, the coherence between propositions is not determined by their having entities in common, but by the rhetorical relations between them . 
+Knott et al. (2001) claims that rhetorical and entity coherence are not simultaneous constrains on text structures. Two adjacent sentences are related coherently if either there is a rhetorical relation between them or they have an entity in common. 
+
+\paragraph{Centering Theory}
+In this section, we discussed the basic aspects of Centering Theory (henceforth CT). 
+First, we present general claims of the theory and its formalization in the seminal papers of Brennan et al. (1987) and Grosz et al. (1995), and then we discuss some more recent formulations. 
+Next, we review how CT was used by its various proponents. 
+The material which is covered in these sections should be enough for the reader to gain an overview of the various aspects of CT in order to be able to follow our discussion of the model. 
+For more details on CT the reader is referred to the work cited in this section, especially Grosz et al. (1995), the collection of papers in Walker et al. (1998b), the evaluation of CT by Poesio et al (2002). 
+
+CT is a basic entity-oriented theory of text coherence. 
+Grosz et al. (1983, 1995) define CT as a model of some aspects of immediate focus (Sidner 1979). 
+It is assumed that discourses are composed of some segments (Grosz and Sidner 1986), each of which consist of a sequence of utterances. 
+Each segment is represented as a part of a discourse model. 
+Centers are semantic objects that are part of the discourse model for each utterance in a discourse segment. 
+The centers are evoked and subsequently referred to by some of the NPs in each utterance and correspond to discourse entities in the sentence of Webber (1987) or Kamp and Reyle (1993). 
+Each utterance $U_n$ in a given discourse segment is assigned a list of forward-looking centers. 
+denoted as $CF(U_n)$, and an unique backward-looking center, the $CB(U_n)$ .
+The $CF(U_n)$ represents a partial ranking of entities evoked or referred to by NPs in $U_n$ in order of prominence.  
+The preferred center, $CP(U_n)$ is the most highly ranked member of $CF(U_n)$, whereas the $CB(U_n)$ represents the discourse entity that $U_n$ is most centrally connected with. 
+As a result, the $CB(U_n)$ corresponds to the immediate center of attention, similar to what is elsewhere called the topic (e.g. Reinhart 1982, Horn 1986). 
+The $CB(U_n)$ links the current utterance to the previous discourse. 
+The ranking imposed on the elements of $CF(U_n)$ reflects the assumption that the preferred center, $CP(U_n)$, will most likely be $CB(U_{n+1})$. The most highly ranked element of $CF(U_n)$ that is finally released in $U_{n+1}$ is the actual $CB(U_{n+1})$. Obviously segent-initial utterances lack a CB. 
+
+Grosz et al. (1995) define the $CB(U_n)$ as being strictly local: The choice of a backward-looking center for an utterance $U_n$ is from the set of forward looking centers of the previous utterance $U_{n-1}$. 
+The forward-looking centers of $U_{n-1}$ depend only on the discourse entities that constitute $U_{n-1}$. 
+In other words, $CB(U_n)$ cannot be from $CF(U_{n-2})$ or other prior sets of forward looking centers. 
+
+The distinction between looking back to the previous discourse with the $CB(U_n)$ and projecting preferences for interpretation in subsequent discourse with the $CP(U_n)$ is a key aspect of CT. 
+Based on this distinction, CT defines four transition relations across pairs of adjacent utterances. 
+The typology of utterances (from Walker et al 1998a p.6 and Walker et al 1994 p.200), presented in the following Table, id based on two factors: whether the backward-looking center is the same from $U_{n-1}$ to $U_{n}$, and whether the $CB(U_n)$ is the same as the $CP(U_n)$. 
+
+
+\begin{table}
+\begin{tabular}{c|c|c}
+\hline
+& $CB(U_n) = CB(U_{n-1})$ or $CB(U_{n-1}) = None$ & $CB(U_n) \neq CB(U_{n-1})$ \\
+$CB(U_n) = CP(U_n)$ & CONTINUE & SMOOTH-SHIFT \\
+$CB(U_n) \neq CP(U_n)$ & RETAIN & ROUGH-SHIFT \\
+\hline
+\end{tabular}
+\end{table} 
+
+In summary CT follows these constrains: 
+C1. There is precisely one $CB(U_n)$.
+C2. Every element of $CF(U_n)$ must be realized in $U_n$
+C3. The $CB(U_n)$ is the highest rank element of $CF(U_{n-1})$ realized in $U_n$. 
+
+One of the important rules of CT is ordering rule. 
+This rule claims that some transitions between utterances are more coherent than others by stipulating that these transitions are preferred over others CONTINUE > RETAIN> SMOOTH-SHIFT > ROUGH-SHIFT. 
+Measuring coherence is based on the reader's inference load, relative to other choices the speaker has as to how to realize the same propositional content. 
+The most fundamental claim of CT is that if a discourse adheres to the rules and constraints of CT, its coherence will increase and the inference load placed upon the hearer will decreases. 
+The combination of constrains, transition states, and rules makes a set of testable predictions about which interpretations readers will prefer because they require less processing. 
+Maximally coherent segments are those require less processing time. 
+For example, a CONTINUE followed by another CONTINUE should require the reader to keep the track of only one main discourse entity, which is currently on both the CB and the CP. 
+As a result, discourses that CONTINUR centering the same entity are claimed to be more coherent than those that repeatedly SHIFT from one center to another (Karamanis 2004, thesis, p.23).
+ 
+ 
+\paragraph{Continuity}
+The definition of the prerequisite  of CONTINUITY in terms of CT is as follows:
+
+$CF(U_{n-1}) \cap  CF(U_n) \neq NULL$
+
+Grosz et al. (1995) do not discuss the effects of violations of Constraint 1 in the coherence of discourse. 
+Kibble and Power (2000, Figure 1) define the additional transition NOCB for the second member of a pair of utterances that do not have any entity in common, suggesting that a NOCB can be considered to be the worst transition causing the highest degradation of entity coherence. 
+Miltsakaki and Kukich  (2000b), however, consider the NOCB transition to be a type of ROUGH-SHIFT.
+In an attempt to distinguish between different types of NOCB, Di Eugentio (1998, p.128) uses the term CENTER ESTABLISHMENT for an utterance without a CB that corresponds to a global focus shift or contains an entity coreferring with an entity in $U_{n-2}$ when $U_{n-1}$ is an adjunct. 
+Moreover, in Poesio et al. (2002, p.28) the transition that connects two utterance without a CB is called NULL, whereas the transition from an utterance with a CB to an utterance that doest have aone is called ZERO. 
+We remind the reader that the inverse case, that is, where $U_{n-1}$ does not have a $CB$ but $CB(U_n)=CP(U_n)$ is classified as a CONTINUE or a RETAIN by Walker et al. (1998a). 
+The additional transition ESTABLISHMENT is often used to refer to such an utterance, which has a CB itself but follows a NOCB transition (e.g. in Kammeyama 1998 and Poesio et al. 2002).
+
+CT has motivated many cross-linguistic studies in a variety of languages such as a)Japanese: Kameyama (1985,1988,1988), Iida (1998), Walker et al. (1990, 1994) b) Korean: Kim et al. (1999) C) German: Rambow (1993); Strube and Hann (1999) d) Yiddish: Prince (1994) e) Hebrew: Grosz and Ziv (1998) f) Turkish: Turan (1995, 1998); Hoffman (1998) g) Italian: Di Eugenio (1990, 1996,1998) h) Greek: Dimitradis (1996), Miltsakaki (2002) i) Spanish: Taboada (2002) j) Finnish: Kaiser (2000) K) Hindi: Prasad (2000); Prasad and Stube (2000), etc. 
+
+As far as computational implementations are concerned, most aspects of the above cited research have been used to specify algorithms for anaphora resolution and coherence measurement. In addition to BFP algorithm Brenna et al 1987), a number of algorithms for pronoun resolution, often based on different formulations of CT, have appeared in the literature (Strube 1998, Strube and Hann 1999, Kim et al. 1999; Miltsakaki 2002).
+All these algorithms have been tested on English data.
+
+
+Poesio et al. (2002) start with this observation that CT is best characterized as a parametric theory in that theoretical concepts such as utterance, previous utterance, realization and ranking were intentionally left unspecified in its formulation. 
+Starting from the notion of utterance, most researchers follow Kameyam (1998) who defined utterance as the tensed clause with the exception of relative clauses and verbal complements which are called ``embedded utterance unit" and result in updates of the local focus that are then erased much as in the way the information provided by subordinate discourse segments is erased when they are popped. 
+However, Miltsakaki (2002) brings forth arguments from English, Greek and Japanese that the appropriate update unit for topic tracking is the sentence in its traditional sense meaning the unit containing the main clause and all the subordinate clauses associated with it. 
+The notion realize can be interpreted in a strict sense, that is, by taking a center c to be realized by a noun phrase NP in $U_n$ only if NP denotes c. 
+In that case NP directly realizes c. In addition a center c can be counted as indirectly realized if it is referred to indirectly by means of a bridging reference (Clark 1977) or a similar kind of functional dependence, e.g. an inferable relation (Prince 1981, 1992). 
+According to the ranking of $CF(U_{n-1})$ which of the elements that are realized in $U_n$ will be the $CB(U_n)$. 
+Thus, the CF ranking is the main determinant of the transition state that holds between two utterances. 
+Hence, it is not surprising that the definition of the ranking criteria appropriate for different languages has been a matter for controversy. 
+Kameyama (1985) argue that grammatical role, rather than thematic role which Sidner (1979) used, affect CF ranking. Evidence for many additional criteria for CF ranking have been brought forward in literature such as a) surface order of realization (Rambo, 1993; Gordon et al. 1993)) b) information status (Strube and Hann (1999)) c) semantic role (Stevenson et al., 1994, 2000; Hoffman, 1998).
+Last but not least, a further controversy within CT is whether transition are applied over pairs of sequences of adjacent sentences. 
+Grosz et al. (1995) claimed that this applies to the level of sequences of transitions stating that sequences CONTINUE are preferred to sequences of RETAIN and sequences of RETAINs are preferred to sequences of SHIFTs. 
+Brennan et al. (1987) apply this on an utterance-by-utterance basis for the BFP algorithm. Brennan et al. (1998) suggests that this approach is plausible because psychological research has shown that both human sentence production and sentence interpretation take place incrementally on a phrase by phrase level. 
+Strube and Hann (1999) as well as Di Eugenio (1998) and Turan (1998) examine how the previous CT transition affects the current one. Strube and Hann (1999) follow the middle way between the definition of transitions by Grosz et al. (1995) and Brennen et al (1987) stating that some transition types which receive bad marks in isolation might be more felicitous when occurring in the appropriate context. 
+For example, a CONTINUE: CONTINUE sequence is thought to require the lowest processing costs. 
+But a CONTINUE transition that follows a RETAIN implies higher processing costs than a SMOOTH-SHIFT following a RETAIN. 
+This is based on the claim that a RETAIN should be used where possible before SHIFT transition to a new CB (Grosz et al. 1995 p.215). 
+Poesio et al. (2002) did a corpus analysis to evaluate different instantiations of CT.
+They realized that the number of NOCB transitions is reduced significantly when indirect realization is specified and sentences are used for definition of utterances. 
+In order to evaluate the different instantiations of CT, the scoring function of Poesio et al (2002) sums up the transitions in the corpus for a given specification of the CT parameters. 
+A model satisfies the canonical order among transitions if CONTINUE is found to be more frequent than RETAIN which in turn is found to be more frequent than the various kind of SHIFT. 
+
+McKeown used another related theory called Sidner's Theory of Immediate Focus (henceforth, STIF). 
+Although CT and STIF have a lot of in common, a direct comparison between them is beyond the scope of this chapter. 
+To begin with the preferences for chainging and maintaining the focus in McKeown (1985) are quite different from the ones of transition preferences in CT. 
+More specifically, changing the current focus to a member of the potential focus list of the previous utterance is preferred to maintaining the focus in order to avoid introducing the potential focus at a later point (McKeown 1985, p.62-64). 
+This strategy has the of producing ``topic cluster" around items just introduced in the discourse. 
+By contrast, CT favors talking about an established topic instead of shifting the focus to a new one. 
+STIF's default focus in that it is used to establish the focus of the current utternace and not to predict the focus of the next one (McKeown 1985). 
+
+Brennan et al. (1987) suggest that a computational system for generation should try to use a RETAIN as a signal for an impending SMOOTH-SHIFT, so that after RETAIN, a SMOOTH-SHIFT will be preferred rather than a CONTINUE. 
+
+As Beaver (2003) notices, the utterance-by-utterance classification transitions in Brennan et al. (1987) do not provide a clear way to estimate the coherence of a complete text. 
+In other words, what CT can do directly is to compare different transitions from an utterance on the basis of its transitions rules. 
+CT does not directly provide a scoring function for estimating the coherence of a structure that spans across several pairs of utterances. 
+Beaver (2003) remakes that estimating the coherence of a whole text by counting sums of violations is quite useful. 
+We mentioned that most implementations of CT in practice count sums of transitions in a text. 
+Karamanis (2004, p47) argues that in order to estimate the coherence of the whole text by CT, it has to check the transition for any pair of utterances. 
+With this intuition they compute different sequences of utterances and recored transitions of each. 
+Then they compute the number of transitions in each alternative sequence as a measure of its coherence. 
+The permutation with the highest score is preferred most. 
+They show that alternative ordering with zero-NOCB is more coherent than others. 
+
+
+\paragraph{Evalution Metric}
+In order to compare two coherence models an evaluation metric is required. 
+A scoring function is a function that returns a score (or a set of scores) S for the coherence of a text structure T. 
+An evaluation method of coherence uses S to compare two texts. 
+When the scoring function is supplemented with an evaluation method, then it constitutes an evaluation metric of coherence (Karamanis 2004, P. 53).
+For instance, Poesio et al. (2004), as one of the informal CT-based coherence scoring functions, propose a scoring function that sums up the number of transitions in a text as follow:
+
+sum(NOCB), sum(CONTINUE), sum(RETAIN), sum(SMOOTH-SHIFT), sum(ROUGH-SHIFT)
+
+Poesio et al. (2004) evaluate the different ways of specifying the parameters of CT, among other criteria, according to the extent that they minimize the sum of NOCBs and maximize the sum of CONTINUEs in the GNOME corpus. 
+Karamanis (2004, p54) argue that this scoring function cannot be utilize for natural language generation systems. 
+
+Mellish et al. (1998a) define an intuitive scoring function which employs entity-based features of coherence as well as other parameters of text quality. 
+Some often entity-based features of this function draw upon CT, although Mellish et al. (1998a) do not make any direct reference to it. They acknowledge, however, that integrating a formal model of entity coherence with their approach would be worthwhile. 
+Cheng (2002) presents a genetic algorithm which handles the interaction between text elements. 
+Her function extends the scoring scheme of Mellish et al. (1998a) with features weighted according to these preferences. 
+A series of evaluation experiments employed to show that the intuitions underlying her scoring function are appropriate. 
+
+Kibble and Power (2000) propose to count the number of CT-based violations in texts and define an evaluation method such that a text with lower number of violations is more coherent. 
+In their approach the scoring function is defined like a cost function in machine learning methods.
+
+Specifying a model for capturing interactions between entity coherence and RSTs is beyond the scope of this thesis. Instead, we attempt to estimate the importance of entity and lexical coherence on characterizing text structures. 
+All in all, the main argument in this chapter is that the different formulations of CT give rise to many metrics of entity coherence. Identifying the most appropriate metrics for text structuring is an empirical issue (Karamanis 2004 P.58).
+Kramanis 2004 propose a model that computes only violations of CONTINUITY to compute the scoring functions and his evaluation method prefers the solution with the lowest score. 
+
+Miltsakaku and Kukish (2000a,b) supplemented a system for grading student essays with a measure of entity incoherence based on the percentage of $ROUGH_SHIFT$. 
+They show that this modification improves the accuracy of the grades generated by the system when compared with grades from human experts. 
+
+The reader might recall from the discussion of standard CT in the previous chapter Grosz et al. (1995) do not follow the distinction between SMOOTH- and ROUGH-SHIFT as introduced by Brennan et al. (1987). 
+For them, the second member of a pair of utterances that violates coherence is simply classified as a SHIFT. 
+Karamanis (2004) propose a scoring function that computes the scoring function as sum of the utterances that violation CONTINUITY. 
+
+As it has been shown, CT is open-ended enough for one to propose new metrics which appear to be as plausible a some existing ones from a purely theoretical point of view. 
+These possible metrics can be compared empirically. 
+
+\paragraph{Evaluation} 
+Karamanis (2004 P.91) explains that it is practically impossible to come up with an experimental design which accounts for the predictions of all aspects of coherence metrics at the same time. 
+Cheng (2002), Rambow et al. (2001) and Bangalore et al (2000) among others evaluate their approaches with additional evaluation based on human judgments of quality and under-stability. 
+
+Karamanis (2004 p 95) mention that for the purpose of our evaluation a smaller corpus of high-quality texts would be more useful than a larger corpus of problematic texts. 
+Further to this, there are some reasons to believe that the quality of corpora has not been severely compromised by the circumstances of authoring. 
+Our texts are from wall street journal corpus. 
+Therefore, the writers are expected to have paid enough attention in order to avoid sloppiness during authoring, although it is impossible to ensure that the corpora are completely flawless. 
+
+Sine texts in our corpora are written by multiple individuals, some variation between their structure is unavoidable. 
+Nevertheless, this is a rather desirable property in our opinion., if one wants to avoid over-fitting the data. 
+Curcially, there is no way to predict in advance the extent to which the expected variations affects the performance of coherence models in evaluations. 
+For this reason, it is desirable to use texts from different authors in order to see whether the models does really reflect general preferences for coherence sharing by different writers. 
+
+
+\subsection{Coherence Models}
+
+Zhang et al. (ACL 2015) also use the semantic relations between named entities to not only cover the co-referential entities but also semantically related entities (e.g. Gates and Microsoft). 
+They capture such semantic relations by leveraging world knowledge.
+Both the entity-graph and entity-grid models improved by incorporating these relations. 
+Analyzing the CoNLL 2012 dataset (Pradhan et al. 2013), they found that 42.34\% of the time, adjacent sentences do not share common entities. 
+As a result methods that rely on strict entity matching would fail on these cases. 
+Zhang et al. (ACL 2015) explain two major issues for retrieving world knowledge related to a document: (1) knowledge source: where can we obtain this knowledge? (2) Knowledge selection: how do we pinpoint the most relevant ones?
+In terms of knowledge source there are two type of sources: manually edited knowledge sources such as YAGO (Hoffart et al. 2013).
+Yago consists of four million human-edited instances from on-line encyclopedias such as WikiPedia (Denoyer and Gallinari, 2007) and FreeBase (Bollacker et al., 2008).
+The second category is automatically constructed knowledge bases which covers about 20 million instances extracted from row texts. 
+Generally speaking, manually edited knowledge based have better accuracy but lower coverage, while automatically extracted knowledge bases are the opposite. 
+The issue related to knowledge selection is that if to retrieve knowledge instances using exact or partial matching. 
+The chance of exact matching of entities in a document with instances in knowledge base is low. 
+In contrast, partial matching between arguments and entities usually increase coverage but the at risk of introducing more noise. 
+Zhang et al. (ACL 2015) showed that reachability score of nodes in the projection graphs contributes more to coherence measurement than the average outdegree. 
+The intuition behind the reachability score of nodes with outdegree zero is that this score reflects the tightness between this sentence the preceding part of the text. 
+The reachability score is the sum of the weights from the first sentence node to the current sentence node. 
+Zhang et al. (ACL 2015) also explore a pattern so subgraphs within a window of 3 sentences, and use the frequencies of these distribution patterns over the entire document as additional features. 
+They combine these feature with the entity-grid model. 
+They evaluate on sentence ordering and summary coherence rating. 
+The main contribution of this paper is that incorporating world knowledge is beneficial for coherence modeling. 
+They limit the semantic relation between entities to argument1-predicate-argument2, e.g., Gates-create-Microsoft.
+
+Kunser et al. (JMLR 2015) use word embeddings to model the semantic relations between words of a document. 
+The usage of word embeddings allow us to capture the distance or relative relatedness between individual words. 
+
+Lijiwei and Hovy (EMNLP 2014) propose a deep neural coherence model based on distributed sentence representation. 
+They limit coherence to ordering task that arrange a set of sentences in a coherent order. 
+
+Several researcher in the 1980s and 1990s adressed the coherence problem. 
+The most influential of which include: Rhetorical Structure Theory (RST), which defined about 25 relations that govern clause interdependencies and ordering and give rise to text structure. 
+The stepwise assembly of semantic graphs to adductive inference toward the best explanation (Hobbs et al., 1988); Discourse Representation Theory (DRT (Lascarides and Asher 1991)), a formal semantic contexts that constrain coreference and quantification scoping; the model of intention-oriented conversation blocks and their stack-based queuing to model attention flow (Grosz and Sidner 1986), and more recently an inventory of a hundred or so binary inter-clause relations and associated annotated corpus. 
+They consider a window approach for sentences where positive samples are windows of sentences from original texts by humans and negative examples are generated by random replacements. 
+The semantic representation of sentences and terms are obtained through optimizing the neural network parameters on these positive and negative samples.
+The sentence model is either a recurrent or recursive network. 
+They evaluate on sentence ordering and readability assessments. 
+For this task, they define the sliding window over sentences of Britannica Elementary as positive examples and cliques from Encyclopedia Britannica as negative examples. 
+%% TO DO: can you apply this model on your readability dataset? 
+
+Higgins et al. ("Evaluating multiple aspects of coherence in student essays") evaluate multiple aspects of coherence in essays by defining some features based on semantic similarity measures and discourse structures. 
+Some features include the relatedness between the essay and the topic and some other capture the relatedness between discourse elements (e.g. intra-sentential quality and sentence-relatedness within discourse segments. 
+In earlier work, Folz et al. (1998) and Wiemer-Hastings and Graesser (2000) have developed coherence aspects of student writing.
+Their system measures lexical relatedness between text segments by using vector-based similarity between adjacent sentences.
+This linear approach to similarity scoring is in line with the TextTiling scheme (Hearst and Plaunt, 1993; Hearst 1997), which may be used to identify the subtopic structure of student essays. 
+Miltsakaki and Kukich (2000) have also addressed the issue of establishing coherence of student essays, using the Rough shift element of Centering Theory. 
+Higgins et al. () adopted a vector-based method of semantic representation: Random Indexing (Kanerva et al. 2000; Sahlgren, 2001) while other work use Latent Semantic Analysis as a semantic similarity measure. 
+Their output shows that the semantic similarity between sentences is not as promising as other features. 
+It relatively is rare to find a sentence which is not related to anything in the same discourse. 
+
+Kazantseva and Szpakowicz(COLING 2014) consider the problem of topic shift in a documents. 
+They argue that on topical shifts in discourse are signaled by changes in vocabulary. 
+They also assume that the type of referring expression, as extra information on lexical similarity, is an indicator of how accessible its antecedent is. 
+The more accessible the antecedent likely to be and the more likely it is that the topic under has remained constant between the two mentions. 
+They define a text-tilling model based on the cosine similarity over sentences. 
+The segmenter explicitly measures the amount of lexical similarity between sentences, places where the similarity is low are likely to indicate a shift in topic. 
+The idea that vocabulary shifts indicate topical shifts dates back to Youmans (1991). 
+In scientific papers clarity is paramount, so the author will endeavor to state things explicitly and avoid ambiguity. 
+The less complicated the document, the less it is to explicitly repeat terminology. 
+In contrast, in literature, word repetition is not only uncommon, but it is usually a sign of bad writing.  
+Hears (1994,1997) describes TextTiling, an algorithm which identifies topical shifts by sliding a window through a document and measures the cosine similarity between adjacent windows. 
+The drop in similarity measures signals shifts of topics. 
+Marathe (2010) used lexical chains such that the beginning and the end of a lexical chain tend to correspond to the beginning and the end of the a topically cohesive segment.
+Lexical resources, such as ontologies and knowledge bases may help to improve the quality of segmentations, but such resources are not always available. 
+They also may cause problems with precision. 
+MCSeg is one of the segmenters based on the cosine similarity between sentences that is developed by Malioutov and Barzilay, 2006. 
+
+Higgins and Burstein (2007) use a Random Indexing model to model the similarity between sentences of an essay where sentences are represented via a vector. 
+Their intuition is that related sentences in a text tend to use the same or similar words. While the use of similar terms does not guarantee relatedness, it is almost a precondition, and they believe that it should function well as a predictor of relatedness. 
+The natural first candidate among vector-based approaches to semantics for use in assessing text coherence is the standard model of content vector analysis, used in information retrieval. 
+In this model, each document is associated with a vector of the words in that document, and each word is represented as a vector listing the documents in which the word occurs. 
+Latent Semantic Analysis (LSA) (Landauer and Dumais, 1997) is one of the old models in vector-space methods of semantic similarity using dimensionality reduction. 
+LSA involves the application of Singular Value Decomposition to the document-by-term matrix in order to reduce its rank. 
+Because information is lost in this compassion process, some similar vectors will be conflated, or moved closer whiting the space. 
+LSA has proved to be a great improvement over the simple vector-space IR model for some domains. 
+The term-term similarity scores it produces are more robust (Landauer et al., 1998, Haggins and Burstein (2007)).
+LSA has been shown to be applicable to the task of establishing text coherence (Foltz et al. (1998)) although their application of LSA in this domain is very different from ours. 
+There were some drawbacks with LSA models that do not exist in these days. 
+For one thing, Singular Value Decomposition requires a numerical computation which is demanding both good possessing units and memory units. 
+LSA is also very dependent on the corpus used to train it. 
+Since term-occurrence within. documents is the basis for the generalizations it derives, it performs best when trained on corpora which are very topically coherent and which cover a diverse set of topics. 
+An encyclopedia is a good text to use for LSA, but it is hard to obtain high quality encyclopedic texts as low cost, especially in large quantity. 
+Random Indexing is more efficient method than LSA for term similarity. 
+%% TO DO: what are some draw backs of LSA? why should we use word embeddings?
+
+Higgins and Burstein (2007) also use a cutoff in similarity are taken to be related, while those below the cutoff are taken to be unrelated. 
+Their model is basically a new cosine similarity model between word sentences. 
+
+
+In the English-speaking school of essay writing and debating, there is the tendency to state the central claim of a text or a paragraph in the very first sentence, followed by supporting arguments (Pelszus and Sted, EMNLP 2015). 
+It is also known in discourse parsing a sentence is attached to its immediate preceding sentence (Pelszus and Sted, EMNLP 2015). 
+(Pelszus and Sted, EMNLP 2015)'s study about the argumentation mining shows that the structure over text segments is beyond linear and it's mainly a graph. They limit this structure to a tree, though.
+
+Tangkiengsirisin (Cohesion and coherence in Text) look at different aspects of coherence and cohesion of texts written in English as two essential elements that facilitate textual continuity. 
+The terms of coherence and cohesion is defined differently by different linguistics. 
+For some, the two terms are interchangeable or imply each other, and for others they are independent of one another. 
+The concept of cohesion was introduced by Halliday and Hasan (1976) whose major concern is to investigate how sentences are linked together in a text. 
+Elements of sentences that link sentences are called cohesive ties in Halliday and Hasan (1976). 
+According to Haliday and Hasan (1976), the writer is able to hold together meanings in the related sentences in a number of ways, and cohesion is created to establish the structure of meaning. 
+They also claim that cohesion is a factor that indicates if a text is well-connected or merely is a group of unrelated sentences. 
+Halliday and Hasan (1976) explicitly express that cohesion does not deal with content of a text
+``cohesion does not concern with what a text means, it concerns how the text is constructed as a scientific edifice". 
+Discourse involves the context and need to be interpreted through the understanding of discourse structures and the use of many strategies; for example, two comprehend discourse, we interpret the discourse assuming that if one thing said after another, the two things are related in some way. 
+Coherence can be regarded as a connection between utterances with discourse structure, meaning, and action being combined (Schiffrin, 1987). 
+To Schiffrin, cohesive devices are clues that help locate meanings and accommodate the understanding of a conversation. 
+Discourse coherence, therefore, is dependent on a speaker's successful integration of different verbal and nonverbal devices to situate a message in an interpretive frame and a hearer's corresponding synthetic ability to interpret such cues as a totality in order to interpret that message. 
+Coherence may be treated as `` semantic property of discourse, based on the interpretation each individual sentence relative to the interpretation of other sentences" (Van Dijk, 1977: p.93). 
+Coherence between sentences, in Van Dijk's point of view, is ``based not only the sequential relation between expressed and interpolated propositions, but also on the topic of discourse of a particular passage."
+The two levels of coherence are micro-coherence, which is the linear of sequential relations between propositions, and the macro-coherence, the global or overall coherence of a discourse in terms of hierarchal topic progression. 
+A text must have surface cohesion as well as overall coherence, and sentences in a coherent text must ``conform to the picture of one possible world in the experience or imagination of the receiver" (Enkvist, 1978, p128).
+A message also must provide adequate signals for the listener or the readers to make connections for understanding of a text. 
+Lovejoy and Lance (1991), in their study of written discourse, show that cohesion can be achieved through the operation of theme-rheme. 
+This movement represents how information is managed.
+According to Lovejoy and Lance (1991), theme is ``the point of departure" for the representation of information" and rheme ``constitutes the information the writer wishes to impact about the theme".
+These two elements are presented alternatively in a text to form a connected text. 
+while theme conveys information that is initially introduced in discourse, rheme presents specific information regarding the theme. 
+As this movement continues, ideas in a text or discourse are expected to flow along smoothly and are easier for the reader to understand. 
+While old information (theme) is presented as background information in each statement, new information (rheme) is introduced to clarify information in the theme. 
+Morgen and Sellner (1980) emphasize that the cohesion and coherence are independent.  
+Carrel (1982) contends that cohesion does not bring about coherence, but believes that the cohesion is the effect of coherence not a cause of coherence. 
+From a textual perspective, Hoey (1991) examined how lexical cohesive elements would make a text organized. 
+He examined how lexical features and syntactic repetition would contribute to cohesion. 
+Within this general framework, cohesion is regarded as an element that accommodates coherence. 
+When a text is cohesive and coherence, it will enable the reader to process information more rapidly. 
+Hoey claims that ``cohesion is a property of the text and coherence is a facet of the reader's evaluation of a text". 
+According to Hoey (1991) lexical connections as a major cohesive device constructs a matrix and creates a net of bonds in texts. 
+He proposes that lexical relations can show the relatedness of sentences within a text. 
+Johns (1986) divides coherence into two types: text-based and reader-based. 
+By her definition, text-based coherence refers to an inherent features of the text, which involves cohesion and unity. 
+This type of coherence involved how sentences are linked and how text is unified. 
+Reader-based coherence on the other hand requires successful interaction between the reader and the text. 
+In this type, coherence is based on the degree of compatibility between the reader's expectations and the intended meaning through the underlying structure of a text. 
+Connor and Johns (1990) describe coherent text ``as text in which the expectations of the reader are fulfilled".
+Readers use her knowledge of the world to interprets a text expecting that their knowledge will correspond to the organization and argument of a text. 
+The reader relies on this kind of knowledge to anticipate information that will be subsequently presented. 
+Interacting with readers, a coherent text accommodates the readers expectations of the order of ideas, contributing to the comprehension of the text. 
+By the same token, as logical ideas are presented through well-connected words and sentence the writer helps readers interpret and process information in a text more easily (Tannen, 1984).
+Lautamatti (1987) defines the term topic as what the sentence is about and the term comment as information about the topic. 
+All sentence topics are related in certain ways to the global discourse topic of the text. 
+The patterns of relations between discourse topics and subtopics are called topical development of discourse. 
+Grabe (1985) proposes the pragmatic function of coherence. 
+He identifies three features that are essential to coherence: a discourse theme, a set of relevant assertions relating logically among themselves. 
+The sentence topic in English is often correlates with grammatical subject and comment often correlates with the grammatical predicate, which bears the sentinel focus. 
+While patterns of theme and rheme connections can account for only some part of a text, diversity of patterns deal with an entire text. 
+The theory of cohesive ties introduced by Halliday and Hasan (1976) was modified into a theory of cohesive harmony (Hasan 1984, Haliday and Hasan, 1989). 
+Due to the limitations of the use of cohesive ties to analyze texts as coherent and well-written, Hasan (1984) formulated a new theory to account for the fact that cohesion contributes to coherence. 
+In her new approach, coherence is not determined by the type and quantity of cohesive ties that appear in a text, but it is mainly characterized by the degree and frequency of with which these ties interact with each other. 
+According to this theory, there are two cohesive ties which can interact with each others: those that form identity chain expressed with the use of co-referent entities, and those that form similarity strings expressed through substitution, ellipsis, repetition, synonymy, antonymy, hyponymy, and meronym. 
+Interaction does occur when one member of a string or chain is in the identical relationship to more than one member of another string or chain.
+
+
+Somasudaran et al. (COLING 2014) hypothesize that attributes of lexical chains as well as interactions between lexical chains and explicit discourse elements, can harnessed for representing coherence. 
+Coherence, the reader's ability to construct meaning from a document, is greatly influenced by the presence and organization of cohesive elements in the text (Halliday and Hasan, 1976; Moe, 1979). 
+A lexical chain consists of a sequence of related words that contribute to the continuity of meaning based on word repetition, synonym and similarity. 
+They build lexical chains and extract linguistically-motivated features from them. 
+The number of chains and their properties, such as length, density and link strength, can potentially reveal discourse quality related to focus and elaboration. 
+According to Morris and Hirst (1991), lexical cohesion is the result of chains of related words that contribute to the continuity of lexical meaning. 
+Lexical chains tend to delineate portions of text that have a strong unity of meaning. 
+They show that lexical chains can reveal different characteristic of discourse such as text unity, elaboration and detailing, variety, and organization. 
+Coherent essays generally maintain focus over the main theme. 
+Lexical chains presumably represent the main claim or position in persuasive texts, the main object or person in descriptive texts and the main story-line in narrative texts. 
+Good writers usually initiate topics, ideas or claims and provide clear elaboration and reasons. 
+That is, a sequence of many related words and phrases will be evoked to explain an idea provide an account of the writer's reasoning. 
+While cohesiveness is vital for coherence, too much repetition of the same word can, in fact, harm the discourse quality (Witte and Faigley, 1981). 
+Using a variety of words to express an idea or elaborate on a topic is generally a characteristic of skillful writing. 
+In addition to cohesion, one other factor must be present for text to have coherence: organization (Moe, 1979; Prefetti and Lesgold, 1977). 
+Thus it is important to organize ideas using clear discourse transitions.
+Transitions from one topic to another, or from a topic to its subtopics, should be clearly cued in order to assist the reader's understanding of the discourse.
+Consequently, in coherent writing, we would expect lexical chain patterns to synchronize with discourse cues that lead to topic continuity.  
+In their work, nouns are the participants of lexical chains. 
+Lin's thesaurus (Lin, 1998) is used to measure the similarity between nouns. 
+They use a high threshold ($0.8$) to classify the relation between two words as the a strong relation, other relations are considered weak relations. 
+Rus and Niraula (2012) find centered paragraph based on prominent syntactic roles. 
+Milsakaki and Kukich (2000) use manually marked centering information and find that higher number of Rough shifts are indicative of lack of coherence. 
+Wang, Harrington, and white (2012) combine the approaches from Barzilay and Lapata (2008), and Miltsakaki and Kukich (2000) to detect coherence breakdown points. 
+The biggest difference between our model and Centering based models is that our model do not use syntactically prominent items or try to establish a center. Instead, multiple concurrent thematic chains can ``flow" through paragraphs and their features are used to model coherence. 
+Our work also differs from systems using cohesion to measure writing quality (Witte and Faigley, a981; Flor et al., 2013), in that we focus on predicting the quality of discourse coherence. 
+
+
+
+Neural embedding learning framework represent each token with a dense vector representation, optimized through predicting neighboring words or decomposing co-occurrence matrices (Benjio et al. 2006, Collobert and Weston, 2008; Mnih and Hinton, 2007; Mikolov et al., 2010; Pennigton at al., 2014).
+Standard neural models represent each word with a single unique vector representation
+
+
+Webber et al. (NLE 2012, Discourse structure and language technology):
+
+An increasing number of researchers and practitioners in NLP face the prospect of havin to work with entire texts, rather than individual sentences. 
+While it is clear that text must have useful structure, its nature is less clear, making it more difficult to exploit in applications. 
+Discourse commonly comprises a sequences of sentence although it can be found even within a single sentence. 
+Within a discourse, the patterns formed by its sentences mean that the whole conveys more than the sum of its separate parts. 
+Another point  about discourse is that it exploits language  features, which allow speaker to specify that they are talking about something they have talked about before in the same discourse; indicating a realtion that holds between the states, events, beliefs, etc.  presented in the discourse; changing to a new topic or resuming one from earlier in the discourse.
+Discourse structures are the patterns that one sees in multi-sentence (multi-clausal) texts. 
+Recognizing these patterns in terms of the elements that compose them is essential to correctly deriving and interpreting information in the text. 
+The elements may be topic, each  about a set entities and what is being said about them.
+These type of relations are mainly called as coherence relations by Webber et al. (NLE 2012). 
+Discourse can be structured by its topics, each comprising a set of entities and a limited range of things being said about them. 
+Each topic may involve a set of entities, which may (but not have to) change from topic to topic. 
+This aspect of structure has been modeled as entity chains (Barzilay and Lapata, 2008).
+Patterns of entity chains can also be characteristic of particularly types of discourse, and therefore be of value in assessing the quality of automatically generated text. 
+Low-level evidence for the topic structure of discourse comes from the strong correlation between topic and lexical usage, which Halliday and Hasan (1976) call lexical cohesion. 
+Lexical chains can simply be a matter of the density of related terms within a segment, or of particular patterns of related terms, such as lexical chains (Barzilay and Elhadad 1997; Galley et al, 2003; Clarke and Lapata, 2010) defined as sequence of semantically related words. 
+Although in the relation structures over text units are trees or directed acyclic graphs,topic oriented models are linear. 
+Segmentation into a linear sequence of topically coherence segments generally assumes that the topic of a segment will differ from that of adjacent segments. It is also assumed that topic constrains lexical choice. either of all words of a segment or just its content words (i.e., excluding stop-words).
+Topic relation is based on either semantic-relatedness or topic models. 
+The elements for making connections are either sentences or a pseudo-sentences (i.e., fixed length string) whose relevant elements may be all the words or just content words .
+All semantic-relatedness approaches to topic segmentation involve (1) a metric for assessing the semantic relatedness of terms withing proposed segments (2) a locality that specifies which units within a text are assessed for semantic relatedness, (3) a threshold for deciding how low relatedness can drop before it signals a shift to another segment.
+Galley et al. (2003) use lexical chains to model lexical cohesion, rather than either word-stem frequencies or LSA-based concept frequencies.
+Even though lexical chains exploit only term repetitions, rather than the wider range of relations. 
+compactness of lexical chains captures locality of a topic. 
+A similar approach is taken by Kan et al. (1998), though based on entity chains. 
+This enables pronouns to be included as further evidence for intra-segmental semantic similarity. 
+Discourse structure plays a crucial role in different applications such as summarization, information extraction, essay analysis and scoring, 
+sentiment analysis, and assessing the naturalness and coherence of automatically generated texts. 
+Summarization based on the discourse structure relies on the connectivity style of elements of input text. 
+Elements of text that loosely connect to other elements of the text can be omitted from a discourse without diminishing its readability or altering its content. 
+Information on the discourse relations that link specific segments was used to distinguish material that should or should not be included in summaries. 
+The information on discourse configuration is a good indicator for which segments should show up in the summary (Louis et al. 2010). 
+This approach instantiates a set of design of choices for approaches to summarization on the basis of discourse structure.
+First, it is an instance of extractive summarization, which selects the most prominent sentences for a summary.
+This contrasts with sentence compression, which shortens the individual sentences. 
+A second design choice involves the goal of the summary: Daume III and Marcu (2002) attempt to derive informative summaries that. represent the textual content of documents. 
+An alternative goal, useful in summarizing scientific articles, involves highlighting the contribution of an article and relating it to previous work. 
+With indicative summaries, the goal is to facilitate the selection of documents that are worth reading (Barzilay and Elhadad, 1997). 
+A third design choice involves assumptions about the document to be summarized.
+While  Daume III and Marcu (2002) assume a hierarchic structure, other approaches just take it to be flat. 
+For example in summarizing the scientific papers, Teufel and Moens (2002) assume that a paper is divided into research goal (aim), outline of the paper (textual), presentation of the paper's contribution (methods, results, and discussion), and presentation of other work (other). 
+They classify individual sentences for membership in these classes by discourse segmentation. 
+This strategy is especially fruitful if the summarization concentrates on specific core parts of a document rather than on the document as a whole. 
+Teufel and Moens (2002) do not assume that all sentences within a given section of the paper belongs to the same class, but they do find that adherence to a given ordering differs by scientific field: Articles in the natural sciences appear more sequential in this respect than the Computational Linguistics articles that they are targeting. 
+A fourth design decision involves the type of document to be summarized.
+Most summarization work targets either news or scientific articles. 
+This choice has wide ramification for a summarizer because the structure of these documents is radically different. 
+The ``inverted pyramid" structure of news articles means that their first sentences are often good summaries, while for scientific articles, core sentences are more evenly distributed. 
+This difference shows, for instance in the evaluation of Marcus's (2000) summarizer, which was developed on the basis of essays and argumentative text.
+A final design choice involves the way a summarizer identifies the discourse structure on which their summarization is based. 
+While Marcu (2000) crucially relies on cue phrases and punctuation for identification of elementary and larger discourse units. 
+Teufel and Moens (2002) characterize discourse elements by features like location in the document, length, and lexical and phrasal cue elements and citations. 
+The third method uses the lexical chains that can be used for both extractive and compression (abstractive): For Barzilay and Elhadad (1997), important sentences comprise the first representative element of a strong lexical chain and it is these sentences that are selected for the summary. 
+The use of lexical chains allows topicality to be taken into account to heighten the quality of summaries. 
+Clarke and Lapata (2010) require the entity that serves as the center of a sentence (in the sentence of the Centering Theory) be retained in a summary. 
+Schilder (2002) shows that discourse segments with low topicality should occupy a low position in a hierarchical discourse structure that can be set for extractive summarization. 
+Barzilay and Lapata (2008) were the first researchers to recognize the potential value of entity chains and their properties for assessing text quality. 
+They showed how one could learn patterns of entity distribution from a corpus and then use the patterns to rank the output of the statistical generation. 
+Inspired by Centering Theory  (Grosz, Joshi and Weinstein 1995) Barzilay and Lapata (2008) consider patterns of local entity transitions. 
+A local entity transition is a sequence ${s,o,x,-}^n$ that represents entity occurrences and their syntactic roles in n successive sentences. 
+Since each transition has a certain probability in a given grid, each text can be viewed as a distribution over local entity transitions. 
+A set of coherent texts can thus be taken as a source of patterns for assessing the coherence of new texts. 
+Coherence constrains are also modeled in the grid representation implicitly by entity transition sequences, which are encoded using a feature vector notation: each grid $x_{ij}$ for document $d_i$ is represented by a feature vector:
+$ \phi(x_{ij}) = (p_1(x_{ij}),p_2(x_{ij}),...,p_m(x_{ij}))$
+where $m$ is the number of predefined entity transitions. 
+To evaluate the contribution of three types of linguistic knowledge to model performance (i.e., syntax, coreference resolution, and salience). Barzilay and Lapata (2008) compared their model to models using linguistically impoverished representations. 
+Omitting syntactic information is shown to cause a uniform drop in performance, which confirms its importance for coherence analysis. 
+Accurate identification of correferring entities is a prerequisite to the derivation of accurate salience models and salience has been shown to have a clear advantage over other methods. 
+Thus, Barzilay and Lapata provide empirical support for the idea that coherent texts are characterized by transitions with particular properties that do not hold for all discourse. 
+In this work, a sentence is a bag of entities associated with syntactic roles. 
+A mention of an entity, though may contain more information than just its head and syntactic role. 
+Thus, Elsner and Charniak (2008a) inspired by work on coreference resolution, consider additional discourse-related information in referring expressions - information distinguishing between familiar entities from unfamiliar ones and salient entities from non-salient ones.   
+They offer two models which complement Barzilay and Lapata's (2008) entity grid. 
+Their first model distinguishes discourse-new noun phrases whose referents have not been previously mentioned in a given discourse from discourse-old noun phrase. 
+Their second model keeps pronouns close to referents with correct number and gender. 
+Early research on machine translation recognized the importance of one aspect of discourse - correctly translating pronouns so that the same entity was referenced in the target text  as in the source. 
+This was attempted through rule-based methods (Mitkov  1999).
+The only aspect of discourse structure that received any attention was coherence relation where Marcu et al. (2000) suggested that coherence relations might provide an appropriate unit for translation. 
+This because the inta- and/or inter- sentential realization of coherence relations differs systematically between languages in ways that cannot predicted from the content of individual utterances along. 
+However, there is not much attempt in this respect. 
+When SMT is used as a component in machine -aided human translation, it has been observed that propagating corrections made in post-editing a document can improve how the rest of the document is translated (Hardt and Elming 2010). 
+Pharase-based lacks sufficient context to disambiguate ambiguous discourse connectives based on context alone. 
+While more context is available in syntax-based SMT, phrase-based SMT allows  for more context to be considered through a method called annotation projection. 
+In annotation projection, instead of source language terms being mapped into the target language, they are first annotated with additional information derived through independent analysis of the source text, with the resulting annotated terms being mapped in the target language. 
+
+
+
+
+Louis and Nenkova (2012) introduced an HMM system in which the coherence between adjacent sentences is modeled by a hidden Markov framework captured by the transition rules of different topics. 
+
+
+

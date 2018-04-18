@@ -1,0 +1,1455 @@
+\chapter{Lexical Coherence Graph}
+\label{chapt:lexical_coherence_graph}
+
+
+\section{Linguistics}
+\label{linguistics}
+
+
+\newcite{hoey91}'s argument is that lexical cohesion is the most important of all cohesion-creating devices in texts. 
+Thus, if some textual areas contain no lexical relations, we are dealing with marginal sentences and the ideas expressed through these sentences should generally not be included in a summary. 
+\newcite{stotesbury93} categorize lexical relations as follows:
+\begin{itemize}
+\item Simple lexical repetition: which means lexical items appear in an identical form e.g., debate (sg.) - debates (pl.)
+\item Complex repetition: covers the cases sharing a lexical morpheme (e.g. history - historian); antonym formed by affixes (e.g. significant- insignificant)
+\item Simple lexical paraphrase: this can be mutual or partial. 
+Partial paraphrase would be for example reference made by a paraphrase, historian, to a person whose name was mentioned earlier. 
+\item Complex paraphrase: this covers three different cases: 
+\begin{itemize}
+    \item antonyms that are not formed with affixes (e.g. willing - reluctant)
+    \item the link triangle comes into play when there are two repetitive links already identified. 
+    For example the relation between history and historian, and historian is related to scholar. 
+    The third case occurs when one of the two links is missing but could imagine to exist in a particular context. 
+\end{itemize} 
+\end{itemize}
+
+\newcite{stotesbury93} represent the lexical repetitions in a text as a matrix whose rows and columns are sentence IDs and entries are the number of lexical connections between their corresponding sentences. 
+They also use a threshold to recognize the connection between sentences. 
+If a sentence is connected to less than three other sentence, its connections are discarded \cite{stotesbury93}. 
+The last step in \newcite{stotesbury93} is removing unwanted cohesion in a summary. 
+In addition, if some sentences are not coherence or mutually relevant, they can and should be deleted from the summary. 
+They compare the automatic summary produced by their systems with a human generated summary. 
+They conclude that their summarizer that is mainly based on the lexical connections contain important sentences and therefore important information. 
+Hoey's expectation of the efficiency of his methodology is that "it might be possible to use central sentences to produce a readable summary of the text or to trace themes through the text by using all the sentences that link with a particular sentence."
+Hoey's argument is that ``relevance is in part a function of multiple repetition" and ``our understanding of texts in part deponds on our ability to make connections across text on the same factor of multiple repetitions."
+ \newcite{stotesbury93} conclude that the result of their analysis show that adjacent sentences do not share many words very often in mature English writing. 
+ Therefor the old advice to avoid repetition still holds in principle. 
+ However, they advice that instead of avoiding repetition, they should be use to make connections across texts rather than between previous or subsequent sentences. 
+
+
+ Discourse is more than a random set of sentences: it shows connectedness. 
+ Coherence models are about characterizing this connectedness.
+
+ The basis of lexical cohesion is in fact extended to any pair of lexical items that stand next to each other in some recognizable lexicosemantic relation \cite{sandres06} % paper is in linguistic collections cohesion and coherence: linguistic approaches
+
+ The clearest case of lexical cohesion are those in which a lexical item is replaced by another item that is systematically related to the first one. 
+ The notion of lexical cohesion is hard to define, especially when we need to find elements of sentences that are semantically related. 
+ However, they argue that cohesion is not necessary for connectedness. 
+ The dominant view is that the connectedness of a text is the characteristic of the mental representation of the text rather than of the text itself. 
+Language users establish coherence by actively relating the different information units in the text. 
+Coherence is a multilevel phenomenon, so that two segments may be simultaneously related on different levels \cite{sandres06}.
+The connectedness of spoken discourse is established by many other means than the ones discussed for written/monolingual texts. 
+Aspects of discourse that are specific to spoken language include the occurrence of adjacent pairs, i.e., minimal pairs Question-Answers. 
+In sum, while cohesion seeks the answer in overt textual signals, a coherence approach considers connectedness to be of a cognitive nature.     
+
+
+\section{Introduction}
+\label{sec:introduction}
+%
+The concept of coherence is based on cohesive semantic relations
+connecting elements of a text. Cohesive relations are expressed
+through grammar and the vocabulary of a language. The former is referred
+to as \emph{grammatical coherence}, the latter as \emph{lexical
+  coherence}\ \cite{halliday76}. Grammatical coherence encompasses
+coreference, substitution, ellipsis, etc. Lexical coherence comprises
+semantic connections among words of a text.
+
+In this paper we measure text coherence by modeling
+\emph{lexical coherence}. Lexical relations specify
+cohesive relations over the sentences of a text. These lexical
+relations can be any kind of semantic relation: repetition, synonymy,
+hyperonymy, meronymy, etc. These lexical items may or may not have the
+same reference \cite{halliday76}. %Consider following example:
+
+\begin{quote}
+\emph{Why does the little boy wriggle all the time? Girls don't.}
+\end{quote}
+
+In this example the lexical items \emph{boy}\ and \emph{girls}\ are
+semantically related. Although they do not refer to the same entity,
+they still connect these two sentences.
+
+There is coherence between any pair of lexical items that stand to
+each other in some lexico-semantic relation
+\cite{halliday76}. For textual purposes it is not required to
+determine the type of the relation. It is only necessary to recognize
+semantically related lexical items, and these relations can be learned
+by cooccurring lexical items.
+
+One can use world knowledge resources to determine semantic relations. This way is expensive in terms of determining the best resource, e.g.\ WordNet vs.\ Freebase. WordNet lacks broad coverage in particular with proper names, Freebase is restricted to nominal
+concepts and entities. 
+
+Recent improvements in embedding representations of words let us
+efficiently compute semantic relations among lexical items in the vector space. 
+These models use a vector of numbers to encode the meaning of words. We use these vectors to check the existence of any kind of semantic relations between two words. 
+
+In the following example the sentences are connected because of the
+semantic relation between \emph{king}\ and \emph{queen}\ which can be
+induced by word embedding models \cite{mikolov13c,pennington14}.
+
+\begin{quote}
+  \emph{\ldots The king was in his counting-house, counting out his money,\\ 
+    The queen was in the parlour, eating bread and honey.} 
+\end{quote}
+
+We model lexical coherence between sentences by a lexical coherence
+graph (LCG). We consider subgraphs of this graph coherence patterns
+and use their frequency as features representing the connectivity of
+the graph and, hence, the coherence of a text \cite{mesgar15}.
+
+An important task for evaluating a coherence model is readability
+assessment. The goal of this task is to rate texts based on their
+readability. The more coherent a text, the faster to read and easier
+to understand it is. Other coherence models
+\cite{barzilay08,guinaudeau13,mesgar14} are also evaluated on this
+task.
+\newcite{pitler08} use the entity grid \cite{barzilay08} to capture the coherence of a text for readability assessment. \newcite{mesgar15} extend the entity
+graph \cite{guinaudeau13} as coherence model to measure the
+readability of texts. They encode coherence as a vector of
+frequencies of subgraphs of the graph representation of a text. We
+build upon their method and represent the connectivity of
+sentences in our LCG model by a vector of frequencies of subgraphs.
+
+Although using the frequency of subgraphs of the lexical coherence
+graph encodes coherence features well, the subgraph frequency method,
+in general, is suffering from a sparsity problem when the subgraphs
+get larger. Large subgraphs capture more structural information, but
+they occur only rarely. We resolve this sparsity issue by adapting
+Kneser-Ney smoothing \cite{heafield13} to smooth subgraph counts
+(Section \ref{sec:method}). We estimate the probability of unseen subgraphs, i.e.\ coherence patterns. This prediction lets us measure the coherence of a
+text even when its corresponding graph representation contains a
+subgraph which does not occur in the training data. If the unseen
+coherence pattern is similar to seen ones, smoothing gives it closer
+probability to seen coherence patterns in comparison to dissimilar
+unseen ones. This is due to the base probability factor in Kneser-Ney
+smoothing.
+
+We evaluate our LCG model on the two readability datasets provided by \newcite{pitler08} and \newcite{declercq14}, respectively (Section
+\ref{sec:experiments}).  The results (Section \ref{sec:results}) indicate that
+the LCG model outperforms state-of-the-art systems. By applying Kneser-Ney smoothing we solve the sparsity problem. Smoothing allows us to exploit the high informativity of large subgraphs which leads to new state-of-the-art results in readability assessment.
+
+Coherence represents semantic connectivity of texts with regard to grammatical and lexical relations between sentences. 
+It is an essential part of natural texts and important in establishing structure and meaning of documents as a whole.
+
+It is crucial for any text generation system to generate coherent texts.  
+For instance in real machine translation systems,  we desire to translate a document, which consists of several sentences, from a source language to a target language. 
+Current machine translation systems (as an instance of text generation systems) mostly focus on the sentence-level translation. 
+Indeed, the state-of-the-art machine translation models perform well on sentence-level translation \cite{Bahdanau2015,Sennrich2017}. 
+However, it is insufficient to just sequentially and independently translate sentences of the source document and concatenate them as the translated version. 
+The translated sentences should be coherently connected to each other in the target document as well.
+
+From a linguistic point of view also the discourse-wide context must be taken into account to have a high-quality translation \cite{Hatim1990,Hardmeier2012a}. The current paradigm of machine translation needs to be improved as it does not consider any discourse coherence phenomena that establish a text's connectedness \cite{Smith2015}.
+
+One of the active research topics in modeling coherence focuses on entity connections over sentences based on Centering Theory \cite{Grosz1995}. 
+Previous research on coherence modeling shows its application mainly in readability assessment \cite{Barzilay2008, Pitler2008}. Recently, \newcite{Parveen2016} showed that the graph-based coherence model can be utilized to generate more coherent summaries of scientific articles. 
+
+The main goal of this paper is to integrate coherence features with a statistical machine translation system to improve the quality of the output translation. To achieve this goal, we combine the graph-based coherence representation by 
+\newcite{Guinaudeau2013} and its extensions \cite{Mesgar2015, Mesgar2016} into the document-level machine translation decoder \textit{Docent} \cite{Hardmeier2012a, Hardmeier2013a}.
+
+\emph{Docent} defines an initial translation of the source document and modifies the translation of sentences aiming to maximize an objective function. This function measures the quality of the translated document after each modification. We propose to update the objective function of Docent such that it takes into account the coherence of the translated document too. We quantify the coherence level of the translated document using graph-based coherence features. We show that integrating coherence features improves the quality of the translation in terms of the Meteor score.
+
+We start with the relevant background literature (Section 2). 
+We then describe the graph-based coherence model and how we integrate its coherence features with Docent (Section 3). Section 4 outlines the datasets and the experimental setup. 
+We discuss results in Section 5. Conclusions and possible future work are in Section 6.
+
+
+\section{Linguistic background}
+\label{sec:linguistic_background}
+
+\section{Lexical Coherence Graph (LCG)}
+\label{sec:lexical_coherence_graph}
+%
+We introduce a new graph representation of semantic connections over
+lexical items in texts. Afterwards we compute the frequency of all
+subgraphs, i.e.\ coherence patterns. The intuition is that subgraphs
+capture how sentence nodes are connected and, respectively,
+encode text coherence.
+
+
+\subsection{Graph Model} 
+%
+We model semantic relations between sentences by a graph
+$G=\text{$<$}V,E\text{$>$}$ where $V$ is the set of sentence nodes and
+$E$ is the set of edges between sentence nodes. Two nodes of $G$ are
+adjacent if there is a semantic connection between the
+corresponding sentences. Two sentences are semantically
+connected if there is at least one strong semantic relation between
+the words of these sentences. We model semantic relations between
+words by their corresponding word embeddings
+\cite{pennington14}. Given word vectors $v_a$ for word $a$ of sentence
+$A$ and $v_b$ for word $b$ of sentence $B$, the cosine similarity
+value, $cos(v_a,v_b)$, between the two word vectors is a measure of
+semantic connectivity of the two words. The range of $cos(v_a,v_b)$
+is between $[-1,+1]$. One interpretation of cosine is the normalized
+correlation coefficient, which states how well the two words are
+semantically correlated \cite{manning99}. The absolute value of
+cosine, $|cos(v_a,v_b)|$, encodes how strongly the two words are
+connected.
+
+The connection between sentences is obtained from connections between their words (Figure \ref{f:wrd_rel}). Assume sentence $A$ precedes sentence $B$, each word $b$ of sentence $B$ is connected with word $a^*$ of $A$, where
+
+\begin{equation*}
+a^{*}= argmax_{a\in A}cos(b,a)
+\end{equation*}
+
+\begin{figure}[!ht]
+\centering
+\small
+%\input{./figures/word_relations.tex}
+\caption{Sentence A with three words $\lbrace w_1,w_2,w_3 \rbrace$ and
+  sentence B with two words $\lbrace w_4,w_5 \rbrace$. $w_4$ is highly
+  related to $w_2$ and $w_5$ is highly related to $w_3$.} 
+\label{f:wrd_rel}
+\end{figure}
+
+
+%This edge is pruned if the $|cos(b,a_*)|$ is less than a threashold \footnote{We use threshold $0.9$. It means we capture the semantic connection confidentially}. The sentence nodes $A$ and $B$ are connected if there is at least one word of the sentence $B$ which is connected with a word of the sentence $A$.
+
+Then from all connections between the words of sentences $A$ and $B$,
+the connection with the maximum weight among the words of $B$ is
+selected to connect these two sentences (Figure \ref{f:sent_rel}).
+
+\begin{figure}[!ht]
+\centering
+\small
+%\input{./figures/sent_relations.tex}
+\caption{The word relation with the maximum weight (a) represents the connections between sentences (b).}
+\label{f:sent_rel}
+\end{figure}
+
+The output of this phase is a graph whose edge weights model the
+strength of connections between sentences. The edges in this graph are
+directed to model the order of sentences.
+
+Word embeddings relate each word in sentence $A$ with each word in
+sentence $B$. Since the resulting graph is very dense, we filter
+out edges whose weights are below a
+threshold\footnote{We set this threshold to $0.9$ to connect only
+  sentences with high confidence.}.
+
+
+\subsection{Coherence Features} 
+%
+\newcite{mesgar15} propose that the connection style of an entity
+graph can be captured by the frequency of all \knode\ subgraphs in
+this graph. Larger\footnote{The size of a subgraph is the number of
+  its nodes.} subgraphs\footnote{We compute \emph{induced
+    subgraphs} \cite{mesgar15}. However, we use the term
+  \emph{subgraph} for brevity.} can capture more information about the
+structure of graphs and are more informative coherence patterns than
+smaller ones. We experiment with $k \in \{3,4,5,6\}$. Text coherence is
+represented by a vector whose elements are the frequency of subgraphs
+(coherence patterns) with \knode.
+
+\subsection{Smoothing} 
+% 
+Although increasing the size $k$ of subgraphs captures more
+structural information about the connections of sentence nodes, a
+main risk with large subgraphs is sparsity. Given a sentence graph,
+many large subgraph types do not occur in this graph.  Small subgraph
+types occur frequently in most sentence graphs in the dataset, but
+these subgraphs do not capture enough information about the
+connectivity style of the graphs.
+
+Inspired by Kneser-Ney smoothing in language models \cite{heafield13},
+each feature vector of a sentence graph can be smoothed. Smoothing
+deals with the problem of zero counts in the feature vector.  It also
+lets the model having feature values for unseen subgraphs (like OOV in
+language modeling) which may be seen in the testing phase.
+
+\begin{figure*}[!t]
+\centering
+\small
+%\includegraphics[scale=.38]{./figures/parent_child_relation.eps}
+\caption{parent child relation.} 
+\label{f:parent_child_rel}
+\end{figure*}
+
+Kneser-Ney smoothing uses a discount factor to discount the raw count
+of each event (subgraph) and distributes the total discount to all
+event (subgraph) probabilities by means of a base probability.
+
+The estimated frequency of subgraph $sg$ in a given sentence graph
+is computed as follows:
+
+\begin{equation*}
+KN(sg) = \frac{\max \lbrace	 count(sg)-\alpha, 0 \rbrace }{Z} + \frac{M \cdot \alpha}{Z}P_b(sg),
+\end{equation*}
+
+\noindent
+where $\alpha$ is the discount factor and $M$ is the number of times
+that discount factor is applied. $Z$ is a normalization factor
+to ensure that the distribution sums to one and is obtained as follows:
+
+\begin{equation*}
+Z = \sum_{sg \in A} count(sg),
+\end{equation*}
+
+\noindent
+where $A$ is the set of all subgraphs with \knodes\ and function
+$count(\cdot)$ computes the number of instances of subgraph $sg$ in
+the given sentence graph.
+
+$P_b(sg)$ in Kneser-Ney smoothing is the base probability of
+subgraph $sg$ among all \knode\ subgraphs ($A$). The base
+probability can be computed based on hierarchical (parent-child)
+relations in subgraphs. \knode\ subgraph $sg_i$ is a parent
+of \kplusnode\ subgraph $sg_j$, if $sg_i$ is a subgraph of
+$sg_j$. Figure \ref{f:parent_child_rel} shows the parent-child
+relation between subgraphs via a weighted tree. The root of this tree
+is a null graph%
+%
+\footnote{A null graph is a graph with no nodes.}%
+%
+. The weight of a parent-child relation connecting the parent
+subgraph $sg_i$ and child subgraph $sg_j$ is shown by $w_{ij}$ and
+computed as follows:
+
+\begin{equation*}
+w_{ij} = \frac{count(sg_i, sg_j)}{\sum_{sg_l \in A}count(sg_i,sg_l)},
+\end{equation*}
+
+\noindent
+where $A$ is all subgraphs with \knode\ and $k$ equals the number of
+nodes of $sg_j$. Interpretation of weight $w_{ij}$ is the normalized count of $sg_i$ in $sg_j$ with respect to all outgoing edges from $sg_i$.
+
+The base probability of each subgraph $sg_j$ is the inner product
+of the Kneser-Ney probabilities of $sg_j$'s parents by the weights of
+the corresponding relations:
+
+\begin{equation}
+P_b(sg_j)  = P \cdot W,
+\end{equation}
+
+\noindent
+where $P$ is the vector of probabilities of all parents of 
+$sg_j$ and $W$ is the vector of all corresponding edge weights
+connecting the parents of $sg_j$ to $sg_j$.
+
+Since the root node of this tree is the null subgraph, and it is a
+subgraph of all possible sentence graphs, its base probability is
+one. Because the edge weights are in the range $\left[0,1\right]$ the
+sum of the probabilities of all subgraphs with \knode\ is always
+equal to one.
+
+\paragraph{Proof.} 
+Assume $I$ and $J$ are the set of all \knode\ and \kplusnode\
+subgraphs. We also assume that $I$ has $n$ subgraphs and $\sum_{i=1}^n
+p(sg_i)=1$. Considering these assumptions we prove that
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j)=1,
+\end{equation*}
+
+\noindent
+where $m$ is the number of subgraphs in $J$.
+
+We start from the left and compute the value of 
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j).
+\end{equation*}
+
+\noindent
+Based on the definition of base probability, the value of
+$p(sg_j)$ is computed based on its parents in $I$,
+
+\begin{equation*}
+p(sg_j)=\sum_{i=1}^n w_{ij}p(sg_i),
+\end{equation*}
+
+\noindent
+where $w_{ij}$ is the weight of the parent-child relation between
+$sg_i$ and $sg_j$.  Now we have:
+
+\begin{equation*}\sum_{j=1}^m p(sg_j) = \sum_{j=1}^m\sum_{i=1}^n w_{ij}p(sg_i).
+\end{equation*}
+
+\noindent
+If we exchange the place of the sums and re-write the equation, we
+have: 
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j) = \sum_{i=1}^n \sum_{j=1}^m w_{ij}p(sg_i).
+\end{equation*}
+
+\noindent
+In this equation $p(sg_i)$ is independent of $j$ (index of the inner
+sum), so it can be moved out of the inner sum:
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j) = \sum_{i=1}^n p(sg_i) \sum_{j=1}^m w_{ij}
+\end{equation*}
+
+\noindent
+The inner sum equals $1$.
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j) = \sum_{i=1}^n p(sg_i).
+\end{equation*}
+
+\noindent
+Based on our assumption the right side of the equation is $1$ and 
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j) = 1.
+\end{equation*}
+
+\noindent
+So we proved that the sum of the base probability of all \knode\
+subgraphs is $1$.\QEDB
+
+
+This way, Kneser-Ney smoothing distributes the total discount value by
+considering the weights of parent-child relations among the
+subgraphs. The result of applying smoothing is an estimation of the
+frequency of each subgraph in the sentence graph.
+
+
+
+\section{Experiments}
+\label{sec:experiments}
+
+
+\subsection{Readability Assessment}
+\label{subsec:readability_assessment}
+We evaluate our coherence model on the task of ranking texts by their
+readability. The intuition is that more coherent texts are easier to
+read. 
+
+
+\subsubsection{Data}
+\paragraph{Datasets.} We run our experiments on two datasets annotated
+with readability information provided by human annotators: \emph{P\&N}\
+\cite{pitler08} and \emph{De Clercq}\ \cite{declercq14}.
+
+The dataset \emph{P\&N}\ contains 27 articles randomly selected from
+the Wall Street Journal corpus%
+%
+\footnote{\newcite{pitler08}'s dataset contains 30 articles. They
+  remove one. We assume this is \texttt{wsj\--0382} which
+does not exist in the Penn Treebank. We furthermore remove
+\texttt{wsj\--2090} which does not exist in the final release of the
+Penn Discourse Treebank. We also remove \texttt{wsj\--1398} which is a
+poem and, hence, not very informative for readability assessment.}%
+%
+. The average number of sentences is about $10$ words. Every article is
+associated with a human score between $[0.0,5.0]$ indicating the
+readability score of that article. We create pairs of documents, if
+the difference between their readability scores is greater than
+$0.5$. If the first document in a pair has the higher score, we label
+this pair with $+1$, otherwise with $-1$. The resulting number of text pairs in
+this dataset is $209$.
+
+The dataset \emph{De Clercq}\ consists of $105$ articles from different
+genres: administrative (17 articles), journalistic (43 articles), manuals (14 articles) and miscellaneous (31 articles). The
+average number of sentences is about $12$. This dataset was annotated
+by \newcite{declercq14} by asking human judges to compare two texts
+based on their readability. They use five labels:
+\squishlist
+\item[\textbf{LME:}] left text is much easier,
+\item[\textbf{LSE:}] left text is somewhat easier, 
+\item[\textbf{ED:}] both texts are equally difficult,
+\item[\textbf{RSE:}] right text is somewhat easier,
+\item[\textbf{RME:}] right text is much easier.
+\squishend
+
+We map these labels to three class labels:
+
+\squishlist
+\item[\textbf{$+1$:}] for text pairs where the left text is easier to read
+  (LME or LSE),
+\item[\textbf{$0$:}] for text pairs where both texts are equally
+  difficult to read (ED), 
+\item[\textbf{$-1$:}] for text pairs where the right text is easier to read (RSE or RME).
+\squishend
+
+Properties of this dataset are shown in Table \ref{table:genre_prop}.
+
+\begin{table}[!h]
+\begin{tabular}{@{}lcc@{}}
+\hline
+Genre & No.\ of articles & No.\ of text pairs \\\hline
+Administrative & 17 & 272 \\
+Journalistic & 43 & 1806 \\
+Manuals & 14 & 182 \\
+Miscellaneous & 31 & 931\\\hline
+\end{tabular}
+\caption{Properties of the different genres in the \emph{De Clercq} dataset.}
+\label{table:genre_prop}
+\end{table}
+
+\subsubsection{Settings}
+\paragraph{Word Embeddings and Classification.} In order to reduce the
+effect of very frequent words, stop words are filtered by using the
+SMART English stop word list \cite{salton71}. We use a pre\-trained
+model of GloVe for word embeddings. This model is trained on Common
+Crawl with 840B tokens, 2.2M vocabulary. We represent each word by a
+vector with length 300 \cite{pennington14}.  For handling
+out-of-vocabulary words, we assign a random vector to each word and
+memorize it for its next occurrence \cite{kusner15}. 
+The classification task is done by the SVM implementation in WEKA (SMO)
+with the linear kernel function. All settings are set to the default
+values. The evaluation is computed by 10-fold cross validation.
+
+\paragraph{Graph Processing and Smoothing.} In order to compare the
+performance of LCG with the entity graph model, we follow
+\newcite{mesgar15} and use the gSpan method \cite{yanxifeng02} to compute all common
+subgraphs on each dataset and their frequencies. Note that gSpan
+does not count all possible \knode\ subgraphs, whereas for applying
+Kneser-Ney smoothing it is necessary to count all possible \knode\
+subgraphs, because the probability should be distributed among all
+possible subgraphs.  This also helps to estimate the probability of
+unseen patterns. We use a random sampling method \cite{shervashidze09}
+to obtain the frequency of subgraphs in a sentence graph. In this
+regard, we take $10,000$ samples of the given sentence graph by
+randomly selecting $k$ nodes of the graph to count the occurrence of
+\knode\ subgraphs in this graph. We compute the base probability for
+at most $k = 6$. We find the best value for $d$ in a greedy
+manner. First, we initialize $d$ with $0.001$. In each iteration we
+compute the performance. Then we multiply the discount factor by $10$. We
+iterate as long as the discount factor is less than $1000$. We report
+the best performance.
+
+\subsubsection{Results}
+%
+In order to compare our method with related work, we run our model on
+the \emph{P\&N}\ dataset. Table \ref{table:pitler} reports the accuracy
+of \emph{LCG}\ with different values for $k$ in \knode\
+subgraphs. This corresponds to coherence patterns spanning
+different numbers of sentences.
+
+\begin{table}[!h]
+\begin{tabular}{lccc}
+\hline
+System & \multicolumn{3}{c}{Accuracy}\\
+\hline
+ZeroR & \multicolumn{3}{c}{50.24\%}\\
+EGrid	&	\multicolumn{3}{c}{83.25\%}\\\hline
+\knode\ & EGraph\hspace*{2mm} & EGraph+PRN\hspace*{2mm}	&  LCG \\\hline
+3-node& 79.43\%\hspace*{4mm} & 80.38\%** 		&  78.95\% \\
+4-node& 89.00\%\hspace*{4mm} & 89.95\%\hspace*{4mm} 		&  89.47\%  \\
+5-node& 96.17\%** 			  & 95.69\%** 					&  97.13\%  \\\hline
+\end{tabular}
+\caption{\emph{P\&N} dataset.}
+\label{table:pitler}
+\end{table}
+
+
+We start in Table \ref{table:pitler} with a majority class baseline
+(\emph{ZeroR}). \emph{EGrid}\ is our reimplementation of
+\newcite{pitler08} which we use as non-trivial baseline. The column
+\emph{EGraph}\ is the entity graph model of \newcite{mesgar15}. In
+\emph{EGraph+PRN}\ we extend this model by a pronoun resolution
+system, so that entities mentioned by pronouns also enter the
+graph. We apply the Stanford coreference resolution system
+\cite{leeheeyoung13}. Using the full coreference resolution system,
+however, decreases performance, hence we only use resolved
+pronouns. The enriched model with resolved pronouns works slightly
+better for \emph{3-node}\ and \emph{4-node}\ subgraphs, and slightly
+worse for \emph{5-node}\ subgraphs than the \emph{EGraph}. The lexical
+coherence graph model, \emph{LCG}, performs slightly worse than
+\emph{EGraph}\ on \emph{3-node}\ subgraphs. This could be because the
+graphs in \emph{LCG}\ have more edges than the graphs in
+\emph{EGraph}. When graphs are denser \emph{3-node}\ subgraphs occur
+in every graph, hence their frequency is less discriminative. As shown
+in Table \ref{table:pitler} larger subgraphs (\emph{4-node}\ and
+\emph{5-node}) capture more information and improve upon
+\emph{EGraph}\ and for \emph{5-node}\ subgraphs even upon
+\emph{EGraph+PRN}. \emph{LCG} significantly ($p\_value=0.01$) works
+better than \emph{EGraph+PRN} and \emph{EGraph} using 5-node
+subgraphs. The difference between \emph{LCG} and \emph{EGraph+PRN} and
+\emph{EGraph} using 4-node subgraphs is not significant.
+
+Table \ref{table:clercq} shows the performance of different models on
+the \emph{De Clercq} dataset.  
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{lccc}
+\hline
+System & \multicolumn{2}{c}{Accuracy}\\
+\hline
+ZeroR	& \multicolumn{2}{c}{42.312\%}\\\hline
+\knode\ & EGraph+PRN	& LCG\hspace*{2mm}  \\\hline
+
+3-node & 42.31\% & 42.31\%\hspace*{4mm}	\\
+4-node & 48.07\% & 49.12\%** \\
+5-node & 65.77\% & 76.27\%**	\\\hline
+
+\end{tabular}
+\caption{\emph{De Clercq}\ dataset.}
+\label{table:clercq}
+\end{table}
+
+Again, we use a majority baseline (\emph{ZeroR}) to put our results in context. While the performance of both methods almost does not beat the baseline for \emph{3-node}\ subgraphs, \emph{4-node}-subgraphs work already better, and \emph{5-node}\ subgraphs yield reasonable performance on this dataset. Although \emph{EGraph+PRN} and \emph{LCG} reach almost the same performance for \emph{4-node}, the difference between them is statistically significant ($p\_value=0.01$). With \emph{5-node} subgraphs, \emph{LCG} outperforms \emph{EGraph+PRN} subgraphs by a large margin and gets a very reasonable performance on this dataset.
+
+The general performance on the \emph{De Clercq} dataset is lower
+than the performance on the the \emph{P\&N} dataset. This can have two
+reasons: first, the ranking task on the \emph{De Clercq} dataset is
+three-label classification which is more difficult than the binary
+classification task on the \emph{P\&N} dataset. Second, texts in the
+\emph{De Clercq} dataset are from different genres and coherence patterns
+may vary across genres. Hence, we take a closer look on the
+performance on the different genres.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{lccc}
+\hline
+\emph{5-node}\ & EGraph+PRN	& LCG \\\hline
+Administrative	& 69.49\%	& 	71.69\%	\\
+Journalistic	& 65.01\%	& 	82.12\%\\
+Manuals 		& 54.95\% 	& 	61.54\%	\\
+Misc.			& 70.68\%	& 	76.69\% \\\hline
+\end{tabular}
+\caption{Accuracy of \emph{EGraph+PRN}\ and \emph{LCG}\ on different
+  genres in the \emph{De Clercq}\ dataset.}
+\label{table:clercq_genre}
+\end{table}
+
+Table \ref{table:clercq_genre} shows the performance for
+\emph{EGraph+PRN}\ and \emph{LCG}\ using \emph{5-node}\ subgraphs on
+the different genres in the \emph{De Clercq}\ dataset. The performance of
+\emph{LCG}\ is higher than \emph{EGraph+PRN}\ on all genres. 
+Unlike \emph{EGraph+PRN}, \emph{LCG}\ gets the best performance on journalistic articles. The lowest performance of both models is obtained on manuals. On administrative articles, performance of \emph{LCG}\ is slightly better than \emph{EGraph+PRN}. On  miscellaneous articles \emph{LCG}\ performs better than \emph{EGraph+PRN}.
+
+
+While large subgraphs are very informative for coherence modeling,
+extracting large subgraphs ($k>4$) in relatively small datasets leads
+to a data sparsity problem, as there are very many possible subgraphs
+to be represented in a high dimensional vector space. Hence, many
+possible subgraphs have low or even zero counts.  The problem for such
+a vector is that each graph is only similar to itself and not to any other
+graph. Hence, we observe a drop in performance when the model deals
+with large subgraphs (\emph{6-node} subgraphs, \emph{LCG1}\ for
+\emph{P\&N}\ in Table \ref{table:smoothing}). We solve this problem by
+smoothing. 
+
+In order to apply Kneser-Ney smoothing we use a sampling method to
+create all possible (connected and disconnected) \knode\ subgraphs
+(for \emph{LCG1}\ and \emph{LCG1*}\ we use connected and disconnected
+subgraphs, for \emph{LCG}\ only connected ones).
+
+Table \ref{table:smoothing} shows the performance of \emph{LCG1}\ when
+it is applied to ever larger subgraphs. As can be seen in Table
+\ref{table:smoothing}, the performance on the \emph{P\&N}\ dataset
+suddenly drops for \emph{6-node}\ subgraphs. This is could be caused by the
+sparsity problem.
+
+\begin{table}[!h]
+\centering
+%\small
+\begin{tabular}{@{}ccccc@{}}
+\\\hline
+ & \multicolumn{2}{@{}c}{\emph{P\&N}} & \multicolumn{2}{c@{}}{\emph{De Clercq}} \\\hline
+\knode\ & LCG1 & LCG1* & LCG1 & LCG1* \\\hline
+3-node & 84.52\% & 89.00\% & 42.31\% & 49.60\% \\
+4-node & 95.69\% & 96.17\% & 65.10\% & 66.23\% \\
+5-node & 97.61\% & 98.08\% & 79.33\% & 79.85\% \\
+6-node & 93.26\% & 95.69\% & 76.67\% & 78.03\%\\\hline
+\end{tabular}
+\caption{Applying smoothing method yields to higher accuracy for larger subgraphs.}
+\label{table:smoothing}
+\end{table}
+
+When we apply Kneser-Ney smoothing as described in Section
+\ref{sec:method} the results for all tested values of $k$ are superior
+for \emph{LCG1*}\ when compared to \emph{LCG1}\ (Table
+\ref{table:smoothing}).
+
+Kneser-Ney smoothing improves the performance of the system even with
+\emph{3-node}\ subgraphs by a large margin. Smoothing reduces the
+power of frequency and makes the frequency distribution of subgraphs
+more even. Smoothing reduces the values through all
+subgraphs by considering parent-child relations between subgraphs to
+relate similar subgraphs. That is the advantage of the Kneser-Ney
+method in comparison to the other smoothing methods like
+Laplace-Smoothing. 
+
+For the \emph{P\&N}\ dataset we achieve the best results to
+date. \newcite{pitler08} reported 83.25\% accuracy, \newcite{mesgar15}
+89.95\%. When smoothing \emph{5-node}\ subgraphs we are able to report
+98.08\%. This, however, indicates that this dataset may not be the
+best one to report performance on. Hence, we now check whether
+smoothing also improves the performance on the more difficult
+\emph{De Clercq}\ dataset.
+
+On this dataset, we basically observe the same trends. Both settings result in better performance than \emph{LCG}\ (see Table \ref{table:clercq}). 
+
+Note that none of the parameters in this work is tuned on the
+datasets. One may get better performance by tuning the parameters.
+The results confirm the intuition
+that the lexical coherence graph \emph{LCG}\ captures coherence and
+models lexical coherence appropriately.
+
+Applying smoothing on graphs of \emph{EGraph+PRN} model increases the performance of this model. But this improvement is not as high as the improvement on the \emph{LCG} graph.
+
+\paragraph{Coherence Patterns.}
+In this part we check the Pearson correlation coefficient between
+\emph{LCG1}\ and human judgements of a few frequent subgraphs on the
+\emph{P\&N}\ dataset. In order to be consistent with
+\newcite{mesgar15}, we use the exhaustive value of subgraph
+frequencies, i.e.\ \emph{LCG1}\ for our work.
+
+For the \emph{3-node}\ subgraphs only one subgraph (Figure
+\ref{fig:correlated_graphs}) in the \emph{LCG1}\ representation is
+significantly (and positively) correlated (\emph{p-value}$<0.05$) with
+human scores. For the \emph{4-node}\ subgraphs, we find six subgraphs
+which are significantly correlated with readability. Only one is
+positively correlated, while four are negatively
+correlated. Interestingly, both positively correlated \emph{3-node}\
+and \emph{4-node}\ subgraphs have been determined as positively and
+significantly correlated by \newcite{mesgar15} as well. Both also
+capture a similar coherence pattern, indicating that our method is
+linguistically sound.
+
+\begin{figure}[!ht]
+\centering
+\small
+%\input{./figures/correlated_graphs.tex}
+\caption{Pearson correlation between \emph{3-node}\ and \emph{4-node}\
+  subgraphs and readability scores in the \emph{P\&N}\ dataset.}
+\label{fig:correlated_graphs}
+\end{figure}
+
+
+\subsection{Machine Translation}
+\label{subsec:machine_translation}
+\subsubsection{Method}
+\section{Method}
+\label{sec:method}
+%
+We introduce a new graph representation of semantic connections over
+lexical items in texts. Afterwards we compute the frequency of all
+subgraphs, i.e.\ coherence patterns. The intuition is that subgraphs
+capture how sentence nodes are connected and, respectively,
+encode text coherence.
+
+
+\subsection{Graph Model} 
+%
+We model semantic relations between sentences by a graph
+$G=\text{$<$}V,E\text{$>$}$ where $V$ is the set of sentence nodes and
+$E$ is the set of edges between sentence nodes. Two nodes of $G$ are
+adjacent if there is a semantic connection between the
+corresponding sentences. Two sentences are semantically
+connected if there is at least one strong semantic relation between
+the words of these sentences. We model semantic relations between
+words by their corresponding word embeddings
+\cite{pennington14}. Given word vectors $v_a$ for word $a$ of sentence
+$A$ and $v_b$ for word $b$ of sentence $B$, the cosine similarity
+value, $cos(v_a,v_b)$, between the two word vectors is a measure of
+semantic connectivity of the two words. The range of $cos(v_a,v_b)$
+is between $[-1,+1]$. One interpretation of cosine is the normalized
+correlation coefficient, which states how well the two words are
+semantically correlated \cite{manning99}. The absolute value of
+cosine, $|cos(v_a,v_b)|$, encodes how strongly the two words are
+connected.
+
+The connection between sentences is obtained from connections between their words (Figure \ref{f:wrd_rel}). Assume sentence $A$ precedes sentence $B$, each word $b$ of sentence $B$ is connected with word $a^*$ of $A$, where
+
+\begin{equation*}
+a^{*}= \argmax_{a\in A}cos(b,a)
+\end{equation*}
+
+\begin{figure}[!ht]
+\centering
+\small
+%\input{./figures/word_relations.tex}
+\caption{Sentence A with three words $\lbrace w_1,w_2,w_3 \rbrace$ and
+  sentence B with two words $\lbrace w_4,w_5 \rbrace$. $w_4$ is highly
+  related to $w_2$ and $w_5$ is highly related to $w_3$.} 
+\label{f:wrd_rel}
+\end{figure}
+
+
+%This edge is pruned if the $|cos(b,a_*)|$ is less than a threashold \footnote{We use threshold $0.9$. It means we capture the semantic connection confidentially}. The sentence nodes $A$ and $B$ are connected if there is at least one word of the sentence $B$ which is connected with a word of the sentence $A$.
+
+Then from all connections between the words of sentences $A$ and $B$,
+the connection with the maximum weight among the words of $B$ is
+selected to connect these two sentences (Figure \ref{f:sent_rel}).
+
+\begin{figure}[!ht]
+\centering
+\small
+%\input{./figures/sent_relations.tex}
+\caption{The word relation with the maximum weight (a) represents the connections between sentences (b).}
+\label{f:sent_rel}
+\end{figure}
+
+The output of this phase is a graph whose edge weights model the
+strength of connections between sentences. The edges in this graph are
+directed to model the order of sentences.
+
+Word embeddings relate each word in sentence $A$ with each word in
+sentence $B$. Since the resulting graph is very dense, we filter
+out edges whose weights are below a
+threshold\footnote{We set this threshold to $0.9$ to connect only
+  sentences with high confidence.}.
+
+
+\subsection{Coherence Features} 
+%
+\newcite{mesgar15} propose that the connection style of an entity
+graph can be captured by the frequency of all \knode\ subgraphs in
+this graph. Larger\footnote{The size of a subgraph is the number of
+  its nodes.} subgraphs\footnote{We compute \emph{induced
+    subgraphs} \cite{mesgar15}. However, we use the term
+  \emph{subgraph} for brevity.} can capture more information about the
+structure of graphs and are more informative coherence patterns than
+smaller ones. We experiment with $k \in \{3,4,5,6\}$. Text coherence is
+represented by a vector whose elements are the frequency of subgraphs
+(coherence patterns) with \knode.
+
+\subsection{Smoothing} 
+% 
+Although increasing the size $k$ of subgraphs captures more
+structural information about the connections of sentence nodes, a
+main risk with large subgraphs is sparsity. Given a sentence graph,
+many large subgraph types do not occur in this graph.  Small subgraph
+types occur frequently in most sentence graphs in the dataset, but
+these subgraphs do not capture enough information about the
+connectivity style of the graphs.
+
+Inspired by Kneser-Ney smoothing in language models \cite{heafield13},
+each feature vector of a sentence graph can be smoothed. Smoothing
+deals with the problem of zero counts in the feature vector.  It also
+lets the model having feature values for unseen subgraphs (like OOV in
+language modeling) which may be seen in the testing phase.
+
+\begin{figure*}[!t]
+\centering
+\small
+%\includegraphics[scale=.38]{./figures/parent_child_relation.eps}
+\caption{parent child relation.} 
+\label{f:parent_child_rel}
+\end{figure*}
+
+Kneser-Ney smoothing uses a discount factor to discount the raw count
+of each event (subgraph) and distributes the total discount to all
+event (subgraph) probabilities by means of a base probability.
+
+The estimated frequency of subgraph $sg$ in a given sentence graph
+is computed as follows:
+
+\begin{equation*}
+KN(sg) = \frac{\max \lbrace	 count(sg)-\alpha, 0 \rbrace }{Z} + \frac{M \cdot \alpha}{Z}P_b(sg),
+\end{equation*}
+
+\noindent
+where $\alpha$ is the discount factor and $M$ is the number of times
+that discount factor is applied. $Z$ is a normalization factor
+to ensure that the distribution sums to one and is obtained as follows:
+
+\begin{equation*}
+Z = \sum_{sg \in A} count(sg),
+\end{equation*}
+
+\noindent
+where $A$ is the set of all subgraphs with \knodes\ and function
+$count(\cdot)$ computes the number of instances of subgraph $sg$ in
+the given sentence graph.
+
+$P_b(sg)$ in Kneser-Ney smoothing is the base probability of
+subgraph $sg$ among all \knode\ subgraphs ($A$). The base
+probability can be computed based on hierarchical (parent-child)
+relations in subgraphs. \knode\ subgraph $sg_i$ is a parent
+of \kplusnode\ subgraph $sg_j$, if $sg_i$ is a subgraph of
+$sg_j$. Figure \ref{f:parent_child_rel} shows the parent-child
+relation between subgraphs via a weighted tree. The root of this tree
+is a null graph%
+%
+\footnote{A null graph is a graph with no nodes.}%
+%
+. The weight of a parent-child relation connecting the parent
+subgraph $sg_i$ and child subgraph $sg_j$ is shown by $w_{ij}$ and
+computed as follows:
+
+\begin{equation*}
+w_{ij} = \frac{count(sg_i, sg_j)}{\sum_{sg_l \in A}count(sg_i,sg_l)},
+\end{equation*}
+
+\noindent
+where $A$ is all subgraphs with \knode\ and $k$ equals the number of
+nodes of $sg_j$. Interpretation of weight $w_{ij}$ is the normalized count of $sg_i$ in $sg_j$ with respect to all outgoing edges from $sg_i$.
+
+The base probability of each subgraph $sg_j$ is the inner product
+of the Kneser-Ney probabilities of $sg_j$'s parents by the weights of
+the corresponding relations:
+
+\begin{equation}
+P_b(sg_j)  = P \cdot W,
+\end{equation}
+
+\noindent
+where $P$ is the vector of probabilities of all parents of 
+$sg_j$ and $W$ is the vector of all corresponding edge weights
+connecting the parents of $sg_j$ to $sg_j$.
+
+Since the root node of this tree is the null subgraph, and it is a
+subgraph of all possible sentence graphs, its base probability is
+one. Because the edge weights are in the range $\left[0,1\right]$ the
+sum of the probabilities of all subgraphs with \knode\ is always
+equal to one.
+
+\paragraph{Proof.} 
+Assume $I$ and $J$ are the set of all \knode\ and \kplusnode\
+subgraphs. We also assume that $I$ has $n$ subgraphs and $\sum_{i=1}^n
+p(sg_i)=1$. Considering these assumptions we prove that
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j)=1,
+\end{equation*}
+
+\noindent
+where $m$ is the number of subgraphs in $J$.
+
+We start from the left and compute the value of 
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j).
+\end{equation*}
+
+\noindent
+Based on the definition of base probability, the value of
+$p(sg_j)$ is computed based on its parents in $I$,
+
+\begin{equation*}
+p(sg_j)=\sum_{i=1}^n w_{ij}p(sg_i),
+\end{equation*}
+
+\noindent
+where $w_{ij}$ is the weight of the parent-child relation between
+$sg_i$ and $sg_j$.  Now we have:
+
+\begin{equation*}\sum_{j=1}^m p(sg_j) = \sum_{j=1}^m\sum_{i=1}^n w_{ij}p(sg_i).
+\end{equation*}
+
+\noindent
+If we exchange the place of the sums and re-write the equation, we
+have: 
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j) = \sum_{i=1}^n \sum_{j=1}^m w_{ij}p(sg_i).
+\end{equation*}
+
+\noindent
+In this equation $p(sg_i)$ is independent of $j$ (index of the inner
+sum), so it can be moved out of the inner sum:
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j) = \sum_{i=1}^n p(sg_i) \sum_{j=1}^m w_{ij}
+\end{equation*}
+
+\noindent
+The inner sum equals $1$.
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j) = \sum_{i=1}^n p(sg_i).
+\end{equation*}
+
+\noindent
+Based on our assumption the right side of the equation is $1$ and 
+
+\begin{equation*}
+\sum_{j=1}^m p(sg_j) = 1.
+\end{equation*}
+
+\noindent
+So we proved that the sum of the base probability of all \knode\
+subgraphs is $1$.\QEDB
+
+
+This way, Kneser-Ney smoothing distributes the total discount value by
+considering the weights of parent-child relations among the
+subgraphs. The result of applying smoothing is an estimation of the
+frequency of each subgraph in the sentence graph.
+
+
+\subsubsection{Data}
+%
+We use the WMT 2015 \cite{Bojar2015} dataset for training and development of the sentence-level translation and language models\footnote{We use Moses to translate sentences independently and initialize the translation state in Docent.}, and the DiscoMT 2015 Shared Task \cite{Hardmeier2015} dataset for mining subgraphs (coherence patterns) and as our test data 
+(Table \ref{tab:testdatastats}). 
+We run experiments on the language pair French-English. 
+Coherence patterns are extracted from the 1551 DiscoMT \emph{training} documents using \textit{GloVe} word embeddings. 
+We extract all \textit{k}-node subgraphs for $k \in \{3,4,5\}$ using \textit{GASTON}\footnote{\url{http://liacs.leidenuniv.nl/~nijssensgr/gaston/iccs.html}.} \cite{Nijssen2004, Nijssen2005}.
+
+We use the twelve test documents of DiscoMT as the test data because these are much longer, on the document level, than the WMT test data. 
+The average number of sentences of the WMT test data is 20, whereas for DiscoMT it is 174 sentences. 
+Thus it is a more difficult test set for our experiments.
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{ p{2.2cm}|l|l|l }
+\hline
+& \textbf{train} & \textbf{dev} & \textbf{test}\\
+\hline
+\# of docs & \-- & \-- & 12\\
+\# of sent. & 200,239 & 3,003 & 2,093\\
+avg. \# of sent. per doc & \-- & \-- & 174\\
+\# of tokens & 4,458,256 & 63,778 & 48,122\\
+\hline
+\end{tabular}
+\caption{Statistics on the datasets used. \textit{train} is the news commentary v10 corpus, \textit{dev} is the 2012 newstest development data, and \textit{test}  is the DiscoMT 2015 test data. The number (\#) of tokens corresponds to the English (target) side.}
+\label{tab:testdatastats}
+\end{table}
+
+
+\subsubsection{Settings}
+
+We train our systems using the \textit{Moses} decoder \cite{Koehn2007}. After standard preprocessing of the data, we train a 3-gram language model using \textit{KenLM} \cite{Heafield2011}. We use the \textit{MGIZA++} \cite{Gao2008} word aligner and employ standard \textit{grow-diag-fast-and} symmetrization.
+Tuning is done on the development data via \textit{minimum error rate training} \cite{Och2003}.
+
+After training the language model and creating the phrase table with Moses, we use these to initialize our translation systems. We use the \textit{lcurve-docent} binary of Docent, which outputs Docent's learning curve, i.e., files for the intermediate decoding states. This additionally allows us to investigate the learning curves with regard to how our coherence feature behaves over time.
+
+We prune the translation table by only retaining all phrase translations with a probability greater than $0.0001$ during training. In our configuration file for Docent, we set to use the simulated annealing algorithm with a maximum number of 16,384 steps\footnote{We choose this threshold to make a balance between processing time and translation performance.} and the following features: \textit{geometric distortion model}, \textit{word penalty cost}, \textit{OOV-penalty cost}, \textit{phrase table}, and the \textit{3-gram language model}.
+
+\subsubsection{Results}
+We follow the standard machine translation procedure of evaluation, measuring \textit{BLEU} \cite{Papineni2002} for every system. BLEU is an \textit{n}-gram based co-occurrence metric that operates with modified \textit{n}-gram precision scores. The document \textit{n}-gram precision scores are averaged using the geometric mean of these scores with \textit{n}-grams up to length \textit{N} and positive weights 
+%\textit{w\textsubscript{n}} 
+summing to one. The result is multiplied by an exponential \textit{brevity penalty factor} that penalizes a translation if it does not match the reference translations in length, word choice, and word order.
+
+We also calculate \textit{Meteor} \cite{Lavie2004, Denkowski2014} as it is a widely used evaluation metric as well. In contrast to BLEU, Meteor is a word-based metric that takes recall into account as well. Meteor creates a word alignment between a pair of strings that is incrementally produced using a sequence of various word-mapping modules, including the \textit{exact} module, the \textit{Porter stem} module, and the \textit{WordNet synonymy} module \cite{Lavie2007}.
+
+Because Meteor has been shown to have a higher correlation with human judgements than BLEU \cite{Lavie2004}, it is a useful alternative evaluation metric for our purposes. As it also considers stemmed words and information from WordNet to determine synonymous words between a candidate and a reference translation, the metric is interesting with regard to surface variation with the same semantic content and how this affects the evaluation of our coherence model (as its graph construction is semantically grounded). 
+
+\begin{table*}[!h]
+\centering
+\begin{tabular}{l|cc|cc}
+\hline
+\textbf{Document ID} & \textbf{BLEU (BL)} & \textbf{BLEU (CM)} & \textbf{Meteor (BL)} & \textbf{Meteor (CM)}\\
+\hline
+(\#1) 1756 & 21.87  & \textbf{21.93}  & 61.47 & \textbf{61.52}\\
+(\#2) 1819 & 16.49  & 16.49  & 62.25 & 62.25\\
+(\#3) 1825 & 24.86  & 24.86  & \textbf{66.34} & 66.32\\
+(\#4) 1894 & 17.08  & 17.08  & 57.20 & 57.20\\
+(\#5) 1935 & 20.11  & 20.11  & 62.83 & 62.83\\
+(\#6) 1938 & \textbf{20.43}  & 20.41  & \textbf{63.53} & 63.48\\
+(\#7) 1950 & \textbf{23.27}  & 23.26  & \textbf{63.48} & 63.46\\
+(\#8) 1953 & \textbf{20.78}  & 20.66  & \textbf{61.65} & 61.64\\
+(\#9) 1979 & 15.25  & \textbf{15.26}  & 55.68 & \textbf{55.69}\\
+(\#10) 2043 & 18.27  & 18.27  & 56.42 &  \textbf{56.47}\\
+(\#11) 2053 & 30.65  & 30.65  & 69.13 & 69.13\\
+(\#12) 205 & 13.79  & 13.79  & 52.68 & 52.68\\
+\hline
+Average & \textbf{20.24}  & 20.23  & 61.01 & \textbf{61.06}\\
+\hline
+\end{tabular}
+%\caption{Results of the coherence model (\textit{CM}) compared to the baseline (\textit{BL}) on the DiscoMT test set (highest values are marked in bold). The scores of the entity graph model using average outdegree as coherence feature are identical to the baseline model. The differences are not statistically significant (\(\textit{p} = 0.05\)) using Student's \textit{t}-test \cite{Student1908}.}
+\label{tab:cmresultsDMT2015}
+\end{table*}
+
+\paragraph{Mined Coherence Patterns Analysis}
+%
+We represent each English document of the training set of the DiscoMT dataset by a graph (as described in Section 
+3.2). 
+As a result, instead of a set of documents we have a set of graphs.
+Then we extract all occurring subgraphs in these graphs as coherence patterns. 
+We mine subgraphs with ${3,4,5}$ nodes. 
+
+All 3-node subgraphs exist in the graph representation of the training documents. 
+It is because these subgraph are small and it is very likely that they occur in the graph representation of the large DiscoMT documents. 
+
+
+\begin{figure}[!t]
+\centering
+\small
+\resizebox{1.0\columnwidth}{!}{
+\begin{tabular}{ccc}
+\scriptsize{$sg_5$} & \scriptsize{$sg_6$} & \scriptsize{$sg_7$}
+\\
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=1mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         \node [sentence] (s2) at (0,0) {\tiny{$s_2$}};
+         \node [sentence] (s3) at (2,2) {\tiny{$s_3$}};
+         \node [sentence] (s4) at (2,0) {\tiny{$s_4$}};
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        \end{scope}        
+      \end{tikzpicture}
+&
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         \node [sentence] (s2) at (0,0) {\tiny{$s_2$}};
+         \node [sentence] (s3) at (2,2) {\tiny{$s_3$}};
+         \node [sentence] (s4) at (2,0) {\tiny{$s_4$}}; 
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        \end{scope}        
+      \end{tikzpicture}
+&
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         \node [sentence] (s2) at (0,0) {\tiny{$s_2$}};
+         \node [sentence] (s3) at (2,2) {\tiny{$s_3$}};
+         \node [sentence] (s4) at (2,0) {\tiny{$s_4$}}; 
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        \end{scope}        
+      \end{tikzpicture}
+\\
+\scriptsize{$sg_8$} & \scriptsize{$sg_9$} & \scriptsize{$sg_{10}$}
+\\
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         \node [sentence] (s2) at (0,0) {\tiny{$s_2$}};
+         \node [sentence] (s3) at (2,2) {\tiny{$s_3$}};
+         \node [sentence] (s4) at (2,0) {\tiny{$s_4$}};  
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        \end{scope}        
+      \end{tikzpicture}
+&
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         \node [sentence] (s2) at (0,0) {\tiny{$s_2$}};
+         \node [sentence] (s3) at (2,2) {\tiny{$s_3$}};
+         \node [sentence] (s4) at (2,0) {\tiny{$s_4$}};  
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        \end{scope}        
+      \end{tikzpicture}
+
+&
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         \node [sentence] (s2) at (0,0) {\tiny{$s_2$}};
+         \node [sentence] (s3) at (2,2) {\tiny{$s_3$}};
+         \node [sentence] (s4) at (2,0) {\tiny{$s_4$}}; 
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        \end{scope}        
+      \end{tikzpicture}
+
+\end{tabular}
+
+}
+\caption{The mined 4-node subgraphs.}
+\label{fig:all4nodesubgraphs}
+\end{figure}
+
+
+
+\begin{figure}[!t]
+\centering
+\small
+\resizebox{1.0\columnwidth}{!}{
+\begin{tabular}{ccc}
+\scriptsize{$sg_{11}$} & \scriptsize{$sg_{12}$} & \scriptsize{$sg_{13}$}
+\\
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=1mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         \node [sentence] (s2) at (0,0) {\tiny{$s_2$}};
+         \node [sentence] (s3) at (2,2) {\tiny{$s_3$}};
+         \node [sentence] (s4) at (2,0) {\tiny{$s_4$}};  
+         \node [sentence] (s5) at (1,-2) {\tiny{$s_5$}};  
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s5);
+        \end{scope}        
+      \end{tikzpicture}
+&
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         \node [sentence] (s2) at (0,0) {\tiny{$s_2$}};
+         \node [sentence] (s3) at (2,2) {\tiny{$s_3$}};
+         \node [sentence] (s4) at (2,0) {\tiny{$s_4$}};  
+         \node [sentence] (s5) at (1,-2) {\tiny{$s_5$}}; 
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s5);
+        \end{scope}        
+      \end{tikzpicture}
+&
+\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         \node [sentence] (s2) at (0,0) {\tiny{$s_2$}};
+         \node [sentence] (s3) at (2,2) {\tiny{$s_3$}};
+         \node [sentence] (s4) at (2,0) {\tiny{$s_4$}};  
+         \node [sentence] (s5) at (1,-2) {\tiny{$s_5$}}; 
+         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+         \path[edge] (s4) edge [above] node[font=\tiny] {} (s5);
+        \end{scope}        
+      \end{tikzpicture}
+      
+      
+\end{tabular}
+}
+\caption{The mined 5-node subgraphs.}
+\label{fig:all5nodesubgraphs}
+\end{figure}
+
+
+The mined 4-node subgraphs are shown in Figure \ref{fig:all4nodesubgraphs}. 
+Although the frequency of these patterns encode coherence in our model, the existence of these patterns can be linguistically interpreted too. 
+For example, $sg_{10}$ models the smooth shift in the topic of a sequence of sentences \cite{Mesgar2015}. 
+The rest of the patterns have a common property: a sentence introduces some topic and the following sentences are about this topic. 
+For instance, in $sg_6$, topics in the first sentence are developed by the rest of the sentences.
+
+The mined 5-node subgraphs are shown in Figure \ref{fig:all5nodesubgraphs}. 
+The expansion of a topic is much clearer here in $sg_{11}$. 
+The subgraph  $sg_{13}$ is very similar to $sg_{10}$ following the notion of the topic shift. 
+This is somehow expected because the DiscoMT documents are obtained from TED talks. 
+These talks are mostly given by professional speakers. 
+They have to move smoothly from one topic to the next topic in a short sequence of sentences. 
+This confirms the existence of the linear chain pattern in the 4-node and 5-node patterns.
+
+
+
+
+We analyze the change of the frequencies of the subgraphs during the MT decoding phase. 
+For example, on document 9 the subgraph $sg_1$ of the 3-node subgraphs occurs one more time in the CM model.
+It is worthwhile to note that the increase of the frequency of $sg_1$ is compatible with its positive correlation with readability scores of documents in the readability assessment experiment done by \newcite{Mesgar2015}. 
+For the documents 1 and 10 the frequency of subgraphs are constant during decoding. 
+It might be because the connectivity of sentences is already compatible with the training documents and our coherence features push the Docent model to reject operations that might disturb the structure. 
+The decrease in the number of accepted operations for these two documents by the CM model (represented in Table 
+\ref{tab:accopalldocs}) supports this.
+
+
+
+\subsection{Machine Translation Metrics Analysis}
+%
+We evaluate the model on the test set of the DiscoMT dataset. As the baseline, we use the coherence-blind Docent and compare it against a system with the additional document-level coherence features. 
+
+First we try the entity graph model with the average outdegree as the coherence feature. 
+The BLEU and Meteor scores of this model are identical to the baseline. 
+This means that the average outdegree is not a good representative of coherence. 
+That was also shown by \newcite{Mesgar2015} for the readability assessment task.
+
+Next, we try the lexical graph representation of documents and frequency of coherence patterns as the coherence features. 
+
+
+The results of the baseline (BL) and our coherence model (CM) in terms of BLEU and Meteor scores are shown in Table \ref{tab:cmresultsDMT2015}. 
+
+Compared to the baseline, results for about half of the documents do not change in terms of BLEU. 
+For two documents, the coherence model improves the BLEU score, whereas for three documents it diminishes. 
+Overall, the average BLEU score of the coherence model is slightly lower than that of the baseline. 
+
+The Meteor score of the coherence model is better on three documents.
+The coherence model achieves the best overall result in terms of the averaged Meteor score. 
+The coherence model does not improve the Meteor score on four documents.
+
+We interpret these observations as follows:
+First, the coherence patterns can model the coherence property of texts better than average outdegree.
+This is compatible with the reported results by \newcite{Mesgar2015} and \newcite{Parveen2016} that, respectively, show that coherence patterns are more informative for readability assessment and multi-document summarization.
+However, our results also indicate that they are not that powerful for a more difficult task like machine translation \cite{Smith2016}.
+
+Second, the obtained improvement of our coherence model, which is augmented with some document-level features, especially on the Meteor score confirms this hypothesis that the quality of the machine translation can be improved if the MT model is informed by the document-level context. 
+
+The third interpretation is about the validity of these traditional metrics that were constructed in the context of sentence-level decoding. 
+This means that these MT scores might not be that much appropriate to measure the global translation quality, especially with regard to discourse coherence. 
+As a future work, we are going to do a human evaluation on this.
+
+Table \ref{tab:accopalldocs} indicates the number of accepted \textit{change-phrase-translation} operations by Docent in a comparison between the baseline and the coherence model.
+For both models, the number of accepted operations is very close.
+
+Document 1 is one of the documents where the coherence model outperforms the baseline and it is tempting to assume that the score difference stems from the one operation not accepted by the coherence model.
+Indeed, the only detectable difference in the two translations is in one sentence only (see its output translations in Table \ref{tab:translatedtext}). 
+The coherence features might prevent the translation model to change the translation of \textit{thought for}, which is identical with the reference translation.
+
+
+\begin{table}[!b]
+\centering
+\begin{tabular}{l|P{2cm}|P{2cm}}
+\hline
+\multirow{2}{*}{\textbf{Document ID}} & \multicolumn{2}{c}{\textbf{\# of accepted operations}}\\
+ & \multicolumn{1}{c}{\textbf{BL}} & \multicolumn{1}{c}{\textbf{CM}}
+\\
+\hline
+(\#1) 1756 & 22 & 21\\
+(\#2) 1819 & 18 & 18\\
+(\#3) 1825 & 22 & 21\\
+(\#4) 1894 & 25 & 25\\
+(\#5) 1935 & 21 & 21\\
+(\#6) 1938 & 30 & 33\\
+(\#7) 1950 & 59 & 59\\
+(\#8) 1953 & 29 & 32\\
+(\#9) 1979 & 25 & 26\\
+(\#10) 2043 & 9 & 8\\
+(\#11) 2053 & 12 & 12\\
+(\#12) 205 & 4 & 4\\
+\hline
+\end{tabular}
+\caption{Comparison of the number of accepted \textit{change-phrase-translation} operations.}
+\label{tab:accopalldocs}
+\end{table}
+
+Similarly, for document 10 the CM model accepts one less operation than the baseline model and it, again, helps the model to obtain a higher Meteor score. 
+Interestingly, the BLEU score on these two documents remains the same, so the score difference is likely a result of a more semantic change in translation.
+For the document 9 the CM model improves the MT scores by accepting more operations than the baseline model. 
+For documents 3, 6 and 8 the accepted operations by the CM model reduce the MT scores.
+
+
+\begin{table}[!ht]
+\centering
+\small 
+\begin{tabular}{p{0.95\columnwidth}}
+\hline
+\multicolumn{1}{c}{Baseline}
+\\\hline
+I demanderais qu' what he thought to this qu' it was doing? \textbf{Sue has watched the soil, has ponder a minute.} It has watched of new and said, "I demanderais I forgive d' have been his mother and n' have ever known what was happening in its head".\\\hline
+\multicolumn{1}{c}{Coherence Model}
+\\\hline    
+I demanderais qu' what he thought to this qu' it was doing? \textbf{Sue has watched the soil, has thought for a minute.} It has watched of new and said, "I demanderais I forgive d' have been his mother and n' have ever known what was happening in its head".\\\hline
+\multicolumn{1}{c}{Reference} \\\hline
+I'd want to ask him what the hell he thought he was doing." \textbf{And Sue looked at the floor, and she thought for a minute.} And then she looked back up and said, "I would ask him to forgive me for being his mother and never knowing what was going on inside his head."
+\\\hline
+\end{tabular}
+
+\caption{Comparison of the baseline (\textit{BL}), coherence model (\textit{CM}), and reference (\textit{REF}) translations for document 1 (ID: 1756) for one differing sentence between \textit{BL} and \textit{CM} (marked in bold).}
+\label{tab:translatedtext}
+\end{table}
+
+Finally, supported operations in Docent seem insufficient to change the structure of graphs. From the three basic operations Docent uses, the two operations \textit{swap-phrases} and \textit{resegment} may not change the graph structure. \textit{Change-phrase-translation}, however, has the potential to actually change the graph structure by either choosing an alternative translation of a word that is either not connected to any other words anymore or that conversely connects to another word within the text. 
+
+\section{Related Work}
+\label{sec:lcg_	related_work}
+The entity grid model \cite{barzilay08} is based on entity transitions
+over sentences. It uses a two dimensional matrix to represent
+transitions of entities among adjacent sentences. The entity grid is
+applied to readability assessment by \newcite{pitler08}. The entity
+graph \cite{guinaudeau13} is a graph-based, mainly unsupervised
+interpretation of the entity grid. This model represents the
+distribution of entities over sentences in a text with a bipartite
+graph. Connections between sentences are obtained by information on
+entites shared by sentences. \newcite{guinaudeau13} perform a one-mode
+projection on sentence nodes and use the average out-degree of
+the one-mode projection graph to quantify the coherence of the given
+text. \newcite{mesgar15} represent the connectivity of the one-mode
+projection graph by a vector whose elements are the frequencies of
+subgraphs in projection graphs. This encoding works much better
+than the entity graph for the readability task on the \emph{P\&N}
+dataset and even outperforms \newcite{pitler08} by a large margin.
+\newcite{zhangmuyu15} state that the entity graph model is limited,
+because it only captures mentions which refer to the same entity (the
+entity graph uses a very restricted version of coreference resolution
+to determine entities). \newcite{zhangmuyu15} use world knowledge
+\emph{YAGO} \cite{hoffart13}, \emph{WikiPedia} \cite{denoyer06} and
+\emph{FreeBase} \cite{bollacker08} to capture the semantic relatedness
+between entities even if they do not refer to the same entity. Main
+issues with using world knowledge are: the choice knowledge sources, selection of knowledge from the source, coverage, and language-dependence.
+
+Word embedding approaches like \emph{word2vec}\ and \emph{GloVe}\
+\cite{mikolov13c,pennington14} show that the semantic connection
+between words can be captured by word vectors which are obtained by
+applying a neural network. The ability to train on very
+large data sets allows the model to learn complex relationships
+between words.
+
+The entity grid model \cite{barzilay08} is based on entity transitions
+over sentences. It uses a two dimensional matrix to represent
+transitions of entities among adjacent sentences. The entity grid is
+applied to readability assessment by \newcite{pitler08}. The entity
+graph \cite{guinaudeau13} is a graph-based, mainly unsupervised
+interpretation of the entity grid. This model represents the
+distribution of entities over sentences in a text with a bipartite
+graph. Connections between sentences are obtained by information on
+entites shared by sentences. \newcite{guinaudeau13} perform a one-mode
+projection on sentence nodes and use the average out-degree of
+the one-mode projection graph to quantify the coherence of the given
+text. \newcite{mesgar15} represent the connectivity of the one-mode
+projection graph by a vector whose elements are the frequencies of
+subgraphs in projection graphs. This encoding works much better
+than the entity graph for the readability task on the \emph{P\&N}
+dataset and even outperforms \newcite{pitler08} by a large margin.
+\newcite{zhangmuyu15} state that the entity graph model is limited,
+because it only captures mentions which refer to the same entity (the
+entity graph uses a very restricted version of coreference resolution
+to determine entities). \newcite{zhangmuyu15} use world knowledge
+\emph{YAGO} \cite{hoffart13}, \emph{WikiPedia} \cite{denoyer06} and
+\emph{FreeBase} \cite{bollacker08} to capture the semantic relatedness
+between entities even if they do not refer to the same entity. Main
+issues with using world knowledge are: the choice knowledge sources, selection of knowledge from the source, coverage, and language-dependence.
+
+Word embedding approaches like \emph{word2vec}\ and \emph{GloVe}\
+\cite{mikolov13c,pennington14} show that the semantic connection
+between words can be captured by word vectors which are obtained by
+applying a neural network. The ability to train on very
+large data sets allows the model to learn complex relationships
+between words.
+
+
+\section{Conclusions}
+\label{sec:lcg_conclusion}
+%
+In this paper we propose a new graph based coherence model, the
+lexical coherence graph, LCG. We view coherence as semantic
+connectedness between words which we model by word embeddings. We take
+only the strongest connection between sentences to create a graph with
+connected sentences. Then we extract large subgraphs capturing
+coherence patterns, which show similarity to patterns described in
+text linguistics \cite{danes74a}.
+
+While the entity grid works only on sequences of up to three adjacent
+sentences, we are able to model relationships of up to six
+non-adjacent sentences. We solve the sparsity problem of large
+subgraphs by adapting Kneser-Ney smoothing to graphs. Smoothing
+prevents LCG from losing performance with large subgraphs and leads to
+superior performance on the \newcite{pitler08} dataset and to a
+first reasonable state-of-the-art on the \newcite{declercq14} dataset.
+
+In future work we want to apply LCG to essay scoring as well. Also, we
+see that our adaption of Kneser-Ney smoothing to graphs may be useful
+for research in subgraph mining in general.
+
+In this paper, we employed the graph-based representation of local coherence by \newcite{Mesgar2016} 
+for the machine translation task by integrating the graph-based coherence features with the document-level MT decoder Docent \cite{Hardmeier2012a, Hardmeier2013a}. 
+The usage of these coherence features has been shown for readability assessment and multi-document summarization \cite{Parveen2016,Mesgar2016}. We are the first who utilize these coherence features for document-level translation.
+Our coherence model using subgraph frequencies  as coherence features improves the performance of Docent as a document-level MT decoder.
+For future work, we are going to check if the connectivity structure of the source document can help the translation system to improve the translation quality of each sentence. This idea is inspired from the application of topic-based coherence modeling in machine translation before \cite{Xiong2013}.
+
