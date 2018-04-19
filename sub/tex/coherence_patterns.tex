@@ -259,29 +259,19 @@ We evaluate if our novel coherence features outperform the average outdegree fea
 In next section, we explain how we exactly model coherence patterns. 
 
 
-
-\section{Coherence Patterns Modeling}
-\label{sec:coherence_patterns_modeling}
+\section{Definitions From Graph Theory}
+\label{sec:definition_from_graph_theory}
 %
-The entity graph representation of a text encodes the distribution of entities across sentences of the text. 
-The one-mode projection graph models the connectivity between sentence nodes with respect to the shared entities between sentences. 
-Our main contribution, here, is that instead of the average outdegree as a simple metric that models the connectivity of sentence nodes of a projection graph, we introduce a set of novel graph-based features that encode the structure of connections (i.e. connectivity style) in a projection graph. 
-We hypothesize that the frequencies of different subgraphs occurring in a projection graph encode the connectivity style of the projection graph and therefore, they can be utilized to model coherence. 
-Our experiments in Section \ref{} indicate the correctness of our hypothesis. 
-
-
 In order to explain the applied subgraphs that encode coherence of sentences in a text, we first need to define some required concepts from graph theory. 
 
-
-\textbf{Isomorphic.} 
-%
-Two graphs $G_1$ and $G_2$ are isomorphic, if they fulfill two conditions: (i) an one\--to\--one association exists between nodes of $G_1$ and those of $G_2$, and two nodes of $G_2$ should be connected, if and only if their associated nodes in $G_1$ are connected. 
-Figure \ref{fig:isomorphic_graph} illustrates two isomorphic graph. 
+\textbf{Graph.}
+A graph is a set of points, we refer to them as nodes, connected by lines, called edges. 
+More formally, a graph is a pair of two finite sets $G=( V, E )$ where $V$ is a set of nodes and $E$ is a set of edges whose elements are pairs of nodes. 
 
 \begin{figure}[!ht]
 \centering
 \small
-\begin{tabular}{ccc}
+\begin{tabular}{cc}
 
 	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
 		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
@@ -296,6 +286,96 @@ Figure \ref{fig:isomorphic_graph} illustrates two isomorphic graph.
 		 \path[edge] (b) -- (c);
 		 \path[edge] (c) -- (d);
 		 \path[edge] (d) -- (a);
+		 \path[edge] (a) -- (c);
+       
+	\end{tikzpicture}
+
+	&
+
+	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+
+		 \node (a) at (0,4) {\small{$V = \left \{ a,b,c,d \right \}$}};
+		 \node (b) at (2.6,0) {\small{$E = \left \{(a,b),(b,c),(c,d),(a,d) \right \} $}};
+
+	\end{tikzpicture}
+
+	\\
+
+	$G$ 
+	&
+	$V:Nodes,E:Edges$ 
+
+\end{tabular}
+\caption{Graph. }
+\label{fig:graph}
+\end{figure} 
+
+If the direction of edges conveys any meaning, then edges can be directed so that for any edge like $e = (x,y)$ the direction is from $x$ towards $y$, which are respectively called the source node and the end node of edge $e$. 
+Figure \ref{fig:dir_graph} shows the directed version of the shown graph in Figure \ref{fig:graph}.
+
+\begin{figure}[!ht]
+\centering
+\small
+\begin{tabular}{c}
+
+	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+		\tikzstyle{edge}=[draw=black!90, thick]
+	   
+		 \node [node] (a) at (0,4) {\small{$a$}};
+		 \node [node] (b) at (4,4) {\small{$b$}};
+		 \node [node] (d) at (0,0) {\small{$d$}}; 
+		 \node [node] (c) at (4,0) {\small{$c$}}; 
+		 
+		 \path[edge,->] (a) -- (b);
+		 %\path[edge,->] (b) -- (c);
+		 \path[edge,->] (c) -- (d);
+		 \path[edge,->] (a) -- (d);
+		 \path[edge,->] (a) -- (c);
+       
+	\end{tikzpicture}
+\\
+
+	$G$ 
+
+\end{tabular}
+\caption{Directed graph of graph $G$ in Figure \ref{fig:graph}. }
+\label{fig:dir_graph}
+\end{figure} 
+
+
+\textbf{Isomorphic.} 
+%
+Two graphs $G_1$ and $G_2$ are isomorphic, if they fulfill two conditions: (i) a one\--to\--one association, like $f$, exists between nodes of $G_1$ and those of $G_2$, and two nodes of $G_2$ should be connected, if and only if their associated nodes in $G_1$ are connected. 
+Figure \ref{fig:isomorphic_graph} illustrates two isomorphic graphs. 
+More formally, an isomorphism of graph $G_1$ and $G_2$ is an association between node sets of these graphs:
+
+\begin{equation}
+f: V \left( G_1 \right) \rightarrow V \left( G_2 \right),
+\end{equation}
+
+such that any  two nodes $u$ and $v$ of $G_1$ are adjacent in $G_1$ if and only if $f \left( u \right)$ and $f \left( v \right)$ are adjacent in $G_2$.
+If an isomorphism exists between two graphs, then the graphs are called isomorphic.
+
+\begin{figure}[!ht]
+\centering
+\small
+\begin{tabular}{c@{\hskip 2.5cm}c@{\hskip 2.5cm}c}
+
+	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+		\tikzstyle{edge}=[draw=black!90, thick]
+	   
+		 \node [node] (a) at (0,4) {\small{$a$}};
+		 \node [node] (b) at (4,4) {\small{$b$}};
+		 \node [node] (d) at (0,0) {\small{$d$}}; 
+		 \node [node] (c) at (4,0) {\small{$c$}}; 
+		 
+		 \path[edge,->] (a) -- (b);
+		 %\path[edge,->] (b) -- (c);
+		 \path[edge,->] (a) -- (c);
+		 \path[edge,->] (c) -- (d);
+		 \path[edge,->] (a) -- (d);
        
 	\end{tikzpicture}
 
@@ -307,13 +387,13 @@ Figure \ref{fig:isomorphic_graph} illustrates two isomorphic graph.
    
 	 \node [node] (1) at (0,4) {\small{$1$}};
 	 \node [node] (2) at (4,4) {\small{$2$}};
-	 \node [node] (3) at (0,0) {\small{$4$}}; 
-	 \node [node] (4) at (4,0) {\small{$3$}}; 
+	 \node [node] (3) at (4,0) {\small{$4$}}; 
+	 \node [node] (4) at (0,0) {\small{$3$}}; 
 	 
-	 \path[edge] (1) -- (4);
-	 \path[edge] (1) -- (3);
-	 \path[edge] (2) -- (3);
-	 \path[edge] (2) -- (4);
+	 \path[edge,->] (1) -- (2);
+	 \path[edge,->] (1) -- (3);
+	 \path[edge,->] (1) -- (4);
+	 \path[edge,->] (2) -- (4);
    
   \end{tikzpicture}
 
@@ -321,45 +401,265 @@ Figure \ref{fig:isomorphic_graph} illustrates two isomorphic graph.
 
   	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
 
-	 \node  (1) at (0,4) {$f(a) = 1$};
-	 \node  (2) at (0,2.7) {$f(b) = 4$};
-	 \node  (3) at (0,1.3) {$f(c) = 2$}; 
-	 \node  (4) at (0,0) {$f(d) = 3$}; 
+	 \node  (1) at (0,4) {$f(1) = a$};
+	 \node  (2) at (0,2.7) {$f(2) = c$};
+	 \node  (3) at (0,1.3) {$f(3) = b$}; 
+	 \node  (4) at (0,0) {$f(4) = d$}; 
+
+  \end{tikzpicture}
+\\
+$ G_1 $ 
+&
+ $G_2$
+& 
+$\textit{Node associations}$
+
+\end{tabular}
+\caption{Two isomorphic graphs and a sample association between their nodes. }
+\label{fig:isomorphic_graph}
+\end{figure} 
+
+
+\textbf{Subgraph.} 
+%
+Graph $G_2$ is a subgraph of graph $G_1$, if $G_2$ is isomorphic to a graph whose nodes and edges are a subset of nodes and edges of $G_1$.
+\begin{figure}[!ht]
+\centering
+\small
+\begin{tabular}{c@{\hskip 2.5cm}c@{\hskip 2.5cm}c}
+
+	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+		\tikzstyle{edge}=[draw=black!90, thick]
+	   
+		 \node [node] (a) at (0,4) {\small{$a$}};
+		 \node [node] (b) at (4,4) {\small{$b$}};
+		 \node [node] (d) at (0,0) {\small{$d$}}; 
+		 \node [node] (c) at (4,0) {\small{$c$}}; 
+		 
+		 \path[edge,->] (a) -- (b);
+		 %\path[edge,->] (b) -- (c);
+		 \path[edge,->] (a) -- (c);
+		 \path[edge,->] (c) -- (d);
+		 \path[edge,->] (a) -- (d);
+
+       
+	\end{tikzpicture}
+
+	 &
+
+  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+	\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+	\tikzstyle{edge}=[draw=black!90, thick]
+   
+	 \node [node] (1) at (0,4) {\small{$1$}};
+	 \node [node] (2) at (4,4) {\small{$2$}};
+	 \node [node] (3) at (4,0) {\small{$3$}}; 
+	 
+	 \path[edge,->] (1) -- (2);
+	 \path[edge,->] (1) -- (3);
+   
+  \end{tikzpicture}
+
+	 &
+
+  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+
+	 \node  (1) at (0,4) {$f \left( 1 \right) = a$};
+	 \node  (2) at (0,2.7) {$f \left( 2 \right) = b$};
+	 \node  (3) at (0,1.3) {$f \left( 3 \right) = c$}; 
 
   \end{tikzpicture}
 \\
 $ G_1 $ & $G_2$  & $\textit{Node associations}$
 
 \end{tabular}
-\caption{Two isomorphic graphs and an illustration between its nodes. }
-\label{fig:isomorphic_graph}
-
+\caption{$G_2$ is a subgraphs of graph $G_1$}
+\label{fig:subgraph}
 \end{figure} 
 
-\textbf{Subgraph.} Graph $G^\prime$ is a \textit{subgraph} of graph $G$, if $G^\prime$ is isomorphic to a graph whose nodes and edges are in $G$.
+In the shown example in Figure \ref{fig:subgraph}, graph $G_2$ is isomorphic with graph 
+
+\begin{equation}
+G = \left( \left\{ a,b,c \right\}, \left\{ \left( a , b \right),\left( b , c \right) \right\} \right) 
+\end{equation}
+
+whose node and edge sets are subsets of node and edge sets of $G_1$.
+
+\textbf{k-node subgraph.}
+%
+The size of subgraph is the size of its node set that is the number nodes in the graph. 
+Graph $G_2 = \left( V_2 , E_2 \right)$ is a k-node subgraph of graph $G_1 = \left( V_1, E_1 \right)$, if $G_2$ is a subgraph of $G_1$, and $V_2$ has $k$ elements, $|V_2|=k$. 
+In Figure \ref{fig:subgraph}, graph $G_2$ is a 3-node subgraph of graph $G_1$. 
 
 
-$\mathit{k}$\textit{-node subgraph.} A subgraph with $k$ nodes is called $\mathit{k}$\textit{-node subgraph}.
+\textbf{Induced subgraph.} 
+%
+An induced subgraph of a graph is a subgraph of the graph with an extra condition on its edges.  
+That is, in simple words, its edge sets contains all possible edges that are present in the main graph. 
+Formally, graph $G_2 = (V_2, E_2)$ is an induced subgraph of graph $G_1 = (V_2, E_2)$ if $V_2 \subseteq V_1$ and 
+\begin{equation}
+E_2 = \left\{ (x,y)| x \in V_2, y \in V_2, (x,y) \in E_1   \right\}. 
+\end{equation}
 
-\textit{Induced subgraph.} The graph $G^\prime$ is an \textit{induced subgraph} of graph $G$, if $G^\prime$ is a subgraph of $G$ whose
-nodes are connected by all edges which connect the corresponding nodes in $G$
-% if $G^\prime$ has all edges of $G$, which their corresponding nodes
-% are in $G^\prime$ 
-(Figure \ref{f:induced_subgraphs}). 
-We always mean induced subgraphs when using the term subgraph.  
-    
-%\input{figures/induced_subgraphs}
+Figure \ref{fig:induced_subgraphs} shows a graph and two subgraphs of it. 
+Subgraph $G_2$ is a subgraph of $G_1$ but not induced, because there is no edge between nodes $1$ and $3$ of this subgraph while their associated nodes, $a$ and $b$, in graph $G_1$ are connected. 
+In contrast, subgraph $G_2$ is an induced subgraph of $G_1$ because it contains all possible edges that are present in $G_1$ and connect nodes of the subgraph.  
 
-\textit{Graph signature.} Given a set of frequent subgraphs $\lbrace sg_1, sg_2,...,sg_m\rbrace$, a graph signature for $G\in\zeta$ is the
-vector $\Phi(G)=\left(\varphi(sg_1, G), \varphi(sg_2, G),..., \varphi(sg_m, G)\right)$, where \vspace*{1.0 ex}
-\begin{small}
-\begin{equation*}
- \varphi(sg_i, G)= \frac{count(sg_i, G)}{\sum_{sg_j \in (sg_1, sg_2,...,sg_m)}{count(sg_j, G)}}
-\end{equation*}
-\end{small}
-Here $count(sg_i, G)$ is the number of occurrences of $sg_i$ in graph $G$. 
-We use the relative frequency $\varphi(sg_i, G)$ because it compares graphs with different numbers of nodes and
-different numbers of edges. 
+\begin{figure}[!ht]
+\centering
+\small
+\begin{tabular}{c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c}
+
+	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+		\tikzstyle{edge}=[draw=black!90, thick]
+	   
+		 \node [node] (a) at (0,4) {\small{$a$}};
+		 \node [node] (b) at (4,4) {\small{$b$}};
+		 \node [node] (d) at (0,0) {\small{$d$}}; 
+		 \node [node] (c) at (4,0) {\small{$c$}}; 
+		 
+		 \path[edge,->] (a) -- (b);
+		 \path[edge,->] (a) -- (c);
+		 \path[edge,->] (c) -- (d);
+		 \path[edge,->] (a) -- (d);
+
+       
+	\end{tikzpicture}
+
+	 &
+
+  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+	\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+	\tikzstyle{edge}=[draw=black!90, thick]
+   
+	 \node [node] (1) at (0,4) {\small{$1$}};
+	 \node [node] (2) at (4,0) {\small{$2$}};
+	 \node [node] (3) at (0,0) {\small{$3$}}; 
+	 
+	 \path[edge,->] (1) -- (2);
+	 \path[edge,->] (2) -- (3);
+   
+  \end{tikzpicture}
+
+	 &
+
+
+  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+	\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+	\tikzstyle{edge}=[draw=black!90, thick]
+   
+	 \node [node] (1) at (0,4) {\small{$1$}};
+	 \node [node] (2) at (4,0) {\small{$2$}};
+	 \node [node] (3) at (0,0) {\small{$3$}}; 
+	 
+	 \path[edge,->] (1) -- (2);
+	 \path[edge,->] (2) -- (3);
+	 \path[edge,->] (1) -- (3);
+   
+  \end{tikzpicture}
+
+  &
+
+  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+
+	 \node  (1) at (0,4) {$f \left( 1 \right) = a$};
+	 \node  (2) at (0,2.7) {$f \left( 2 \right) = c$};
+	 \node  (3) at (0,1.3) {$f \left( 3 \right) = d$}; 
+
+  \end{tikzpicture}
+\\
+$ G_1 $ & $G_2$  & $G_3$ & $\textit{Node associations}$
+
+\end{tabular}
+\caption{Induced subgraphs}
+\label{fig:induced_subgraphs}
+\end{figure} 
+
+It is worth mentioning that henceforth we mean induced subgraphs when using the term subgraph.  
+However, in cases that the context is not clear we explicitly distinguish them.     
+
+
+\textbf{Graph signature.} 
+%
+Given a list of graphs $ \zeta  = \left[ G_1, G_2, \cdots , G_m \right]$,  a graph signature, which is  denoted by for graph $G$, denoted by $\phi \left( G \right)$,  with respect to $\zeta$ is a vector of frequencies of graphs in $\zeta$ in graph $G$:
+
+\begin{equation}
+\phi \left( G \right) = \left( f_1, f_2, f_3, \cdots, f_m \right),
+\end{equation}
+%
+where $f_i$ is the frequency of graphs in graph $G$. 
+The frequency of graph $G_i$ in graph $G$ is computed as follows:
+
+\begin{equation}
+ f_i = \frac{count(G_i, G)}{\sum_{G_j \in \zeta}{count(G_j, G)}}
+\end{equation}
+%
+where $count(G_i, G)$ is the number of occurrences of $G_i$ in graph $G$. 
+The reason of using frequency instead of raw count is that frequency is a normalized value that cannot become biased to the number of nodes and edges of graph $G$. 
+
+
+
+\section{Coherence Patterns Modeling}
+\label{sec:coherence_patterns_modeling}
+%
+The entity graph representation of a text encodes the distribution of entities across sentences of a text. 
+One-mode projection graphs model the connectivity between sentence nodes with respect to the shared entities between sentences. 
+Our main contribution, in this chapter, is that instead of the average outdegree as a simple metric that models the connectivity of sentence nodes of a projection graph, we introduce a set of novel graph-based features that encode the structure of connections (i.e.\ connectivity style) in a projection graph. 
+We hypothesize that the frequencies of different subgraphs occurring in projection graphs encode the connectivity style of  projection graphs and therefore, they can be utilized to model coherence.  
+Our experiments in Section \ref{} indicate this hypothesis is correct for the examined tasks.  
+
+Given a corpus of documents, we model connections between sentences of each document by its projection graph representation, $P_U$. 
+In this step, instead of having a set of documents we have a set of one-mode projection graphs associated with documents. 
+We refer to it as the graph set.  
+Similar to the entity grid model \cite{barzilay08b}, the key assumption behind our coherence model is that coherent texts reveal similar patterns that differ them from incoherent texts. 
+Therefore, the projection graphs of coherent texts reveal similar connectivity style that is different with incoherent texts. 
+\newcite{guinaudu13} propose the average outdegree, but we propose to use the graph signature of each projection graph to encode the connectivity style of projection graphs into a vector. 
+
+In order to obtain graph signatures of projection graphs, some basis graphs are required to represent projection graphs based on them. 
+We propose to extract all possible subgraphs of projection graphs as basis graphs for computing graph signatures. 
+
+The results of our experiments in Section \ref{}, show that the frequencies of some subgraphs in documents are statistically significantly correlated with scores assigned by human annotators to documents. 
+Moreover, as it will be shown in Section \ref{}, some of these subgraphs are similar to what are defined by \newcite{danes74a}. 
+Considering these all, we refer to these subgraphs coherence patterns and their frequencies as coherence features.  
+
+Figure \ref{} shows a schema of our idea for extracting coherence patterns and features. 
+
+From the machine learning perspective, the vector representation of the projection graphs can be taken as feature vectors, in which each element is a feature representing one aspect of data. 
+These feature vectors can be supplied for training any machine learning model in order to classify coherent documents from incoherent documents. 
+
+\subsection{Subgraph Mining}
+\label{subsec:subgraph_mining}
+%
+Coherence patterns are subgraphs that occur at least in one of projection graphs of documents in a corpus. 
+Mining all subgraphs that occur in a graph set is computationally expensive and this problem is proved to be an NP-complete problem \cite{}. 
+Intuitively, a graph with $\Vert E \Vert$ edges, potentially has $\mathcal{O} \left( 2^{\Vert E \Vert} \right)$ subgraphs.  
+Projection graphs with $\Vert V \Vert$ nodes at most has  $\frac{(n-1)(n-2)}{2}$ that is in order of $\mathcal{O} \left( \Vert V \Vert \right)$.  
+
+In general, the goal of this thesis is not to develop an algorithm for subgraph mining. 
+This has been widely studied in computer science and different algorithms and packages have been developed for this. 
+The gSpan\footnote{We use the Java package: \url{http://www.cs.ucsb.edu/~xyan/software/gSpan.htm}}  algorithm \cite{yanxifeng02} is one of the efficient methods for mining subgraphs of a  graph set. 
+Here, we briefly describe the idea and the method of the gSpan algorithm and refer interested readers to Appendix \ref{} for more details. 
+
+The gSpan,(\textit{g}raph-based \textit{S}ubstructure \textit{pa}ttern \textit{m}ining), algorithm is an approach for extracting all patterns (i.e. subgraphs) that frequently occur in a graph set. 
+It discovers all frequent subgraphs without generating the candidates. 
+So it is more efficient. 
+A subgraph is called frequent if the number of graphs that contain the subgraph is greater than a threshold. 
+This threshold is a hyper-parameter of the algorithm\footnote{We always set this threshold to zero to extract all occurring subgraphs in a graph set. We prefer all patterns over frequent patterns because our goal is to investigate .....
+ However, is it possible to integrate this in the future work?}.
+ gSpan orders graphs in a graph set with respect to their structures and then adapts a depth-first-search search strategy to extract frequent connected subgraphs efficiently. 
+ It starts with small subgraphs and simultaneously expands subgraphs and check the frequency of subgraph. 
+
+ [It seems the efficiency of gSpan is when you have a threshold, by setting this to zero it has to extract all possible patterns, so the method is still expensive..]
+
+
+
+
+
+
+
+
 
 Subgraph features are divided into two categories: basic subgraphs and frequent large subgraphs.
 
