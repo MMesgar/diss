@@ -627,15 +627,15 @@ Considering these all, we refer to these subgraphs coherence patterns and their 
 Figure \ref{} shows a schema of our idea for extracting coherence patterns and features. 
 
 From the machine learning perspective, the vector representation of the projection graphs can be taken as feature vectors, in which each element is a feature representing one aspect of data. 
-These feature vectors can be supplied for training any machine learning model in order to classify coherent documents from incoherent documents. 
+These feature vectors can be supplied to any machine learning model in order to classify coherent documents from incoherent documents. 
 
-\subsection{Subgraph Mining}
-\label{subsec:subgraph_mining}
+\subsection{Subgraph Mining: gSpan Method}
+\label{subsec:subgraph_mining_gspan}
 %
 Coherence patterns are subgraphs that occur at least in one of projection graphs of documents in a corpus. 
 Mining all subgraphs that occur in a graph set is computationally expensive and this problem is proved to be an NP-complete problem \cite{}. 
 Intuitively, a graph with $\Vert E \Vert$ edges, potentially has $\mathcal{O} \left( 2^{\Vert E \Vert} \right)$ subgraphs.  
-Projection graphs with $\Vert V \Vert$ nodes at most has  $\frac{(n-1)(n-2)}{2}$ that is in order of $\mathcal{O} \left( \Vert V \Vert \right)$.  
+Projection graphs with $\Vert V \Vert$ nodes at most has  $\frac{(\Vert V \Vert-1)(\Vert V \Vert-2)}{2}$ that is in order of $\mathcal{O} \left( \Vert V \Vert ^2 \right)$.  
 
 In general, the goal of this thesis is not to develop an algorithm for subgraph mining. 
 This has been widely studied in computer science and different algorithms and packages have been developed for this. 
@@ -651,31 +651,257 @@ This threshold is a hyper-parameter of the algorithm\footnote{We always set this
  gSpan orders graphs in a graph set with respect to their structures and then adapts a depth-first-search search strategy to extract frequent connected subgraphs efficiently. 
  It starts with small subgraphs and simultaneously expands subgraphs and check the frequency of subgraph. 
 
+\textbf{
  [It seems the efficiency of gSpan is when you have a threshold, by setting this to zero it has to extract all possible patterns, so the method is still expensive..]
+}
 
 
+\section{Coherence Modeling}
+\label{sec:automatic_extraction}
+%
+Given a corpus of documents, we employ the entity graph to represent the entity distribution between sentences of each document in the corpus. 
+We apply a one-mode projection on each entity graph to obtain an unweighted projection graph (i.e. $P_U$) over the sentence nodes of the entity graph. 
+$P_U$ models the overall entity-based connectivity among sentences of a document. 
+We extract all possible k-node subgraphs (i.e. coherence patterns) that occur in the projection graphs associated to documents in the corpus. 
+k is a parameter of the model that controls the size of subgraphs. 
+Controlling the size of subgraphs mainly helps to run the subgraph mining algorithm more efficiently in terms of computational time and number of subgraphs. 
+More over, small subgraphs are more likely to occure in larger subgraphs. 
+Therefore consdering subgraphs with different sizes result in subgraphs whose frequencies might be correlated. 
+These type of features are advised to be split up in machine learning methods. 
+
+Assuming that $m$ coherence patterns are mined from all projection graphs, the coherence of a document is encoded as a vector of frequencies of the $m$ mined patterns in the projection graph representation of the document. 
+Therefore the coherence of a document, $d$, will be represented by a vector as follows:
+
+\begin{equation}
+<f_0,f_1,f_2,...,f_m>
+\end{equation}
+%
+where $f_i$ represents the frequency of the $i^{th}$ pattern, out of $m$ mined patterns, in the projection graph representation of document $d$. 
+
+Similar to what is explained in the entity grid model \cite{barzilay08b}, these feature vectors can be employed by machine learning models in two ways. 
+A machine learning model during training learns to map feature vectors to  scores, which can be interpreted as coherence scores, such that scores of  coherent texts be higher than those of incoherent ones. 
+More formally, given two documents $d$ and $d^\prime$ where $d$ is more coherent than $d^\prime$, then 
+
+\begin{equation}
+\beta ( d_v) > \beta (d^\prime_v)
+\end{equation}
+%
+where $d_v$ and $d^\prime_v$ are the feature vectors representing the coherence property of these documents, and $\beta$ is a paramateric function whose parameters are trained by a machine learning model like Support Vector Machine (SVM).
 
 
+\subsection{Coherence Patterns}
+\label{subsec:coherence_patterns}
+%
+As we explained above, we limit the size of extracted subgraphs from all projection graphs by defining parameter k that is the number of nodes in subgraphs. 
+
+In this chapter, we investigate the usefulness of these patterns for coherence modeling. 
+We limit the size of coherence patterns to sets of subgraphs. 
+One set consists of subgraphs that has three nodes, henceforth 3-node subgraphs, the other set contains subgraphs with four nodes, we refer to them 4-node subgraphs. 
+There is not any criteria on the number of edges in subgraphs, except that the subgraphs should be connected. 
+
+We begin with extracting 3-node subgraphs in order to examine the soundness of mined coherence patterns.  
+3-node subgraphs are the smallest meaningful patterns that can model the connectivity style of sentence nodes in projection graphs. 
+There is only one 2-node subgraph, ($\lbrace a,b \rbrace,\lbrace \left( a, b\right) \rbrace$), that its frequency is the number of edges in each projection graph that has the same interpretation as the average outdegree applied by the entity graph model.  
+We believe that if the connectivity style of projection graphs of coherent texts are similar to each other and different with projection graphs of incoherent texts, 3-node subgraphs should capture this. 
+This hypothesis is evaluated in Section \ref{}.
+
+However, 3-node subgraphs are too small and they are likely to occur in most projection graphs in a graph set. 
+We hypothesis that larger subgraphs better captures the connectivity style of projection graphs than the 3-node subgraphs, while 3-node subgraphs are easier for interpretation. 
+In this chapter, we extract 4-node subgraphs to have a better representation of the connectivity style of projection graphs. 
+Our experiments in Section \ref{} evaluates our hypothesis in this part, that is larger subgraphs, specifically 4-node subgraphs, are better representative for connectivity of nodes of projection graphs and therefore the perceived coherence of texts in corpus in comparison with 3-node subgraphs.
 
 
-
-
-
-Subgraph features are divided into two categories: basic subgraphs and frequent large subgraphs.
-
-\textbf{Basic subgraphs.} Instead of frequent subgraphs all possible 3-node subgraphs (Figure \ref{f:all_3node_subgraphs}) are used as
-basic subgraphs because they are the smallest meaningful subgraphs that can model coherence patterns. 
-
-Because backward edges never occur in one-mode projections, only four subgraphs are feasible (Figure \ref{f:feasible_3node_subgraphs}).
-
-%\input{figures/feasible_3node_subgraphs}
-
-We interpret these subgraphs as follows:
-
+\section{Experiments}
+\label{sec:experiments}
+%
+In this section, we evaluate threefold:
 \begin{itemize}
-\item \boldmath{$sg_1$}: The connection between a sentence and subsequent ones. In other words, at least two entities are mentioned in one sentence and the subsequent ones are about these entities.
+	\item How well average outdegree, the coherence metric defined in the entity graph model, does encode coherence?
+	\item How valid is our assumption that the frequencies of our smallest coherence patterns, i.e. 3-node subgraphs, contribute to coherence modeling?
+	\item How valid is this assumption that 4-node coherence patterns better represent the connectivity style of the projection graphs and therefore coherence in comparison with 3-node subgraphs?
+	\item Are these novel coherence patterns and their frequencies as coherence features better predictive than the average outdegree for coherence?
+\end{itemize}
 
-\item \boldmath{$sg_2$}: Indicates that entities in $s_t$ and $s_u$ get connected to each other in $s_v$.
+As we discussed in Chapter \ref{}, coherence is better to be evaluated in an extrinsic fashion. 
+It is mainly because annotating texts for coherence is quite expensive and controlling all conditions for annotators is very difficult. 
+In this chapter, we focus on two extrinsic evaluation tasks: readability assessment and automatic text summarization. 
+The former one is used to evaluate the predictive power of different proposed coherence features by computing the correlation between the values of the coherence features and the readability scores assigned by human judges. 
+We also check how well coherence features can rank documents with respect to their readability level. 
+The latter task is a specific instance of text generation, where a subset of informative sentences in a document should be extracted and presented in a proper order to generate a coherence and readable summary. 
+In this experiment, we evaluate the capabilities of our coherence patterns in producing coherent summaries. 
+We show that by integrating our coherence patterns into a graph-based document summarizer \cite{parveen15}, the performance of the summarizer improves in terms of ROUGE metrics and human qualitative evaluations.
+
+\subsection{Readability Assessment}
+\label{subsec:readability_assessment}
+%
+Readability assessment is about how well a text is understandable for its readers? 
+It is a challenging problem because various factors affect the processing time of a text for its readers including both text properties (such as syntactic and semantic features) and reader's abilities (e.g., the background knowledge of readers). 
+Possible applications of readability assessment are automatic text summarization and simplification systems. 
+Measuring readability can also be used in question answering and knowledge extraction systems to prune texts with low readability \cite{kate10}.
+Obviously, Many different text features can be used to assess readability including shallow features \cite{flesch48,kincaid75}, language modeling features \cite{siluo01,collins-thompson04}, syntactic features \cite{schwarm05} and text flow or coherence \cite{barzilay08,pitler08}.
+In this work, the readability assessment task  basically investigates the application of coherence features to quantify the difficulty of text understanding.  
+In a coherent text each sentence has some connections with other sentences. 
+Although these local connections make texts easier to read, the coherence features introduced by the entity grid model \cite{barzilay08b} and evaluated in \newcite{pitler08} are not strongly correlated with human judgments. 
+It has been shown that the entity graph representations of entities across sentences of texts better encode the entity-based relations between sentences (More details in  chapter \ref{}). 
+Here, we investigate if the average outdegree metric, and our coherence features that are defined based on the entity graph representations of texts are correlated with human readability judgments. 
+
+Here, we need to emphasis that readability is beyond coherence. 
+This is why we do not use coherence features to predict the  readability scores associated with documents. 
+However, because coherence is one of the crucial factors in readability assessment, easier-to-read texts imply to be more coherent as well. 
+We expect that the values of coherence features show a strong correlation with readability scores associated to documents. 
+In another experiment, we also check how well we can rank documents with respect to their readability if only coherence has been taken into account. 
+
+\subsubsection{Data}
+%
+We use the dataset created by \newcite{pitler08} which consists of thirty randomly selected articles from the Wall Street Journal corpus intended for an educational adult audience. 
+
+We exclude three articles from the dataset. 
+One article is poem and is removed in order to analyze articles with the same style. 
+Two other articles are missing in the new versions of Penn Discourse Treebank.
+The complete list of article IDs and their associated readability scores are presented in Appendix \ref{}.
+% : \texttt{wsj\--0382} does not exist in the Penn Treebank \cite{marcus94}. 
+% \newcite{pitler08} also remove one file from their experiments. 
+% We assume that it is  \texttt{wsj\--0382}.}. 
+% \texttt{wsj\--2090} does not exist in the Penn Discourse Treebank \cite{prasad08a}. 
+% \texttt{wsj\--1398} is a also poem.
+
+
+The articles were rated by three human judges on a scale from $1$ to $5$, higher is better, for readability based on quality measures that are designed to estimate the coherence of articles. 
+Each judges was given unlimited time to read the texts and perform the ratings. 
+Human judges received following questions \cite{pitler08}:
+\begin{itemize}
+	\item How well-written is this article?
+	\item How well does the text fit together?
+	\item How easy was it to understand?
+	\item How interesting is this article?
+\end{itemize} 
+ 
+\newcite{pitler08} explain that since most of the time judges gave the same rating to all questions, they only consider the given rates for the first question (How well-written is this article) and then the average if rates are taken as the final score. 
+This is the reason that they use this scores for coherence evaluations as well \cite{pitler08}.  
+The final readability score of each article is the average of these three ratings.
+
+This dataset is more realistic than the one used in the previous chapter for predicting readability level.  
+Mainly because these articles appeared in the Wall Street Journal and are aimed at the same target audience. 
+
+\textbf[Do you have some statistics about the dataset. If so put it here. Read Pitler and Nenkova paper for one more time. You can also add a text from the corpus and its associated score. ].
+
+
+
+\subsubsection{Feature Analysis}
+\label{subsubsec:feature_analysis}
+%
+The goal of this experiment is to investigate the correlation of different coherence features with coherence features are correlated with the associated readability scores with the articles. 
+To this end, we represent each article in the dataset by its entity graph, where entities are obtained heuristically by string match between all nouns in articles. 
+We apply a one-mode projection to obtain unweighted projection graphs. 
+This projection graph models the entity-based connectivity between sentences of articles. 
+Given the corresponding projection graphs of articles in corpus, we compute the Pearson correlation between the value of a feature and associated readability scores to articles. 
+
+The Pearson correlation coefficient is a measure of the linear correlation between values of two variables. 
+Here variables are a coherence feature and the readability ratings assigned to articles by humans. 
+The Pearson correlation coefficient, $\rho$, ranges between $-1$ and $+1$ where a high absolute value of $\rho$ shows a strong correlation between variables. 
+The sign of $\rho$ indicates the direction of relationships between examined variables. 
+In extreme cases, $+1$ shows a total positive linear correlation, $0$ is no linear correlation, and $-1$ is total negative linear correlation. 
+The Pearson correlation also measures how statistically significant examined variables are correlated. 
+This measure is referred to by $p_{value}$. 
+We consider correlations with $p_{value} < 0.01$ statistically significant. 
+Appendix \ref{} explains more mathematical details of Pearson correlation.
+
+We compare following features with each others: average outdegree, the number of components in projection graphs, frequencies of 3-node patterns, frequencies of 4-node patterns. 
+
+
+
+\paragraph{Implementation Details.} In order to be compatible with the entity grid features that are used by \newcite{pitler08}, we also use the gold parse trees in the Penn Treebank (Marcus et al., 1994) to extract all nouns in an  article as mentions. 
+All nouns with identical stems are taken coreferent. 
+
+\textbf{[TO DO. DO you use brown coherence toolkit? Did you implement this in JAVA?]}
+
+We used the a Java implementation of the gSpan algorithm that is publicly available\footnote{http://www.cs.ucsb. edu/\~xyan/software/gSpan.htm}. 
+This package counts all subgraphs regardless of this fact that a subgraph is induced or not. 
+Since we are interested in only subgraphs we employed sage-Math\footnote{\url{http://sagemath.org/download- linux.html}} for graph processing. 
+Induced subgraphs counting is done by this package. 
+For computing the correlation between feature values and readability scores we use the Pearson correlation implemented in ``scipy'' package in python 2.7. 
+
+
+\paragraph{Mined Coherence Patterns.} 
+Figure \ref{fig:feasible_3node_subgraphs} shows mined coherence patterns with three nodes. 
+\begin{figure}[!t]
+\centering
+\resizebox{1.0\columnwidth}{!}{
+\begin{tabular}{@{}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{}}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subgraph 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tikzpicture}  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {$s_t$};
+         \node [sentence] (s2) at (2,2) {$s_u$};
+         \node [sentence] (s3) at (1,0) {$s_v$}; 
+         \path[edge,->] (s1) edge  (s2);
+         \path[edge,->] (s1) edge  (s3);
+        \end{scope}        
+      \end{tikzpicture}
+&
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subgraph 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \begin{tikzpicture} 
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {$s_t$};
+         \node [sentence] (s2) at (2,2) {$s_u$};
+         \node [sentence] (s3) at (1,0) {$s_v$}; 
+         \path[edge,->] (s1) edge  (s3);
+         \path[edge,->] (s2) edge (s3);
+        \end{scope}        
+      \end{tikzpicture}
+
+&
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subgraph 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \begin{tikzpicture}
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+         \node [sentence] (s1) at (0,2) {$s_t$};
+         \node [sentence] (s2) at (2,2) {$s_u$};
+         \node [sentence] (s3) at (1,0) {$s_v$}; 
+         \path[edge,->] (s1) edge (s2);
+         \path[edge,->] (s2) edge (s3);
+        \end{scope}        
+      \end{tikzpicture}
+      
+      
+ &
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subgraph 7 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \begin{tikzpicture}  
+        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
+        \tikzstyle{edge}=[draw, thick]
+       \begin{scope}
+        \node [sentence] (s1) at (0,2) {$s_t$};
+         \node [sentence] (s2) at (2,2) {$s_u$};
+         \node [sentence] (s3) at (1,0) {$s_v$};
+         \path[edge,->] (s1) edge (s2);
+         \path[edge,->] (s1) edge (s3);
+         \path[edge,->] (s2) edge (s3);
+         
+        \end{scope}        
+      \end{tikzpicture} 
+\\
+
+$sg_1$& $sg_2$ & $sg_3$ & $sg_4$
+\end{tabular}
+}
+\caption{Feasible 3\--node subgraph coherence features.}
+\label{fig:feasible_3node_subgraphs}
+\end{figure}
+%
+We interpret these patterns as follows:
+\begin{itemize}
+\item \boldmath{$sg_1$}\textbf{:} 
+A sentence is connected with two subsequent sentences.
+More precisely, at least two entities are mentioned in one sentence and the subsequent ones are about these entities.
+
+\item \boldmath{$p_2$}\textbf{:} 
+The connection between two sentences is made by a sentence that comes after those sentences. 
+This patterns indicates that entities in $s_t$ and $s_u$ get connected to each other in $s_v.
 
 \item \boldmath{$sg_3$}: Each sentence tends to refer to the most prominent entity (focus of attention) in preceding sentences \cite{sidner83,grosz95}. 
 The absence of a connection between $s_t$ and $s_v$ indicates that the entity connecting $s_t$ and $s_u$ is different from the entity connecting $s_u$ and $s_v$. 
@@ -700,51 +926,11 @@ The cell $\langle G_i,sg_j\rangle$ shows the count of $sg_j$ in graph $G_i$. Giv
 each element of the graph signature as a coherence feature.
 
 
-
-
-\section{Coherence Modeling}
-\label{sec:automatic_extraction}
-
-
-
-\section{Experiments}
-\label{sec:experiments}
-
-    \subsection{Readability Assessment}
-    \label{subsec:readability_assessment}
-
-
-        Readability depends on many factors which enable readers to process a text. 
-        These factors can be used by readability assessment methods to quantify the difficulty of text understanding. 
-        Possible applications of readability assessment are automatic text summarization and simplification systems. Measuring readability can also be used in
-        question answering and knowledge extraction systems to prune texts with low readability \cite{kate10}.
-        
-        Many different text features have been used to assess readability. 
-        They include shallow features \cite{flesch48,kincaid75}, language modeling features \cite{siluo01,collins-thompson04}, syntactic features \cite{schwarm05} and text flow or coherence \cite{barzilay08,pitler08}. 
-        In a coherent text each sentence has some connections with other sentences. 
-        Although these local connections make the text more readable, the corresponding coherence features used
-        in \newcite{pitler08} (Section \ref{sec:readability_assessment}) are not strongly correlated with human judgments.
-
-
-            \subsubsection{Data}
-            %
-            We use the dataset created by \newcite{pitler08} which consists of randomly selected articles from the Wall Street Journal corpus. 
-            The articles were rated by three humans on a scale from $1$ to $5$ for readability based on quality measures that are designed to estimate the coherence of articles. The final readability score of each article is the average of these three ratings.
-            
-            We exclude three files from this dataset: \texttt{wsj\--0382} does not exist in the Penn Treebank \cite{marcus94}\footnote{\newcite{pitler08} also remove one file from their experiments. 
-            We assume that it is  \texttt{wsj\--0382}.}. \texttt{wsj\--2090} does not exist in the Penn Discource Treebank \cite{prasad08a}. \texttt{wsj\--1398} is a poem.
-
-
-
-
 % These patterns are encoded as subgraphs in graphs. 
 % An advantage is that coherence can be measured beyond simple sentence or node connectivity.  
 
 \subsubsection{Settings}
 %
-
-
-
 \textbf{Frequent subgraphs.} Since subgraph mining is an NP-complete problem, different algorithms have been introduced to
 improve the performance of subgraph mining. 
 We use the gSpan\footnote{We use the Java package: \url{http://www.cs.ucsb.edu/~xyan/software/gSpan.htm}} algorithm \cite{yanxifeng02} to mine subgraphs of a graph dataset which contains $P_u^{ER}$ projections. 
@@ -760,10 +946,6 @@ We mine subgraphs with $k=4$. (Figure \ref{4node_subgraphs}).
 %\input{figures/4node_subgraphs}
 %\caption{Frequent subgraphs with four nodes where $t<u<v<w$.}\label{4node_subgraphs}
 %\end{figure}
-
-
-%
-
 
 
 \subsubsection{Results}\label{subsec:results}
