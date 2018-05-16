@@ -242,28 +242,81 @@ out edges whose weights are below a threshold\footnote{We set this threshold to 
 \label{f:sent_rel}
 \end{figure}
 
-\subsection{Coherence Features} 
-\newcite{mesgar15} propose that the connection style of an entity
-graph can be captured by the frequency of all \knode\ subgraphs in
-this graph. Larger\footnote{The size of a subgraph is the number of
-  its nodes.} subgraphs\footnote{We compute \emph{induced
-    subgraphs} \cite{mesgar15}. However, we use the term
-  \emph{subgraph} for brevity.} can capture more information about the
-structure of graphs and are more informative coherence patterns than
-smaller ones. We experiment with $k \in \{3,4,5,6\}$. Text coherence is
-represented by a vector whose elements are the frequency of subgraphs
-(coherence patterns) with \knode.
+\subsection{Coherence Pattern Mining} 
+In the previous chapter, we showed that how the connectivity style of entity graphs can be captured by frequencies of their subgraphs. 
+We employed gSpan, a subgraph mining algorithm, to extract 3-node and 4-node subgraphs from all projection graphs. 
+We observed that 4-node subgraphs can capture more information 
+about the structure of graphs than 3-node subgraphs. 
+
+In this section, we use a similar approach to capture the connectivity style of a lexical graph. 
+We represent each document of a corpus by its lexical graph; and then we apply a subgraph mining approach to extract all subgraphs occurring in lexical graphs of documents. 
+Following the previous chapter, we use the notation \knode
+ to refer to the size, the number of nodes, that are set for extracting subgraphs. 
+We refer to extracted subgraphs from lexical graphs as coherence patterns. 
+
+The coherence of a document is captured by a vector whose elements are frequencies of coherence patterns (coherence patterns) with \knode. 
+
+
+Considering the results of experiments in the previous chapter, 
+by increasing the size $k$ of subgraphs, patterns capture more
+structural information about the connections of nodes. 
+However, we suspect that there is a main risk with large subgraphs that is sparsity. 
+Given graph representations of documents, large subgraphs are very likely to  occur in few graphs.  
+In other words, they have zero frequency in most graphs. 
+Small subgraphs occur frequently in many graphs (so a nonzero frequency in most graph) but
+they are not as informative as large subgraphs about the
+connectivity style of graphs. 
+In order to gain a better insight about the influence of the pattern's size on the predictive power of coherence pattens, we experiment with $k \in \{3,4,5,6\}$ in this chapter.   
+We adopt the \mbox{Kneser-Ney} smoothing in language models \cite{heafield13} to solve the sparsity problem of large coherence patterns. 
+The \mbox{Kneser-Ney} smoothing enables the model to estimate the frequency of a large subgraph that does not occur in a graph based on frequencies of smaller subgraphs in the graph. 
+To do so, we need to extract all possible connected and disconnected \knode subgraphs as coherence patterns.  
+gSpan does not support this, so we apply a sampling method for  mining patterns in this chapter. 
+Sampling method is also more efficient than gSpan specially for extracting large subgraphs, because mining and counting are performed at simultaneously.  
+
+\paragraph{Pattern Mining: Sampling. }
+In order to extract \knode subgraphs and compute frequencies of them, we resort a sampling approach.  
+The hope is that if a sufficient number of samples are drawn, then the empirical distribution is close to actual distributions of patterns in a graph. 
+This approach is not new and the problem of sampling subgraphs from graphs has been widely studied \cite{weissman03,shervashidze09}. 
+% There is Theorem in graph theories that if $A$ is the set of \knode subgraphs and they are distributed according to an unknown distribution $D$, then the number of samples that are required to ensure that the empirical distribution $D^\prime$  is at most $\epsilon$ distant from the true distribution with confidence $1- \delta$ is:
+% \begin{equation*}
+% m =  \lceil \frac{2 (log2.a + log( \frac{1}{ \delta}))}{ \epsilon^2} \rceil . 
+% \end{equation*}
+%
+We follow Algorithm \ref{alg:graph_sampling} to extract and count subgraphs in lexical graphs. 
+Function $\mathtt{Generate}$ performs the sampling task by selecting $k$ random nodes and their edges from its input graph. 
+Function $\mathtt{GetID}$ compares its input subgraph with each pattern in a pattern list and return the index of a pattern that is isomorphic with the sample. 
+This algorithm assumes that all possible k-node subgraphs are extracted in advance.  
+
+
+
+\begin{algorithm}
+    \begin{algorithmic}[1]
+        \Require{A list of graphs $L$, a list of k-node patterns $P$, a pattern size $k$, a sampling threshold $\mathtt{MAX}$, a function $\mathtt{Generate}$, a function $\mathtt{GetID}$}
+        \Function{SubgraphSampling}{$L, P, k, \mathtt{MAX}, \mathtt{Generate},\mathtt{GetID}$}
+            \State{Set $N_l$ to the number of graphs in $L$}
+            \State{Set $N_p$ to the number of patterns in $P$}
+            \State{Set $C[0..N_l][0..N_p] = 0$}
+            \State{Set $t = 0$}
+            \While{$ t <  N_l$} 
+                \State{Set $ g = L[t]$}
+                \State{Set $count = 0$}
+                \While{$ count <  \mathtt{MAX}$} 
+                  \State{Set $s = \mathtt{Generate}(g,k)$}
+                  \State{Set $p = \mathtt{GetID}(P,s)$}
+                  \State{Set $C[t][p] = C[t][p] + 1$}
+                  \State{Set $count = count + 1$}
+                \EndWhile
+                \State{Set $t = t + 1$}
+            \EndWhile
+        \EndFunction
+        \Ensure{$C$}
+    \end{algorithmic}
+    \caption{Subgraph sampling.}
+    \label{alg:graph_sampling}
+\end{algorithm}
+
 
 \subsection{Smoothing} 
-% 
-Although increasing the size $k$ of subgraphs captures more
-structural information about the connections of sentence nodes, a
-main risk with large subgraphs is sparsity. Given a sentence graph,
-many large subgraph types do not occur in this graph.  Small subgraph
-types occur frequently in most sentence graphs in the dataset, but
-these subgraphs do not capture enough information about the
-connectivity style of the graphs.
-
 Inspired by Kneser-Ney smoothing in language models \cite{heafield13},
 each feature vector of a sentence graph can be smoothed. Smoothing
 deals with the problem of zero counts in the feature vector.  It also
