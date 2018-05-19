@@ -478,5 +478,70 @@ In annotation projection, instead of source language terms being mapped into the
 
 Louis and Nenkova (2012) introduced an HMM system in which the coherence between adjacent sentences is modeled by a hidden Markov framework captured by the transition rules of different topics. 
 
+\section{Related Work}
+\label{sec:lcg_	related_work}
+The entity grid model \cite{barzilay08} is based on entity transitions
+over sentences. It uses a two dimensional matrix to represent
+transitions of entities among adjacent sentences. The entity grid is
+applied to readability assessment by \newcite{pitler08}. The entity
+graph \cite{guinaudeau13} is a graph-based, mainly unsupervised
+interpretation of the entity grid. This model represents the
+distribution of entities over sentences in a text with a bipartite
+graph. Connections between sentences are obtained by information on
+entites shared by sentences. \newcite{guinaudeau13} perform a one-mode
+projection on sentence nodes and use the average out-degree of
+the one-mode projection graph to quantify the coherence of the given
+text. \newcite{mesgar15} represent the connectivity of the one-mode
+projection graph by a vector whose elements are the frequencies of
+subgraphs in projection graphs. This encoding works much better
+than the entity graph for the readability task on the \emph{P\&N}
+dataset and even outperforms \newcite{pitler08} by a large margin.
+\newcite{zhangmuyu15} state that the entity graph model is limited,
+because it only captures mentions which refer to the same entity (the
+entity graph uses a very restricted version of coreference resolution
+to determine entities). \newcite{zhangmuyu15} use world knowledge
+\emph{YAGO} \cite{hoffart13}, \emph{WikiPedia} \cite{denoyer06} and
+\emph{FreeBase} \cite{bollacker08} to capture the semantic relatedness
+between entities even if they do not refer to the same entity. Main
+issues with using world knowledge are: the choice knowledge sources, selection of knowledge from the source, coverage, and language-dependence.
+
+Word embedding approaches like \emph{word2vec}\ and \emph{GloVe}\
+\cite{mikolov13c,pennington14} show that the semantic connection
+between words can be captured by word vectors which are obtained by
+applying a neural network. The ability to train on very
+large data sets allows the model to learn complex relationships
+between words.
+
+The entity grid model \cite{barzilay08} is based on entity transitions
+over sentences. It uses a two dimensional matrix to represent
+transitions of entities among adjacent sentences. The entity grid is
+applied to readability assessment by \newcite{pitler08}. The entity
+graph \cite{guinaudeau13} is a graph-based, mainly unsupervised
+interpretation of the entity grid. This model represents the
+distribution of entities over sentences in a text with a bipartite
+graph. Connections between sentences are obtained by information on
+entites shared by sentences. \newcite{guinaudeau13} perform a one-mode
+projection on sentence nodes and use the average out-degree of
+the one-mode projection graph to quantify the coherence of the given
+text. \newcite{mesgar15} represent the connectivity of the one-mode
+projection graph by a vector whose elements are the frequencies of
+subgraphs in projection graphs. This encoding works much better
+than the entity graph for the readability task on the \emph{P\&N}
+dataset and even outperforms \newcite{pitler08} by a large margin.
+\newcite{zhangmuyu15} state that the entity graph model is limited,
+because it only captures mentions which refer to the same entity (the
+entity graph uses a very restricted version of coreference resolution
+to determine entities). \newcite{zhangmuyu15} use world knowledge
+\emph{YAGO} \cite{hoffart13}, \emph{WikiPedia} \cite{denoyer06} and
+\emph{FreeBase} \cite{bollacker08} to capture the semantic relatedness
+between entities even if they do not refer to the same entity. Main
+issues with using world knowledge are: the choice knowledge sources, selection of knowledge from the source, coverage, and language-dependence.
+
+Word embedding approaches like \emph{word2vec}\ and \emph{GloVe}\
+\cite{mikolov13c,pennington14} show that the semantic connection
+between words can be captured by word vectors which are obtained by
+applying a neural network. The ability to train on very
+large data sets allows the model to learn complex relationships
+between words.
 
 
