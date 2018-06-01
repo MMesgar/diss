@@ -1,0 +1,220 @@
+% for sublime text 3
+%!TEX root = diss.tex
+
+\chapter{Coherence Modeling}
+\label{ch:coherence}
+
+Local coherence modeling is a crucial task for natural language processing with varying specifications over the years. 
+This chapter gives related linguistic definitions, which are related to the task that is tackled in this thesis. 
+
+
+\section{Problem Definition}
+\label{sec:coh-def}
+
+In this thesis, we tackle the problem of local coherence modeling. 
+The popular definition of this task is to model how sentences in a text are related one another. 
+This task has been the focus of the majority work in text processing (see Section \ref{sec:related_work}). 
+Variations of the task consider different types of relations, such as rhetorical \cite{hovyeduard89} or lexical \cite{morris91}, between different spans of texts, such as clauses \cite{strube.col98} or sentence \cite{halliday76}, in various text types, such as dialogue \cite{wangxinhao13} or monologue \cite{barzilay08}. 
+Here we give a formal definition of this problem, which will be used in the following chapters of this thesis. 
+
+\subsection{Formal Modeling}
+
+In order to provide a formal definition of the task, i.e.\ local coherence modeling in texts, we first need to give a definition of what we refer to as a text. 
+In this thesis, the word text refers to formal written and monologue sequence of sentences that transmit a meaning as a whole.  
+We assume that a text consists of more than one sentence. 
+
+\begin{definition}
+Text $T$ is a sequence of finite number of sentences $[s_0, s_1, s_2, ..., s_n]$ where the number of sentences is greater than 1, $n>0$.   
+\end{definition}
+
+Each sentence in the above definition of a text is a list of words that form a sentence structure. 
+
+\begin{definition}
+Sentence $s_i$ is a sequence of words $[w_0, w_1, w_2, ... , w_n]$ that form a sentence structure in the language. 
+\end{definition}
+
+An underlying assumption in research on text processing is that a text is more than the sum of its sentences. 
+It is not sufficient to collect an arbitrary sequence of sentences in order to obtain a text. 
+Sentences in a text are supposed to be related to one another to make a whole. 
+
+\begin{definition}
+A relationship function $R(s_i,s_j)$ indicates whether two given sentences in a text are related. 
+The domain of this function is sentences in a text and its range is a binary value $
+\lbrace 0,1\rbrace$. 
+\end{definition} 
+
+Having the above definition, relationships across all sentences in a text can be represented by a set $P$ containing relationships between any pairs of sentences in the text. 
+
+\begin{definition}
+Let $r_{ij}= R(s_i,s_j)$ indicates the relationship between a sentence pair $(s_i,s_j)$ in a text $T$, the set $P$ contains all $r_{ij}$ for any pair of sentences in $T$.
+\end{definition}  
+
+Although we define $P$ as a set but it can be partially structured, e.g.\ when sentence $s_i$ has to proceed sentence $s_j$ in a text. 
+
+
+The distinction between texts with respect to their coherence is in the last resort a matter of degree \cite{haliday76}: Which one is more coherent? 
+In order to rank texts with respect to their coherence, we need to capture patterns that frequently occur in well-written texts, and rarely in less coherent ones.  
+Coherence patterns are template of relationships among sentences in texts, such that their frequencies assist to distinguish coherent texts from incoherent ones. 
+
+\begin{definition}
+A coherence pattern is a subset of relations $p \subseteq P$ occurring among sentences of a text.   
+\end{definition}
+
+We define a function to model how coherence patterns are extracted from a corpus of texts. 
+
+\begin{definition}
+Given a corpus $C$ which includes texts with different degrees of coherence, a pattern mining method $M$ extracts all subsets of relations that occur in texts in $C$. 
+\end{definition} 
+
+The output of the pattern mining process on a corpus of texts is a set of coherence patterns. 
+The coherence of a text can be modeled by a vector of frequencies of these patterns in the text. 
+
+\begin{definition}
+Let $P=\lbrace p_0,p_1,p_2,...,p_m \rbrace$ be a set of extracted patterns from a corpus of texts $C$, the perceived coherence of each text $T$ is represented by a vector $\phi = <f_0, f_1, f_2,...,f_m>$, where $f_k$ is the frequency of pattern $p_k$ in text $T$. 
+\end{definition}
+
+Having vector representations of coherence lets us to employ machine learning models to rank texts. 
+In Chapter \ref{ch:rel_work}, we describe different approaches to modeling relationships between a pair of sentences, i.e.\ $R(s_i,s_j)$, and how they represent the set of all relations in a text $P$.  
+There, we also review how method $M$ is derived by different computational models. 
+We employ a powerful representation method from the literature and develop our approach for extracting coherence patterns in Chapter \ref{ch:coh_patterns}. 
+We further improve the predictive power of coherence patterns by a new approach to relationship representation among sentences $P$ in Chapter \ref{ch:lex_graph}. 
+
+\section{The Linguistics of Coherence}
+
+The aforementioned formal definition of the problem is sufficient for the research in this thesis to develop a representation of cohesive relations in a text, and extract coherence patterns. 
+However, since coherence is a semantic property of a text, the definition needs to be related with linguistic properties of a text. 
+
+Our aim is to develop an approach which provides a representation of the coherence of a text. 
+Therefore we need to understand what aspects in sentences serve to relate sentences and how coherence patterns are modeled in linguistics of coherence. 
+Therefore, we explain related linguistic properties that are required to complete our definition. 
+
+
+\subsection{Text}
+
+The first definition in our formal model of coherence is about text. 
+In linguistic research the word ``text'' is used to refer to any passage, spoken or written, of whatever length that forms a unified whole \cite{halliday76}. 
+In this thesis, we follow other coherence models \cite{barzilay08,guinaudeau13} and use the word ``text'' to denote a merely monologue written passage, which is more than one sentence.
+One sentence texts, of course, do exist, like public notices, proverbs and advertising slogans and the like. 
+An a sample text in Example \ref{ex:coh-one-sent-text}\footnote{Taken from \url{https://www.engvid.com/english-resource/50-common-proverbs-sayings/}, accessed 1 June 2018.}: 
+
+\begin{examples}
+    \label{ex:coh-one-sent-text}
+    A journey of a thousand miles begins with a single step.
+\end{examples}
+
+However, due to texts consisting of one sentence only are fairly rare, we assume texts contains several sentences.  
+We also assume that texts are written in a formal language, in contrast to informal like tweets\footnote{A post made on the social media application Twitter}. 
+
+\subsection{Coherence}
+
+Coherence is crucial factor of well-written texts, which make them distinguishable from an unrelated sequence of sentences. 
+We follow \newcite{stede12} and define coherence as a property of a text that is designed around a common topic. 
+A coherent text discusses a sequence of topics in a structured way that a reader can recognize and relate to one another, and collectively render the text as a unified whole. 
+Each topic is tending to occupy a (topic) segment of the text \cite{hearst97}.  
+Coherence is defined based on the relations and structures of topic segments in a text. 
+This structure is sometimes referred to as global, since it is coarse-grained and spans the entire text. 
+In general, however, definition the notion of topic, and recognizing topics and the boundaries between the text segments corresponding to them are not straight forward \cite{stede12} (see Chapter \ref{ch:rel-work} for related work). 
+
+From the linguistic viewpoint, of a coherent text employs linguistic devices, more-readily identifiable linguistic signals, to relate sentences of a text to each other. 
+These devices signal readers to interpret each sentence considering its relations with other linked sentences \cite{vandijk77}. 
+Therefore, understanding the text implies uncovering these relationships.  
+The way that linguistic devices are used to relate sentences in a text is known as local coherence. 
+In some literature in text linguistics \cite{halliday76}, this phenomena is referred to as cohesion.   
+\newcite{stoddard91} (chapter 2) argues that these two are not distinguishable and can be used interchangeably. 
+\newcite{stede12} stats that signals of cohesion or local coherence serve as indicators of topic continuity, consequently the absent of a surface relation is a sign of topic shift. 
+Sine the research in this thesis is about modeling local coherence, henceforth we refer to it as coherence, unless this is not clear from the context. 
+
+Prominent cohesive devices can be grouped in grammatical and lexical relations between elements of sentences \cite{halliday76}. 
+Grammatical relations are reference, substitution, ellipsis and conjunctions. 
+Lexical relations include any lexical-semantic relation, such as repetition, synonym, antonym, and the like, between words of sentences. 
+Reference cohesive devices are also known as entity-base relations, with this intuition that related sentences in a text keep referring to the same named entity. 
+One of the popular entity-based frameworks for local coherence modeling is Centering Theory \cite{grosz95}, which is successful operationalized by the model proposed by \newcite{barzilay05a, barzilay08}. 
+The sample text in Example \ref{ex:coh-ref} shows how an entity-based relation links two sentences. 
+
+\begin{examples}
+	\label{ex:coh-ref}
+
+\end{examples}
+
+The insight of local coherence models based on lexical relation is that content words in a text do not occur independently of one another, but bear semantic similarity because of common topic. 
+Example \ref{} shows a sample text that its sentences are related because of lexical relation: 
+
+\begin{examples}
+	\label{ex:coh-lex}
+	Little boys wriggle all the time. Girls don't. 
+\end{examples} 
+
+We explain related research to lexical, and entity-based relations in Chapter \ref{ch:rel-work}. 
+
+
+% % Lovejoy and Lance (1991), in their study of written discourse, show that cohesion can be achieved through the operation of theme-rheme. 
+% This movement represents how information is managed.
+% According to Lovejoy and Lance (1991), theme is ``the point of departure" for the representation of information" and rheme ``constitutes the information the writer wishes to impact about the theme".
+% % These two elements are presented alternatively in a text to form a connected text. 
+% while theme conveys information that is initially introduced in discourse, rheme presents specific 
+% information regarding the theme. 
+
+
+\section{Evaluation}
+
+% As this movement continues, ideas in a text or discourse are expected to flow along smoothly and are easier for the reader to understand. 
+
+% While old information (theme) is presented as background information in each statement, new information (rheme) is introduced to clarify information in the theme. 
+
+% Morgen and Sellner (1980) emphasize that the cohesion and coherence are independent.  
+
+% Carrel (1982) contends that cohesion does not bring about coherence, but believes that the cohesion is the effect of coherence not a cause of coherence. 
+% From a textual perspective, Hoey (1991) examined how lexical cohesive elements would make a text organized. 
+% He examined how lexical features and syntactic repetition would contribute to cohesion. 
+
+% Within this general framework, cohesion is regarded as an element that accommodates coherence. 
+
+% When a text is cohesive and coherence, it will enable the reader to process information more rapidly. 
+% Hoey claims that ``cohesion is a property of the text and coherence is a facet of the reader's 
+% evaluation of a text". 
+
+% According to Hoey (1991) lexical connections as a major cohesive device constructs a matrix and creates a net of bonds in texts. 
+
+% He proposes that lexical relations can show the relatedness of sentences within a text. 
+
+% Johns (1986) divides coherence into two types: text-based and reader-based. 
+
+% By her definition, text-based coherence refers to an inherent features of the text, which involves cohesion and unity. 
+% This type of coherence involved how sentences are linked and how text is unified. 
+% Reader-based coherence on the other hand requires successful interaction between the reader and the text. 
+
+% In this type, coherence is based on the degree of compatibility between the reader's expectations and the intended meaning through the underlying structure of a text. 
+% Connor and Johns (1990) describe coherent text ``as text in which the expectations of the reader are fulfilled".
+% Readers use her knowledge of the world to interprets a text expecting that their knowledge will correspond to the organization and argument of a text. 
+% The reader relies on this kind of knowledge to anticipate information that will be subsequently presented. 
+% Interacting with readers, a coherent text accommodates the readers expectations of the order of ideas, contributing to the comprehension of the text. 
+% By the same token, as logical ideas are presented through well-connected words and sentence the writer helps readers interpret and process information in a text more easily (Tannen, 1984).
+% Lautamatti (1987) defines the term topic as what the sentence is about and the term comment as information about the topic. 
+% All sentence topics are related in certain ways to the global discourse topic of the text. 
+% The patterns of relations between discourse topics and subtopics are called topical development of discourse. 
+% Grabe (1985) proposes the pragmatic function of coherence. 
+% He identifies three features that are essential to coherence: a discourse theme, a set of relevant assertions relating logically among themselves. 
+% The sentence topic in English is often correlates with grammatical subject and comment often correlates with the grammatical predicate, which bears the sentinel focus. 
+% While patterns of theme and rheme connections can account for only some part of a text, diversity of patterns deal with an entire text. 
+% The theory of cohesive ties introduced by Halliday and Hasan (1976) was modified into a theory of cohesive harmony (Hasan 1984, Haliday and Hasan, 1989). 
+% Due to the limitations of the use of cohesive ties to analyze texts as coherent and well-written, Hasan (1984) formulated a new theory to account for the fact that cohesion contributes to coherence. 
+% In her new approach, coherence is not determined by the type and quantity of cohesive ties that appear in a text, but it is mainly characterized by the degree and frequency of with which these ties interact with each other. 
+% According to this theory, there are two cohesive ties which can interact with each others: those that form identity chain expressed with the use of co-referent entities, and those that form similarity strings expressed through substitution, ellipsis, repetition, synonymy, antonymy, hyponymy, and meronym. 
+% Interaction does occur when one member of a string or chain is in the identical relationship to more than one member of another string or chain.
+
+% An increasing number of researchers and practitioners in NLP face the prospect of havin to work with entire texts, rather than individual sentences. 
+% While it is clear that text must have useful structure, its nature is less clear, making it more difficult to exploit in applications. 
+% Discourse commonly comprises a sequences of sentence although it can be found even within a single sentence. 
+% Within a discourse, the patterns formed by its sentences mean that the whole conveys more than the sum of its separate parts. 
+% Another point  about discourse is that it exploits language  features, which allow speaker to specify that they are talking about something they have talked about before in the same discourse; indicating a realtion that holds between the states, events, beliefs, etc.  presented in the discourse; changing to a new topic or resuming one from earlier in the discourse.
+% Discourse structures are the patterns that one sees in multi-sentence (multi-clausal) texts. 
+% Recognizing these patterns in terms of the elements that compose them is essential to correctly deriving and interpreting information in the text. 
+% The elements may be topic, each  about a set entities and what is being said about them.
+% These type of relations are mainly called as coherence relations by Webber et al. (NLE 2012). 
+% Discourse can be structured by its topics, each comprising a set of entities and a limited range of things being said about them. 
+% Each topic may involve a set of entities, which may (but not have to) change from topic to topic. 
+% This aspect of structure has been modeled as entity chains (Barzilay and Lapata, 2008).
+% Patterns of entity chains can also be characteristic of particularly types of discourse, and therefore be of value in assessing the quality of automatically generated text. 
+% Low-level evidence for the topic structure of discourse comes from the strong correlation between topic and lexical usage, which Halliday and Hasan (1976) call lexical cohesion. 
+% Lexical chains can simply be a matter of the density of related terms within a segment, or of particular patterns of related terms, such as lexical chains (Barzilay and Elhadad 1997; Galley et al, 2003; Clarke and Lapata, 2010) defined as sequence of semantically related words. 
+
