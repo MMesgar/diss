@@ -1,99 +1,145 @@
+% for sublime text 3
+%!TEX root = diss.tex
+
 \chapter{Introduction}
-\label{chapt:intro}
-\begin{quotation}
- 
+\label{ch:intro}
 
-\textbf{A Definition of Text.}
-Having a definition of text is crucial because it contains basic assumptions made by researcher, many studies suffer for the lack of it. 
-``text" is defined from its different perspectives \cite{kantor77,simmons79,bamberg83}.
-One of the most carefully designed definitions of text is that of \newcite{haliday76} that describe a text as a passage of discourse which is:
-\begin{itemize}
-\item a semantic, not a grammatical unit
-\item encoded in sentences, but nor structurally related to them
-\item related to context of situation by a consistency if register
-\item reasonably homogeneous and thus consistent across all texts
-\item characterized by certain linguistic features which are the basic of cohesion in the text and thereby give it texture
-\item not defined by size.
-\end{itemize}
+Research in natural language processing intends to provide models for understanding and generating texts.   
+One crucial aspect in processing of multi-sentence texts is \emph{coherence}, how sentences in a text are related to one another to make the text as a whole. 
+As an example, consider the following text snippet\footnote{Taken from \url{file:///Users/mohsenmesgar/Downloads/sum-docs/D31038.M.100.T.B.html}, accessed 28 May 2018.}:
 
-We use this definition of text in this study as well. 
+\begin{examples}
+A total of 248 people, including a dozen Americans, were killed in the terrorist bombing of the U.S.\ Embassy in Nairobi on August 7, 1998. 
+A twin attack on the U.S.\ Embassy in Tanzania killed 11 people, all Africans. 
+Osama bin Laden is the suspected mastermind of the bombings. 
+Through the Saudis, the United States asked the Taliban, the Islamic movement that controls most of Afghanistan, to deport bin Laden, but they refused. 
+Evidence suggests that the terror suspects accused in the bombings, regardless of their nationality or place of residence, are associates of bin Laden or associated with terrorist groups under his control.
+\end{examples}
 
-\textbf{Refer to Chapter 2 of \newcite{stoddard91} to see her explanation of the cohesion and coherence that are not distinguishable and can be used interchangeably. }
+This text is a summary of several documents provided by a human. 
+All sentences are hanged together such that the whole text transmits a meaning. 
+The first sentence gives some information about ``bombing''. 
+The second sentence takes this information and expands it to another instance. 
+The third sentence uses given information (``bombing'') in its preceding sentences to introduces ``Osama bin Laden'' as new information. 
+The rest of sentences follow a similar structure of relations.  
+The text below\footnote{Taken from \url{file:///Users/mohsenmesgar/Downloads/sum-docs/D31038.M.100.T.16.html}, accessed 28 May 2018.}, which is an automatically generated summary of the same cluster of documents, is less coherent due to its sentences are weakly related. 
+
+\begin{examples}
+Solemn-faced Kenyans, whose relatives were killed in the terrorist bombing of a U.S.\ Embassy, collected benefits on Friday. 
+They said failed to compensate for their losses. 
+Nearly two months after the bombings of the American Embassies in Kenya and Tanzania, a picture of those charged in the case is slowly emerging. 
+Nine months before the attack on the American Embassy here, U.S.\ intelligence officials received a detailed warning that Islamic radicals were plotting to blow up the building, according to Kenyan and American officials. 
+\end{examples}
+
+A coherence model should first represent how sentences in a text are related, and then use the structure of relations to ideally rank and distinguish texts with respect to the perceived coherence of texts. 
+For example, given the above text snippets a coherence model should rank the first text higher, in terms of coherence, than the second one. 
+
+As it has been shown in the above examples, applications of a coherence model are in downstream tasks in natural language processing. 
+One example is readability assessment, in which coherence is employed as an important factor to measure the quality of texts. 
+Coherent texts avoid confusions, so they are easy to read and follow. 
+Another example is document summarization, which can employ a coherence model in two ways. 
+First, as one factor for evaluating outputs of automatic summarizers. 
+In this case, the usage of coherence models is similar to text quality assessment. 
+Second, as one component of summarization systems in order to generate coherent summaries. 
+
+
+In the research presented in this thesis we aim to develop computational models of text coherence. 
+We also intend to evaluate our coherence model in extrinsic NLP applications. 
+In the reminder of this chapter, we further motivate the research conducted in this thesis and formulate main research questions (Section \ref{sec:intro-motivation}), briefly explain our contributions (Section \ref{sec:intro-contributions}), present the outline of this thesis (Section \ref{sec:intro-outline}), and describe which parts of this thesis were published (Section \ref{sec:intro-published}). 
+
+\section{Motivation and Research Questions}
+\label{sec:intro-motivation}
+
+As we have described above, the goal of computational coherence models is to compare texts with respect to their coherence. 
+This suggests that there should be certain features which are characteristic of coherent texts while those are not found in incoherent texts. 
+In the literature we can encounter with different sets of features relying on relations that are discovered from a text. 
+One of the prominently employed relations is coreference, where relations among sentences containing noun phrases that refer to the same entity reflect the topics and their points of changes in a text.  
+The underlying assumption of these models is that coherent texts reveal certain patterns in their relations. 
+However, these models predefine and limit patterns to linear relations over adjacent sentences. 
+This observation leads us to the first research question investigated in this thesis: 
+\textbf{Do there exist nonlinear connectivity patterns in coherent texts that consider long distant relations into account?} 
+If we can answer this question by discovering some frequent patterns in coherent texts, a follow-up question emerges, which is how the frequency of these patterns are correlated with the quality of texts. 
+Another natural question is whether these coherence features can be employed by other NLP systems to improve their performance. 
+The answer of these questions indicate how our coherence patterns compete with its peers where they are used by downstream tasks. 
+
+In order to develop a powerful computational coherence model, we do not only need an approach to extract patterns representing connectivity structures of sentences, we also require a computational method to encode semantic relations between sentences. 
+Sentence relations are not limited to only coreference between referring expressions; other semantic relations between them can cohere sentences as well. 
+This motivates our second research question: \textbf{How can we model sentence relations in a text beyond coreference relations over named entities and based on semantic relations between words of sentences?}  
+In order to answer this question, we first have to define an appropriate word representation.  
+This representation should give the model the capability to quantify lexico-semantic relations between words. 
+We then need to encode connections between sentences based on their semantically related words.
+Finally, given rich representations of relations among all sentences in a text, we can use our coherence pattern to model the connectivity structure of sentences to rank texts based on the coherence of the text. 
+
+\section{Contributions}
+\label{sec:intro-contributions}
+
+We answer the first question by proposing a graph-based representation of coherence patterns. 
+The proposed representation enables our coherence model to take long distant relations, as well as relations between adjacent sentences,  into account. 
+It also considers the connectivity style of relations among sentences. 
+We formulate this by representing a text by a graph whose nodes encode sentences and edges capture relations between sentences. 
+Having such graph representations of texts in a corpus leads us to formulate the task of extracting coherence patterns from a set of texts as a subgraph mining problem from a set of graphs in graph theory. 
+We show that how frequencies of subgraphs in a graph capture the connectivity style of nodes in the graph and consequently the coherence of the corresponding text. 
+We illustrate how frequencies of patterns in texts correlate with quality ratings that are assigned to texts by human judges. 
+
+We answer the second question by motivating and developing an approach to coherence modeling based on lexical relations. 
+As before, this approach represents relations among sentences by a graph. 
+However, this graph captures any lexico-semantic relations between words of sentences to connect the associated nodes with sentences. 
+We explain how embeddings of words are employed to quantify semantic relations between words in sentences. 
+We show that applying subgraph mining methods on such graph representation of texts leads to more predictive coherence patterns. 
+However, we discuss that although large subgraphs capture more information about connectivity structures of graphs but most of them may occur in few graphs. 
+This results a sparsity problem. 
+We show how smoothing methods, which are used in statistical language models, can be adapted to solve this sparsity problem in our coherence patterns. 
+
+The implementation of graph representations, subgraph mining approaches, and the smoothing method discussed in this thesis are publicly available\footnote{Available for download at http://.....} 
+
+
+\section{Outline}
+\label{sec:intro-outline}
+The reminder of this thesis is organized into ... chapters. 
+
+In Chapter \ref{ch:coherence}, we discuss the task of coherence modeling in detail. 
+We give a formal definition and discuss linguistic properties, main issues and evaluation of the task. 
+
+In Chapter \ref{ch:related_work}, we review related work on that we mainly built our coherence model. 
+We survey different tasks that have been used to evaluate coherence models. 
+
+In Chapter \ref{ch:coherence_pattern}, we present our approach to coherence pattern mining. 
+We show that how coherence patterns extracted from a set of news articles are correlated with human readability ratings assigned by human judges. 
+We see our patterns provide more predictive information than other examined coherence features for ranking texts with respect to their coherence. 
+A basic analysis of the size of extracted subgraphs in this chapter leads to this observation that larger subgraphs better rank texts for the readability assessment task. 
+We furthermore evaluate our coherence patterns in the summarization task.  
+we show how subgraphs extracted from coherent summaries can improve the performance of a strong automatic summarization system to produce more coherent texts. 
+
+In Chapter \ref{ch:lexical_coherence_graph}, we propose our graph-base approach to coherence modeling based on lexical semantic relations between words in sentences. 
+We show that coherence patterns extracted from these graphs are more informative for ranking texts for the readability assessment task, because of integrating any semantic relations between sentences into graph representations of texts. 
+We explain about the sparsity problem and our approach to solve this problem. 
+
+In Chapter \ref{ch:conc}, we summarize the answers that the research in this gives to the research questions formed in this chapter. 
+We discuss possible way for future work. 
+
+\section{Published Work}
+\label{sec:intro-published}
+
+Most research presented in this thesis is an extension of published research first-authored by the author of this thesis. 
+Some parts of the presented research are based on the published research to which the author of this thesis equally contributed as the first author. 
+
+The idea of using subgraphs as coherence patterns presented in Chapter \ref{ch:coherence_pattern} was published in \newcite{mesgar15}. 
+A preliminary investigation of graph-based coherence modeling was presented in \newcite{mesgar14}. 
+The application of coherence patterns in summarization presented in Chapter \ref{ch:coherence_pattern} is published in \newcite{parveen16}. 
+Our lexical approach to coherence modeling and the smoothing method proposed in Chapter \ref{ch:lexical_coherence_graph} are described in \newcite{mesgar16} and employed in \newcite{born17}. 
 
 
 
-As most literature in text linguistics argues (Halliday and Hassan 1976, Lyons 1981, De Beaugrande and Dressler 1981, inter alia), a text processes coherence which is to say that the content is organized in a way that is easy for humans to read and understand. 
+% As an example, consider the following text snippet\footnote{Taken from \url{https://www.biography.com/people/albert-einstein-9285408}, accessed 28 May 2018.}.
 
-Tangkiengsirisin (Cohesion and coherence in Text) look at different aspects of coherence and cohesion of texts written in English as two essential elements that facilitate textual continuity. 
-The terms of coherence and cohesion is defined differently by different linguistics. 
-For some, the two terms are interchangeable or imply each other, and for others they are independent of one another. 
-The concept of cohesion was introduced by Halliday and Hasan (1976) whose major concern is to investigate how sentences are linked together in a text. 
-Elements of sentences that link sentences are called cohesive ties in Halliday and Hasan (1976). 
-According to Haliday and Hasan (1976), the writer is able to hold together meanings in the related sentences in a number of ways, and cohesion is created to establish the structure of meaning. 
-They also claim that cohesion is a factor that indicates if a text is well-connected or merely is a group of unrelated sentences. 
-Halliday and Hasan (1976) explicitly express that cohesion does not deal with content of a text
-``cohesion does not concern with what a text means, it concerns how the text is constructed as a scientific edifice". 
-Discourse involves the context and need to be interpreted through the understanding of discourse structures and the use of many strategies; for example, two comprehend discourse, we interpret the discourse assuming that if one thing said after another, the two things are related in some way. 
-Coherence can be regarded as a connection between utterances with discourse structure, meaning, and action being combined (Schiffrin, 1987). 
-To Schiffrin, cohesive devices are clues that help locate meanings and accommodate the understanding of a conversation. 
-Discourse coherence, therefore, is dependent on a speaker's successful integration of different verbal and nonverbal devices to situate a message in an interpretive frame and a hearer's corresponding synthetic ability to interpret such cues as a totality in order to interpret that message. 
-Coherence may be treated as `` semantic property of discourse, based on the interpretation each individual sentence relative to the interpretation of other sentences" (Van Dijk, 1977: p.93). 
-Coherence between sentences, in Van Dijk's point of view, is ``based not only the sequential relation between expressed and interpolated propositions, but also on the topic of discourse of a particular passage."
-The two levels of coherence are micro-coherence, which is the linear of sequential relations between propositions, and the macro-coherence, the global or overall coherence of a discourse in terms of hierarchal topic progression. 
-A text must have surface cohesion as well as overall coherence, and sentences in a coherent text must ``conform to the picture of one possible world in the experience or imagination of the receiver" (Enkvist, 1978, p128).
-A message also must provide adequate signals for the listener or the readers to make connections for understanding of a text. 
-Lovejoy and Lance (1991), in their study of written discourse, show that cohesion can be achieved through the operation of theme-rheme. 
-This movement represents how information is managed.
-According to Lovejoy and Lance (1991), theme is ``the point of departure" for the representation of information" and rheme ``constitutes the information the writer wishes to impact about the theme".
-These two elements are presented alternatively in a text to form a connected text. 
-while theme conveys information that is initially introduced in discourse, rheme presents specific information regarding the theme. 
-As this movement continues, ideas in a text or discourse are expected to flow along smoothly and are easier for the reader to understand. 
-While old information (theme) is presented as background information in each statement, new information (rheme) is introduced to clarify information in the theme. 
-Morgen and Sellner (1980) emphasize that the cohesion and coherence are independent.  
-Carrel (1982) contends that cohesion does not bring about coherence, but believes that the cohesion is the effect of coherence not a cause of coherence. 
-From a textual perspective, Hoey (1991) examined how lexical cohesive elements would make a text organized. 
-He examined how lexical features and syntactic repetition would contribute to cohesion. 
-Within this general framework, cohesion is regarded as an element that accommodates coherence. 
-When a text is cohesive and coherence, it will enable the reader to process information more rapidly. 
-Hoey claims that ``cohesion is a property of the text and coherence is a facet of the reader's evaluation of a text". 
-According to Hoey (1991) lexical connections as a major cohesive device constructs a matrix and creates a net of bonds in texts. 
-He proposes that lexical relations can show the relatedness of sentences within a text. 
-Johns (1986) divides coherence into two types: text-based and reader-based. 
-By her definition, text-based coherence refers to an inherent features of the text, which involves cohesion and unity. 
-This type of coherence involved how sentences are linked and how text is unified. 
-Reader-based coherence on the other hand requires successful interaction between the reader and the text. 
-In this type, coherence is based on the degree of compatibility between the reader's expectations and the intended meaning through the underlying structure of a text. 
-Connor and Johns (1990) describe coherent text ``as text in which the expectations of the reader are fulfilled".
-Readers use her knowledge of the world to interprets a text expecting that their knowledge will correspond to the organization and argument of a text. 
-The reader relies on this kind of knowledge to anticipate information that will be subsequently presented. 
-Interacting with readers, a coherent text accommodates the readers expectations of the order of ideas, contributing to the comprehension of the text. 
-By the same token, as logical ideas are presented through well-connected words and sentence the writer helps readers interpret and process information in a text more easily (Tannen, 1984).
-Lautamatti (1987) defines the term topic as what the sentence is about and the term comment as information about the topic. 
-All sentence topics are related in certain ways to the global discourse topic of the text. 
-The patterns of relations between discourse topics and subtopics are called topical development of discourse. 
-Grabe (1985) proposes the pragmatic function of coherence. 
-He identifies three features that are essential to coherence: a discourse theme, a set of relevant assertions relating logically among themselves. 
-The sentence topic in English is often correlates with grammatical subject and comment often correlates with the grammatical predicate, which bears the sentinel focus. 
-While patterns of theme and rheme connections can account for only some part of a text, diversity of patterns deal with an entire text. 
-The theory of cohesive ties introduced by Halliday and Hasan (1976) was modified into a theory of cohesive harmony (Hasan 1984, Haliday and Hasan, 1989). 
-Due to the limitations of the use of cohesive ties to analyze texts as coherent and well-written, Hasan (1984) formulated a new theory to account for the fact that cohesion contributes to coherence. 
-In her new approach, coherence is not determined by the type and quantity of cohesive ties that appear in a text, but it is mainly characterized by the degree and frequency of with which these ties interact with each other. 
-According to this theory, there are two cohesive ties which can interact with each others: those that form identity chain expressed with the use of co-referent entities, and those that form similarity strings expressed through substitution, ellipsis, repetition, synonymy, antonymy, hyponymy, and meronym. 
-Interaction does occur when one member of a string or chain is in the identical relationship to more than one member of another string or chain.
+% \begin{examples}
+% Albert Einstein grew up in a secular Jewish family. 
+% His father, Hermann Einstein, was a salesman and engineer who, with his brother, founded Elektrotechnische Fabrik J.\ Einstein \& Cie, a Munich-based company that manufactured electrical equipment. 
+% Albert’s mother, the former Pauline Koch, ran the family household. 
+% Einstein had one sister, Maja, born two years after him.
+% \end{examples}
+% All of these sentences are hanged together by talking about Albert Einstein's family. 
+% The first sentence of this text is a general introductory about the family of Albert Einstein. 
+% The rest of sentences give more specific descriptions of his family members. 
 
-An increasing number of researchers and practitioners in NLP face the prospect of havin to work with entire texts, rather than individual sentences. 
-While it is clear that text must have useful structure, its nature is less clear, making it more difficult to exploit in applications. 
-Discourse commonly comprises a sequences of sentence although it can be found even within a single sentence. 
-Within a discourse, the patterns formed by its sentences mean that the whole conveys more than the sum of its separate parts. 
-Another point  about discourse is that it exploits language  features, which allow speaker to specify that they are talking about something they have talked about before in the same discourse; indicating a realtion that holds between the states, events, beliefs, etc.  presented in the discourse; changing to a new topic or resuming one from earlier in the discourse.
-Discourse structures are the patterns that one sees in multi-sentence (multi-clausal) texts. 
-Recognizing these patterns in terms of the elements that compose them is essential to correctly deriving and interpreting information in the text. 
-The elements may be topic, each  about a set entities and what is being said about them.
-These type of relations are mainly called as coherence relations by Webber et al. (NLE 2012). 
-Discourse can be structured by its topics, each comprising a set of entities and a limited range of things being said about them. 
-Each topic may involve a set of entities, which may (but not have to) change from topic to topic. 
-This aspect of structure has been modeled as entity chains (Barzilay and Lapata, 2008).
-Patterns of entity chains can also be characteristic of particularly types of discourse, and therefore be of value in assessing the quality of automatically generated text. 
-Low-level evidence for the topic structure of discourse comes from the strong correlation between topic and lexical usage, which Halliday and Hasan (1976) call lexical cohesion. 
-Lexical chains can simply be a matter of the density of related terms within a segment, or of particular patterns of related terms, such as lexical chains (Barzilay and Elhadad 1997; Galley et al, 2003; Clarke and Lapata, 2010) defined as sequence of semantically related words. 
-
+% You will say that you want to rank these two texts with respect to their coherence. 

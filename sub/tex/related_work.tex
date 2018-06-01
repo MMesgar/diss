@@ -1,5 +1,9 @@
+% for sublime text 3
+%!TEX root = diss.tex
+
 \chapter{Related Work}
-\label{chapt:related_work} 
+\label{ch:related_work}
+ 
 Coherence modeling has received a lot of attention due to its key impact in other NLP systems. 
 In this thesis, we propose a novel approach to local coherence modeling based on graph representations of texts. 
 We apply our approach to two types of graphs. 
@@ -11,7 +15,11 @@ Accordingly, we first review entity-based approaches to local coherence (Section
 We then survey lexical approaches (Section \ref{}). 
 Finally, we discuss work on utilizing coherence in readability assessment and summarization (Section \ref{}). 
 
-
+A coherent text consists of a sequence of topics in a structured way \cite{marcu97b,hearst97,gallery03}. 
+Related models are often constructed as sequential topical models. 
+Topics are modeled by a language model \cite{blei01} or Bayesian topic models \cite{eisenstein08}.
+For modeling the temporal structure, early research uses a Hidden Markov Model \cite{barzilay04}, and  
+later research employs sequential neural networks \cite{}. 
 
 \section{Entity-Based Approaches to Local Coherence}
 \label{sec:rel-entity-models}
