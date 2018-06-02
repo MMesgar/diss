@@ -107,44 +107,97 @@ We also assume that texts are written in a formal language, in contrast to infor
 
 \subsection{Coherence}
 
-Coherence is crucial factor of well-written texts, which make them distinguishable from an unrelated sequence of sentences. 
+Coherence is a crucial factor of a well-written text. 
+It makes the text distinguishable from an unrelated sequence of sentences. 
 We follow \newcite{stede12} and define coherence as a property of a text that is designed around a common topic. 
 A coherent text discusses a sequence of topics in a structured way that a reader can recognize and relate to one another, and collectively render the text as a unified whole. 
 Each topic is tending to occupy a (topic) segment of the text \cite{hearst97}.  
 Coherence is defined based on the relations and structures of topic segments in a text. 
-This structure is sometimes referred to as global, since it is coarse-grained and spans the entire text. 
-In general, however, definition the notion of topic, and recognizing topics and the boundaries between the text segments corresponding to them are not straight forward \cite{stede12} (see Chapter \ref{ch:rel-work} for related work). 
+This structure is sometimes referred to as global, since it is coarse-grained and spans the entire text \cite{}.  
+In general, however, defining the notion of topic, and recognizing topics and the boundaries between  text segments corresponding to them are not straight forward \cite{stede12} (see Chapter \ref{ch:rel-work} for computational related work). 
 
-From the linguistic viewpoint, of a coherent text employs linguistic devices, more-readily identifiable linguistic signals, to relate sentences of a text to each other. 
+From the linguistic viewpoint, a coherent text employs linguistic devices, more-readily identifiable linguistic signals, to relate sentences of a text to each other. 
 These devices signal readers to interpret each sentence considering its relations with other linked sentences \cite{vandijk77}. 
 Therefore, understanding the text implies uncovering these relationships.  
 The way that linguistic devices are used to relate sentences in a text is known as local coherence. 
 In some literature in text linguistics \cite{halliday76}, this phenomena is referred to as cohesion.   
 \newcite{stoddard91} (chapter 2) argues that these two are not distinguishable and can be used interchangeably. 
-\newcite{stede12} stats that signals of cohesion or local coherence serve as indicators of topic continuity, consequently the absent of a surface relation is a sign of topic shift. 
-Sine the research in this thesis is about modeling local coherence, henceforth we refer to it as coherence, unless this is not clear from the context. 
+\newcite{stede12} stats that signals of local coherence serve as indicators of topic continuity, consequently the absent of a surface relation is a sign of topic shift. 
+Since the research in this thesis is about modeling local coherence, henceforth in this thesis it is referred to as coherence modeling, unless this is not clear from the context. 
 
 Prominent cohesive devices can be grouped in grammatical and lexical relations between elements of sentences \cite{halliday76}. 
 Grammatical relations are reference, substitution, ellipsis and conjunctions. 
 Lexical relations include any lexical-semantic relation, such as repetition, synonym, antonym, and the like, between words of sentences. 
-Reference cohesive devices are also known as entity-base relations, with this intuition that related sentences in a text keep referring to the same named entity. 
-One of the popular entity-based frameworks for local coherence modeling is Centering Theory \cite{grosz95}, which is successful operationalized by the model proposed by \newcite{barzilay05a, barzilay08}. 
-The sample text in Example \ref{ex:coh-ref} shows how an entity-based relation links two sentences. 
+Reference cohesive devices are also known as entity-based relations, with this intuition that related sentences in a text keep referring to the same named entity. 
+The sample text in Example \ref{ex:coh-ref}\footnote{Taken from \url{https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1162/handouts/cs224n-lecture11-coreference-6up.pdf}, on June 2 2018.} shows how entity-based relation link sentences. 
 
 \begin{examples}
 	\label{ex:coh-ref}
+	\textbf{Mr.\ Obama} visited the city. \\
+	\textbf{The president} talked about Milwaukee’s economy. \\
+	\textbf{He} mentioned new jobs. \\
+\end{examples} 
 
-\end{examples}
 
-The insight of local coherence models based on lexical relation is that content words in a text do not occur independently of one another, but bear semantic similarity because of common topic. 
-Example \ref{} shows a sample text that its sentences are related because of lexical relation: 
+One of the popular entity-based frameworks for local coherence modeling is Centering Theory \cite{grosz95}. 
+The main hypothesis of this theory is the center that at any given point in a text is most salient entity.  
+The center captures the focus of attention in the reader mind \cite{grosz95}.
+Centering Theory accounts of the process of flowing the center in a text. 
+The original centering theory (for English texts) see the grammatical role as the most important linguistic sign of the text center. 
+Specifically, the grammatical subject is taken the default position for the text center. 
+Depending on the configuration of grammatical roles in adjacent sentence, \newcite{brennan87} define four different types of transitions for the text center. 
+These transitions capture the smoothness of the center move from one sentence to another. 
+When a latter sentence focuses on the topic, i.e.\ center, transition is Continue, the other types involve topic shift: Retain, Smooth Shift, and Rough Shift. 
+Centering has been applied directly in models of coherence \cite{karamanis04}.  
+However, since it requires human annotations for transitions between sentences, other models employ the basic Centering principles as soft constraints or features in a probabilistic framework such as the Entity Grid \newcite{barzilay05}, which we discuss in more detail in Chapter \ref{ch:rel-work}.
+
+Further research shows that grammatical role information are far less predictive for tracking the text center in German, as a free word order language \cite{strube.acl96}. 
+Instead the functional information structure \cite{danes74} are considered. 
+This structure captures flows between given information vs. new information in a text. 
+Some information in a sentence is known or old, because of it is explained by preceding sentences of the sentence, and some information are new.  
+The functional information structure is explained by \newcite{halliday76} as theme-rheme relations in a text. 
+Theme can be taken as given information and rheme is (almost) similar to new information. 
+Thematic relations between sentences in texts reveal some patterns \cite{danes74}, which are called  coherence patterns.  
+In Chapter \ref{ch:coh-patterns}, where we define our coherence patterns, we give more explanation about functional information structure \cite{danes74} in texts.  
+
+
+The other perspective of local coherence is lexical cohesion, which cohesive effect based on lexical-semantic relations between words. 
+An advantage of lexical cohesion, on contrary to entity-based models, is that it requires no annotation at all; they are accessible directly from the text. 
+The insight of local coherence on the grounds of lexical relations is that content words in a text do not occur independently of one another, but bear semantic similarity because of common topic. 
+A form of lexical cohesion is reiteration, which involves different type of lexical relations such as repeating a word, using a synonym of a word, employing a superordinate word, and using a general word. 
+Example \ref{ex:coh-lex} is taken from \cite{halliday78} to illustrate these relations:
 
 \begin{examples}
 	\label{ex:coh-lex}
-	Little boys wriggle all the time. Girls don't. 
+	(a) Repetition: There was a large \textbf{mushroom} growing near her, about the same height as herself; and when she had looked under it, it occurred to her that she might as well look and see what was on the top of it.\\
+	She stretched herself up on tiptoe, and peeped over the edge of the \textbf{mushroom}, ... 
+
+	(b) Synonymy: Accordingly ... I took leave, turned to the \textbf{ascent} of the peak. \\
+	The \textbf{climb} is perfectly easy. 
+
+	(c) Superordinate: Henry's bought himself a new \textbf{Jaguar}. \\
+	He practically lives in the \textbf{car}. 
+
 \end{examples} 
 
-We explain related research to lexical, and entity-based relations in Chapter \ref{ch:rel-work}. 
+In (c) the word ``car'' is a superordinate, any word whose meaning includes that of the earlier one, of ``Jaguar'', as vehicle is a superordinate of the car, spoon of teaspoon, and the like. 
+The boundary between the reiteration type of lexical cohesion and reference type in grammatical relations, i.e.\ entity-based relations, is by no means clearcut\footnote{However, properly speaking, reference is irrelevant to lexical cohesion. As we discuss later lexical cohesion relationship between two items does not need to imply a coreferent relationship.} \cite{halliday78}. 
+This can slightly clarify the reason that the research in this thesis considers local coherence and cohesion almost synonym.
+
+It is not necessary for two lexical occurrences to be coreferent, however, in order to for them to be cohesive. Consider Example \ref{ex:coh-nonref} from \newcite{halliday78}. 
+In (a) word ``boy'' and  word ``boys'' are not coreferent, however, their semantic relationship serves to link the sentences. 
+This relationship is not in any way dependent on the presence of other items; it is not the wriggling that provides the context, as (b) shows. 
+
+\begin{examples}
+	\label{ex:coh-nonref}
+	Why does this little boy have to wriggle all the time? \\
+	(a) Good boys don't wriggle. \\
+	(b) Boys should be kept out of here. \\
+\end{examples} 
+
+
+
+Similarities between words are well-defined through a set of lexical-semantic relations, which show up in many implemented knowledge resources such as WordNet \cite{}. 
 
 
 % % Lovejoy and Lance (1991), in their study of written discourse, show that cohesion can be achieved through the operation of theme-rheme. 
