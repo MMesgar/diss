@@ -111,10 +111,15 @@ Coherence is a crucial factor of a well-written text.
 It makes the text distinguishable from an unrelated sequence of sentences. 
 We follow \newcite{stede12} and define coherence as a property of a text that is designed around a common topic. 
 A coherent text discusses a sequence of topics in a structured way that a reader can recognize and relate to one another, and collectively render the text as a unified whole. 
-Each topic is tending to occupy a (topic) segment of the text \cite{hearst97}.  
-Coherence is defined based on the relations and structures of topic segments in a text. 
-This structure is sometimes referred to as global, since it is coarse-grained and spans the entire text \cite{}.  
-In general, however, defining the notion of topic, and recognizing topics and the boundaries between  text segments corresponding to them are not straight forward \cite{stede12} (see Chapter \ref{ch:rel-work} for computational related work). 
+Each topic is tending to occupy a (topical) segment of the text \cite{hearst97}. 
+Coherence is defined based on the relations and structures of topical segments in a text. 
+This structure is sometimes referred to as global, since it is coarse-grained and spans the entire text \cite{}. 
+\newcite{lautamatti78} defines the term topic as what the sentence is about and the term comment as information about the topic.  
+In general, however, defining the notion of topic, and recognizing topics and the boundaries between  text segments corresponding to them are not straight forward \cite{stede12}. 
+We discuss some computational topical coherence model in Chapter \ref{ch:rel-work}. 
+
+
+\subsection{Local Coherence}
 
 From the linguistic viewpoint, a coherent text employs linguistic devices, more-readily identifiable linguistic signals, to relate sentences of a text to each other. 
 These devices signal readers to interpret each sentence considering its relations with other linked sentences \cite{vandijk77}. 
@@ -154,12 +159,14 @@ However, since it requires human annotations for transitions between sentences, 
 Further research shows that grammatical role information are far less predictive for tracking the text center in German, as a free word order language \cite{strube.acl96}. 
 Instead the functional information structure \cite{danes74} are considered. 
 This structure captures flows between given information vs. new information in a text. 
-Some information in a sentence is known or old, because of it is explained by preceding sentences of the sentence, and some information are new.  
+Some information in a sentence is known or old, because of it is discussed by preceding sentences of the sentence, and some information are new. 
 The functional information structure is explained by \newcite{halliday76} as theme-rheme relations in a text. 
-Theme can be taken as given information and rheme is (almost) similar to new information. 
-Thematic relations between sentences in texts reveal some patterns \cite{danes74}, which are called  coherence patterns.  
-In Chapter \ref{ch:coh-patterns}, where we define our coherence patterns, we give more explanation about functional information structure \cite{danes74} in texts.  
-
+Theme can be taken as given information, as a point of the text departure, and rheme is (almost) similar to new information, as clarity information in the theme. 
+While theme conveys information that is initially introduced in discourse, rheme presents specific 
+information regarding the theme. 
+As the theme-rheme movement continues through a text, ideas in the text are expected to flow along smoothly and are easier for the reader to understand. 
+Thematic relations between sentences in texts reveal some patterns \cite{danes74}, which are called  coherence patterns.
+In Chapter \ref{ch:coh-patterns}, where we define our coherence patterns, we give more explanation about functional information structure \cite{danes74} in texts. 
 
 The other perspective of local coherence is lexical cohesion, which cohesive effect based on lexical-semantic relations between words. 
 An advantage of lexical cohesion, on contrary to entity-based models, is that it requires no annotation at all; they are accessible directly from the text. 
@@ -182,9 +189,10 @@ Example \ref{ex:coh-lex} is taken from \cite{halliday78} to illustrate these rel
 
 In (c) the word ``car'' is a superordinate, any word whose meaning includes that of the earlier one, of ``Jaguar'', as vehicle is a superordinate of the car, spoon of teaspoon, and the like. 
 The boundary between the reiteration type of lexical cohesion and reference type in grammatical relations, i.e.\ entity-based relations, is by no means clearcut\footnote{However, properly speaking, reference is irrelevant to lexical cohesion. As we discuss later lexical cohesion relationship between two items does not need to imply a coreferent relationship.} \cite{halliday78}. 
-This can slightly clarify the reason that the research in this thesis considers local coherence and cohesion almost synonym.
+This can slightly clarify the reason that for purposes of the research in this thesis local coherence and cohesion are largely synonymous.
 
-It is not necessary for two lexical occurrences to be coreferent, however, in order to for them to be cohesive. Consider Example \ref{ex:coh-nonref} from \newcite{halliday78}. 
+It is not necessary for two lexical occurrences to be coreferent, however, in order to for them to be cohesive. 
+Consider Example \ref{ex:coh-nonref} from \newcite{halliday78}(p.~282). 
 In (a) word ``boy'' and  word ``boys'' are not coreferent, however, their semantic relationship serves to link the sentences. 
 This relationship is not in any way dependent on the presence of other items; it is not the wriggling that provides the context, as (b) shows. 
 
@@ -195,79 +203,89 @@ This relationship is not in any way dependent on the presence of other items; it
 	(b) Boys should be kept out of here. \\
 \end{examples} 
 
+This leads to a systematic relationship between a pair of words, that is because the words are frequently occur in similar text context. 
+For instance, words ``boy'' and ``girls'' in Example \ref{ex:coh-collocation} \cite{halliday76}(p.~285) relate the sentence, although they are not coreferent, or even synonym. 
 
+\begin{examples}
+	\label{ex:coh-collocation}
+	Why does this little boy have to wriggle all the time? \\
+	Girls don't wriggle. 
+\end{examples}
 
-Similarities between words are well-defined through a set of lexical-semantic relations, which show up in many implemented knowledge resources such as WordNet \cite{}. 
+In summary, there is a local coherence relation between any pair of lexical items that stand to each other in some lexical-semantic relations. 
+This includes any type of relations, such as relations between word pairs shown in Example \ref{ex:coh-word-pairs} \cite{halliday76} (p.~285). 
 
+\begin{examples}
+	\label{ex:coh-word-pairs}
+	rail ... road \\
+	car ... brake \\
+	try ... succeed \\
+	walk ... drive \\
+	Tuesday ... Thursday \\
+	like ... hate \\
+	red ... green 
+\end{examples}
 
-% % Lovejoy and Lance (1991), in their study of written discourse, show that cohesion can be achieved through the operation of theme-rheme. 
-% This movement represents how information is managed.
-% According to Lovejoy and Lance (1991), theme is ``the point of departure" for the representation of information" and rheme ``constitutes the information the writer wishes to impact about the theme".
-% % These two elements are presented alternatively in a text to form a connected text. 
-% while theme conveys information that is initially introduced in discourse, rheme presents specific 
-% information regarding the theme. 
+For textual purposes, it is (almost) sufficient to know that a pair of words are in a relationship, rather than the type of relation \cite{halliday76} (p. 285).  
+\newcite{hoey91} examine how lexical cohesive elements make a text organized, and contribute to local coherence. 
+He shows that relations between semantically related words in a text can make patterns in texts. 
+In Chapter \ref{ch:rel-work}, we survey some related computational models of lexical cohesion in texts. 
 
+\subsection{Coherence Patterns}
+\textbf{stodarrd a and some part from danes}
+
+An increasing number of researchers and practitioners in natural language processing face the prospect of having to work with entire texts, rather than individual sentences. 
+While it is clear that text must have useful structure, its nature is less clear, making it more difficult to exploit in applications \cite{webber12a}. 
+A text commonly comprises a sequences of sentences. 
+Within a text, the patterns formed by its sentences mean that the whole conveys more than the sum of its separate parts. 
+Text structures are the patterns that one sees in multi-sentence texts \cite{webber12a}. 
+Recognizing these patterns in terms of the elements that compose them is essential to correctly deriving and interpreting information in the text. 
+The elements may be topic, each  about a set entities and what is being said about them.
+Texts can be structured by its topics, each comprising a set of entities and a limited range of things being said about them. 
+Patterns of coherence relations can also be characteristic of particularly types of text, and therefore be of value in assessing the quality of automatically generated text. 
 
 \section{Evaluation}
+\label{sec:coh-eval}
 
-% As this movement continues, ideas in a text or discourse are expected to flow along smoothly and are easier for the reader to understand. 
+The goal of the research in this thesis is to provide an approach to coherence modeling and compare it with other models. 
+To do so, it is essential to have a method to evaluate the performance of coherence models. 
+In this section, we complete the definition of the problem, with which the research in this thesis is tackling, by describing the evaluation method we use for assessing the quality of coherence models. 
+Other related approaches for evaluating coherence models are discussed in Chapter \ref{ch:rel-work}. 
 
-% While old information (theme) is presented as background information in each statement, new information (rheme) is introduced to clarify information in the theme. 
+\subsection{Intrinsic vs. Extrinsic}
 
-% Morgen and Sellner (1980) emphasize that the cohesion and coherence are independent.  
+Intrinsic and extrinsic are two types of evaluations methodologies \cite{}. 
+In an intrinsic evaluation, system output is directly evaluated in terms of a set of norms or predefined criteria about the desired functionality of the system itself. 
+In an extrinsic evaluation, system output is assessed in its impact on a task external to the system itself. 
 
-% Carrel (1982) contends that cohesion does not bring about coherence, but believes that the cohesion is the effect of coherence not a cause of coherence. 
-% From a textual perspective, Hoey (1991) examined how lexical cohesive elements would make a text organized. 
-% He examined how lexical features and syntactic repetition would contribute to cohesion. 
+Some research papers on local coherence modeling use intrinsic evaluation approaches such as sentence ordering \cite{karamanis04,barzilay04} (see Chapter \ref{ch:rel-work} for a review of other tasks).  
+This evaluation method is primarily designed to model violations of restrictions in centering theory \newcite{karamanis04}. 
+The goal is that a coherence model should ideally rank the original order of sentences in a text higher than any permutation of sentences. 
 
-% Within this general framework, cohesion is regarded as an element that accommodates coherence. 
+Extrinsic approaches take the coherence of a text as a factor for the quality of the text, given the definition of coherence: What distinguishes a well-written text from others. 
+Readability assessment \cite{pitler08} is an example of these approaches. 
+In this task, a coherence model is involved with a readability assessment system, which consider other aspect of text quality such as sentence complexity and the like, to evaluate the influence of the coherence model on the end performance of the readability assessment system. 
+The insight of this task is that coherent texts are less complex than other ones, therefore they are easy to understand \cite{}. 
 
-% When a text is cohesive and coherence, it will enable the reader to process information more rapidly. 
-% Hoey claims that ``cohesion is a property of the text and coherence is a facet of the reader's 
-% evaluation of a text". 
+In the this thesis we follow extrinsic evaluation methods: the readability assessment task (see experiments in Chapter \ref{ch:coh-patterns} and Chapter \ref{ch:lex-graph}), and the automatic text summarization task \ref{ch:coh-patterns}. 
 
-% According to Hoey (1991) lexical connections as a major cohesive device constructs a matrix and creates a net of bonds in texts. 
+\subsection{Ranking as Classification} 
 
-% He proposes that lexical relations can show the relatedness of sentences within a text. 
+Coherence is not a binary property of a text that either exists or not. 
+Rather it is a comparative attribute of texts, whether a text is more coherent than the other one. 
+For humans it can be ambiguous to decide is a text is coherent or not, but they can rank texts with respect to the coherence property of texts \cite{halliday76}.   
 
-% Johns (1986) divides coherence into two types: text-based and reader-based. 
+The core of the evaluation method in this thesis is a pairwise ranking task: Given a pair of texts, which one is more coherent. 
+Rankings predicted by a coherence model is compared with rankings gathered from human judges. 
 
-% By her definition, text-based coherence refers to an inherent features of the text, which involves cohesion and unity. 
-% This type of coherence involved how sentences are linked and how text is unified. 
-% Reader-based coherence on the other hand requires successful interaction between the reader and the text. 
 
-% In this type, coherence is based on the degree of compatibility between the reader's expectations and the intended meaning through the underlying structure of a text. 
-% Connor and Johns (1990) describe coherent text ``as text in which the expectations of the reader are fulfilled".
-% Readers use her knowledge of the world to interprets a text expecting that their knowledge will correspond to the organization and argument of a text. 
-% The reader relies on this kind of knowledge to anticipate information that will be subsequently presented. 
-% Interacting with readers, a coherent text accommodates the readers expectations of the order of ideas, contributing to the comprehension of the text. 
-% By the same token, as logical ideas are presented through well-connected words and sentence the writer helps readers interpret and process information in a text more easily (Tannen, 1984).
-% Lautamatti (1987) defines the term topic as what the sentence is about and the term comment as information about the topic. 
-% All sentence topics are related in certain ways to the global discourse topic of the text. 
-% The patterns of relations between discourse topics and subtopics are called topical development of discourse. 
-% Grabe (1985) proposes the pragmatic function of coherence. 
-% He identifies three features that are essential to coherence: a discourse theme, a set of relevant assertions relating logically among themselves. 
-% The sentence topic in English is often correlates with grammatical subject and comment often correlates with the grammatical predicate, which bears the sentinel focus. 
-% While patterns of theme and rheme connections can account for only some part of a text, diversity of patterns deal with an entire text. 
-% The theory of cohesive ties introduced by Halliday and Hasan (1976) was modified into a theory of cohesive harmony (Hasan 1984, Haliday and Hasan, 1989). 
-% Due to the limitations of the use of cohesive ties to analyze texts as coherent and well-written, Hasan (1984) formulated a new theory to account for the fact that cohesion contributes to coherence. 
-% In her new approach, coherence is not determined by the type and quantity of cohesive ties that appear in a text, but it is mainly characterized by the degree and frequency of with which these ties interact with each other. 
-% According to this theory, there are two cohesive ties which can interact with each others: those that form identity chain expressed with the use of co-referent entities, and those that form similarity strings expressed through substitution, ellipsis, repetition, synonymy, antonymy, hyponymy, and meronym. 
-% Interaction does occur when one member of a string or chain is in the identical relationship to more than one member of another string or chain.
+\subsection{}
 
-% An increasing number of researchers and practitioners in NLP face the prospect of havin to work with entire texts, rather than individual sentences. 
-% While it is clear that text must have useful structure, its nature is less clear, making it more difficult to exploit in applications. 
-% Discourse commonly comprises a sequences of sentence although it can be found even within a single sentence. 
-% Within a discourse, the patterns formed by its sentences mean that the whole conveys more than the sum of its separate parts. 
-% Another point  about discourse is that it exploits language  features, which allow speaker to specify that they are talking about something they have talked about before in the same discourse; indicating a realtion that holds between the states, events, beliefs, etc.  presented in the discourse; changing to a new topic or resuming one from earlier in the discourse.
-% Discourse structures are the patterns that one sees in multi-sentence (multi-clausal) texts. 
-% Recognizing these patterns in terms of the elements that compose them is essential to correctly deriving and interpreting information in the text. 
-% The elements may be topic, each  about a set entities and what is being said about them.
-% These type of relations are mainly called as coherence relations by Webber et al. (NLE 2012). 
-% Discourse can be structured by its topics, each comprising a set of entities and a limited range of things being said about them. 
-% Each topic may involve a set of entities, which may (but not have to) change from topic to topic. 
-% This aspect of structure has been modeled as entity chains (Barzilay and Lapata, 2008).
-% Patterns of entity chains can also be characteristic of particularly types of discourse, and therefore be of value in assessing the quality of automatically generated text. 
-% Low-level evidence for the topic structure of discourse comes from the strong correlation between topic and lexical usage, which Halliday and Hasan (1976) call lexical cohesion. 
-% Lexical chains can simply be a matter of the density of related terms within a segment, or of particular patterns of related terms, such as lexical chains (Barzilay and Elhadad 1997; Galley et al, 2003; Clarke and Lapata, 2010) defined as sequence of semantically related words. 
+
+
+
+
+
+
+
 
