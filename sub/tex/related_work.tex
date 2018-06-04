@@ -995,17 +995,16 @@ MCSeg is one of the segmenters based on the cosine similarity between sentences 
 
 \section{Coherence in Applications}
 
-
 Discourse structure plays a crucial role in different applications such as summarization, information extraction, essay analysis and scoring  \cite{burstein10}, 
 sentiment analysis, and assessing the naturalness and coherence of automatically generated texts. 
 In this section, we review different tasks employed for evaluating coherence models. 
 We then explain why among these models, we choose readability assessment and text summarization for our evaluation purpose in this thesis. 
-
  
 In order to evaluate a coherence model, a scoring function is required \cite{karamanis04}.   
 A scoring function is a function that returns a score (or a set of scores) for the coherence of a text.  
 This function is an increasing function; it returns higher scores for more coherent texts. 
 
+\textbf{OVERLAP WITH EVALUATION IN COHERENCE FORMULATION}
 Early work, which are inspired by Centering Theory, define different coherence functions based on the constraints introduced by Centering.    
 For instance,  \newcite{poesio04, miltsakaku00}, as one of the informal Centering-based coherence scoring functions, propose a scoring function based on the number of each transition type in a text.  
 The function returns higher scores for texts that have many number of CONTINUE transitions and less number of SHIFT transitions. 
@@ -1016,7 +1015,6 @@ The scoring function uses the entity-based relations among sentences with featur
 
 As it has been shown, CT is open-ended enough for one to propose new metrics which appear to be as plausible a some existing ones from a purely theoretical point of view. 
 \newcite{karamanis04} explain that it is practically impossible to come up with an experimental design which accounts for the predictions of all aspects of coherence metrics at the same time. 
-
 
 The entity grid coherence model \cite{barzilay05a} is evaluated on three tasks: sentence ordering, summary rating and readability assessment. 
 In these tasks, coherence is taken as a relative property, rather than binary, of texts: Given a pairs of texts, which one is more coherent? 
