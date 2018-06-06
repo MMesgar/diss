@@ -2,11 +2,46 @@
 \selectlanguage{english}
 \addchap*{\abstractname}
 
-Coreference resolution \cite{danes74a} is the task of determining which expressions in a text are used to refer to the same entity. This task is one of the most fundamental problems of natural language understanding. Inherently, coreference resolution is a structured task, as the output consists of sets of coreferring expressions. This complex structure poses several challenges since it is not clear how to account for the structure in terms of error analysis and representation.
+Local coherence is a key property of well-written texts that makes them distinguishable from a sequence of randomly strung sentences. 
+The task of local coherence modeling is about the way that sentences in a text link up one another.  
+Solving this task is beneficial for assessing the quality of texts. 
+Moreover, a coherence model can be integrated as a component in text generation systems such as text summarization. 
 
+In this thesis, we present a graph-based approach to local coherence modeling that accounts for the connectivity structure among sentences in a text. 
+Graphs give our model the capability to take into account relations between non-adjacent sentences as well as those between adjacent sentences. 
+Moreover, the connectivity style among nodes in graphs reflects how sentences in a text are related to each other. 
+
+We first employ entity graph approach proposed by \newcite{guinaudeau13} to represent a text via a graph. 
+In this graph representation of a text, nodes encode sentences and edges depict existence of a pair of mentions that are coreferent.   
+Having such graph representations of texts, we introduce graph-based features to encode the structure of edges in a graph, and therefore the coherence property of the corresponding text.   
+We extract all subgraphs in graphs and refer to them as coherence patterns. 
+The diversity between the frequencies of coherence patterns in graph representations of texts captures the differences in the structure of graph.  
+Consequently, it correlates with the perceived coherence of texts.  
+
+In order to complete our approach to coherence modeling, we propose a new graph representation of texts, instead of the entity graph.  
+Our approach employs lexical relations among words in sentences, instead of entity relations, to model semantic relations between sentences as a graph. 
+The combination of our method for coherence pattern mining and our approach to text representation yield a complete and new coherence model. 
+
+We mainly evaluate our approach on the readability assessment task, because a key factor for this task is coherence. 
+In a coherent text sentences are hanged together to unify the text as a whole. 
+Such texts are easy to read and understand, and consequently need less effort from their readers. 
+By extensive experiments on two separate readability assessment datasets, 
+we investigate the correlation between frequencies of coherence patterns in texts and readability ratings assigned by human judges.    
+We further use a machine learning method to learn how coherence patterns together can rank texts with respect to readability. 
+Since the ultimate goal of coherence models is to be used for text generation systems, we investigate how our coherence patterns can be integrated into a graph-based text summarizer to produce informative and coherent summaries. 
+An implementation of the frameworks discussed in this thesis is publicly available.
 
 \selectlanguage{ngerman}
 \addchap*{\abstractname}
 
 Koreferenzresolution ist eine der grundlegenden Aufgaben des automatischen Textverstehens. Die Aufgabe besteht darin zu ermitteln, welche Ausdrücke in einem Text sich auf die gleiche Entität beziehen. Koreferenzresolution ist per Definition ein strukturiertes Problem, da die Ausgabe eines Koreferenzresolutionssystems aus Mengen koreferenter Ausdrücke besteht. Aus dieser komplexen Struktur ergeben sich einige Herausforderungen, da es nicht klar ist, wie die Struktur adäquat für die Fehleranalyse und die Repräsentation von Ansätzen zur Koreferenzresolution berücksichtigt werden kann.
+
+In dieser Doktorarbeit untersuchen wir automatische Koreferenzresolution im Hinblick darauf, wie die Struktur berücksichtigt werden kann. Hierbei widmen wir uns sowohl der Fehleranalyse, als auch der Repräsentation von Ansätzen. Insbesondere schlagen wir zwei Frameworks vor.
+
+Das erste Framework befasst sich mit Fehleranalyse. Wir stellen zunächst Bedingungen auf, welche eine Methode zur Fehleranalyse berücksichtigen sollte. Davon ausgehend entwickeln wir ein Framework, welches auf einer strukturierten graphbasierten Repräsentation der Referenzannotation und der Ausgabe beruht. In diesem Framework werden Fehler extrahiert, indem linguistisch motivierte oder aus Daten induzierte Spannbäume der graphbasierten Repräsentationen erstellt werden.
+
+Mit dem zweiten Framework widmen wir uns der Repräsentation von Ansätzen zur Koreferenzresolution. Wir zeigen, dass Ansätze zur Koreferenzresolution als Prädiktoren von \emph{latenten Strukturen}, welche nicht in den Daten annotiert sind, verstanden werden können. Aus diesen latenten Strukturen wird dann in einem Nachbereitungsschritt die Ausgabe berechnet. Von dieser Erkenntnis ausgehend entwickeln wir ein Machine-Learning-Framework für Koreferenzresolution. In diesem Framework können wir verschiedene Ansätze einheitlich darstellen. Insbesondere können wir sie als Instanzen eines generischen Ansatzes auffassen. Wir stellen sowohl viele Ansätze aus der Literatur als auch neue Varianten dieser Ansätze in unserem Framework dar. Die Spannbreite der Ansatzklassen, welche wir betrachten, reicht hierbei von simplen paarweisen Klassifikationsmethoden bis hin zu komplexen entitätsbasierten Modellen. Durch die einheitliche Repräsentation können wir Unterschiede und Gemeinsamkeiten der Ansätze transparent und detailliert analysieren.
+
+Schließlich benutzen wir das Fehleranalyse-Framework, um einen Vergleich der Fehler verschiedener Modelle auf einem Benchmark-Korpus durchzuführen. Wir führen hierbei Unterschiede in den Fehlern auf Unterschiede in der Repräsentation zurück. Unser Vergleich zeigt, dass ein Mention-Ranking-Modell und ein Mention-Entity-Modell, welches auf Antezedentenbäumen beruht, die besten Ergebnisse liefern. Wir besprechen, wodurch diese guten Ergebnisse zustande kommen. Weiterhin analysieren wir, weshalb komplexere Ansätze die Ergebnisse nicht verbessern können. Eine Implementation der beiden Frameworks ist als Download verfügbar.
+
 

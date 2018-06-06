@@ -13,7 +13,7 @@ This chapter gives related linguistic definitions, which are related to the task
 
 In this thesis, we tackle the problem of local coherence modeling. 
 The popular definition of this task is to model how sentences in a text are related one another. 
-This task has been the focus of the majority work in text processing (see Section \ref{sec:related_work}). 
+This task has been the focus of the majority work in text processing (see Chapter \ref{ch:rel-work}). 
 Variations of the task consider different types of relations, such as rhetorical \cite{hovyeduard89} or lexical \cite{morris91}, between different spans of texts, such as clauses \cite{strube.col98} or sentence \cite{halliday76}, in various text types, such as dialogue \cite{wangxinhao13} or monologue \cite{barzilay08}. 
 Here we give a formal definition of this problem, which will be used in the following chapters of this thesis. 
 
@@ -52,7 +52,7 @@ Let $r_{ij}= R(s_i,s_j)$ indicates the relationship between a sentence pair $(s_
 Although we define $P$ as a set but it can be partially structured, e.g.\ when sentence $s_i$ has to proceed sentence $s_j$ in a text. 
 
 
-The distinction between texts with respect to their coherence is in the last resort a matter of degree \cite{haliday76}: Which one is more coherent? 
+The distinction between texts with respect to their coherence is in the last resort a matter of degree \cite{halliday76}: Which one is more coherent? 
 In order to rank texts with respect to their coherence, we need to capture patterns that frequently occur in well-written texts, and rarely in less coherent ones.  
 Coherence patterns are template of relationships among sentences in texts, such that their frequencies assist to distinguish coherent texts from incoherent ones. 
 
@@ -74,10 +74,10 @@ Let $P=\lbrace p_0,p_1,p_2,...,p_m \rbrace$ be a set of extracted patterns from 
 \end{definition}
 
 Having vector representations of coherence lets us to employ machine learning models to rank texts. 
-In Chapter \ref{ch:rel_work}, we describe different approaches to modeling relationships between a pair of sentences, i.e.\ $R(s_i,s_j)$, and how they represent the set of all relations in a text $P$.  
+In Chapter \ref{ch:rel-work}, we describe different approaches to modeling relationships between a pair of sentences, i.e.\ $R(s_i,s_j)$, and how they represent the set of all relations in a text $P$.  
 There, we also review how method $M$ is derived by different computational models. 
-We employ a powerful representation method from the literature and develop our approach for extracting coherence patterns in Chapter \ref{ch:coh_patterns}. 
-We further improve the predictive power of coherence patterns by a new approach to relationship representation among sentences $P$ in Chapter \ref{ch:lex_graph}. 
+We employ a powerful representation method from the literature and develop our approach for extracting coherence patterns in Chapter \ref{ch:coh-patterns}. 
+We further improve the predictive power of coherence patterns by a new approach to relationship representation among sentences $P$ in Chapter \ref{ch:lex-graph}. 
 
 \section{The Linguistics of Coherence}
 
@@ -113,7 +113,7 @@ We follow \newcite{stede12} and define coherence as a property of a text that is
 A coherent text discusses a sequence of topics in a structured way that a reader can recognize and relate to one another, and collectively render the text as a unified whole. 
 Each topic is tending to occupy a (topical) segment of the text \cite{hearst97}. 
 Coherence is defined based on the relations and structures of topical segments in a text. 
-This structure is sometimes referred to as global, since it is coarse-grained and spans the entire text \cite{}. 
+This structure is sometimes referred to as global, since it is coarse-grained and spans the entire text \cite{elsner07}. 
 \newcite{lautamatti78} defines the term topic as what the sentence is about and the term comment as information about the topic.  
 In general, however, defining the notion of topic, and recognizing topics and the boundaries between  text segments corresponding to them are not straight forward \cite{stede12}. 
 We discuss some computational topical coherence model in Chapter \ref{ch:rel-work}. 
@@ -127,13 +127,35 @@ Therefore, understanding the text implies uncovering these relationships.
 The way that linguistic devices are used to relate sentences in a text is known as local coherence. 
 In some literature in text linguistics \cite{halliday76}, this phenomena is referred to as cohesion.   
 \newcite{stoddard91} (chapter 2) argues that these two are not distinguishable and can be used interchangeably. 
-\newcite{stede12} stats that signals of local coherence serve as indicators of topic continuity, consequently the absent of a surface relation is a sign of topic shift. 
+\newcite{stede12} states that signals of local coherence serve as indicators of topic continuity, consequently the absent of a surface relation is a sign of topic shift. 
 Since the research in this thesis is about modeling local coherence, henceforth in this thesis it is referred to as coherence modeling, unless this is not clear from the context. 
 
 Prominent cohesive devices can be grouped in grammatical and lexical relations between elements of sentences \cite{halliday76}. 
 Grammatical relations are reference, substitution, ellipsis and conjunctions. 
 Lexical relations include any lexical-semantic relation, such as repetition, synonym, antonym, and the like, between words of sentences. 
-Reference cohesive devices are also known as entity-based relations, with this intuition that related sentences in a text keep referring to the same named entity. 
+Reference cohesive devices are also known as entity-based relations, with the intuition that related sentences in a text keep referring to the same named entity. 
+We follow \newcite{barzilay05a} and \newcite{elsner10} regrading entity definition.  
+
+\begin{definition}
+    An entity is as a person, an object or abstraction that exists (or could exist) external world to a text. 
+\end{definition}
+
+An entity can be referred to in different ways by various referral expressions, or mentions. 
+
+\begin{definition}
+	Pieces of a text that are used to refer to an entity are called \emph{mentions}. 
+\end{definition}
+
+Having these definitions, one way of representing an entity is to group all mentions that refer to that entity. 
+The task of identifying mentions that refer to the same entity is known as coreference resolution task.  
+The goal of this task is to cluster mentions of a text based on entities that they are referring to.  
+
+\begin{definition}
+	The task of detecting all mentions in a text and clustering all mentions that refer to same entities is called \emph{coreference resolution}. 
+\end{definition}
+
+Each cluster, which can be imagined as a bucket containing all referent mentions, represent an entity. 
+
 The sample text in Example \ref{ex:coh-ref}\footnote{Taken from \url{https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1162/handouts/cs224n-lecture11-coreference-6up.pdf}, on June 2 2018.} shows how entity-based relation link sentences. 
 
 \begin{examples}
@@ -142,7 +164,6 @@ The sample text in Example \ref{ex:coh-ref}\footnote{Taken from \url{https://web
 	\textbf{The president} talked about Milwaukee’s economy. \\
 	\textbf{He} mentioned new jobs. \\
 \end{examples} 
-
 
 One of the popular entity-based frameworks for local coherence modeling is Centering Theory \cite{grosz95}. 
 The main hypothesis of this theory is the center that at any given point in a text is most salient entity.  
@@ -153,12 +174,12 @@ Specifically, the grammatical subject is taken the default position for the text
 Depending on the configuration of grammatical roles in adjacent sentence, \newcite{brennan87} define four different types of transitions for the text center. 
 These transitions capture the smoothness of the center move from one sentence to another. 
 When a latter sentence focuses on the topic, i.e.\ center, transition is Continue, the other types involve topic shift: Retain, Smooth Shift, and Rough Shift. 
-Centering has been applied directly in models of coherence \cite{karamanis04}.  
-However, since it requires human annotations for transitions between sentences, other models employ the basic Centering principles as soft constraints or features in a probabilistic framework such as the Entity Grid \newcite{barzilay05}, which we discuss in more detail in Chapter \ref{ch:rel-work}.
+Centering has been applied directly in models of coherence \cite{karamanis04a}.  
+However, since it requires human annotations for transitions between sentences, other models employ the basic Centering principles as soft constraints or features in a probabilistic framework such as the Entity Grid \newcite{barzilay05a,barzilay08}, which we discuss in more detail in Chapter \ref{ch:rel-work}.
 
 Further research shows that grammatical role information are far less predictive for tracking the text center in German, as a free word order language \cite{strube.acl96}. 
 Instead the functional information structure \cite{danes74} are considered. 
-This structure captures flows between given information vs. new information in a text. 
+This structure captures flows between given information versus new information in a text. 
 Some information in a sentence is known or old, because of it is discussed by preceding sentences of the sentence, and some information are new. 
 The functional information structure is explained by \newcite{halliday76} as theme-rheme relations in a text. 
 Theme can be taken as given information, as a point of the text departure, and rheme is (almost) similar to new information, as clarity information in the theme. 
@@ -172,7 +193,7 @@ The other perspective of local coherence is lexical cohesion, which cohesive eff
 An advantage of lexical cohesion, on contrary to entity-based models, is that it requires no annotation at all; they are accessible directly from the text. 
 The insight of local coherence on the grounds of lexical relations is that content words in a text do not occur independently of one another, but bear semantic similarity because of common topic. 
 A form of lexical cohesion is reiteration, which involves different type of lexical relations such as repeating a word, using a synonym of a word, employing a superordinate word, and using a general word. 
-Example \ref{ex:coh-lex} is taken from \cite{halliday78} to illustrate these relations:
+Example \ref{ex:coh-lex} is taken from \cite{halliday76} to illustrate these relations:
 
 \begin{examples}
 	\label{ex:coh-lex}
@@ -188,11 +209,11 @@ Example \ref{ex:coh-lex} is taken from \cite{halliday78} to illustrate these rel
 \end{examples} 
 
 In (c) the word ``car'' is a superordinate, any word whose meaning includes that of the earlier one, of ``Jaguar'', as vehicle is a superordinate of the car, spoon of teaspoon, and the like. 
-The boundary between the reiteration type of lexical cohesion and reference type in grammatical relations, i.e.\ entity-based relations, is by no means clearcut\footnote{However, properly speaking, reference is irrelevant to lexical cohesion. As we discuss later lexical cohesion relationship between two items does not need to imply a coreferent relationship.} \cite{halliday78}. 
+The boundary between the reiteration type of lexical cohesion and reference type in grammatical relations, i.e.\ entity-based relations, is by no means clearcut\footnote{However, properly speaking, reference is irrelevant to lexical cohesion. As we discuss later lexical cohesion relationship between two items does not need to imply a coreferent relationship.} \cite{halliday76}. 
 This can slightly clarify the reason that for purposes of the research in this thesis local coherence and cohesion are largely synonymous.
 
 It is not necessary for two lexical occurrences to be coreferent, however, in order to for them to be cohesive. 
-Consider Example \ref{ex:coh-nonref} from \newcite{halliday78}(p.~282). 
+Consider Example \ref{ex:coh-nonref} from \newcite{halliday76}(p.~282). 
 In (a) word ``boy'' and  word ``boys'' are not coreferent, however, their semantic relationship serves to link the sentences. 
 This relationship is not in any way dependent on the presence of other items; it is not the wriggling that provides the context, as (b) shows. 
 
@@ -258,14 +279,14 @@ Intrinsic and extrinsic are two types of evaluations methodologies \cite{}.
 In an intrinsic evaluation, system output is directly evaluated in terms of a set of norms or predefined criteria about the desired functionality of the system itself. 
 In an extrinsic evaluation, system output is assessed in its impact on a task external to the system itself. 
 
-Some research papers on local coherence modeling use intrinsic evaluation approaches such as sentence ordering \cite{karamanis04,barzilay04} (see Chapter \ref{ch:rel-work} for a review of other tasks).  
-This evaluation method is primarily designed to model violations of restrictions in centering theory \newcite{karamanis04}. 
+Some research papers on local coherence modeling use intrinsic evaluation approaches such as sentence ordering \cite{karamanis04a,barzilay04} (see Chapter \ref{ch:rel-work} for a review of other tasks).  
+This evaluation method is primarily designed to model violations of restrictions in centering theory \newcite{karamanis04a}. 
 The goal is that a coherence model should ideally rank the original order of sentences in a text higher than any permutation of sentences. 
 
 Extrinsic approaches take the coherence of a text as a factor for the quality of the text, given the definition of coherence: What distinguishes a well-written text from others. 
 Readability assessment \cite{pitler08} is an example of these approaches. 
 In this task, a coherence model is involved with a readability assessment system, which consider other aspect of text quality such as sentence complexity and the like, to evaluate the influence of the coherence model on the end performance of the readability assessment system. 
-The insight of this task is that coherent texts are less complex than other ones, therefore they are easy to understand \cite{}. 
+The insight of this task is that coherent texts are less complex than other ones, therefore they are easy to understand \cite{pitler08}. 
 
 In the this thesis we follow extrinsic evaluation methods: the readability assessment task (see experiments in Chapter \ref{ch:coh-patterns} and Chapter \ref{ch:lex-graph}), and the automatic text summarization task \ref{ch:coh-patterns}. 
 
@@ -273,13 +294,21 @@ In the this thesis we follow extrinsic evaluation methods: the readability asses
 
 Coherence is not a binary property of a text that either exists or not. 
 Rather it is a comparative attribute of texts, whether a text is more coherent than the other one. 
-For humans it can be ambiguous to decide is a text is coherent or not, but they can rank texts with respect to the coherence property of texts \cite{halliday76}.   
+Even for humans it can be ambiguous to decide if a text is coherent or not, however they can rank texts with respect to the coherence property of texts \cite{halliday76}.   
 
-The core of the evaluation method in this thesis is a pairwise ranking task: Given a pair of texts, which one is more coherent. 
-Rankings predicted by a coherence model is compared with rankings gathered from human judges. 
+From the computational point of view, the core of the evaluation method in this thesis is a pairwise ranking task: Given a pair of texts, which one is more coherent. 
+To be machine learning convenient, the pairwise ranking task is recast as a classification task, where each text pair is associated with a label. 
+The value of the label represents which text in the pair should be ranked higher, we use $+1$ where the first text is more coherent, and $-1$ otherwise. 
+This binary classification task can be solved by a machine learning approach, such as the Support Vector Machine method \cite{}, for supervised coherence models, like our models in this thesis. 
+The details of experimental setups for machine learning models are explained in Chapter \ref{ch:coh-patterns} and Chapter \ref{ch:lex-graph}.  
+
+\subsection{Evaluation Metrics}
+
+In order to perform a quantitative analysis on the predicted labels by a coherence model, we employ the accuracy metric. 
+It measures how often a coherence model makes a correct decision. 
+A decision is correct if the label predicted by a model for a text pair is identical with the label that is assigned by human judges. 
 
 
-\subsection{}
 
 
 
