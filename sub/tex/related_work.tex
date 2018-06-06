@@ -2,135 +2,125 @@
 %!TEX root = diss.tex
 
 \chapter{Related Work}
-\label{ch:related_work}
+\label{ch:rel-work}
  
-Coherence modeling has received a lot of attention due to its key impact in other NLP systems. 
+Coherence modeling has received a lot of attention due to its key impact in other natural language processing tasks. 
 In this thesis, we propose a novel approach to local coherence modeling based on graph representations of texts. 
 We apply our approach to two types of graphs. 
-The first type represents entity-based relations in a text.
-The second one captures lexical relations. 
-The impact of our coherence patterns is examined in readability assessment and text summarization. 
+The first type captures corerfent relations between named entity mentions in a text.
+The second one represents lexical relations between any word in a text.  
+The impact of our coherence model is examined in readability assessment and text summarization. 
 
-Accordingly, we first review entity-based approaches to local coherence (Section \ref{}). 
-We then survey lexical approaches (Section \ref{}). 
-Finally, we discuss work on utilizing coherence in readability assessment and summarization (Section \ref{}). 
-
-A coherent text consists of a sequence of topics in a structured way \cite{marcu97b,hearst97,gallery03}. 
-Related models are often constructed as sequential topical models. 
-Topics are modeled by a language model \cite{blei01} or Bayesian topic models \cite{eisenstein08}.
-For modeling the temporal structure, early research uses a Hidden Markov Model \cite{barzilay04}, and  
-later research employs sequential neural networks \cite{}. 
+Accordingly, we first review entity-based approaches to local coherence (Section \ref{sec:rel-entity-models}). 
+We then survey lexical approaches (Section \ref{sec:rel-ent-grid}). 
+Finally, we discuss applications for local coherence model that have been introduced in the literature, particularly readability assessment and summarization tasks (Section \ref{sec:rel-coh-applications}). 
+% A coherent text consists of a sequence of topics in a structured way \cite{marcu97b,hearst97,gallery03}. 
+% Related models are often constructed as sequential topical models. 
+% Topics are modeled by a language model \cite{blei01} or Bayesian topic models \cite{eisenstein08}.
+% For modeling the temporal structure, early research uses a Hidden Markov Model \cite{barzilay04}, and  
+% later research employs sequential neural networks \cite{}. 
 
 \section{Entity-Based Approaches to Local Coherence}
 \label{sec:rel-entity-models}
 
- 
-Entity-based models are building blocks for our models and contributions in the rest of this thesis. 
-Therefore, in this chapter, we explain details of two well-known entity-based coherence models: Entity Grid and Entity Graph models. 
-Then we propose an improved version of the Entity Graph model.  
+The primary steps of the research presented in this thesis is inspired by entity-based models. 
+In this section, we explain details of two popular entity-based coherence models: the entity grid model, and the entity graph model. 
+We also briefly discuss their extensions.  
 
+\subsection{Historical Review}
 
 Entity-based approaches to local coherence have a long history within the linguistic literature \cite{kuno72,halliday76,prince81a,joshi98}.
 Most approaches are common in the primary assumption that coherence is perceived with respect to how entities are introduced and discussed in texts. 
 At any point in a text, some entities are taken more salient than others, and consequently are supposed to manifest different properties. 
-This premise is formalized differently by different theories. 
-For example, in Centering Theory \cite{grosz95,joshi98}, salience is basically about the way that entities are realized in sentences, are  they mentioned by pronouns or not? 
-The salience status of an entity is often reflected in grammatical functions and the linguistic forms of occurrences of the entity.  
-For instance, salient entities are more likely to have important syntactic roles (e.g.\ subject or object). 
-Entity-based theories consider coherence with respect to the distribution of entities across sentences while they distinguish between salient entities and the rest. 
-Their main intuition is that texts about the same entities are perceived to be more coherent than texts with random and unexpected switches from one topic to another.  
-Patterns of entity distributions reveal certain regularities, as a natural consequence of topic continuity, in coherence text. 
-Centering Theory formalizes fluctuations in topic continuity in terms of transitions between adjacent sentences. 
-The transitions are ranked, that is, texts demonstrating certain types of transitions are deemed more coherent than texts where such transitions are absent or infrequent. 
-For example, CONTINUE transitions require that two sentences share at least one entity in common and are preferred over transitions that repeatedly SHIFT from one entity to the other. 
+The main insight of entity-based models is that texts that keep referring to similar  entities are supposed to be more coherent than texts with random and unexpected switches from one entity to another. 
+The primary underlying assumption is that the distributions of entities in coherent texts reveal certain regularities. 
+This premise is supported by different theories, one of which is Centering Theory \cite{grosz95,joshi98} (see Chapter \ref{ch:coherence})
 
 A great deal of research has been devoted to implement Centering Theory \cite{miltsakaki00,karamanis04a}. 
-This is challenging because a computational model needs to determine how to instantiate parameters of the theory that are not often specified. 
-Interestingly, \newcite{poesio04} note that even for basic parameters of Centering Theory such as ``utterance'', ``realization'', and ``ranking'', multiple interpretations have been developed, because in the original theory these concepts are not explicitly specified. 
-For instance, in some Centering papers, entities are ranked with respect to their grammatical function \cite{brennan87,grosz95}, and in others with respect to their position in \newcite{prince81a}, givenness hierarchy \cite{strube99}, or their thematic role \cite{sidner04}.
-As a result, two “instantiations” of the same theory make different predictions for the same input. 
-Poesio et al. (2004) explore alternative specifications proposed in the literature, and demonstrate that the predictive power of the theory is highly sensitive to its parameter definitions.
-A common methodology for translating entity-based theories into computational models is to evaluate alternative specifications on manually annotated corpora. 
-Some studies aim to find an instantiation of parameters that is most consistent with observable data \cite{strube99,karamanis04,poesio04}.  Other studies adopt a specific instantiation with the goal of improving the performance of a metric on a task. 
-For instance, \newcite{miltsakaki00} annotate a corpus of student essays with entity transition information, and show that the distribution of transitions correlates with human grades. 
-Analogously, \newcite{hasler04} investigates whether Centering Theory can be used in evaluating the readability of automatic summaries by annotating human and machine generated extracts with entity transition information.
-One of the successful approaches to Centering Theory is the entity grid model. 
-This model uses the advantages of machine learning models to encode patterns of entity distributions in texts.
-The goal of their model is to not need human annotations for parameters in Centering Theory with subject to the task on that they are evaluating. 
-Therefore we focus on details of this model. 
+This is challenging because a computational model needs to determine how to instantiate parameters of the theory that are often underspecified. 
+Interestingly, \newcite{poesio04} note that even for basic parameters of Centering Theory such as ``utterance'', ``realization'', and ``ranking'' (see Chapter \ref{ch:coherence}), multiple interpretations have been developed, because in the original theory of centering these concepts are not explicitly specified. 
+As an instance, in some papers entities are ranked with respect to the grammatical function \cite{brennan87,grosz95} of entities occurrences in a text, and in some other papers those are ranked with respect to the position of entity mentions in sentences \cite{prince81a}, the familiarity status, or the thematic role \cite{strube.cl99,sidner04}.
+As a result, two “instantiations” of the same theory make different predictions for the same input.  
+Some studies aim to find an instantiation of parameters that is most consistent with observable data \cite{strube.cl99,karamanis04a,poesio04b}. 
+Some others adopt a specific instantiation with the goal of improving the performance of the coherence model for a specific task. 
+For example, \newcite{miltsakaki00} annotate a corpus of student essays with entity transition information, and then show that the distribution of transitions correlates with human grades. 
+Analogously, \newcite{hasler04} investigates whether Centering Theory can be used in evaluating the readability of text by annotating human and machine generated summaries with the entity transition information. 
+To sum up, \newcite{}Poesio et al. (2004) demonstrate that the predictive power of the centering theory is highly sensitive to its parameter definitions. 
+
+One of the successful entity-based coherence frameworks, which is inspired by the Centering Theory, is the entity grid model \cite{barzilay05a,barzilay08}. 
+This model uses the advantages of machine learning methods to encode patterns of entity distributions in texts.
+Its main goal is to eliminate the need to human annotations for parameters in Centering Theory, regardless of what the evaluation task is. 
 
 \subsection{The Entity Grid Model}
 \label{sec:rel-ent-grid} 
 
-\newcite{barzilay05a,barzilay08} were the first researchers who proposed a computationally coherence model based on the entity relations among sentences. 
-In this thesis, we refer to their model as the entity grid model, because the key idea of this model is to represent a text as a grid that captures patterns of entity distribution across sentences of a text.  
-Supported by some linguistic work such as Centering Theory \cite{grosz95} and other entity-based theories of discourse \cite{givon87,prince81a}, they assume that the distribution of entities in locally coherent texts exhibits certain regularities that can be reflected in a grid topology that is called entity grid.
-Here, we follow definitions in \newcite{barzilay05a,elsner10} regarding entities.  
-
-\begin{definition}
-    An entity is as a person, an object or abstraction that exists (or could exist) external world to a text. 
-\end{definition}
-
-An entity can be referred to in different ways by various referral expressions, or mentions. 
-
-\begin{definition}
-	Pieces of a text that are used to refer to an entity are called \emph{mentions}. 
-\end{definition}
-
-Having these definitions, one way of representing an entity is to group all mentions that refer to that entity. 
-The task of identifying mentions that refer to the same entity is known as coreference resolution task.  
-The goal of this task is to cluster mentions of a text based on entities that they are referring to.  
-
-\begin{definition}
-	The task of detecting all mentions in a text and clustering all mentions that refer to same entities is called \emph{coreference resolution}. 
-\end{definition}
-
-Each cluster, which can be imagined as a bucket containing all referent mentions, represent an entity. 
+\newcite{barzilay05a,barzilay08} were the first researchers who proposed a computational approach to local coherence modeling based on the entity relations among sentences. 
+Supported by some linguistic work such as Centering Theory \cite{grosz95} and other entity-based theories of discourse \cite{givon87,prince81a}, they assume that the distribution of entities in locally coherent texts exhibits certain regularities that can be reflected in a grid topology that is called entity grid. 
+In this thesis we refer to this model as the entity grid model, because its key idea is to represent a text as a grid that captures patterns of entity distributions across sentences in a text (see Chapter \ref{ch:coherence} for entity definition).  
 In practice, mentions of an entity are linked together in order to show that they are referring to the same entity. 
-Connections between mentions not only show that those are referring to the same entity, but also indicate that sentences that contain those mentions are almost about the same topic or information \cite{barzilay08}.  
-This assumption is the basis of entity-bases coherence models: sentences that contain mentions of an entity are related. 
-The way entities are mentioned, distributed, among sentences of a text represents certain regularities in well-written texts. 
-
+Connections between mentions not only show that those are referring to the same entity, but also indicate that sentences that contain those mentions are (almost) about the same topic or information \cite{barzilay08}. 
 
 \subsubsection{Text Representation: Entity Grid}
 
-An entity grid represents a text as a two dimensional array whose columns correspond to entities, and rows are matching to sentences.
+In the entity grid model each text is represented by a grid. 
+A grid is a two dimensional array whose columns correspond to entities, and rows are matching to sentences.
 An entry $r_{i;j}$ in a grid describes the syntactic role of entity $j$ in sentence $i$ if the entity is mentioned in the sentence. 
-The syntactic roles are categorized as subject (S), object (O), or all other syntactic role (X). 
-In addition, if an entity is not mentioned in a sentence a special marker (-) fills the corresponding entry of the entity grid. 
-In contrast, if a sentences contains different mentions of an entity, its grid symbol describes the most important of its grammatical roles: subject if possible, then object, or finally other. 
+The syntactic roles are categorized as subject (S), object (O), or all other syntactic roles (X). 
+In addition, if an entity is not mentioned in a sentence, a special marker (-) fills the corresponding entry $r_{i;j}$. 
+Finally, if a sentence contains several mentions of one entity, their corresponding entry describes the most important grammatical role of the mentions: subject if possible, then object, or finally other. 
 
-This discussion of the grid develops around the important question of which textual units are to be considered mentions of an entities, and how different mentions are to be linked to represent an entity.
+The discussion of the grid develops around the important question of which textual units are to be considered mentions of an entities, and how different mentions are to be linked to represent an entity. 
 A perfect solution in this regard would use coreference resolution to recognize mentions, noun phrases, and link arbitrary mentions to the same entities and discarding noun phrases which do not correspond to an entity. 
-Since coreference resolution systems are far from prefect\footnote{The highest reported precision of a coreference system on ? dataset is ?.}, and tend to work even more poorly on incoherent texts, this approach is not generally one utilized. 
-Moreover, a poor coreference system introduces more noises to a coherence model than what it fixes \cite{barzilay05}.
-As an alternative, implementations of the entity grid tend to employ all noun phrases as mentions and perform heuristic, but strict and simple, coreference resolution by connecting mentions that have an identical head noun as an entity. 
+Since coreference resolution systems are far from prefect\footnote{The highest reported precision of a coreference system on the ? dataset is ?.}, and tend to work even more poorly on incoherent texts, this approach is not generally one utilized \cite{barzilay05a}. 
+Moreover, a non-perfect general coreference system introduces more noise to a coherence model than what it fixes \cite{barzilay08}.  
+As an alternative, implementations of the entity grid tend to employ all noun phrases as mentions and perform a heuristic, but strict and simple, coreference resolution by connecting mentions that have an identical head noun as an entity. 
 Detailed discussions of this heuristic are given in \newcite{poesio04c} and \newcite{elsner10}.
 
-Here is a sample text from DUC dataset (more explanation in Section \ref{}) and its entity grid representation.
+A sample text\footnote{The text with ID D31010, taken from Document Understanding Conference (DUC-?) dataset, which we use in one of our experiments. Numbers are not marked because they are filtered out in preprocessing.} is shown in Example \ref{ex:rel-text}. 
+%/hits/fast/nlp/mesgarmn/Data/ACL13/SummaryCoherence/texts/
+%D31010.M.100.T.E.txt. Nubembers (e.g. 29) are filtered out in preprocessing.}  
 
-\begin{table}
-\centering
-\begin{tabular}{l@{\space}p{15cm}} %p@{\linewidth}
-\hline
- $S_0$: & [An arctic cold wave]\textbf{\textsubscript{S}}, [the worst]\textbf{\textsubscript{X}} in [10 years]\textbf{\textsubscript{X}}, hit [parts]\textbf{\textsubscript{O}} of [Europe]\textbf{\textsubscript{X}}, bringing [sub-zero temperatures]\textbf{\textsubscript{O}} and killing [scores]\textbf{\textsubscript{O}} of [people]\textbf{\textsubscript{X}}. \\
+
+\begin{examples}
+\label{ex:rel-text}
+\begin{tabular}{l@{}p{12.5cm}}
+ $S_0$: &[An arctic cold wave]\textbf{\textsubscript{S}}, [the worst]\textbf{\textsubscript{X}} in [10 years]\textbf{\textsubscript{X}}, hit [parts]\textbf{\textsubscript{O}} of [Europe]\textbf{\textsubscript{X}}, bringing [sub-zero temperatures]\textbf{\textsubscript{O}} and killing [scores]\textbf{\textsubscript{O}} of [people]\textbf{\textsubscript{X}}. \\
 
  $S_1$: & Hardest hit were [Poland]\textbf{\textsubscript{S}}, [Bulgaria]\textbf{\textsubscript{S}}, and [Romania]\textbf{\textsubscript{S}} as well as [parts]\textbf{\textsubscript{S}} of [central]\textbf{\textsubscript{X}} and [eastern France]\textbf{\textsubscript{X}}. \\
 
-$S_2$: & In [Poland]\textbf{\textsubscript{X}}, [three weeks]\textbf{\textsubscript{X}} of [sub-zero temperatures]\textbf{\textsubscript{X}} killed [at least 85 people]\textbf{\textsubscript{O}} in [November]\textbf{\textsubscript{X}}, 29 more than in [all]\textbf{\textsubscript{X}} of [the previous winter]\textbf{\textsubscript{S}}. \\
+$S_2$: &In [Poland]\textbf{\textsubscript{X}}, [three weeks]\textbf{\textsubscript{X}} of [sub-zero temperatures]\textbf{\textsubscript{X}} killed [at least 85 people]\textbf{\textsubscript{O}} in [November]\textbf{\textsubscript{X}}, 29 more than in [all]\textbf{\textsubscript{X}} of [the previous winter]\textbf{\textsubscript{S}}. \\
 
 
-$S_3$ : & [Most]\textbf{\textsubscript{S}} of [the victims]\textbf{\textsubscript{X}} were homeless [whose deaths]\textbf{\textsubscript{X}} by [exposure]\textbf{\textsubscript{X}} were alcohol related. \\
+$S_3$ : &[Most]\textbf{\textsubscript{S}} of [the victims]\textbf{\textsubscript{X}} were homeless [whose deaths]\textbf{\textsubscript{X}} by [exposure]\textbf{\textsubscript{X}} were alcohol related. \\
 
-$S_4$: & [Blizzards]\textbf{\textsubscript{X}} and [cold temperatures]\textbf{\textsubscript{S}} also hit [Bulgaria]\textbf{\textsubscript{X}} and [Romania]\textbf{\textsubscript{O}}, stranding [hundreds]\textbf{\textsubscript{O}} in [their cars]\textbf{\textsubscript{X}}. \\
+$S_4$: &[Blizzards]\textbf{\textsubscript{X}} and [cold temperatures]\textbf{\textsubscript{S}} also hit [Bulgaria]\textbf{\textsubscript{X}} and [Romania]\textbf{\textsubscript{O}}, stranding [hundreds]\textbf{\textsubscript{O}} in [their cars]\textbf{\textsubscript{X}}. \\
 
-$S_5$: & Elsewhere, [snow]\textbf{\textsubscript{S}} blanketed [the Italian island]\textbf{\textsubscript{O}} of [Capri]\textbf{\textsubscript{X}} for [the first time]\textbf{\textsubscript{X}} in [10 years]\textbf{\textsubscript{X}}.  \\
-
-
-\hline
+$S_5$: &Elsewhere, [snow]\textbf{\textsubscript{S}} blanketed [the Italian island]\textbf{\textsubscript{O}} of [Capri]\textbf{\textsubscript{X}} for [the first time]\textbf{\textsubscript{X}} in [10 years]\textbf{\textsubscript{X}}. 
 \end{tabular}
-\caption{/hits/fast/nlp/mesgarmn/Data/ACL13/SummaryCoherence/texts/D31010.M.100.T.E.txt. Nubembers (e.g. 29) are filtered out in preprocessing.}
-\end{table}
+\end{examples}
+
+% \begin{examples}
+% \label{ex:rel-text}
+% \begin{center}
+% \begin{tabular}{l@{\space}p{15cm}} %p@{\linewidth}
+% \hline
+%  $S_0$: & [An arctic cold wave]\textbf{\textsubscript{S}}, [the worst]\textbf{\textsubscript{X}} in [10 years]\textbf{\textsubscript{X}}, hit [parts]\textbf{\textsubscript{O}} of [Europe]\textbf{\textsubscript{X}}, bringing [sub-zero temperatures]\textbf{\textsubscript{O}} and killing [scores]\textbf{\textsubscript{O}} of [people]\textbf{\textsubscript{X}}. \\
+
+%  $S_1$: & Hardest hit were [Poland]\textbf{\textsubscript{S}}, [Bulgaria]\textbf{\textsubscript{S}}, and [Romania]\textbf{\textsubscript{S}} as well as [parts]\textbf{\textsubscript{S}} of [central]\textbf{\textsubscript{X}} and [eastern France]\textbf{\textsubscript{X}}. \\
+
+% $S_2$: & In [Poland]\textbf{\textsubscript{X}}, [three weeks]\textbf{\textsubscript{X}} of [sub-zero temperatures]\textbf{\textsubscript{X}} killed [at least 85 people]\textbf{\textsubscript{O}} in [November]\textbf{\textsubscript{X}}, 29 more than in [all]\textbf{\textsubscript{X}} of [the previous winter]\textbf{\textsubscript{S}}. \\
+
+
+% $S_3$ : & [Most]\textbf{\textsubscript{S}} of [the victims]\textbf{\textsubscript{X}} were homeless [whose deaths]\textbf{\textsubscript{X}} by [exposure]\textbf{\textsubscript{X}} were alcohol related. \\
+
+% $S_4$: & [Blizzards]\textbf{\textsubscript{X}} and [cold temperatures]\textbf{\textsubscript{S}} also hit [Bulgaria]\textbf{\textsubscript{X}} and [Romania]\textbf{\textsubscript{O}}, stranding [hundreds]\textbf{\textsubscript{O}} in [their cars]\textbf{\textsubscript{X}}. \\
+
+% $S_5$: & Elsewhere, [snow]\textbf{\textsubscript{S}} blanketed [the Italian island]\textbf{\textsubscript{O}} of [Capri]\textbf{\textsubscript{X}} for [the first time]\textbf{\textsubscript{X}} in [10 years]\textbf{\textsubscript{X}}.  \\
+% \hline
+% \end{tabular}
+% \end{center}
+% % \caption{/hits/fast/nlp/mesgarmn/Data/ACL13/SummaryCoherence/texts/D31010.M.100.T.E.txt. Nubembers (e.g. 29) are filtered out in preprocessing.}
+% \end{examples}
 
 %%(ROOT (S (NP (NP (DT An) (JJ arctic) (JJ cold) (NN wave)) (, ,) (NP (NP (DT the) (JJS worst)) (PP (IN in) (NP (CD 10) (NNS years)))) (, ,)) (VP (VBD hit) (NP (NP (NNS parts)) (PP (IN of) (NP (NNP Europe)))) (, ,) (S (VP (VP (VBG bringing) (NP (JJ sub-zero) (NNS temperatures))) (CC and) (VP (VBG killing) (NP (NP (NNS scores)) (PP (IN of) (NP (NNS people)))))))) (. .)))
 
@@ -994,6 +984,7 @@ MCSeg is one of the segmenters based on the cosine similarity between sentences 
 
 
 \section{Coherence in Applications}
+\label{sec:rel-coh-applications}
 
 Discourse structure plays a crucial role in different applications such as summarization, information extraction, essay analysis and scoring  \cite{burstein10}, 
 sentiment analysis, and assessing the naturalness and coherence of automatically generated texts. 
@@ -1160,8 +1151,7 @@ Admittedly, the synthetic data used in the ordering tasks partially approximate 
 
 Assessing the degree of readability of a text has been a field of research as early as the 1920's. Dale and Chall define readability as “the sum total (including all the interactions) of all those elements within a given piece of printed material that affect the success a group of readers have with it. The success is the extent to which they understand it, read it at optimal speed, and find it interesting” (Dale and Chall, 1949). It has long been acknowledged that readability is a function of text characteristics, but also of the readers themselves. The literacy skills of the readers, their motivations, background knowledge, and other internal characteristics play an important role in determining whether a text is readable for a particular group of people. 
 
-
-Many readability metrics have been established as a function of shallow features of texts, such as the number of syllables per word and number of words per sentence (Flesch, 1948; McLaughlin, 1969; Kincaid et al., 1975). These so-called tra- ditional readability metrics are still used today in many settings and domains, in part because they are very easy to compute. Their results, however, are not always representative of the complexity of a text (Davison and Kantor, 1982). They can easily misrepresent the complexity of technical texts, or reveal themselves un-adapted to a set of readers with particular reading difficulties. Other formulas rely on lexical information; e.g., the New Dale-Chall readability formula consults a static, manually-built list of “easy” words to de- termine whether a text contains unfamiliar words (Chall and Dale, 1995).
+Many readability metrics have been established as a function of shallow features of texts, such as the number of syllables per word and number of words per sentence (Flesch, 1948; McLaughlin, 1969; Kincaid et al., 1975). These so-called tra- ditional readability metrics are still used today in many settings and domains, in part because they are very easy to compute. Their results, however, are not always representative of the complexity of a text (Davison and Kantor, 1982). They can easily misrepresent the complexity of technical texts, or reveal themselves un-adapted to a set of readers with particular reading difficulties. Other formulas rely on lexical information; e.g., the New Dale-Chall readability formula consults a static, manually-built list of “easy” words to determine whether a text contains unfamiliar words (Chall and Dale, 1995).
 
 Researchers in computational linguistics have investigated the use of statistical language mod- els (unigram in particular) to capture the range of vocabulary from one grade level to another (Si and Callan, 2001; Collins-Thompson and Callan, 2004). These metrics predicted readability better than traditional formulas when tested against a corpus of web pages. The use of syntactic fea- tures was also investigated (Schwarm and Osten- dorf, 2005; Heilman et al., 2007; Petersen and Ostendorf, 2009) in the assessment of text reada- bility for English as a Second Language readers. While lexical features alone outperform syntactic features in classifying texts according to their reading levels, combining the lexical and syntac- tic features yields the best results.
 Several elegant metrics that focus solely on the syntax of a text have also been developed. The Yngve (1960) measure, for instance, focuses on the depth of embedding of nodes in the parse tree; others use the ratio of terminal to non- terminal nodes in the parse tree of a sentence (Miller and Chomsky, 1963; Frazier, 1985). These metrics have been used to analyze the writing of potential Alzheimer's patients to detect mild cognitive impairments (Roark, Mitchell, and Hollingshead, 2007), thereby indicating that cognitively motivated features of text are valua- ble when creating tools for specific populations. 
@@ -1189,7 +1179,6 @@ As before,  evaluate coherence models can be evlauted using accuracy and F-measu
 The accuracy measures how often a coherence model correctly distinguishes the version of an article from Encyclopedia Britannica more difficult than its version from Britannica Elementary. 
 F-measure is also computed based on the precision and recall as explained in previous experiments. 
 
-
 Higgins et al. ("Evaluating multiple aspects of coherence in student essays") evaluate multiple aspects of coherence in essays by defining some features based on semantic similarity measures and discourse structures. 
 Some features include the relatedness between the essay and the topic and some other capture the relatedness between discourse elements (e.g. intra-sentential quality and sentence-relatedness within discourse segments. 
 In earlier work, Folz et al. (1998) and Wiemer-Hastings and Graesser (2000) have developed coherence aspects of student writing.
@@ -1199,9 +1188,6 @@ Miltsakaki and Kukich (2000) have also addressed the issue of establishing coher
 Higgins et al. () adopted a vector-based method of semantic representation: Random Indexing (Kanerva et al. 2000; Sahlgren, 2001) while other work use Latent Semantic Analysis as a semantic similarity measure. 
 Their output shows that the semantic similarity between sentences is not as promising as other features. 
 It relatively is rare to find a sentence which is not related to anything in the same discourse. 
-
-
-
 
 \newcite{beigman13} use the lexical relations between words of a text to model the quality of the text. 
 Their model is inspired by this fact that a text segmentation algorithm which uses information about patterns of word co-occurrences can detect sub-topic shifts in a text (Riedl and Biemann, 2012; Misra et al., 2009; Eisenstein and Barzilay, 2008) indicates that texts contain some proportion of more highly associated word pairs (those in subsequent sentences within the same topical unit) and of less highly associated pairs (those in sentences from different topical units). 
@@ -1223,7 +1209,6 @@ They collect a readability dataset consisting of texts in different genres.
 The text  is judged for its readability by six to ten human annotators who assign each text a rating on a 5-point scale to indicate how readable the text is where readability is defined as a subjective judgement of how easily a reader can extract the information that writer intended to convey. 
 They compute the Pearson correlation between values of different features and the average human ratings associated with documents to measure which feature is more informative for this task. 
 Although they do not use any coherence feature in their experiments but their results show that discourse features such as language model features are strongly correlated with human ratings. 
-
 
 \subsubsection{Text Summarization}
 The summary coherence ranking task is based on this intuition that a coherence model that exhibits a high agreement with human judges accurately captures the coherence properties of the machine generated texts. 
@@ -1289,7 +1274,6 @@ Teufel and Moens (2002) characterize discourse elements by features like locatio
 The third method uses the lexical chains that can be used for both extractive and compression (abstractive): For Barzilay and Elhadad (1997), important sentences comprise the first representative element of a strong lexical chain and it is these sentences that are selected for the summary. 
 The use of lexical chains allows topicality to be taken into account to heighten the quality of summaries. 
 
-
 Clarke and Lapata (2010) require the entity that serves as the center of a sentence (in the sentence of the Centering Theory) be retained in a summary. 
 Schilder (2002) shows that discourse segments with low topicality should occupy a low position in a hierarchical discourse structure that can be set for extractive summarization. 
 Barzilay and Lapata (2008) were the first researchers to recognize the potential value of entity chains and their properties for assessing text quality. 
@@ -1308,7 +1292,6 @@ Thus, Barzilay and Lapata provide empirical support for the idea that coherent t
 In this work, a sentence is a bag of entities associated with syntactic roles. 
 A mention of an entity, though may contain more information than just its head and syntactic role. 
 Thus, Elsner and Charniak (2008a) inspired by work on coreference resolution, consider additional discourse-related information in referring expressions - information distinguishing between familiar entities from unfamiliar ones and salient entities from non-salient ones.   
-
 
 % As before, significance is tested with the Student’s t-test accounting for the Bonferroni correction.
 
