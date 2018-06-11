@@ -52,7 +52,10 @@ Let $r_{ij}= R(s_i,s_j)$ indicates the relationship between a sentence pair $(s_
 Although we define $P$ as a set but it can be partially structured, e.g.\ when sentence $s_i$ has to proceed sentence $s_j$ in a text. 
 
 
-The distinction between texts with respect to their coherence is in the last resort a matter of degree \cite{halliday76}: Which one is more coherent? 
+While some texts can be simply recognized as coherent or incoherent, often it is a matter of degree \cite{halliday76}. 
+A text can be less coherent when compared to one text, but more coherent when compared to another. 
+As such, since the notion of coherence is relative, coherence assessment is better represented as a ranking problem. 
+Given a pair of texts, a model ideally ranks them with respect to their coherence.
 In order to rank texts with respect to their coherence, we need to capture patterns that frequently occur in well-written texts, and rarely in less coherent ones.  
 Coherence patterns are template of relationships among sentences in texts, such that their frequencies assist to distinguish coherent texts from incoherent ones. 
 
@@ -251,6 +254,30 @@ For textual purposes, it is (almost) sufficient to know that a pair of words are
 \newcite{hoey91} examine how lexical cohesive elements make a text organized, and contribute to local coherence. 
 He shows that relations between semantically related words in a text can make patterns in texts. 
 In Chapter \ref{ch:rel-work}, we survey some related computational models of lexical cohesion in texts. 
+
+% % One of the basic approaches to lexical cohesion is \emph{Cohesion in English} \cite{halliday76}. 
+% % Halliday and Hasan’s model of lexical cohesion is based on a division of the various lexical cohesive devices into two main categories: reiteration and collocation. 
+% % Reiteration includes the repetition of the same word (mushroom – mushroom), the use of a synonym (sword – brand), the use of a superordinate (Jaguar – car), and the use of a general word (We all kept quiet. That seemed the best move.). 
+% % All these devices have the function of reiterating the previous item, either in an identical or somewhat modified form, and this is the basis for the creation of a cohesive tie between the items.
+% % Often the tie is strengthened by the fact that the items are co-referential, but as \newcite{halliday76} \textbf{Halliday and Hasan (1976: 282– 283)} note, this is not required for two items to be cohesive; even without co-referentiality, two occurrences of an item in a text will constitute a tie, as in the following example .
+% % There’s a boy climbing that tree. Most boys do!
+
+% % According to Halliday and Hasan, collocation is ``cohesion that is achieved through the association of lexical items that regularly co-occur'' (Halliday \& Hasan 1976: 284). 
+% % This general definition of collocation may seem a little vague, but they do try to clarify it: the association is achieved when the lexical items have a tendency to appear in similar lexical environments or when they are related lexicosemantically. 
+% % For example, boy and girl are cohesive because they have opposite meanings, but laugh and joke, and boat and row are also cohesive, although they are not systematically related, only ``typically associated with one another'' (Halliday \& Hasan 1976: 284–286).
+
+% % What differentiates between collocation in the lexicographic sense, on the one hand, and in the cohesive sense, on the other, is the proximity of the items. In lexicography, collocation refers to adjacent items: the item investigated is called the node, and a restricted number of items (typically from four to six) positioned on either side of the node are its collocates. But since cohesion refers to connections between longer stretches of a text (clauses and sentences), items that are regarded as being related by collocation in the cohesive sense cannot be adjacent in that text. We can here reconsider Firth’s example of night and dark: if they occur next to each other, they are an instance of lexicographic col- location, but if they are separated by a longer stretch of text, their relationship ties together the clauses or the sentences in which they occur and they can be regarded as an instance of cohesive collocation.
+
+% Segmentation into a linear sequence of topically coherence segments generally assumes that the topic of a segment will differ from that of adjacent segments. It is also assumed that topic constrains lexical choice. either of all words of a segment or just its content words (i.e., excluding stop-words).
+% Topic relation is based on either semantic-relatedness or topic models. 
+% The elements for making connections are either sentences or a pseudo-sentences (i.e., fixed length string) whose relevant elements may be all the words or just content words .
+% All semantic-relatedness approaches to topic segmentation involve (1) a metric for assessing the semantic relatedness of terms withing proposed segments (2) a locality that specifies which units within a text are assessed for semantic relatedness, (3) a threshold for deciding how low relatedness can drop before it signals a shift to another segment.
+
+% % This type of relationship is the most problematic, especially from a knowledge representation point of view. Such collocation relationships exist between words that tend to occur in similar lexical environments. Words tend to occur in similar lexical environments because they describe things that tend to occur in similar situations or contexts in the world. Hence, context-specific examples such as {post office, service, stamps, pay, leave} are included in the class.
+
+% According to Morris and Hirst (1991), lexical cohesion is the result of chains of related words that contribute to the continuity of lexical meaning. 
+
+
 
 \subsection{Coherence Patterns}
 \textbf{stodarrd a and some part from danes}
