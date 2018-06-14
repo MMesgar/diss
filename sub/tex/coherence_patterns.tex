@@ -1,697 +1,499 @@
 % for sublime text 3
 %!TEX root = diss.tex
 
-\chapter{Coherence Patterns}
+\chapter{Graph-based Coherence Patterns}
 \label{ch:coh-patterns}
 
+In this chapter we motivate and devise a method for extracting coherence patterns.  
+We first provide motivations for representing texts by graphs and for a need of graph-based patterns for coherence modeling (Section \ref{sec:motivation}).  
+We then present an algorithm for coherence pattern extraction based on subgraph mining algorithms (Section \ref{sec:pattern-extraction}). 
+We finally show how extracted coherence patterns can be used to represent the coherence of a text (Section \ref{sec:coh-modeling}), and evaluate both coherence patterns and the coherence model on assessing the readability of texts and on generating coherent summaries (Section \ref{sec:exp}). 
+We conclude by a summary of main contributions presented in the chapter (Section \ref{sec:summary}). 
 
-\section{Introduction}
-\label{sec:introduction}
-%
-In the previous chapter, we have shown that the entity graph model encodes entity-based relations among sentences of texts better than the entity grid model. 
-This is mainly because of the graph representation that is employed by the entity graph model  (opposed to the grid representation in the entity grid model) to model the distribution of entities across sentences. 
-Graphs are preferred more than grids for entity coherence models because of two reasons:
+\section{Why Graph-based Patterns?}
+\label{sec:motivation}
 
-\begin{itemize}
-\item Graphs can model long-distant connection between sentences
-\item Graphs do not encounter with the sparsity problem.
-\end{itemize}
-
-Although the graph representation of the distribution of entities in a text and leveraging it to obtain an one-mode projection graph among sentences have some advantages over the entity grid model, using the average outdegree of sentence nodes in a projection graph seems insufficient to measure the connectivity style of nodes in the graph and, therefor, the perceived coherence.    
-The Average outdegree measures how strongly sentence nodes in a projection graph are connected to each other. 
-A projection graph with a higher average outdegree represents a more coherent text. 
-
-In this chapter, we investigate if the average outdegree is a powerful metric for coherence. 
-We compute the correlation between the average outdegrees of projection graphs that represent some news articles and the readability scores associated to them by human judges. 
-The average outdegree of none of the projection graph ($P_U$, $P_W$, and $P_{Acc}$) is statistically correlated with the associated human readability scores showing that the average outdegree is insufficient to distinct documents with respect to their coherence. 
-
-In order to solve this weakness of the entity graph model, we introduce novel graph-based coherence features. 
-To  this end, we use the entity and projection graph representations \newcite{guinaudeau13}
-(Section \ref{subsec:entity_graph}) to represent the entity-based relations among sentences of texts in a corpus and then follow this intuition that coherent texts reveal similar connectivity structure in their graph representations that make them distinguishable from the incoherent texts. 
-The main idea is to apply subgraph mining algorithms for finding frequent subgraphs (i.e.\ patterns) in texts (Section \ref{subsec:coherence_feature}). 
-
-We hypothesize that text coherence correlates with frequent subgraphs (vaguely reminding us of coherence patterns \cite{danes74a}) and that the mined patterns are good predictors for readability ratings.
-
-Our study in this chapter is novel in introducing new and informative graph-based coherence features. 
-We examine the predictive power of these feature in several experiments.  
-First, readability rating prediction in that we analyze the frequencies of what subgraphs (i.e, coherence pattern) are positively (or negatively) correlated with readability scores assigned by human annotators. 
-Second, the readability ranking task in that we examine how well our coherence features can distinguish coherent texts from incoherent ones. 
-We show that when a machine learning model is supplied by our coherence features performs not only better than when it is supplied by the entity transition features of the entity grid model, the average outdegree metric of the entity graph model. 
-Third, we integrate our coherence features into an automatic text summarizer of scientific articles. 
-We show that how our coherence patterns can improve the performance of a summarization system in terms of content selection and  the fluency of the generated summary. 
-
-The main contributions of this chapter are:
+In Chapter \ref{ch:rel-work}, we have discussed the entity grid \cite{barzilay05,barzilay08a} and the entity graph \cite{guinaudeau13} representations of a text. 
+The entity graph model outperforms the entity grid model in experiments performed by \newcite{guinaudeau13}. 
+They argue that the entity graph model outperforms the entity grid morel because of the graph representation that captures the distribution of entities across sentences. 
+Graphs are preferred more than grids for coherence modeling for two reasons:
 
 \begin{itemize}
-\item Analyzing the power of the average outdegree in coherence measurement
-\item Proposing subgraphs of projection graphs as coherence patterns and their frequency as coherence features 
-\item Evaluating the predictive power of coherence patterns in classifying coherent texts vs incoherent ones
-\item Showing that how our novel coherence patterns can be utilized in readability assessment as a text quality evaluation task, and the document summarization task as an instance of text generation system.   
+
+	\item graphs can model long-distant connections between sentences,
+
+	\item graphs do not encounter with the sparsity problem in representation. 
+
 \end{itemize}
 
-% The first main idea is to use a graph representation of rhetorical relations between sentences of a text (Section \ref{subsec:discourse_relation_graph}) and to merge the entity graph and the rhetorical graph (Section \ref{subsec:combined_ER_DR}). 
-% Hence we enrich the entity graph and consequently consider the distribution of two aspects of coherence (i.e. entities and discourse relations)
-% simultaneously. 
-% Subgraph mining has been successfully applied to other tasks, e.g.\ image processing \cite{nowozin07} and language modeling \cite{biemann12}. 
+The graph representation of the distribution of entities in a text is then transformed into a one-mode projection graph among sentence nodes. 
+The average outdegree of nodes in projection graphs is used to measure the extend to what sentence nodes in a projection graph are connected to each other. 
+\newcite{guinaudeau13} assume that the average outdegree quantifies the local coherence of a text. 
+This assumption has been challenged by other research (See Chapter \ref{ch:rel-work}) by defining different graph-based metrics to capture more information about the connectivity structure of graphs. 
+So the average outdegree of sentence nodes in a projection graph seems insufficient to measure the connectivity style of relations among nodes in the graph and, therefor, the perceived coherence of a text. 
+The results of some experiments in this chapter support this claim as well. 
+
+This weakness of the entity graph model motives us to introduce some graph-based features that capture the connectivity style of nodes, how nodes are connected, in projection graphs. 
+Considering linguistics of coherence explained in Chapter \ref{ch:coherence}, we hypothesize that  coherent texts reveal similar connectivity patterns in their graph representations which make them distinguishable from graph representations of incoherent texts. 
+The results of experiments in this chapter support this hypothesis. 
+
+In general, the term ``patterns'' refers to some elements which are repeated or which are potentially repeatable \cite{}. 
+From the machine learning perspective, ``patterns'' refer to regularities in data \cite{bishop06}.     
+In graph theory patterns are subgraphs that occur or can potentially occur in graphs \cite{}. 
+Graph-based patterns can be extracted by means of subgraph mining methods. 
+Inspired by linguistic work by \newcite{danes74a}, in the research of this thesis we refer to the  subgraphs that are extracted from graph representation of texts as connectivity patterns for graphs and coherence patterns for texts.  
 
 
-\section{Coherence Patterns in Linguitics}
-\label{sec:coherence_patterns_in_linguitics}
-%
-Patterns in general sense refers to some elements which are repeated or which are potentially repeatable.
-The concept of coherence pattern is linguistically derived from the texture of texts. 
-\newcite{stoddard91} defines a text as ``a phenomenon of seemingly infinite complexity because of its synergistic nature" where elements of a text are supposed to corporate together for an enhanced effect. 
-It is synergism that makes texts more than sequential words and sentences. 
-The dynamic of synergism, which is because of its multidimensionality, is beyond the linear, sequential structure of texts. 
-One cause of the multidimensionality of synergism is a global component which can be referred to as ``texture" that is 
-the quality created by the combination of the different elements in a text. 
-Indeed, one of the preliminary principles of texture is coherence, which is a type of unifying device which we construct consciously or unconsciously, as we process texts \cite{stoddard91,halliday76}.
+\section{Coherence Pattern Extraction}
+\label{sec:pattern-extraction}
 
+What \newcite{danes74a} propose is that the generalized structure of coherent texts may be described in terms of an underlying patterns of transitions between presented information in texts.  
+As before we take entities mentioned in a text as pieces of information that make sentences connected. 
+The entity graph representation, introduced in Chapter \ref{ch:rel-work}, is employed to model the distribution of entities across sentences of a text. 
+Then the projection graphs are obtained from the entity graph representations of texts. 
+Those model the structure of sentence relations in texts. 
+We employ a subgraph mining algorithm to automatically extract all connectivity patterns occurring in projection graphs of texts in a corpus as coherence patterns.   
 
-From \newcite{stoddard91}'s perspective, the texture of texts is interpretable by means of elements that are common in all texts and those that differentiate texts. 
-These elements are referred to as patterns of cohesion. 
-\newcite{stoddard91} believes that the texture property of texts manifests itself in patterns of cohesion in written texts. 
-It is worth noting that texture, in one sense, involve the quality of depth, which may range from minimal (approximating ``flatness") to maximal, or at any level in between. 
-In other words, patterns of coherence can be as basic as the linear order of elements of a text or be more complicated. 
-\newcite{stoddard91} describes the texture of texts as a composite of patterns -- storyline patterns, rhetorical patterns, linguistic patterns and so on -- which when overlaid to create the totality of a text creates variant textures which are like ``fingerprint'' of a text. 
-In this sense, the texture of texts is more closely to ``style'', which are certainly related \cite{sedelow66,stoddard91}. 
-
-
- Other linguistics also relate what we call coherence patterns to the texture or the nature of texts. 
-\newcite{markel83} presents ``cohesive patterns" and ``structural patterns" as textual nature. 
-\newcite{flower81} affirms this view saying that cohesion is ``linguistic patterning which contributes to the impression that a text hangs together."
-\newcite{halliday76} claim that ``linguistic patterns  [...] embody, and at the same time impose structure on our experience of the environment ..."
-Because of this, they suggest, patterns help us to understand a text as coherent and consistent with our knowledge, experience, and environment. 
-
-
-One factor that must be considered in describing coherence patterns as input to texture is the likelihood of a pattern occurring over large stretch of a text \newcite{stoddard91} . 
-The unity of texts happens because readers perceive the interactiveness of ``text components". 
-Because these appear to have a degree of consistency across all texts, they should be identifiable as texture-forming mechanisms.
-Moreover, this would be easier for readers to smoothly process a text in that the patterns of interactiveness among components are familiar to the reader.  
-
-\newcite{stoddard91} illustrated the patterns of cohesion and the way that they interact graphically for a few texts. 
-The term of ``networks of cohesion" proposed by \newcite{halliday76} is anaphoric for this graphical illustration. 
-The result of text analysis in \newcite{stoddard91} showed that the cohesion creates pattern, and they suggest unifies a text by means of cohesive network patterns that span varying lengths of text passage. 
-The importance of the results lies in the fact that typologies (i.e. graphical structure) and counting, when supplemented with other kinds of analysis, give us a better understanding of cohesion as it contributes to the texture of a text. 
-However, they have not proposed any systematical way 
-
-\textbf{[Some limitations of stoddard91 that your model is going to solve]}
-
-The fact that cohesive patterns occur in texts and the fact that cohesiveness is relative in texts provide useful validation of our intuition that is coherent texts reveal some regularities in their structure that can be encoded by the frequency of cohesion patterns. 
-
-Another linguistic research related to coherence patterns is done by \newcite{danes74a}. 
-She describes the structure of texts by the concept  of ``thematization" that has been also noticed by \newcite{halliday76} as ``information focus" or given-new information. 
-\newcite{halliday67} summarize in the this way that ``given information" has been talked about in a text and ``new information" is been mentioning now.  
-Similarly, theme, from the \newcite{danes74a}'s point of view, is ``the point of departure" where the text flows from a topic (``given information") towards another topic (``old information"). 
-In simple words, theme can be realized as ``given information" and rhyme is ``new information" and ``thematization"  is about  patterns of transitions between themes and rhymes in a text. 
-
-The contextual determination of givenness is far from being a simple phenomena \cite{danes74a}. 
-Tentatively, some information that is mentioned directly or indirectly in a text can be interpreted as given information. 
-\newcite{danes17} explains that ``given information" can be realized either directly with an identical wording or , indirectly, with a synonymous expression, or with a paraphrase. 
-The indirect mentioning is based on semantic inference. 
-For instance, the expression ``illness" occurring in a sentence might convey a piece of given information if in one of its preceding sentences ``disease" has been somehow mentioned. 
-In contrary, the new information either is not mentioned in its proceeding context or is related to a given information. 
-This phenomena is know as the relation between ``theme'' and ``Rhyme" in \newcite{danes74a} as is shown by  $T \rightarrow R$. 
-This illustrates that flow of information is from ``given information" (or ``theme") to ``new information" (or ``rhyme").
-\newcite{danes74a} believes that the inquiry into the thematic organization of the text is closely connected with the investigation of the so-called ``text coherence" or ``text connectivity" .
-She analyzes Czech scientific and other professional texts, as well as some tentative soundings in the area of German and English language materials.
-She has ascertained  three major types of organizational patterns in examined texts, represented in Table \ref{Table:danesh_coherence_patterns}. 
-
-
-\begin{table}
-\centering
-\begin{tabular}{c|c}
-Pattern ID & Pattern \\\hline
-\begin{tikzpicture}
-\node [] (n0)  at (0.0,0.0) {};
-\node [] (n1)  at (0.0,1.0) {pattern 1}; 
-\end{tikzpicture} 
-&
-\begin{tikzpicture}
-\node [] (n1)  at (0.0,2.0) {$T_1 \rightarrow R_1$}; 
-\node [] (n2)  at (1.8,1.0) {$T_2 (= R_1) \rightarrow R_3$};
-\node [] (n3)  at (4.2,0.0) {$T_3 (= R_2) \rightarrow R_4$}; 
-
-\draw[->] (0.5,1.7) -- (0.5,1.3);
-\draw[->] (3.0,0.7) -- (3.0,0.3);
-
-
-\end{tikzpicture}
-
-\\\hline
-
-\begin{tikzpicture}
-\node [] (n0)  at (0.0,0.0) {};
-\node [] (n1)  at (0.0,1.0) {pattern 2}; 
-\end{tikzpicture} 
- &
-\begin{tikzpicture}
-\node [] (n1)  at (0.0,2.0) {$T_1 \rightarrow R_1$}; 
-\node [] (n2)  at (0.0,1.0) {$T_1 \rightarrow R_2$};
-\node [] (n3)  at (0.0,0.0) {$T_1 \rightarrow R_3$}; 
-
-\draw[->] (-0.6,1.7) -- (-0.6,1.3);
-\draw[->] (-0.6,0.7) -- (-0.6,0.3);
-\end{tikzpicture}
-
-\\\hline
-\begin{tikzpicture}
-\node [] (n0)  at (0.0,0.0) {};
-\node [] (n1)  at (0.0,2.0) {pattern 3}; 
-\end{tikzpicture} 
-&
-\begin{tikzpicture}
-\node [] (n0)  at (2.2,4.0) {$[T]$}; 
-\node [] (n1)  at (0.0,3.0) {$T_1 \rightarrow R_1$}; 
-\node [] (n2)  at (1.8,2.0) {$T_2 \rightarrow R_2$};
-\node [] (n3)  at (4.2,1.0) {$T_3  \rightarrow R_3$}; 
-
-\draw[->] (n0.south) -- (-0.5,3.3);
-\draw[->] (n0.south) -- (1.3,2.3);
-\draw[->] (n0.south) -- (3.5,1.3);
-\end{tikzpicture}
-
-\\\hline
-
-\begin{tikzpicture}
-\node [] (n0)  at (0.0,0.0) {};
-\node [] (n1)  at (0.0,2.0) {pattern 4}; 
-\end{tikzpicture} 
-&
-\begin{tikzpicture}
-\node [] (n0)  at (0.0,4.0) {$T_1 \rightarrow R_1\textit{ }( = R_1^\prime + R_2^{\prime\prime} )$}; 
-
-\node [] (d0)  at (0.0,3) {$\vdots$}; 
-
-\node [] (n1)  at (0.0,2) {$T_2^\prime \rightarrow R_2^\prime$}; 
-
-
-\node [] (d0)  at (0.0,1) {$\vdots$}; 
-
-
-\node [] (n2)  at (0.0,0.0) {$T_2^{\prime\prime} \rightarrow R_2^{\prime\prime}$};
-
-\draw [->] (0.5, 3.7) -- (0.5, 3.5) -- (-0.6, 3.5) -- (-0.6, 2.3);
-
-\draw [->] (1.5, 3.7) -- (1.5, 1.5) -- (-0.6, 1.5) -- (-0.6, 0.3);
-
-\end{tikzpicture}
-
-\end{tabular}
-\caption{In the notation used by (?), the horizontal arrow indicates a transition in an utterance, while the vertical one indicates the the contextual connection within of utterances.}
-\label{Table:danesh_coherence_patterns}
-\end{table}
-
-
-\newcite{danes74a} interprets the patterns as follows:
-
-\begin{itemize}
-\item Pattern 1: A linear transition pattern between themes and rhymes. 
-In this pattern, each utterance takes the rhyme presented in the preceding context of the utterance as a given information and transfers it to a new information or a new rhyme. 
-In other words, each R (i.e. a new information) becomes the T (i.e. a given information) of the next utterance. 
-
-
-\item Pattern 2: This pattern depicts a constant theme that continues across utterances. 
-One and the same theme appears in a series of utterances. 
-Each utterance, however, presents new information about the theme. 
-
-
-\item Pattern 3: In this pattern $[T]$ indicates a hypertheme that is a global theme of a paragraph or even other text sections. 
- Pattern shows that different utterances can be connected because the themes, or the given information,  of utterances are semantically connected to a hypertheme. 
-
- \item Pattern 4: 
- \newcite{danes74a} expresses that different combination of these patterns can be employed in different texts. 
- Some of such combinations are so frequent that can be taken as special type of theme-rhyme transition of a higher order. 
-  \newcite{danes74a} finds Pattern 4 as one of the most important of such patterns, where an utterance presents two (which can in potential several) rhymes, $R^\prime$ and $R^{\prime\prime}$ , in connection with a given theme. 
-  First $R^{\prime}$ expounded and after its progression has been finished, $R^{\prime\prime}$ becomes the theme of another transition. 
-  Transitions in between for extending each rhyme follows its own pattern. 
-\end{itemize}
-
-\newcite{danes74a} brings this point into attention that one of the important properties of these patterns is omitting links in these patterns.  
-For example, in Pattern 1 there is no link between the earliest and latest utterance. 
-Those are connected because there is an intermediate utterance that makes transitions between themes and rhymes smoother. 
-In contrast, all utterances in Pattern 3  are linked to each other because they all have $T_1$ as a shared given information. 
-
-What \newcite{danes74a} proposed is that the generalized structure of coherent texts may be described in terms of an underlying patterns of transitions between presented themes and rhymes.
-This theory is the main motivation of our coherence model in this chapter. 
-As before we take entities mentioned in a text as piece of information that make sentences connected. 
-The entity graph representation, introduced in Chapter \ref{}, is employed to model the distribution of entities across sentences of a text. 
-Then the projection graphs obtained from the entity graph representations of texts model the general structure of sentence node connectivity of texts. 
-The entity graph model uses the average ourdegree to encode the connectivity of sentence nodes in projection graphs. 
-
-The main research questions that are investigated in this chapter is:
-
-\begin{itemize}
-% \item Is the average outdegree proposed by \newcite{guinaudeau13}  a strong representative metric for the connectivity style of projection graphs and therefore the perceived coherence of texts?
-\item Are the any more representative features for the connectivity style of nodes in projection graphs?
-\end{itemize}
-
-The idea is to check how well the average outdegree metric models the coherence of a set of well-written articles such as published news articles in Wall Street Journal corpus.  
-In spite of this fact that these articles are written by professional authors, human judges assigned to them different range of readability scores (More details in Section \ref{}).  
+% However, we show that there is a similarity between the automatically mined subgraphs of projection graphs and the coherence patterns proposed by \newcite{danes74a}, indicating that our model's foundation is also linguistically sound.  
+% The entity graph model uses the average ourdegree to encode the connectivity of sentence nodes in projection graphs. 
+% The idea is to check how well the average outdegree metric models the coherence of a set of well-written articles such as published news articles in Wall Street Journal corpus.  
+% In spite of this fact that these articles are written by professional authors, human judges assigned to them different range of readability scores (More details in Section \ref{}).  
 % We compute the Pearson correlation between the average outdegree of projection graph representations of news articles and their associated score assigned by human judges. 
+% We define the frequency of these systematic extracted subgraphs (or coherence patterns) as features that capture the connectivity style of nodes in a projection graph and therefore the coherence property of the corresponding text.  
+% We evaluate if our novel coherence features outperform the average outdegree feature in a classification task in that more coherent texts should be recognized from less coherent texts. 
+% In next section, we explain how we exactly model coherence patterns. 
 
-In order to answer the research question, we employ a subgraph mining algorithm to automatically extract all  subgraphs occurring in projection graphs of these news articles. 
-Automatically extracting subgraphs of projection graphs in order to model coherence is our novel contribution in this chapter. 
-However, we show that there is a similarity between the automatically mined subgraphs of projection graphs and the coherence patterns proposed by \newcite{danes74a}, indicating that our model's foundation is also linguistically sound.  
+\subsection{Background of Graphs}
+\label{sec:back-graphs}
+In order to explain the subgraph mining method, we need to define some major concepts from graph theory. 
+We refer to these terms in rest of this thesis.
 
-We define the frequency of these systematic extracted subgraphs (or coherence patterns) as features that capture the connectivity style of nodes in a projection graph and therefore the coherence property of the corresponding text.  
-We evaluate if our novel coherence features outperform the average outdegree feature in a classification task in that more coherent texts should be recognized from less coherent texts. 
-In next section, we explain how we exactly model coherence patterns. 
+\paragraph{Graph.}
 
-
-\section{Definitions From Graph Theory}
-\label{sec:definition_from_graph_theory}
-%
-In order to explain the applied subgraphs that encode coherence of sentences in a text, we first need to define some required concepts from graph theory. 
-
-\textbf{Graph.}
 A graph is a set of points, we refer to them as nodes, connected by lines, called edges. 
-More formally, a graph is a pair of two finite sets $G=( V, E )$ where $V$ is a set of nodes and $E$ is a set of edges whose elements are pairs of nodes. 
+Following is a formal definition of a graph. 
+
+\begin{definition}
+A graph is a pair of two finite sets $G=( V, E )$ where $V$ is a set of nodes and $E$ is a set of edges whose elements are pairs of nodes. 
+\end{definition} 
 
 \begin{figure}[!ht]
-\centering
-\small
-\begin{tabular}{cc}
-
-	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
-		\tikzstyle{edge}=[draw=black!90, thick]
-	   
-		 \node [node] (a) at (0,4) {\small{$a$}};
-		 \node [node] (b) at (4,4) {\small{$b$}};
-		 \node [node] (d) at (0,0) {\small{$d$}}; 
-		 \node [node] (c) at (4,0) {\small{$c$}}; 
-		 
-		 \path[edge] (a) -- (b);
-		 \path[edge] (b) -- (c);
-		 \path[edge] (c) -- (d);
-		 \path[edge] (d) -- (a);
-		 \path[edge] (a) -- (c);
-       
-	\end{tikzpicture}
-
-	&
-
-	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-
-		 \node (a) at (0,4) {\small{$V = \left \{ a,b,c,d \right \}$}};
-		 \node (b) at (2.6,0) {\small{$E = \left \{(a,b),(b,c),(c,d),(a,d) \right \} $}};
-
-	\end{tikzpicture}
-
-	\\
-
-	$G$ 
-	&
-	$V:Nodes,E:Edges$ 
-
-\end{tabular}
-\caption{Graph. }
-\label{fig:graph}
+	\begin{center}
+		\begin{tabular}{cc}
+			\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+				\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+				\tikzstyle{edge}=[draw=black!90, thick]
+			   
+				 \node [node] (a) at (0,4) {\small{$a$}};
+				 \node [node] (b) at (4,4) {\small{$b$}};
+				 \node [node] (d) at (0,0) {\small{$d$}}; 
+				 \node [node] (c) at (4,0) {\small{$c$}}; 
+				 
+				 \path[edge] (a) -- (b);
+				 \path[edge] (b) -- (c);
+				 \path[edge] (c) -- (d);
+				 \path[edge] (d) -- (a);
+				 \path[edge] (a) -- (c);
+			\end{tikzpicture}
+			&
+			\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+				 \node (a) at (0,4) {\small{$V = \left \{ a,b,c,d \right \}$}};
+				 \node (b) at (2.6,0) {\small{$E = \left \{(a,b),(b,c),(c,d),(a,d) \right \} $}};
+			\end{tikzpicture}
+			\\
+			$G$ & $V:Nodes$, $E:Edges$ 
+		\end{tabular}
+	\end{center}
+	\caption{$G = (V,E)$ is a graph with node set $V$ and edge set $E$.}
+	\label{fig:graph}
 \end{figure} 
 
-If the direction of edges conveys any meaning, then edges can be directed so that for any edge like $e = (x,y)$ the direction is from $x$ towards $y$, which are respectively called the source node and the end node of edge $e$. 
-Figure \ref{fig:dir_graph} shows the directed version of the shown graph in Figure \ref{fig:graph}.
+If nodes in a graph are ordered or relations between nodes are not symmetry then pairs in the edge set  of the graph should be interpreted as directed edges. 
+A graph whose edges are directed is called a directed graph. 
+Figure \ref{fig:dir_graph} shows the directed version of graph $G$ depicted in Figure \ref{fig:graph}, where edge pairs in set $E$ represent directed edges.
+
+\begin{definition}
+In a directed graph, an edge $e = (x,y)$ indicates a directed edge from node $x$ towards node $y$, which are respectively called the source node and the target node of edge $e$. 
+\end{definition}
 
 \begin{figure}[!ht]
-\centering
-\small
-\begin{tabular}{c}
-
-	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
-		\tikzstyle{edge}=[draw=black!90, thick]
-	   
-		 \node [node] (a) at (0,4) {\small{$a$}};
-		 \node [node] (b) at (4,4) {\small{$b$}};
-		 \node [node] (d) at (0,0) {\small{$d$}}; 
-		 \node [node] (c) at (4,0) {\small{$c$}}; 
-		 
-		 \path[edge,->] (a) -- (b);
-		 %\path[edge,->] (b) -- (c);
-		 \path[edge,->] (c) -- (d);
-		 \path[edge,->] (a) -- (d);
-		 \path[edge,->] (a) -- (c);
-       
-	\end{tikzpicture}
-\\
-
-	$G$ 
-
-\end{tabular}
-\caption{Directed graph of graph $G$ in Figure \ref{fig:graph}. }
-\label{fig:dir_graph}
+	\begin{center}
+		\begin{tikzpicture}[shorten >=1pt, -, scale=0.5]  
+			\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+			\tikzstyle{edge}=[draw=black!90, thick]
+		   
+			 \node [node] (a) at (0,4) {\small{$a$}};
+			 \node [node] (b) at (4,4) {\small{$b$}};
+			 \node [node] (d) at (0,0) {\small{$d$}}; 
+			 \node [node] (c) at (4,0) {\small{$c$}}; 
+			 
+			 \path[edge,->] (a) -- (b);
+			 \path[edge,->] (c) -- (d);
+			 \path[edge,->] (a) -- (d);
+			 \path[edge,->] (a) -- (c);	       
+		\end{tikzpicture}
+	\end{center}
+	\caption{The directed representation of graph $G$ in Figure \ref{fig:graph}.}
+	\label{fig:dir_graph}
 \end{figure} 
 
 
-\textbf{Isomorphic.} 
-%
-Two graphs $G_1$ and $G_2$ are isomorphic, if they fulfill two conditions: (i) a one\--to\--one association, like $f$, exists between nodes of $G_1$ and those of $G_2$, and two nodes of $G_2$ should be connected, if and only if their associated nodes in $G_1$ are connected. 
-Figure \ref{fig:isomorphic_graph} illustrates two isomorphic graphs. 
-More formally, an isomorphism of graph $G_1$ and $G_2$ is an association between node sets of these graphs:
+\paragraph{Isomorphic.}
+Two graphs are isomorphic, if there is an isomorphism relation between the graphs. 
 
-\begin{equation}
-f: V \left( G_1 \right) \rightarrow V \left( G_2 \right),
-\end{equation}
+\begin{definition}
+	An isomorphism relation between graphs $G_1$ and $G_2$ is an association between node sets of these graphs:
+	\begin{equation}
+	f: V \left( G_1 \right) \rightarrow V \left( G_2 \right),
+	\end{equation}
+	such that any two nodes $u$ and $v$ of $G_1$ are adjacent in $G_1$ if and only if $f \left( u \right)$ and $f \left( v \right)$ are adjacent in $G_2$. 
+\end{definition}
 
-such that any  two nodes $u$ and $v$ of $G_1$ are adjacent in $G_1$ if and only if $f \left( u \right)$ and $f \left( v \right)$ are adjacent in $G_2$.
-If an isomorphism exists between two graphs, then the graphs are called isomorphic.
+In other words, two graphs $G_1$ and $G_2$ are isomorphic if they fulfill two conditions: 
+(i) a one\--to\--one association exists between nodes of $G_1$ and those of $G_2$, 
+(ii) two nodes of $G_2$ should be connected if and only if their associated nodes in $G_1$ are connected. 
+Figure \ref{fig:isomorphic_graph} illustrates two isomorphic graphs and an isomorphic relation between them.  
 
 \begin{figure}[!ht]
-\centering
-\small
-\begin{tabular}{c@{\hskip 2.5cm}c@{\hskip 2.5cm}c}
+	\begin{center}
+		\begin{tabular}{c@{\hskip 2.5cm}c@{\hskip 2.5cm}c}
 
-	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
-		\tikzstyle{edge}=[draw=black!90, thick]
-	   
-		 \node [node] (a) at (0,4) {\small{$a$}};
-		 \node [node] (b) at (4,4) {\small{$b$}};
-		 \node [node] (d) at (0,0) {\small{$d$}}; 
-		 \node [node] (c) at (4,0) {\small{$c$}}; 
-		 
-		 \path[edge,->] (a) -- (b);
-		 %\path[edge,->] (b) -- (c);
-		 \path[edge,->] (a) -- (c);
-		 \path[edge,->] (c) -- (d);
-		 \path[edge,->] (a) -- (d);
-       
-	\end{tikzpicture}
+			\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+				\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+				\tikzstyle{edge}=[draw=black!90, thick]
+			   
+				 \node [node] (a) at (0,4) {\small{$a$}};
+				 \node [node] (b) at (4,4) {\small{$b$}};
+				 \node [node] (d) at (0,0) {\small{$d$}}; 
+				 \node [node] (c) at (4,0) {\small{$c$}}; 
+				 
+				 \path[edge,->] (a) -- (b);
+				 %\path[edge,->] (b) -- (c);
+				 \path[edge,->] (a) -- (c);
+				 \path[edge,->] (c) -- (d);
+				 \path[edge,->] (a) -- (d);
+		       
+			\end{tikzpicture}
 
-	 &
+			 &
 
-  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-	\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
-	\tikzstyle{edge}=[draw=black!90, thick]
-   
-	 \node [node] (1) at (0,4) {\small{$1$}};
-	 \node [node] (2) at (4,4) {\small{$2$}};
-	 \node [node] (3) at (4,0) {\small{$4$}}; 
-	 \node [node] (4) at (0,0) {\small{$3$}}; 
-	 
-	 \path[edge,->] (1) -- (2);
-	 \path[edge,->] (1) -- (3);
-	 \path[edge,->] (1) -- (4);
-	 \path[edge,->] (2) -- (4);
-   
-  \end{tikzpicture}
+		  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+			\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+			\tikzstyle{edge}=[draw=black!90, thick]
+		   
+			 \node [node] (1) at (0,4) {\small{$1$}};
+			 \node [node] (2) at (4,4) {\small{$2$}};
+			 \node [node] (3) at (4,0) {\small{$4$}}; 
+			 \node [node] (4) at (0,0) {\small{$3$}}; 
+			 
+			 \path[edge,->] (1) -- (2);
+			 \path[edge,->] (1) -- (3);
+			 \path[edge,->] (1) -- (4);
+			 \path[edge,->] (2) -- (4);
+		   
+		  \end{tikzpicture}
 
-	 &
+			 &
 
-  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+		  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
 
-	 \node  (1) at (0,4) {$f(1) = a$};
-	 \node  (2) at (0,2.7) {$f(2) = c$};
-	 \node  (3) at (0,1.3) {$f(3) = b$}; 
-	 \node  (4) at (0,0) {$f(4) = d$}; 
+			 \node  (1) at (0,4) {$f(1) = a$};
+			 \node  (2) at (0,2.7) {$f(2) = c$};
+			 \node  (3) at (0,1.3) {$f(3) = b$}; 
+			 \node  (4) at (0,0) {$f(4) = d$}; 
 
-  \end{tikzpicture}
-\\
-$ G_1 $ 
-&
- $G_2$
-& 
-$\textit{Node associations}$
+		  \end{tikzpicture}
+		  \\ $G_1$  &$G_2$ &  $\textit{Node associations}$
 
-\end{tabular}
-\caption{Two isomorphic graphs and a sample association between their nodes. }
-\label{fig:isomorphic_graph}
+		\end{tabular}
+	\end{center}
+	\caption{Two isomorphic graphs and a sample association between their nodes.}
+	\label{fig:isomorphic_graph}
 \end{figure} 
 
 
-\textbf{Subgraph.} 
-%
-Graph $G_2$ is a subgraph of graph $G_1$, if $G_2$ is isomorphic to a graph whose nodes and edges are a subset of nodes and edges of $G_1$.
+\paragraph{Subgraph.} 
+....
+
+\begin{definition}
+	Graph $G_2$ is a subgraph of graph $G_1$ if $G_2$ is isomorphic to a graph whose nodes and edges are a subset of nodes and edges of $G_1$.
+\end{definition} 
+
+For example consider graphs $G_1$ and $G_2$ in Figure \ref{fig:subgraph}. 
+Graph $G_2$ is isomorphic with graph 
+$G = \left( \left\{ a,b,c \right\}, \left\{ \left( a , b \right),\left( b , c \right) \right\} \right)$
+whose node set and edge set are subsets of the node set and the edge set of $G_1$.
+
+
 \begin{figure}[!ht]
-\centering
-\small
-\begin{tabular}{c@{\hskip 2.5cm}c@{\hskip 2.5cm}c}
+	\begin{center}
+		\begin{tabular}{c@{\hskip 2.5cm}c@{\hskip 2.5cm}c}
+			\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+				\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+				\tikzstyle{edge}=[draw=black!90, thick]
+			   
+				 \node [node] (a) at (0,4) {\small{$a$}};
+				 \node [node] (b) at (4,4) {\small{$b$}};
+				 \node [node] (d) at (0,0) {\small{$d$}}; 
+				 \node [node] (c) at (4,0) {\small{$c$}}; 
+				 
+				 \path[edge,->] (a) -- (b);
+				 %\path[edge,->] (b) -- (c);
+				 \path[edge,->] (a) -- (c);
+				 \path[edge,->] (c) -- (d);
+				 \path[edge,->] (a) -- (d);
+			\end{tikzpicture}
+			&
+		  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+				\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+				\tikzstyle{edge}=[draw=black!90, thick]
+			   
+				 \node [node] (1) at (0,4) {\small{$1$}};
+				 \node [node] (2) at (4,4) {\small{$2$}};
+				 \node [node] (3) at (4,0) {\small{$3$}}; 
+				 
+				 \path[edge,->] (1) -- (2);
+				 \path[edge,->] (1) -- (3);
+		  	\end{tikzpicture}
+		  	&
+  			\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+				\node  (1) at (0,4) {$f \left( 1 \right) = a$};
+	 			\node  (2) at (0,2.7) {$f \left( 2 \right) = b$};
+				\node  (3) at (0,1.3) {$f \left( 3 \right) = c$};
+			\end{tikzpicture}
+			\\
+			$G_1$ & $G_2$  & $\textit{Node associations}$
 
-	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
-		\tikzstyle{edge}=[draw=black!90, thick]
-	   
-		 \node [node] (a) at (0,4) {\small{$a$}};
-		 \node [node] (b) at (4,4) {\small{$b$}};
-		 \node [node] (d) at (0,0) {\small{$d$}}; 
-		 \node [node] (c) at (4,0) {\small{$c$}}; 
-		 
-		 \path[edge,->] (a) -- (b);
-		 %\path[edge,->] (b) -- (c);
-		 \path[edge,->] (a) -- (c);
-		 \path[edge,->] (c) -- (d);
-		 \path[edge,->] (a) -- (d);
-
-       
-	\end{tikzpicture}
-
-	 &
-
-  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-	\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
-	\tikzstyle{edge}=[draw=black!90, thick]
-   
-	 \node [node] (1) at (0,4) {\small{$1$}};
-	 \node [node] (2) at (4,4) {\small{$2$}};
-	 \node [node] (3) at (4,0) {\small{$3$}}; 
-	 
-	 \path[edge,->] (1) -- (2);
-	 \path[edge,->] (1) -- (3);
-   
-  \end{tikzpicture}
-
-	 &
-
-  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-
-	 \node  (1) at (0,4) {$f \left( 1 \right) = a$};
-	 \node  (2) at (0,2.7) {$f \left( 2 \right) = b$};
-	 \node  (3) at (0,1.3) {$f \left( 3 \right) = c$}; 
-
-  \end{tikzpicture}
-\\
-$ G_1 $ & $G_2$  & $\textit{Node associations}$
-
-\end{tabular}
-\caption{$G_2$ is a subgraphs of graph $G_1$}
-\label{fig:subgraph}
+		\end{tabular}
+	\end{center}
+	\caption{Graph $G_2$ is a subgraph of graph $G_1$.}
+	\label{fig:subgraph}
 \end{figure} 
 
-In the shown example in Figure \ref{fig:subgraph}, graph $G_2$ is isomorphic with graph 
 
-\begin{equation}
-G = \left( \left\{ a,b,c \right\}, \left\{ \left( a , b \right),\left( b , c \right) \right\} \right) 
-\end{equation}
+\paragraph{K-node subgraph.}
+The size of a graph is equal to the size of its node set. 
 
-whose node and edge sets are subsets of node and edge sets of $G_1$.
+\begin{definition}
+Graph $G_2 = \left( V_2 , E_2 \right)$ is a k-node subgraph of graph $G_1 = \left( V_1, E_1 \right)$ if $G_2$ is a subgraph of $G_1$, and $V_2$ has $k$ elements, $|V_2|=k$. 
+\end{definition}
 
-\textbf{k-node subgraph.}
-%
-The size of subgraph is the size of its node set that is the number nodes in the graph. 
-Graph $G_2 = \left( V_2 , E_2 \right)$ is a k-node subgraph of graph $G_1 = \left( V_1, E_1 \right)$, if $G_2$ is a subgraph of $G_1$, and $V_2$ has $k$ elements, $|V_2|=k$. 
 In Figure \ref{fig:subgraph}, graph $G_2$ is a 3-node subgraph of graph $G_1$. 
 
+\paragraph{Induced subgraph.} 
+An induced subgraph of a graph is a normal subgraph of the graph with an extra condition on its edges.  
+This condition restricts the edge set of the subgraph so that it contains all possible edges that are present in the main graph.
 
-\textbf{Induced subgraph.} 
-%
-An induced subgraph of a graph is a subgraph of the graph with an extra condition on its edges.  
-That is, in simple words, its edge sets contains all possible edges that are present in the main graph. 
-Formally, graph $G_2 = (V_2, E_2)$ is an induced subgraph of graph $G_1 = (V_2, E_2)$ if $V_2 \subseteq V_1$ and 
-\begin{equation}
-E_2 = \left\{ (x,y)| x \in V_2, y \in V_2, (x,y) \in E_1   \right\}. 
-\end{equation}
+\begin{definition} 
+Graph $G_2 = (V_2, E_2)$ is an induced subgraph of graph $G_1 = (V_2, E_2)$ if $V_2 \subseteq V_1$ and 
+$E_2 = \left\{ (x,y)| x \in V_2, y \in V_2, (x,y) \in E_1   \right\}$.
+\end{definition}
 
-Figure \ref{fig:induced_subgraphs} shows a graph and two subgraphs of it. 
-Subgraph $G_2$ is a subgraph of $G_1$ but not induced, because there is no edge between nodes $1$ and $3$ of this subgraph while their associated nodes, $a$ and $b$, in graph $G_1$ are connected. 
-In contrast, subgraph $G_2$ is an induced subgraph of $G_1$ because it contains all possible edges that are present in $G_1$ and connect nodes of the subgraph.  
+Figure \ref{fig:induced_subgraphs} shows graph $G_1$ and two of its subgraphs $G_2$ and $G_3$.  
+Graph $G_2$ is not an induced subgraph of graph $G_1$ because there is no edge between node $1$ and node $3$ in $G_2$ while their associated nodes, $a$ and $b$, in graph $G_1$ are connected. 
+In contrast, graph $G_3$ is an induced subgraph of $G_1$ because it contains all possible edges that are present in $G_1$ and connect the nodes that are associated with nodes in $G_3$.  
 
 \begin{figure}[!ht]
-\centering
-\small
-\begin{tabular}{c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c}
+	\begin{center}
+		\begin{tabular}{c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c}
+			\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+				
+				\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+				\tikzstyle{edge}=[draw=black!90, thick]
+			   
+				\node [node] (a) at (0,4) {\small{$a$}};
+				\node [node] (b) at (4,4) {\small{$b$}};
+				\node [node] (d) at (0,0) {\small{$d$}}; 
+				\node [node] (c) at (4,0) {\small{$c$}}; 
+				 
+				\path[edge,->] (a) -- (b);
+				\path[edge,->] (a) -- (c);
+				\path[edge,->] (c) -- (d);
+				\path[edge,->] (a) -- (d);
 
-	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-		\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
-		\tikzstyle{edge}=[draw=black!90, thick]
-	   
-		 \node [node] (a) at (0,4) {\small{$a$}};
-		 \node [node] (b) at (4,4) {\small{$b$}};
-		 \node [node] (d) at (0,0) {\small{$d$}}; 
-		 \node [node] (c) at (4,0) {\small{$c$}}; 
-		 
-		 \path[edge,->] (a) -- (b);
-		 \path[edge,->] (a) -- (c);
-		 \path[edge,->] (c) -- (d);
-		 \path[edge,->] (a) -- (d);
-
-       
-	\end{tikzpicture}
-
-	 &
-
-  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-	\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
-	\tikzstyle{edge}=[draw=black!90, thick]
+			\end{tikzpicture}
+	 		&
+  			\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+	
+				\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+				\tikzstyle{edge}=[draw=black!90, thick]
    
-	 \node [node] (1) at (0,4) {\small{$1$}};
-	 \node [node] (2) at (4,0) {\small{$2$}};
-	 \node [node] (3) at (0,0) {\small{$3$}}; 
+	 			\node [node] (1) at (0,4) {\small{$1$}};
+	 			\node [node] (2) at (4,0) {\small{$2$}};
+	 			\node [node] (3) at (0,0) {\small{$3$}}; 
 	 
-	 \path[edge,->] (1) -- (2);
-	 \path[edge,->] (2) -- (3);
+	 			\path[edge,->] (1) -- (2);
+	 			\path[edge,->] (2) -- (3);
+  			\end{tikzpicture}
+	 		&
+  			\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+	
+				\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
+				\tikzstyle{edge}=[draw=black!90, thick]
    
-  \end{tikzpicture}
-
-	 &
-
-
-  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-	\tikzstyle{node}=[circle,thick,draw=black!90,fill=black!10,minimum size=2mm]
-	\tikzstyle{edge}=[draw=black!90, thick]
-   
-	 \node [node] (1) at (0,4) {\small{$1$}};
-	 \node [node] (2) at (4,0) {\small{$2$}};
-	 \node [node] (3) at (0,0) {\small{$3$}}; 
+				\node [node] (1) at (0,4) {\small{$1$}};
+	 			\node [node] (2) at (4,0) {\small{$2$}};
+	 			\node [node] (3) at (0,0) {\small{$3$}}; 
 	 
-	 \path[edge,->] (1) -- (2);
-	 \path[edge,->] (2) -- (3);
-	 \path[edge,->] (1) -- (3);
-   
-  \end{tikzpicture}
+	 			\path[edge,->] (1) -- (2);
+	 			\path[edge,->] (2) -- (3);
+	 			\path[edge,->] (1) -- (3);
 
-  &
+  			\end{tikzpicture}
+  			&
+  			\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
+	 			\node  (1) at (0,4)   {$f \left( 1 \right) = a$};
+	 			\node  (2) at (0,2.7) {$f \left( 2 \right) = c$};
+	 			\node  (3) at (0,1.3) {$f \left( 3 \right) = d$}; 
+  			\end{tikzpicture}
+			\\
+			$G_1$ & $G_2$ & $G_3$ & $\textit{Node associations}$
 
-  	\begin{tikzpicture}[shorten >=1pt,-,scale=0.5]  
-
-	 \node  (1) at (0,4) {$f \left( 1 \right) = a$};
-	 \node  (2) at (0,2.7) {$f \left( 2 \right) = c$};
-	 \node  (3) at (0,1.3) {$f \left( 3 \right) = d$}; 
-
-  \end{tikzpicture}
-\\
-$ G_1 $ & $G_2$  & $G_3$ & $\textit{Node associations}$
-
-\end{tabular}
-\caption{Induced subgraphs}
-\label{fig:induced_subgraphs}
+		\end{tabular}
+	\end{center}
+	\caption{Both graph $G_2$ and $G_3$ are subgraphs of graph $G_1$. In contrast to $G_2$, graph $G_3$ is an induced subgraph of $G_1$.} 
+	\label{fig:induced_subgraphs}
 \end{figure} 
 
-It is worth mentioning that henceforth we mean induced subgraphs when using the term subgraph.  
-However, in cases that the context is not clear we explicitly distinguish them.     
+It is worth mentioning that in the research of this thesis we mean induced subgraphs when using the term subgraph. 
+However, in cases that the context is not clear we explicitly distinguish them. 
 
-
-\textbf{Graph signature.} 
-%
-Given a list of graphs $ \zeta  = \left[ G_1, G_2, \cdots , G_m \right]$,  a graph signature, which is  denoted by for graph $G$, denoted by $\phi \left( G \right)$,  with respect to $\zeta$ is a vector of frequencies of graphs in $\zeta$ in graph $G$:
+\paragraph{Graph signature.} 
+Given a list of graphs $ \zeta  = \left[ G_1, G_2, \cdots , G_m \right]$,  a graph signature of graph $G$ with respect to $\zeta$ is a vector of frequencies of graphs in $\zeta$ in graph $G$:
 
 \begin{equation}
-\phi \left( G \right) = \left( f_1, f_2, f_3, \cdots, f_m \right),
+	\phi \left( G \right) = \left( f_1, f_2, f_3, \cdots, f_m \right),
 \end{equation}
-%
-where $f_i$ is the frequency of graphs in graph $G$. 
+where  $\phi \left( G \right)$ denotes the graph signature and $f_i$ is the frequency of graphs in graph $G$. 
 The frequency of graph $G_i$ in graph $G$ is computed as follows:
 
 \begin{equation}
  f_i = \frac{count(G_i, G)}{\sum_{G_j \in \zeta}{count(G_j, G)}}
 \end{equation}
-%
 where $count(G_i, G)$ is the number of occurrences of $G_i$ in graph $G$. 
-The reason of using frequency instead of raw count is that frequency is a normalized value that cannot become biased to the number of nodes and edges of graph $G$. 
+The reason of using frequency instead of raw count is that frequency is a normalized value that cannot become biased to the number of nodes and edges in graph $G$. 
+This value can also be interpreted as the probability of each graph of $\zeta$ in graph $G$.  
 
+\subsection{Coherence Pattern Mining}
 
-
-\section{Coherence Patterns Modeling}
-\label{sec:coherence_patterns_modeling}
-%
-The entity graph representation of a text encodes the distribution of entities across sentences of a text. 
+The entity graph representation of a text encodes the distribution of entities across sentences in a text. 
 One-mode projection graphs model the connectivity between sentence nodes with respect to the shared entities between sentences. 
-Our main contribution, in this chapter, is that instead of the average outdegree as a simple metric that models the connectivity of sentence nodes of a projection graph, we introduce a set of novel graph-based features that encode the structure of connections (i.e.\ connectivity style) in a projection graph. 
-We hypothesize that the frequencies of different subgraphs occurring in projection graphs encode the connectivity style of  projection graphs and therefore, they can be utilized to model coherence.  
-Our experiments in Section \ref{} indicate this hypothesis is correct for the examined tasks.  
+The main contribution of the research in this chapter is to introduce a set of graph-based patterns that encode the structure of connections (i.e.\ connectivity style) of nodes in projection graphs.  
+We use the frequencies of different subgraphs occurring in projection graphs to encode the connectivity style of projection graphs and ideally the coherence of texts. 
 
-Given a corpus of documents, we model connections between sentences of each document by its projection graph representation, $P_U$. 
-In this step, instead of having a set of documents we have a set of one-mode projection graphs associated with documents. 
-We refer to it as the graph set.  
-Similar to the entity grid model \cite{barzilay08b}, the key assumption behind our coherence model is that coherent texts reveal similar patterns that differ them from incoherent texts. 
-Therefore, the projection graphs of coherent texts reveal similar connectivity style that is different with incoherent texts. 
-\newcite{guinaudu13} propose the average outdegree, but we propose to use the graph signature of each projection graph to encode the connectivity style of projection graphs into a vector. 
+Given a corpus of text, we model connections among sentences in each text by its simple projection graph representation, $P_U$. 
+Two sentence nodes are connected in this projection graph if they share at least one entity in common (See Chapter \ref{ch:rel-work} for more details).  
+This leads us to a set of graphs, each of which represents connections among sentences in a text.   
+We refer to this set as a graph set, a set of graphs. 
 
-In order to obtain graph signatures of projection graphs, some basis graphs are required to represent projection graphs based on them. 
-We propose to extract all possible subgraphs of projection graphs as basis graphs for computing graph signatures. 
+The connectivity of each graph in a graph set can be represented by a graph signature, which encodes the connectivity style of projection graphs into a vector. 
+However, for representing a the connectivity style of a graph by a graph signature a list of basis graphs are required (See Section \ref{sec:back-graphs}).  
+We extract all subgraphs that occur in projection graphs as basis graphs for computing graph signatures. 
+These basis subgraphs can be taken as patterns which may have several instantiations in these graph representation of a text.  
+That is the reason that these basis subgraphs are referred to as coherence patterns, and the frequencies of them, which are encoded in the signature of the graph, is considered coherence features. 
+Figure \ref{fig:pattern-extraction} illustrates our approach for extracting coherence patterns.
 
-The results of our experiments in Section \ref{}, show that the frequencies of some subgraphs in documents are statistically significantly correlated with scores assigned by human annotators to documents. 
-Moreover, as it will be shown in Section \ref{}, some of these subgraphs are similar to what are defined by \newcite{danes74a}. 
-Considering these all, we refer to these subgraphs coherence patterns and their frequencies as coherence features.  
+\begin{figure}[!ht]
+	\begin{center}
+		\begin{tikzpicture}
+			\node[] (dataset1) at (0,10)  {\includegraphics[scale=0.10]  {../figures/text.jpeg}};
+			\node[] (eg1) 	   at (0,8)   {\includegraphics[scale=0.03] {../figures/bg1.png}};
+			\node[] (proj1)    at (0,6.2) {\includegraphics[scale=0.03] {../figures/proj1.png}};
 
-Figure \ref{} shows a schema of our idea for extracting coherence patterns and features. 
+			\path[->, thick] (dataset1) edge  (eg1);
+			\path[->, thick] (eg1) edge  (proj1);
 
-From the machine learning perspective, the vector representation of the projection graphs can be taken as feature vectors, in which each element is a feature representing one aspect of data. 
-These feature vectors can be supplied to any machine learning model in order to classify coherent documents from incoherent documents. 
 
-\subsection{Subgraph Mining: gSpan Method}
-\label{subsec:subgraph_mining_gspan}
-%
-Coherence patterns are subgraphs that occur at least in one of projection graphs of documents in a corpus. 
-Mining all subgraphs that occur in a graph set is computationally expensive and this problem is proved to be an NP-complete problem \cite{}. 
-Intuitively, a graph with $\Vert E \Vert$ edges, potentially has $\mathcal{O} \left( 2^{\Vert E \Vert} \right)$ subgraphs.  
-Projection graphs with $\Vert V \Vert$ nodes at most has  $\frac{(\Vert V \Vert-1)(\Vert V \Vert-2)}{2}$ that is in order of $\mathcal{O} \left( \Vert V \Vert ^2 \right)$.  
 
-In general, the goal of this thesis is not to develop an algorithm for subgraph mining. 
-This has been widely studied in computer science and different algorithms and packages have been developed for this. 
-The gSpan\footnote{We use the Java package: \url{http://www.cs.ucsb.edu/~xyan/software/gSpan.htm}}  algorithm \cite{yanxifeng02} is one of the efficient methods for mining subgraphs of a  graph set. 
-Here, we briefly describe the idea and the method of the gSpan algorithm and refer interested readers to Appendix \ref{} for more details. 
+			\node[] (dataset2) at (3,10)  {\includegraphics[scale=0.10]{../figures/text.jpeg}};
+			\node[] (eg2) 	   at (3,8)   {\includegraphics[scale=0.03]{../figures/bg1.png}};
+			\node[] (proj2)    at (3,6.2) {\includegraphics[scale=0.03]{../figures/proj1.png}};
+			\path[->, thick] (dataset2) edge  (eg2);
+			\path[->, thick] (eg2) edge  (proj2);
 
-The gSpan,(\textit{g}raph-based \textit{S}ubstructure \textit{pa}ttern \textit{m}ining), algorithm is an approach for extracting all patterns (i.e. subgraphs) that frequently occur in a graph set. 
-It discovers all frequent subgraphs without generating the candidates. 
-So it is more efficient. 
-A subgraph is called frequent if the number of graphs that contain the subgraph is greater than a threshold. 
-This threshold is a hyper-parameter of the algorithm\footnote{We always set this threshold to zero to extract all occurring subgraphs in a graph set. We prefer all patterns over frequent patterns because our goal is to investigate .....
- However, is it possible to integrate this in the future work?}.
- gSpan orders graphs in a graph set with respect to their structures and then adapts a depth-first-search search strategy to extract frequent connected subgraphs efficiently. 
- It starts with small subgraphs and simultaneously expands subgraphs and check the frequency of subgraph. 
 
-\textbf{
- [It seems the efficiency of gSpan is when you have a threshold, by setting this to zero it has to extract all possible patterns, so the method is still expensive..]
-}
 
+			\node[] (eg) at (6,8) {...};
+
+			\node[] (dataset3) at (9,10)  {\includegraphics[scale=0.10]{../figures/text.jpeg}};
+			\node[] (eg3) 	   at (9,8)	  {\includegraphics[scale=0.03]{../figures/bg1.png}};
+			\node[] (proj3)    at (9,6.2) {\includegraphics[scale=0.03]{../figures/proj1.png}};
+			\path[->, thick] (dataset3) edge  (eg3);
+			\path[->, thick] (eg3) edge  (proj3);
+			
+			
+			\node[] (minesg) at (5,4.2) {\includegraphics[scale=0.3]{../figures/3node.jpg}};
+			\path[->, thick] (proj1) edge (minesg);
+			\path[->, thick] (proj2) edge (minesg);
+			\path[->, thick] (proj3) edge (minesg);
+			
+		\end{tikzpicture}
+	\end{center}
+	\caption{An illustration of the approach employed for extracting coherence patterns.}
+	\label{fig:pattern-extraction}
+\end{figure}
+
+
+\paragraph{The gSpan Method.}
+
+Coherence patterns are subgraphs that occur at least once in one of the projection graphs of texts in a corpus. 
+Mining all subgraphs that occur in a graph set is computationally expensive, and is proved to be an NP-complete problem \cite{}. 
+Intuitively, a graph with $|E|$ edges, potentially has $\mathcal{O} \left( 2^{| E |} \right)$ subgraphs.  
+A graph with $| V |$ nodes at most has  $\frac{(| V |-1)(| V |-2)}{2}$ edges which is in order of $\mathcal{O} \left( | V | ^2 \right)$. 
+So the number of subgraphs in a graph is an exponential order of the squared number of nodes in the graph. 
+
+
+However, the goal of the research in this thesis is not to develop an algorithm for mining subgraphs.  
+This problem has been widely studied in computer science; different algorithms and packages have also been developed for it. 
+The gSpan\footnote{We use the Java package: \url{http://www.cs.ucsb.edu/~xyan/software/gSpan.htm}}  algorithm \cite{yanxifeng02} is one of the efficient methods for mining subgraphs from graphs in a graph set. 
+Here, we briefly describe the idea and the method of the gSpan algorithm.  
+
+The gSpan, which stands for \underline{g}raph-based \underline{S}ubstructure \underline{pa}tter\underline{n} mining, algorithm is an approach for extracting all patterns (i.e. subgraphs) that occur in a graph set. 
+it is computationally efficient because it discovers all subgraphs without generating the candidates. 
+The gSpan method orders graphs in a graph set with respect to their structures and then adapts a depth-first-search search strategy to extract connected subgraphs efficiently. 
+It starts with small subgraphs and simultaneously expands subgraphs.  
 
 \section{Coherence Modeling}
-\label{sec:automatic_extraction}
-%
-Given a corpus of documents, we employ the entity graph to represent the entity distribution between sentences of each document in the corpus. 
-We apply a one-mode projection on each entity graph to obtain an unweighted projection graph (i.e. $P_U$) over the sentence nodes of the entity graph. 
-$P_U$ models the overall entity-based connectivity among sentences of a document. 
-We extract all possible k-node subgraphs (i.e. coherence patterns) that occur in the projection graphs associated to documents in the corpus. 
-k is a parameter of the model that controls the size of subgraphs. 
-Controlling the size of subgraphs mainly helps to run the subgraph mining algorithm more efficiently in terms of computational time and number of subgraphs. 
-More over, small subgraphs are more likely to occure in larger subgraphs. 
-Therefore consdering subgraphs with different sizes result in subgraphs whose frequencies might be correlated. 
-These type of features are advised to be split up in machine learning methods. 
+\label{sec:coh-modeling}
 
-Assuming that $m$ coherence patterns are mined from all projection graphs, the coherence of a document is encoded as a vector of frequencies of the $m$ mined patterns in the projection graph representation of the document. 
-Therefore the coherence of a document, $d$, will be represented by a vector as follows:
+Here we explain how coherence patterns can be used to measure the coherence of a text. 
+Given a corpus of texts, we employ the entity graph to represent the entity distribution across sentences of each text in the corpus. 
+We apply a one-mode projection on each entity graph to construct a projection graph (i.e.\ $P_U$) over the sentence nodes of the entity graph. 
+The projection graph models the overall entity-based relationships among sentences of a text.  
 
-\begin{equation}
-<f_0,f_1,f_2,...,f_m>
-\end{equation}
-%
-where $f_i$ represents the frequency of the $i^{th}$ pattern, out of $m$ mined patterns, in the projection graph representation of document $d$. 
+We extract all possible k-node subgraphs (i.e.\ coherence patterns) which occur in projection graph representations of texts in the corpus. 
+The parameter k controls the size of subgraphs.  
+Controlling the size of subgraphs mainly helps to run the subgraph mining algorithm more efficiently in terms of the computational time.
+In addition, it controls the number of possible subgraphs that can be extracted: large values of k yield many number of possible graphs with size of k. 
+Moreover, small subgraphs are likely to occur inside large subgraphs. 
+Therefore involving subgraphs with different sizes result in subgraphs whose frequencies might be correlated to one another.  
+This type of features are advised to be split up in machine learning methods \cite{}. 
 
-Similar to what is explained in the entity grid model \cite{barzilay08b}, these feature vectors can be employed by machine learning models in two ways. 
-A machine learning model during training learns to map feature vectors to  scores, which can be interpreted as coherence scores, such that scores of  coherent texts be higher than those of incoherent ones. 
-More formally, given two documents $d$ and $d^\prime$ where $d$ is more coherent than $d^\prime$, then 
+Let $m$ coherence patterns are mined from all graph representations of texts in a corpus, the coherence of a text is encoded by a vector of frequencies of these patterns in the graph representation of the text. 
+More formally, the coherence of  text $d$ is represented by a vector as follows:
 
 \begin{equation}
-\beta ( d_v) > \beta (d^\prime_v)
+Coh(T) \approx <f_0,f_1,f_2,...,f_m>
 \end{equation}
-%
-where $d_v$ and $d^\prime_v$ are the feature vectors representing the coherence property of these documents, and $\beta$ is a paramateric function whose parameters are trained by a machine learning model like Support Vector Machine (SVM).
+where $f_i$ represents the frequency of the $i^{th}$ pattern in the graph representation of text $d$. 
 
+This vector representation of coherence is identical with the graph signature concept in graph theory (See Section \ref{sec:back-graphs}). 
+As these vectors can be used to model the similarities and dissimilarities in connectivity structures of graphs, they can also model similarities and dissimilarities between coherent and incoherent texts. 
 
-\subsection{Coherence Patterns}
-\label{subsec:coherence_patterns}
-%
+From the machine learning perspective, these vectors can be taken as feature vector representations of coherence. 
+Each element of a vector is a feature which represents one aspect of the connectivity structure of sentences in a text. 
+Consequently, these feature vectors can be supplied to a machine learning model in order to rank texts with respect to their coherence. 
+A machine learning model during training learns to map a feature vector to a score, which can be interpreted as a coherence score, such that the score of a more coherent text be greater than the score of a less coherent one. 
+More formally, given two texts $d$ and $d^\prime$ if text $d$ is more coherent than text $d^\prime$ then a machine learning model learns parametric function $\beta$ such that 
+
+\begin{equation}
+\beta (d_v) > \beta (d^\prime_v)
+\end{equation}
+where $d_v$ and $d^\prime_v$ are the feature vectors representing the coherence property of these texts. 
+
+\section{Experiments}
+\label{sec:exp}
+
 As we explained above, we limit the size of extracted subgraphs from all projection graphs by defining parameter k that is the number of nodes in subgraphs. 
 
 In this chapter, we investigate the usefulness of these patterns for coherence modeling. 
@@ -711,9 +513,6 @@ In this chapter, we extract 4-node subgraphs to have a better representation of 
 Our experiments in Section \ref{} evaluates our hypothesis in this part, that is larger subgraphs, specifically 4-node subgraphs, are better representative for connectivity of nodes of projection graphs and therefore the perceived coherence of texts in corpus in comparison with 3-node subgraphs.
 
 
-\section{Experiments}
-\label{sec:experiments}
-%
 In this section, we evaluate three-fold:
 \begin{itemize}
 	\item How well average outdegree, the coherence metric defined in the entity graph model, does encode coherence?
@@ -2229,8 +2028,31 @@ Hence, these summaries are as coherent as the author intends them to be, but the
 
 
 
-\section{Conclusions}
-\label{sec:conclusions}
+\section{Summary}
+\label{sec:summary}
+
+Our study in this chapter is novel in introducing new and informative graph-based coherence features. 
+We examine the predictive power of these feature in several experiments.  
+First, readability rating prediction in that we analyze the frequencies of what subgraphs (i.e, coherence pattern) are positively (or negatively) correlated with readability scores assigned by human annotators. 
+Second, the readability ranking task in that we examine how well our coherence features can distinguish coherent texts from incoherent ones. 
+We show that when a machine learning model is supplied by our coherence features performs not only better than when it is supplied by the entity transition features of the entity grid model, the average outdegree metric of the entity graph model. 
+Third, we integrate our coherence features into an automatic text summarizer of scientific articles. 
+We show that how our coherence patterns can improve the performance of a summarization system in terms of content selection and  the fluency of the generated summary. 
+
+The main contributions of this chapter are:
+
+\begin{itemize}
+\item Analyzing the power of the average outdegree in coherence measurement
+\item Proposing subgraphs of projection graphs as coherence patterns and their frequency as coherence features 
+\item Evaluating the predictive power of coherence patterns in classifying coherent texts vs incoherent ones
+\item Showing that how our novel coherence patterns can be utilized in readability assessment as a text quality evaluation task, and the document summarization task as an instance of text generation system.   
+\end{itemize}
+ 
+We compute the correlation between the average outdegrees of projection graphs that represent some news articles and the readability scores associated to them by human judges. 
+The average outdegree of none of the projection graph ($P_U$, $P_W$, and $P_{Acc}$) is statistically correlated with the associated human readability scores showing that the average outdegree is insufficient to distinct documents with respect to their coherence. 
+
+
+
 In this chapter, we challenged the average outdegree metric that is heuristically defined so that documents whose projection graphs have higher average outdegrees are more coherent. 
 We showed that the average outdegree of nodes in a projection graph is not sufficient to capture the connectivity style of nodes and consequently the perceived coherence of the corresponding document. 
 Instead, we proposed novel coherence patterns that capture the entity-based connectivity style of sentences in documents. 
@@ -2261,11 +2083,6 @@ The entity graph does not include mentions that are semantically related but are
 It would be interesting to see if entity graphs will have enriched by more  connections, the our coherence patterns still work. 
 We follow these points in the next chapter of this thesis.  
 However, we see other directions for future work for this chapter. 
-
-\textbf{Future Work}
-
-
-
 
 
 
@@ -2326,4 +2143,8 @@ However, we see other directions for future work for this chapter.
 % In scientific papers clarity is paramount, so the author will endeavor to state things explicitly and avoid ambiguity. 
 % The less complicated the document, the less it is to explicitly repeat terminology. 
 % In contrast, in literature, word repetition is not only uncommon, but it is usually a sign of bad writing.  
+
+% In the English-speaking school of essay writing and debating, there is the tendency to state the central claim of a text or a paragraph in the very first sentence, followed by supporting arguments (Pelszus and Sted, EMNLP 2015). 
+% It is also known in discourse parsing a sentence is attached to its immediate preceding sentence (Pelszus and Sted, EMNLP 2015). 
+% (Pelszus and Sted, EMNLP 2015)'s study about the argumentation mining shows that the structure over text segments is beyond linear and it's mainly a graph. They limit this structure to a tree, though.
 
