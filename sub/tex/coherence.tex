@@ -480,7 +480,20 @@ Readability assessment \cite{pitler08} is an example of these approaches.
 In this task, a coherence model is involved with a readability assessment system, which consider other aspect of text quality such as sentence complexity and the like, to evaluate the influence of the coherence model on the end performance of the readability assessment system. 
 The insight of this task is that coherent texts are less complex than other ones, therefore they are easy to understand \cite{pitler08}. 
 
-In the this thesis we follow extrinsic evaluation methods: the readability assessment task (see experiments in Chapter \ref{ch:coh-patterns} and Chapter \ref{ch:lex-graph}), and the automatic text summarization task \ref{ch:coh-patterns}. 
+In the this thesis we follow extrinsic evaluation methods: the readability assessment task (see experiments in Chapter \ref{ch:coh-patterns} and Chapter \ref{ch:lex-graph}), and the automatic single document summarization task \ref{ch:coh-patterns}. 
+
+Automatic summarization has been receiving a lot of attentions by researchers in natural language processing because of its potential for various information access applications. 
+For instance it is useful for tools that aid users navigate and digest web content (e.g., news, social media, product reviews), question answering, and personalized recommendation engines. 
+Single document summarization is the task of producing a shorter version of a text while preserving its information content \cite{nenkova11}. 
+A basic approach to single document summarization is extractive in that a summary is produced by identifying and concatenating the most important sentences in a text. 
+Ideally, information in selected sentences for a summary should be most important information of a text; have enough variance (or minimum redundancy); and be presented in a coherent way in the summary to be readable. 
+Developing an extractive summarizer that jointly optimizes these three crucial factors -- importance, diversity, and coherence -- is a challenging task, because the inclusion of relevant sentences relies not only on properties of the sentences themselves, also properties of every other sentences in a summary. 
+Moreover, sine the length of a summary is limited\footnote{Forcing summaries to obey a length constraint is a common set-up in summarization as it allows for a fair empirical comparison between different possible outputs. 
+ Furthermore, it represents an important ``real world'' scenario where summaries are generated in order to be displayed on small screens, such as mobile devices.
+} making a balance between these three factors is difficult. 
+For example, a summarizer may need to select a sentence that contains less important information with respect to other sentences, just to make other selected sentences coherent. 
+
+
 
 \subsection{Ranking as Classification} 
 

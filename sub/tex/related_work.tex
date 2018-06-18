@@ -924,6 +924,32 @@ This strategy is especially fruitful if a summary should contain information abo
 The use of lexical chains allows topicality to be taken into account to heighten the quality of summaries.
 \newcite{celikyilmaz10,celikyilmaz11} incorporate the idea of hierarchical topical coherence models for segmentation and sentence extraction. 
 \newcite{clarke10} require the entity that serves as the center of a sentence (in the sense of the Centering Theory) be retained in a summary. 
+\newcite{mckeown99} present a \mbox{two-stage} system in which sentences are initially clustered, and then representative sentences are chosen from each cluster to be included into the final summary. 
+Here, the clustering stage minimizes redundancy and the representative sentence selection maximizes importance.
+\newcite{carbonell98} propose a global model through the use of the maximum marginal relevance (MMR) criteria, which scores sentences under consideration as a weighted combination of importance plus redundancy with sentences already in the summary. 
+Summaries are then created with an approximate greedy procedure that incrementally includes the sentence that maximizes this criteria. Greedy MMR style algorithms are still a standard baseline for summarization. 
+
+One of the popular approaches for optimizing three major factors for summarization -- importance, variance and coherence -- is the Integer Linear Programming (ILP) formulation. 
+ILP techniques have been used to solve many intractable inference problems in NLP applications. 
+Examples include applications to sentence compression \cite{clarke10,filippova13}, coreference resolution \cite{denis09},  syntactic parsing \cite{klenner07a}, as well as semantic role labeling \cite{punyakanok04b}.
+\cite{marciniak05b,mcdonald07,bergkirkpatrick11,woodsend12,lichen13a,hirao13}.
+In an ILP approach, an optimization problem is modeled by an objective function and some constraints. 
+Solving arbitrary ILPs is an \mbox{NP-hard} problem. 
+However, ILPs are a well studied optimization problem with efficient \mbox{branch-and-bound} algorithms for finding the optimal solution. 
+Similar to the other NLP applications, ILP has been popularly employed for automatic summarization 
+\cite{marciniak05b,mcdonald07,bergkirkpatrick11,woodsend12,lichen13a,hirao13}.  
+
+\newcite{parveen15} propose an automatic summarizer using ILP.  
+The objective of the optimization is to select a subset of sentences from an input document such that the selected sentences produce a summary that is optimal in terms of importance, non-redundancy, and coherence. 
+This model is of our interest because it sets up the optimization problem on the entity graph representations of texts. 
+Given an input text, the importance and non-redundancy of selected sentences for a summary are measured by the bipartite entity graph of the input text. 
+They employ entities as the unit of information that relate sentences because they can also be served to measure the importance, diversity of sentences in a summary. 
+Sentences that contain prominent entities of a text are important to be extracted. 
+A summary whose sentences refer to few entities may contain redundant information. 
+The order of sentences in a summary and the way that they share entities make the summary coherent. 
+They use the outdegree of each node in the projection graph of the input text to measure how crucial the corresponding sentence with the node is for coherence of the summary.  
+In Chapter \ref{ch:coh-patterns}, we employ this model to evaluate our coherence patterns by involving them into a summarizer instead of the outdegree feature in this model. 
+
 
 % \subsection{Other Applications and Evaluation Methods}
 

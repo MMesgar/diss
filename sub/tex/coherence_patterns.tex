@@ -449,7 +449,7 @@ The gSpan\footnote{We use the Java package: \url{http://www.cs.ucsb.edu/~xyan/so
 Here, we briefly describe the idea and the method of the gSpan algorithm.  
 
 The gSpan, which stands for \underline{g}raph-based \underline{S}ubstructure \underline{pa}tter\underline{n} mining, algorithm is an approach for extracting all patterns (i.e. subgraphs) that occur in a graph set. 
-it is computationally efficient because it discovers all subgraphs without generating the candidates. 
+It is computationally efficient because it discovers all subgraphs without generating the candidates. 
 The gSpan method orders graphs in a graph set with respect to their structures and then adapts a depth-first-search search strategy to extract connected subgraphs efficiently. 
 It starts with small subgraphs and simultaneously expands subgraphs.  
 
@@ -494,79 +494,60 @@ where $d_v$ and $d^\prime_v$ are the feature vectors representing the coherence 
 \section{Experiments}
 \label{sec:exp}
 
-As we explained above, we limit the size of extracted subgraphs from all projection graphs by defining parameter k that is the number of nodes in subgraphs. 
+In this section we perform a set of experiments to assess patterns and features discussed in this chapter. 
+We fist investigate how patterns and their frequencies behave on encoding coherence in comparison to the average outdegree.  
+We then examine how the size of patterns affects the predictive power of our features for distinguishing graph representations of coherent texts against incoherent ones. 
 
-In this chapter, we investigate the usefulness of these patterns for coherence modeling. 
-We limit the size of coherence patterns to sets of subgraphs. 
-One set consists of subgraphs that has three nodes, henceforth 3-node subgraphs, the other set contains subgraphs with four nodes, we refer to them 4-node subgraphs. 
-There is not any criteria on the number of edges in subgraphs, except that the subgraphs should be connected. 
+To this end, we limit the size of patterns by fixing parameter k in the model, which equals to the number of nodes in subgraphs (See Section \ref{sec:coh-modeling}). 
+This yields two sets of patterns. 
+One set consists of subgraphs with three nodes, 3-node patterns, and the other set contains subgraphs with four nodes, which are referred to as 4-node patterns.  
+There is no criteria on the number of edges in subgraphs.  
 
 We begin with extracting 3-node subgraphs in order to examine the soundness of mined coherence patterns.  
 3-node subgraphs are the smallest meaningful patterns that can model the connectivity style of sentence nodes in projection graphs. 
-There is only one 2-node subgraph, ($\lbrace a,b \rbrace,\lbrace \left( a, b\right) \rbrace$), that its frequency is the number of edges in each projection graph that has the same interpretation as the average outdegree applied by the entity graph model.  
-We believe that if the connectivity style of projection graphs of coherent texts are similar to each other and different with projection graphs of incoherent texts, 3-node subgraphs should capture this. 
-This hypothesis is evaluated in Section \ref{}.
+There is only one 2-node subgraph, $G = \left( V = \lbrace a,b \rbrace, E=\lbrace \left( a, b \right) \rbrace \right)$, that its frequency in a projection graph is equal to the number of edges in the graph. 
+It has the same interpretation as the average outdegree applied by the entity graph model.  
+3-node subgraphs are too small and likely to occur in most projection graphs in a graph set. 
+Moreover, in order to analyze impacts of the size of patterns, we extract 4-node subgraphs to have more informative representations of the connectivity style of graphs. 
 
-However, 3-node subgraphs are too small and they are likely to occur in most projection graphs in a graph set. 
-We hypothesis that larger subgraphs better captures the connectivity style of projection graphs than the 3-node subgraphs, while 3-node subgraphs are easier for interpretation. 
-In this chapter, we extract 4-node subgraphs to have a better representation of the connectivity style of projection graphs. 
-Our experiments in Section \ref{} evaluates our hypothesis in this part, that is larger subgraphs, specifically 4-node subgraphs, are better representative for connectivity of nodes of projection graphs and therefore the perceived coherence of texts in corpus in comparison with 3-node subgraphs.
-
-
-In this section, we evaluate three-fold:
-\begin{itemize}
-	\item How well average outdegree, the coherence metric defined in the entity graph model, does encode coherence?
-	\item How valid is our assumption that the frequencies of our smallest coherence patterns, i.e. 3-node subgraphs, contribute to coherence modeling?
-	\item How valid is this assumption that 4-node coherence patterns better represent the connectivity style of the projection graphs and therefore coherence in comparison with 3-node subgraphs?
-	\item Are these novel coherence patterns and their frequencies as coherence features better predictive than the average outdegree for coherence?
-\end{itemize}
-
-As we discussed in Chapter \ref{}, coherence is better to be evaluated in an extrinsic fashion. 
-It is mainly because annotating texts for coherence is quite expensive and controlling all conditions for annotators is very difficult. 
-In this chapter, we focus on two extrinsic evaluation tasks: readability assessment and automatic text summarization. 
-The former one is used to evaluate the predictive power of different proposed coherence features by computing the correlation between the values of the coherence features and the readability scores assigned by human judges. 
-We also check how well coherence features can rank documents with respect to their readability level. 
-The latter task is a specific instance of text generation, where a subset of informative sentences in a document should be extracted and presented in a proper order to generate a coherence and readable summary. 
+As we discussed in Chapter \ref{ch:coherence}, coherence is better to be evaluated in an extrinsic fashion. 
+It is mainly because annotating texts for coherence is quite expensive and controlling all conditions for annotators is very difficult \cite{karamanis04a}. 
+In the research in this thesis we focus on two extrinsic evaluation tasks: readability assessment and automatic text summarization. 
+The former one is used to evaluate the predictive power of different proposed coherence features by computing the correlation between the values of the coherence features and the readability ratings assigned by human judges. 
+We also check how well coherence features can rank texts with respect to their readability level. 
+The latter task is a specific instance of text generation, where a subset of informative sentences in a text should be extracted and presented in a proper order to generate a coherence and readable summary. 
 In this experiment, we evaluate the capabilities of our coherence patterns in producing coherent summaries. 
-We show that by integrating our coherence patterns into a graph-based document summarizer \cite{parveen15}, the performance of the summarizer improves in terms of ROUGE metrics and human qualitative evaluations.
+We show that by integrating our coherence patterns into a graph-based text summarizer \cite{parveen15a}, the performance of the summarizer improves in terms of ROUGE metrics and human qualitative evaluations.
 
 \subsection{Readability Assessment}
 \label{subsec:readability_assessment}
-%
-Readability assessment is about how well a text is understandable for its readers? 
-It is a challenging problem because various factors affect the processing time of a text for its readers including both text properties (such as syntactic and semantic features) and reader's abilities (e.g., the background knowledge of readers). 
-Possible applications of readability assessment are automatic text summarization and simplification systems. 
-Measuring readability can also be used in question answering and knowledge extraction systems to prune texts with low readability \cite{kate10}.
-Obviously, Many different text features can be used to assess readability including shallow features \cite{flesch48,kincaid75}, language modeling features \cite{siluo01,collins-thompson04}, syntactic features \cite{schwarm05} and text flow or coherence \cite{barzilay08,pitler08}.
-In this work, the readability assessment task  basically investigates the application of coherence features to quantify the difficulty of text understanding.  
-In a coherent text each sentence has some connections with other sentences. 
-Although these local connections make texts easier to read, the coherence features introduced by the entity grid model \cite{barzilay08b} and evaluated in \newcite{pitler08} are not strongly correlated with human judgments. 
-It has been shown that the entity graph representations of entities across sentences of texts better encode the entity-based relations between sentences (More details in  chapter \ref{}). 
-Here, we investigate if the average outdegree metric, and our coherence features that are defined based on the entity graph representations of texts are correlated with human readability judgments. 
 
-Here, we need to emphasis that readability is beyond coherence. 
-This is why we do not use coherence features to predict the  readability scores associated with documents. 
-However, because coherence is one of the crucial factors in readability assessment, easier-to-read texts imply to be more coherent as well. 
-We expect that the values of coherence features show a strong correlation with readability scores associated to documents. 
-In another experiment, we also check how well we can rank documents with respect to their readability if only coherence has been taken into account. 
+Readability assessment is about how well a text is understandable for its readers? 
+It is a challenging problem because various factors affect the processing time of a text for its readers including different text properties such as syntactic and semantic features.
+Possible applications of readability assessment are automatic text summarization and simplification systems. 
+Measuring readability can also be used in question answering and knowledge extraction systems to prune texts with low readability \cite{kate10}. 
+
+Obviously, Many different text features can be used to assess readability including shallow features \cite{flesch48,kincaid75}, language modeling features \cite{siluo01,collins-thompson04}, syntactic features \cite{schwarm05} and the text flow or coherence \cite{barzilay08,pitler08}.
+In the research of this thesis the readability assessment task basically is utilized to evaluate the impact of coherence features to quantify the difficulty of texts.  
+In a coherent text each sentence has some connections with other sentences. 
+Although these local connections make texts easier to read, the coherence features introduced by the entity grid model \cite{barzilay08} are not strongly correlated with readability ratings assigned by human judges \cite{pitler08}.  
+It is shown that the entity graph representations of the entity distribution across sentences provide more informative representation than the entity grid model (See Chapter \ref{ch:rel-work}).  
+Here, we first investigate if the average outdegree metric proposed by the entity graph model strongly correlates with readability ratings. 
+We also use this experiment to evaluate and interpret our coherence patterns. 
+
+It is worth to emphasis that the readability of a text is, of course, beyond the coherence of the text. 
+This is why we do not use coherence features to exactly predict the readability scores associated with texts. 
+However, because coherence is one of the crucial factors in readability assessment, easy-to-read texts imply to be  coherent as well. 
+We expect that the values of coherence features show a strong correlation with readability scores associated with texts. 
+In another experiment, we also check how well we can rank texts with respect to their readability if only coherence has been taken into account. 
+
 
 \subsubsection{Data}
-%
-We use the dataset created by \newcite{pitler08} which consists of thirty randomly selected articles from the Wall Street Journal corpus intended for an educational adult audience. 
-
-We exclude three articles from the dataset. 
-One article is poem and is removed in order to analyze articles with the same style. 
-Two other articles are missing in the new versions of Penn Discourse Treebank.
-The complete list of article IDs and their associated readability scores are presented in Appendix \ref{}.
-% : \texttt{wsj\--0382} does not exist in the Penn Treebank \cite{marcus94}. 
-% \newcite{pitler08} also remove one file from their experiments. 
-% We assume that it is  \texttt{wsj\--0382}.}. 
-% \texttt{wsj\--2090} does not exist in the Penn Discourse Treebank \cite{prasad08a}. 
-% \texttt{wsj\--1398} is a also poem.
-
-
+\label{sec:data_pitler}
+We use the dataset collected by \newcite{pitler08} which consists of thirty articles randomly selected from the Wall Street Journal corpus. 
+These articles are intended for an educational adult audience so they are well-written and free of grammatical error. 
 The articles were rated by three human judges on a scale from $1$ to $5$, higher is better, for readability based on quality measures that are designed to estimate the coherence of articles. 
-Each judges was given unlimited time to read the texts and perform the ratings. 
+Each of judges was given unlimited time to read the texts and perform the ratings. 
 Human judges received following questions \cite{pitler08}:
 \begin{itemize}
 	\item How well-written is this article?
@@ -575,906 +556,829 @@ Human judges received following questions \cite{pitler08}:
 	\item How interesting is this article?
 \end{itemize} 
  
-\newcite{pitler08} explain that since most of the time judges gave the same rating to all questions, they only consider the given rates for the first question (How well-written is this article) and then the average if rates are taken as the final score. 
-This is the reason that they use this scores for coherence evaluations as well \cite{pitler08}.  
-The final readability score of each article is the average of these three ratings.
-
-This dataset is more realistic than the one used in the previous chapter for predicting readability level.  
-Mainly because these articles appeared in the Wall Street Journal and are aimed at the same target audience. 
-
-\textbf[Do you have some statistics about the dataset. If so put it here. Read Pitler and Nenkova paper for one more time. You can also add a text from the corpus and its associated score. ].
+\newcite{pitler08} state that since in most cases judges gave the same rating to all questions, they only consider the given rates for the first question (``How well-written is this article''). 
+Then the average ratings for this question is defined as the final rating of a text. 
+This is the reason that they use this scores for coherence evaluations as well \cite{pitler08}. 
+This dataset is suitable for coherence evaluation because its articles appeared in the wall street journal and are aimed at the same target audience. 
+Example \ref{ex:wsj-1818} is one\footnote{The article's ID is WSJ-1818.} of the articles in this dataset with the final human readability score 3.7 out of five.  
 
 
+\begin{examples}
+	\label{ex:wsj-1818}
+	The Associated Press's earthquake coverage drew attention to a phenomenon that deserves some thought by public officials and other policy makers. 
+	Private relief agencies, such as the Salvation Army and Red Cross, mobilized almost instantly to help people, while the Washington bureaucracy ``took hours getting into gear.'' 
+	One news show we saw yesterday even displayed 25 federal officials meeting around a table. 
+	We recall that the mayor of Charleston complained bitterly about the federal bureaucracy's response to Hurricane Hugo. 
+	The sense grows that modern public bureaucracies simply don't perform their assigned functions well. 
+\end{examples}
+
+\textbf[Do you have some statistics about the dataset. If so put it here. Read Pitler and Nenkova paper for one more time.].
+
+We exclude three articles from the dataset to make the texts consistent in style; for instance one of these articles is poem that follows a totally different style. 
+The final list of articles that are used in this experiments is as follows:
+....
+% One article is poem and is removed because we want to analyze articles with the same style. 
+% Two other articles are missing in the new versions of Penn Discourse Treebank.
+% The complete list of article IDs and their associated readability scores are presented in Appendix \ref{}.
+% : \texttt{wsj\--0382} does not exist in the Penn Treebank \cite{marcus94}. 
+% \newcite{pitler08} also remove one file from their experiments. 
+% We assume that it is  \texttt{wsj\--0382}.}. 
+% \texttt{wsj\--2090} does not exist in the Penn Discourse Treebank \cite{prasad08a}. 
+% \texttt{wsj\--1398} is a also poem.
 
 \subsubsection{Feature Analysis}
-\label{subsubsec:feature_analysis}
-%
-The goal of this experiment is to investigate the correlation of different coherence features with coherence features are correlated with the associated readability scores with the articles. 
-To this end, we represent each article in the dataset by its entity graph, where entities are obtained heuristically by string match between all nouns in articles. 
-We apply a one-mode projection to obtain unweighted projection graphs. 
-This projection graph models the entity-based connectivity between sentences of articles. 
-Given the corresponding projection graphs of articles in corpus, we compute the Pearson correlation between the value of a feature and associated readability scores to articles. 
 
+The goal of this experiment is to investigate the correlation of different coherence features with with readability scores that are associated  with the articles. 
+To this end, we represent each article in the dataset by its entity graph, where entities are obtained heuristically by string match between all nouns in articles. 
+We apply a one-mode projection to obtain projection graphs, specifically $P_U$. 
+This projection graph models the entity-based connectivity between sentences of articles. 
+Given the corresponding projection graphs of articles in a corpus, we compute the Pearson correlation between the value of a feature and readability scores associated with articles. 
+
+\paragraph{The Pearson correlation coefficient.} 
 The Pearson correlation coefficient is a measure of the linear correlation between values of two variables. 
 Here variables are a coherence feature and the readability ratings assigned to articles by humans. 
 The Pearson correlation coefficient, $\rho$, ranges between $-1$ and $+1$ where a high absolute value of $\rho$ shows a strong correlation between variables. 
-The sign of $\rho$ indicates the direction of relationships between examined variables. 
-In extreme cases, $+1$ shows a total positive linear correlation, $0$ is no linear correlation, and $-1$ is total negative linear correlation. 
+The sign of $\rho$ indicates the direction of relationship between examined variables. 
+In extreme cases, $+1$ shows a total positive linear correlation, $0$ is no linear correlation, and $-1$ is a total negative linear correlation. 
 The Pearson correlation also measures how statistically significant examined variables are correlated. 
-This measure is referred to by $p_{value}$. 
-We consider correlations with $p_{value} < 0.01$ statistically significant. 
-Appendix \ref{} explains more mathematical details of Pearson correlation.
+This measure is referred to by $p\_value$. 
+We consider correlations with $p\_value < 0.05$ statistically significant. 
+We use the Pearson correlation coefficient to find features correlated with readability scores. 
+\newcite{pitler08} employ this metric to evaluate entity transition features extracted from the entity grid representation \cite{barzilay08} of texts for the readability assessment task. 
+We follow them and use this correlation coefficient metric in our evaluations. 
 
-We compare following features with each others: average outdegree, the number of components in projection graphs, frequencies of 3-node patterns, frequencies of 4-node patterns. 
 
+We compare following features with each others: average outdegree, frequencies of 3-node patterns, frequencies of 4-node patterns. 
 
+\paragraph{Experimental settings.} 
+In order to be compatible with the entity grid features that are used by \newcite{pitler08}, we use the gold parse trees in the Penn Treebank II \cite{marcus94} to extract all nouns in an article as mentions. 
+All nouns with identical stems are taken coreferent to the same entity. 
+The Stemmer class from Stanford CoreNLP\footnote{V3.2.0, 2013-06-19} is employed in this regard.  
+The entity graph implementation is performed in Java and is publicly available in the Github of the author of this thesis
+\footnote{The code of the entity graph project is here: \url{}.}. 
 
-\paragraph{Implementation Details.} In order to be compatible with the entity grid features that are used by \newcite{pitler08}, we also use the gold parse trees in the Penn Treebank (Marcus et al., 1994) to extract all nouns in an  article as mentions. 
-All nouns with identical stems are taken coreferent. 
-
-\textbf{[TO DO. DO you use brown coherence toolkit? Did you implement this in JAVA?]}
-
-We used the a Java implementation of the gSpan algorithm that is publicly available\footnote{http://www.cs.ucsb. edu/\~xyan/software/gSpan.htm}. 
+The graph counting part is performed by the Java implementation of the gSpan algorithm that is also publicly available\footnote{http://www.cs.ucsb. edu/\~xyan/software/gSpan.htm}. 
 This package counts all subgraphs regardless of this fact that a subgraph is induced or not. 
-Since we are interested in only subgraphs we employed sage-Math\footnote{\url{http://sagemath.org/download- linux.html}} for graph processing. 
-Induced subgraphs counting is done by this package. 
-For computing the correlation between feature values and readability scores we use the Pearson correlation implemented in ``scipy'' package in python 2.7. 
-
+Since we are interested in only induced subgraphs we employed Sage-Math\footnote{\url{http://sagemath.org/download- linux.html}} for counting induced subgraphs in each graph.  
+For computing the correlation between feature values and readability scores we use the Pearson correlation, which is implemented as a built-in function in R\footnote{V3.2.0}. 
 
 \paragraph{Mined Coherence Patterns.} 
-Figure \ref{fig:feasible_3node_subgraphs} shows mined coherence patterns with three nodes. 
-\begin{figure}[!t]
-\centering
-\resizebox{1.0\columnwidth}{!}{
-\begin{tabular}{@{}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{}}
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subgraph 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {$s_t$};
-         \node [sentence] (s2) at (2,2) {$s_u$};
-         \node [sentence] (s3) at (1,0) {$s_v$}; 
-         \path[edge,->] (s1) edge  (s2);
-         \path[edge,->] (s1) edge  (s3);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subgraph 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \begin{tikzpicture} 
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {$s_t$};
-         \node [sentence] (s2) at (2,2) {$s_u$};
-         \node [sentence] (s3) at (1,0) {$s_v$}; 
-         \path[edge,->] (s1) edge  (s3);
-         \path[edge,->] (s2) edge (s3);
-        \end{scope}        
-      \end{tikzpicture}
+Figure \ref{fig:3node-patterns} shows 3-node patterns that are extracted from projection graph representations of texts in the examined readability dataset. 
+There is an order between nodes $s_t < s_u < s_v$ where ``$<$'' is the sign of preceding; sentence $s_t$ appears before both $s_u$ and $s_v$ in the input text, and sentence $s_u$ comes before $s_v$. 
 
-&
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subgraph 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \begin{tikzpicture}
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {$s_t$};
-         \node [sentence] (s2) at (2,2) {$s_u$};
-         \node [sentence] (s3) at (1,0) {$s_v$}; 
-         \path[edge,->] (s1) edge (s2);
-         \path[edge,->] (s2) edge (s3);
-        \end{scope}        
-      \end{tikzpicture}
-      
-      
- &
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subgraph 7 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \begin{tikzpicture}  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-        \node [sentence] (s1) at (0,2) {$s_t$};
-         \node [sentence] (s2) at (2,2) {$s_u$};
-         \node [sentence] (s3) at (1,0) {$s_v$};
-         \path[edge,->] (s1) edge (s2);
-         \path[edge,->] (s1) edge (s3);
-         \path[edge,->] (s2) edge (s3);
-         
-        \end{scope}        
-      \end{tikzpicture} 
-\\
+\begin{figure}[!ht]
 
-$sg_1$& $sg_2$ & $sg_3$ & $sg_4$
-\end{tabular}
-}
-\caption{Feasible 3\--node subgraph coherence features.}
-\label{fig:feasible_3node_subgraphs}
+	\begin{center}
+
+		\resizebox{\columnwidth}{!}
+		{%
+			\begin{tabular}{@{}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{}}
+				\begin{tikzpicture}  
+		        	\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
+		        	\tikzstyle{edge}=[draw, thick]
+		       		\begin{scope}
+		         		\node [sentence] (s1) at (0,2) {$s_t$};
+				        \node [sentence] (s2) at (2,2) {$s_u$};
+				        \node [sentence] (s3) at (1,0) {$s_v$}; 
+				        
+				        \path[edge,->] (s1) edge  (s2);
+				        \path[edge,->] (s1) edge  (s3);
+		        	\end{scope}        
+		      	\end{tikzpicture}
+				&
+		 		\begin{tikzpicture} 
+		        	\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
+		        	\tikzstyle{edge}=[draw, thick]
+		       		\begin{scope}
+		         		\node [sentence] (s1) at (0,2) {$s_t$};
+		         		\node [sentence] (s2) at (2,2) {$s_u$};
+		         		\node [sentence] (s3) at (1,0) {$s_v$}; 
+		         
+		         		\path[edge,->] (s1) edge  (s3);
+		         		\path[edge,->] (s2) edge (s3);
+		        	\end{scope}        
+		      	\end{tikzpicture}
+		      	&
+
+				\begin{tikzpicture}
+		        	\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
+		        	\tikzstyle{edge}=[draw, thick]
+		       		\begin{scope}
+		         		\node [sentence] (s1) at (0,2) {$s_t$};
+		         		\node [sentence] (s2) at (2,2) {$s_u$};
+		         		\node [sentence] (s3) at (1,0) {$s_v$}; 
+		         		
+		         		\path[edge,->] (s1) edge (s2);
+		         		\path[edge,->] (s2) edge (s3);
+		        	\end{scope}        
+		      	\end{tikzpicture}
+		 		&
+		 		\begin{tikzpicture}  
+		        	\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=5mm]
+		        	\tikzstyle{edge}=[draw, thick]
+		       		\begin{scope}
+		        		\node [sentence] (s1) at (0,2) {$s_t$};
+		         		\node [sentence] (s2) at (2,2) {$s_u$};
+		         		\node [sentence] (s3) at (1,0) {$s_v$};
+		         
+		         		\path[edge,->] (s1) edge (s2);
+		         		\path[edge,->] (s1) edge (s3);
+		         		\path[edge,->] (s2) edge (s3);
+		        	\end{scope}        
+		      	\end{tikzpicture}
+		      	\\
+		      	$p_1$& $p_2$ & $p_3$ & $p_4$
+		\end{tabular}
+	}%
+	\end{center}
+	\caption{Extracted 3-node patterns from the readability dataset.}
+	\label{fig:3node-patterns}
 \end{figure}
-%
+
 We interpret these patterns as follows:
+
 \begin{itemize}
-\item \boldmath{$sg_1$}\textbf{:} 
-A sentence is connected with two subsequent sentences.
-More precisely, at least two entities are mentioned in one sentence and the subsequent ones are about these entities.
+	\item \boldmath{$p_1$}\textbf{:} 
+	A sentence is connected with two of its subsequent sentences.
+	More precisely, at least two entities are mentioned in one sentence, $s_t$, and the subsequent ones, $s_u$ and $s_v$,  are about these entities.
 
-\item \boldmath{$p_2$}\textbf{:} 
-The connection between two sentences is made by a sentence that comes after those sentences. 
-This patterns indicates that entities in $s_t$ and $s_u$ are connected to each other in $s_v$. 
+	\item \boldmath{$p_2$}\textbf{:} 
+	The connection between two sentences is made by a sentence that comes after those sentences. 
+	This patterns indicates that entities in $s_t$ and $s_u$ are connected to each other in $s_v$. 
 
-\item \boldmath{$sg_3$}\textbf{:} 
-Each sentence tends to refer to the most prominent entity (the focus of attention) in preceding sentences \cite{sidner83,grosz95}. 
-The absence of a connection between $s_t$ and $s_v$ indicates that the entity connecting $s_t$ and $s_u$ is different from the entity connecting $s_u$ and $s_v$. 
-Therefore this subgraph approximately corresponds to the shift of the focus of attention.
-This pattern explains why we use induced subgraphs as coherence patterns. 
+	\item \boldmath{$p_3$}\textbf{:} 
+	Each sentence tends to refer to an entity in its immediately preceding sentence. 
+	This roughly reminds us to the center in the centering theory. 
+	The absence of a connection between $s_t$ and $s_v$ indicates that the entity that connects $s_t$ and $s_u$ is different with the entity that connects $s_u$ and $s_v$. 
+	This pattern approximately corresponds to the shift of center in the centering theory. 
 
-\item \boldmath{$sg_4$}\textbf{:} 
-This pattern encodes three sentences that all are connected with each other. 
-Entities that connect sentences are not necessarily unique. 
-An important property of this pattern is that it has maximum number of edges showing many  repetitions of entities in sentences. 
+	\item \boldmath{$p_4$}\textbf{:} 
+	This pattern encodes three sentences that all are connected with each other. 
+	Entities that connect sentences are not necessarily unique. 
+	An important property of this pattern is that it has maximum number of edges showing many repetitions of entities among sentences. 
 \end{itemize}
 
-We take these 3-node subgraphs as coherence patterns and compute the graph signature, $\Phi$, of each projection graph corresponding with each document in a dataset. 
-The elements of a graph signature are frequencies of the extracted subgraphs in the graph. 
-These elements together model the connectivity style of the graph. 
-From texture perspective, the frequency of each subgraphs models how frequently a coherence pattern is used in a text. 
-We hypothesize that the frequency of some patterns in coherent texts are greater than those in incoherent ones. 
-At the same time some patterns are expected be less frequent in coherent texts than coherent ones. 
 
- 
-We also hypothesize that 4-node subgraphs are more informative coherence patterns, because they are larger than 3-node subgraphs and they can capture more information about the connectivity style of projection graphs. 
-In addition, 4-node subgraphs are less likely to occur in all projection graphs.
-So their frequencies are expected to better distinguish between coherent and incoherent texts.   
-Another advantage of coherence patterns is that using these patterns coherence can be measured beyond simple sentence or node connectivity. 
-This is one of the essential differences between our coherence patterns and average ourdegree \cite{}.
+Figure \ref{fig:4node-patterns} shows all extracted subgraphs with four nodes from the projection graphs corresponding to texts in the readability dataset. 
+These 4-node subgraphs have more capacity to capture connectivity information than 3-node subgraphs, because they contain more nodes and therefore more possible edges. 
+However, 4-node subgraphs are less likely to occur in all projection graphs.
+So their frequencies are expected to better distinguish between coherent and incoherent texts.  
 
-Figure \ref{} shows all mined subgraphs from the projection graphs corresponding to documents in readability dataset. 
+\begin{figure}[!ht]
+	\begin{center}
+		\resizebox{\columnwidth}{10cm}
+		{%
+		\begin{tabular}{@{}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{}}
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=1mm]
+        		\tikzstyle{edge}=[draw, thick,->]
+       			\begin{scope}
+			    	\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			    	\path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+		        \end{scope}        
+    	    \end{tikzpicture}
+			&
+			\begin{tikzpicture}
+			    \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+			    \tikzstyle{edge}=[draw, thick, ->]
+			    \begin{scope}
+					\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+			    \end{scope}        
+			\end{tikzpicture}
+			&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+			&
 
-\begin{figure}[!t]
-\centering
-\begin{tabular}{@{}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{\hskip 1.5cm}c@{}}
-\scriptsize{$sg_1$} & \scriptsize{$sg_2$} & \scriptsize{$sg_3$} & \scriptsize{$sg_4$}
-\\
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 1 = 73 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=1mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 2 = 74 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 3 = 83 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 4 =84 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-\\
-\scriptsize{$sg_5$} & \scriptsize{$sg_6$} & \scriptsize{$sg_7$} & \scriptsize{$sg_8$}
-\\
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 5 = 106 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 6 = 117 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+		        \end{scope}        
+	        \end{tikzpicture}
+		    \\
+		    \scriptsize{$p_1$} & \scriptsize{$p_2$} & \scriptsize{$p_3$} & \scriptsize{$p_4$}
+		    \\
+		    \begin{tikzpicture} 
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+			&
+			\begin{tikzpicture}
+		        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+		        \tikzstyle{edge}=[draw, thick, ->]
+		       \begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+       			 \end{scope}        
+      		\end{tikzpicture}
+			&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+        			\path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+        			\path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+        			\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        			\path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+			&
+			\begin{tikzpicture} 
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+        			\path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+        			\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        			\path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+      		\\
 
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 7 =126 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 8 = 127 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-\\
-\scriptsize{$sg_9$} & \scriptsize{$sg_{10}$} & \scriptsize{$sg_{11}$} & \scriptsize{$sg_{12}$}
-\\
+		    \scriptsize{$p_5$} & \scriptsize{$p_6$} & \scriptsize{$p_7$} & \scriptsize{$p_8$}
+			\\
+			\begin{tikzpicture}
+		    	\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+		       	\tikzstyle{edge}=[draw, thick, ->]
+		       	\begin{scope}
+		        	\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+		        	\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+		        	\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+		        	\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+		        	\path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+		        	\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+		        	\path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+		        	\path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+		        	\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+		        \end{scope}        
+		    \end{tikzpicture}
+			&
+			\begin{tikzpicture}
+		    	\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+		        \tikzstyle{edge}=[draw, thick, ->]
+		        \begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+		        \end{scope} 
+		    \end{tikzpicture}
+ 			&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+        			\path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+        			\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        			\path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+      		&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+		        \end{scope}
+		    \end{tikzpicture}
+			\\
 
+			\scriptsize{$p_9$} & \scriptsize{$p_{10}$} & \scriptsize{$p_{11}$} & \scriptsize{$p_{12}$}
+			\\
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+       				\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+        			\path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+        			\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        			\path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+			&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+			&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+			&
+			\begin{tikzpicture}
+       			\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+        			\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+        			\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        			\path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+			\\
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 9 =145 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 10  = 146 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 11  = 156 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 12 = 165 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-        \end{scope}        
-      \end{tikzpicture}
-\\
-\scriptsize{$sg_{13}$} & \scriptsize{$sg_{14}$} & \scriptsize{$sg_{15}$} & \scriptsize{$sg_{16}$}
-\\
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 13 = 172 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 14 =192 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 15 =193 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 16 = 216 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-\\
-\scriptsize{$sg_{17}$} & \scriptsize{$sg_{18}$} & \scriptsize{$sg_{19}$} & \scriptsize{$sg_{20}$}
-\\
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 17 = 217 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 18 = 227 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 19 =237 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 20 =246 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-\\
-\scriptsize{$sg_{21}$} & \scriptsize{$sg_{22}$} & \scriptsize{$sg_{23}$} & \scriptsize{$sg_{24}$}
-\\
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 21 =277 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 22 =278 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 23 = 289  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
-         \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-
-&
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sg 24 = 304 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tikzpicture}[shorten >=1pt,->,scale=0.5]  
-        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
-        \tikzstyle{edge}=[draw, thick]
-       \begin{scope}
-         \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-         \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-         \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
-         \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
-        \end{scope}        
-      \end{tikzpicture}
-\end{tabular}
-\caption{Frequent subgraphs with four nodes where $t<u<v<w$.}\label{4node_subgraphs}
+			\scriptsize{$p_{13}$} & \scriptsize{$p_{14}$} & \scriptsize{$p_{15}$} & \scriptsize{$p_{16}$}
+			\\
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}       
+      		\end{tikzpicture}
+      		&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+		        \begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+		        \end{scope}        
+	        \end{tikzpicture}
+			&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+         			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+         			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+        			\path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+        			\path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+			&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+			    \end{scope}        
+     		\end{tikzpicture}
+			\\
+			\scriptsize{$p_{17}$} & \scriptsize{$p_{18}$} & \scriptsize{$p_{19}$} & \scriptsize{$p_{20}$}
+			
+			\\
+			\begin{tikzpicture}
+			    \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+			    \tikzstyle{edge}=[draw, thick, ->]
+			    \begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+			    \end{scope}        
+			\end{tikzpicture}
+			&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+        		\begin{scope}
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+				    \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+				    \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+				    \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+				    \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+				    \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+				    \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+      		&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
+			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+      		&
+			\begin{tikzpicture}
+        		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
+        		\tikzstyle{edge}=[draw, thick, ->]
+       			\begin{scope}
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
+			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
+        		\end{scope}        
+      		\end{tikzpicture}
+      		\\
+      		\scriptsize{$p_{21}$} & \scriptsize{$p_{22}$} & \scriptsize{$p_{23}$} & \scriptsize{$p_{24}$}
+		\end{tabular}
+		}%
+	\end{center}
+	\caption{Coherence patterns with four nodes where $t<u<v<w$.}
+	\label{fig:4node-patterns}
 \end{figure}
 
 
 \paragraph{Results.}
-%
-We use the Pearson correlation coefficient to find features correlated with readability scores. 
-It takes feature values and readability scores of all documents and returns $-1\leq\rho\leq+1$. 
-A high value of $|\rho|$ shows a strong correlation. 
-We report statistical significance on the $0.05$-level. 
-\newcite{pitler08} also showed that each entity transition feature extracted from the entity grid representation \cite{barzilay08} of document individually does not significantly correlate with human readability ratings. 
-Therefore, we report the correlation of our coherence models encoded in graph features and compare them with the average outdegree metric used in the entity graph  model as the state-of-the-art coherence model \cite{}.
 
-\begin{table}[!t]
-\centering
-\begin{tabular}{lrc}
-\hline
- & $\rho$ & p\_value\\\hline
- $P_u$ & $-0.013$ & $0.949$ \\
- $P_w$ & $0.151$  & $0.452$\\
- $P_{acc}$ & $0.150$ & $0.455$\\
-\hline
-\end{tabular}
-\caption{The correlation of the average outdegree of different graphs with human readability ratings.}
- \label{table:OD_pearson}
+Given the extracted coherence patterns as basis graphs, we compute the graph signature representation of each projection graph corresponding with each text in the dataset. 
+The elements of the graph signature of projection graph are frequencies of the extracted patterns in the projection graph. 
+These elements together model the connectivity style of the graph. 
+From texture perspective, the frequency of each subgraphs models how frequently a coherence pattern is used in a text. 
+
+We begin with the evaluation of the average outdegree metric as proposed by the entity graph model. 
+Table \ref{tab:correlation-outdegree} shows the results of computing the Pearson correlation between the average outdegree of three projection graphs defined in the entity graph model \cite{guinaudeau13}. 
+Each row of the table presents the type of the projection graphs that are involved (see Chapter \ref{ch:rel-work}). 
+The column with header $\rho$ contains the coefficient of the Pearson correlation and $p\_value$ is what we use to identify significant correlations. 
+The results show that the average outdegree of none of the projection graphs are significantly correlated with ratings assigned by humans. 
+This confirms our intuition that the average outdegree metric is insufficient to capture the connectivity style of graphs, and therefore the coherence of a text. 
+
+\begin{table}[!ht]
+	\begin{center}
+		\begin{tabular}{lcc}
+			\hline
+ 			Projection Type		& $\rho$ 						& p\_value\\
+ 			\hline
+			$P_U$ 				& $-0.013$ 						& $0.949$ \\
+			$P_W$ 				& $\textcolor{white}{+}0.151$  	& $0.452$ \\
+			$P_{Acc}$ 			& $\textcolor{white}{+}0.150$ 	& $0.455$ \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{The correlation of the average outdegree metric of different projection graphs with human readability ratings.}
+ 	\label{tab:correlation-outdegree}
 \end{table}
 
-Table \ref{table:OD_pearson} shows the correlation of the average outdegree feature of three types of projection graphs defined in the entity graph model. 
-The first interpretation of results is that the average outdegree of none of the projection graphs are significantly correlated with rankings assigned by humans. 
-However, the average outdegree of $P_w^{ER}$ is highly correlated with human readability ratings that is compatible with the readability results reported on the Encyclopedia Britannica dataset in the previous chapter. 
 
+Table \ref{tab:correlation-3node} shows the Pearson correlation coefficient and their corresponding p\_value between the frequencies of 3-node coherence patterns (see Figure \ref{fig:3node-patterns}) and readability ratings assigned by human judges. 
 
-
-\begin{table}[!h]
-\centering
-\begin{small}
-\begin{tabular}{lrc}
-\hline
-   & $\rho$ & p\_value\\\hline
-\textbf{Number of Components} & $\mathbf{-0.391}$ & $\mathbf{0.044}$  \\\hline
-
-\multicolumn{3}{l}{\textbf{Frequency of 3-node Patterns}} \\
- $sg_1$ &  $0.310$ & $0.116$\\
- $sg_2$ & $-0.325$ & $0.098$\\
-$\mathbf{sg_3}$ & $\mathbf{-0.384}$ & $\mathbf{0.048}$\\
- $sg_4$ &  $0.108$ & $0.592$\\\hline
-\end{tabular}
-\end{small}
-\caption{The frequency of pattern $sg_3$ is significantly negatively correlated to readability.}
- \label{table:3node_pearson}
+\begin{table}[!ht]
+	\begin{center}
+		\begin{tabular}{lcc}
+		\hline
+  	 	& $\rho$ 		& $p\_value$ 								    \\
+  	 	\hline
+ 		$p_1$ 			& $\textcolor{white}{+}0.310$ & $0.116$ 		\\
+ 		$p_2$ 			& $-0.325$ 				      & $0.098$ 		\\
+		$\mathbf{p_3}$ 	& $\mathbf{-0.384}$ 		  & $\mathbf{0.048}$\\
+ 		$p_4$ 			& $\textcolor{white}{+}0.108$ & $0.592$			\\
+ 		\hline
+		\end{tabular}
+	\end{center}
+	\caption{The Pearson correlation coefficient and $p\_value$ between the frequency of 3-node patterns (see Figure \ref{fig:3node-patterns}) and readability ratings assigned by human judges.} 
+ 	\label{tab:correlation-3node}
 \end{table}
 
-Table \ref{table:3node_pearson} shows the Pearson correlation coefficient and their corresponding p\_value between frequency of coherence patterns and readability scores assigned by humans. 
-Pattern $sg_3$ is significantly and negatively correlated with human readability rankings;  confirming this intuition that documents with many shifts in focus of attention are perceived more difficult to read. 
-
-We notice that the frequency of pattern $sg_1$ is positively correlated with readability rankings, not significantly though. 
-This pattern captures a sentence that represents some information, that is limited in our model to entities, then  subsequent sentences are about those information. 
-Our results show that the easier to read documents contains many of this pattern because this pattern positively correlated with human rankings. 
-The frequency of pattern $sg_2$ is negatively correlated with human rankings, showing that this pattern has not been observed in coherent documents as frequent as in incoherent documents. 
-This matches with this linguistic phenomena saying that  processing sentences that are independent and then are connected in a subsequent sentence is difficult and ambiguous for readers. 
-Interestingly, the structural difference between pattern $sg_2$ and pattern $sg_1$ can be interpreted as the order of sentences. 
-If sentence $s_t$ was before $s_u$ in pattern $sg_2$, then the pattern would look like $sg_1$ that is a property of coherent texts. 
+The results presented in Table \ref{tab:correlation-3node} show that the frequencies of pattern $p_1$ and pattern $p_4$ are positively and the frequencies of pattern $p_2$ and pattern $p_3$ are negatively correlated. 
+Among them, pattern $p_3$ is significantly correlated with human readability rankings. 
+This pattern is similar to the shift in the center among sentences in a text; since we are computing the frequency of this pattern in each text, this result shows that texts with many shifts in the center are perceived more difficult to read. 
+We notice that the frequency of pattern $p_1$ is positively correlated with readability rankings, not significantly though. 
+This shows that this pattern occurs many times in easier to read texts.  
+This pattern captures a sentence that represents some information, which is limited in our model to entities, then  subsequent sentences are about those information, which is compatible with structure of paragraphs in articles \cite{}.  
+The frequency of pattern $p_2$ is negatively correlated with human rankings, showing that this pattern has not been observed in coherent texts as frequent as in incoherent ones. 
+This matches with the linguistic phenomena saying that processing sentences that are independent and then are connected in a subsequent sentence is difficult and ambiguous for readers \cite{}. 
+Interestingly, the structural difference between pattern $p_2$ and pattern $p_1$ can be interpreted as the order of sentences. 
+If node $s_t$ was before $s_u$ in pattern $p_2$ then the pattern would look like pattern $p_1$, which is a property of coherent texts. 
 This means that these patterns can capture the order of information presented in sentences as well. 
+Finally, the frequency of one of our coherence patterns, unlike the average outdegree, is significantly correlated with human readability ratings. 
+The correlations coefficients, $\rho$, have more distant with zero in comparison with those of the average outdegree metric. 
+This indicates the frequency of coherence patterns are more correlated with readability scores assigned by human judges. 
+Coherence patterns capture the connectivity style among sentences in a text as small units and beyond the individual  sentence connectivity, which is one of the essential differences between our coherence patterns and average ourdegree. 
 
-% The number of components has a strong and significant negative correlation with human readability ratings\footnote{This supports
-% \newcite{karamanis09} who report that NOCB transitions in the centering model can be used for the sentence ordering task.}, suggesting that simple properties of graphs measure text
-% coherence. 
- 
+Table \ref{tab:correlation-4node} shows the Pearson correlation coefficient and their corresponding $p\_value$ between the frequencies of 4-node patterns and readability ratings assigned by human judges. 
+Although patterns have the same number of nodes, they may contain different number of edges. 
+The second column presents the number of edges in each pattern. 
 
-
-
-\begin{table}[!t]
-\centering
-\begin{small}
-\begin{tabular}{lcrc}
-\hline
-   & number of edges & $\rho$ & p\_value\\\hline
-$sg_1$ & 6 & 0.103 & 0.609   \\
-$sg_2$ & 5 & $-0.212$ & 0.288    \\
-$sg_3$  & 5 &   $-0.176$ & 0.380      \\
-$sg_4$  & 4 &$-0.257$ & 0.196    \\
-$sg_5$ & 5 &$-0.140$ & 0. 486   \\
-$sg_6$  & 5 &   0.200 &  0.317  \\
-$\mathbf{sg_7}$ & \textbf{5} & $\mathbf{-0.402}$ & \textbf{0.038}  \\
-$sg_8$  & 4 &$-0.317$ & 0.107 \\
-$sg_9$ & 5 & 0.153 & 0.446   \\
-$sg_{10}$ & 4 & $-0.238$ & 0.232    \\
-$\mathbf{sg_{11}}$ & \textbf{4} & $\mathbf{-0.509}$     & \textbf{0.007}\\
-$\mathbf{sg_{12}}$  & \textbf{4} &\textbf{0.449} & \textbf{0.019}    \\
-$sg_{13}$  & 4 & $-0.045$ & 0.824    \\
-$sg_{14}$ & 4 & $-0.033$ & 0.870\\
-$sg_{15}$ & 3 &$-0.358$ & 0.067    \\
-$sg_{16}$ &     4 &$-0.068$ & 0.736    \\
-$sg_{17}$  & 3 & $-0.308$ & 0.118    \\
-$\mathbf{sg_{18}}$ & \textbf{3} & $\mathbf{-0.546}$      & \textbf{0.003}   \\
-$\mathbf{sg_{19}}$ & \textbf{3} & $\mathbf{-0.601}$ & \textbf{0.001}   \\
-$sg_{20}$ & 3 & 0.094   & 0.641 \\
-$sg_{21}$  & 4 & 0.068 & 0.736   \\
-$sg_{22}$ &  3& $-0.374$ &  0.055  \\
-$sg_{23}$ &     3&$-0.314$ & 0.111 \\
-$sg_{24}$ &     3& 0.100 & 0.620  \\
-\hline
-\end{tabular}
-\end{small}
-\caption{The correlation between the frequency of 4-node patterns and readability ratings.}\label{table:correlation_4node_subgraph}
+\begin{table}[!ht]
+	\begin{center}
+		\begin{tabular}{lccc}
+			\hline
+   								& Number of Edges & $\rho$ 						 	& $p\_value$				\\
+   			\hline
+			$p_1$ 				& 6 			  & $\textcolor{white}{+}{0.103}$ 	& $0.609$					\\
+			$p_2$ 				& 5 			  & $-0.212$ 					 	& $0.288$					\\
+			$p_3$  				& 5				  & $-0.176$				     	& $0.380$					\\
+			$p_4$  				& 4 			  & $-0.257$ 				     	& $0.196$					\\
+			$p_5$ 				& 5 			  & $-0.140$ 					 	& $0.486$					\\
+			$p_6$  				& 5 			  & $\textcolor{white}{+}{0.200}$  	& $0.317$					\\
+			$\mathbf{p_7}$ 	& \textbf{5} 	  & $\mathbf{-0.402}$ 			 	& $\mathbf{0.038}$			\\
+			$p_8$  				& 4 			  & $-0.317$ 					 	& $0.107$					\\
+			$p_9$ 				& 5 			  & $\textcolor{white}{+}{0.153}$  	& $0.446$					\\
+			$p_{10}$ 			& 4 			  & $-0.238$ 					 	& $0.232$					\\
+			$\mathbf{p_{11}}$ 	& \textbf{4} 	  & $\mathbf{-0.509}$            	& $\mathbf{0.007}$			\\
+			$\mathbf{p_{12}}$  	& \textbf{4} 	  & $\mathbf{\textcolor{white}{+}{0.449}}$ & $\mathbf{0.019}$	\\
+			$p_{13}$			& 4 			  & $-0.045$ 						& $0.824$					\\
+			$p_{14}$			& 4 			  & $-0.033$ 						& $0.870$					\\
+			$p_{15}$			& 3				  & $-0.358$ 						& $0.067$					\\
+			$p_{16}$ 			& 4 			  & $-0.068$ 						& $0.736$					\\
+			$p_{17}$			& 3 			  & $-0.308$ 						& $0.118$					\\
+			$\mathbf{p_{18}}$	& \textbf{3}	  & $\mathbf{-0.546}$				& $\mathbf{0.003}$			\\
+			$\mathbf{p_{19}}$	& \textbf{3} 	  & $\mathbf{-0.601}$ 				& $\mathbf{0.001}$			\\
+			$p_{20}$			& 3 			  & $\textcolor{white}{+}{0.094}$   & $0.641$					\\
+			$p_{21}$			& 4 			  & $\textcolor{white}{+}{0.068}$	& $0.736$				    \\
+			$p_{22}$			& 3				  & $-0.374$ 						& $0.055$					\\
+			$p_{23}$			& 3				  & $-0.314$ 						& $0.111$					\\
+			$p_{24}$ 			& 3				  & $\textcolor{white}{+}{0.100}$   & $0.620$					\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{The number of edges in 4-node patterns, and the Pearson correlation coefficient and their corresponding $p\_value$ between the frequency of patterns and readability ratings.} 
+	\label{tab:correlation-4node}
 \end{table}
 
-
-Table \ref{table:correlation_4node_subgraph} shows the Pearson correlation coefficient between the frequency of 4-node patterns and readability ratings assigned by humans.  
-First, most patterns with less than four edges are negatively correlated with readability rankings, except $sg_{20}$ and $sg_{24}$ which are weakly correlated with readability. 
+First, 
+most 4-node patterns with less than four edges are negatively correlated with readability rankings, except $p_{20}$ and $p_{24}$ that are weakly correlated with readability rankings. 
 Few connections between sentences make the text difficult to read.
-
-Among all patterns that have a positive correlation coefficient with human rankings, 
-$sg_{12}$ has the highest correlation coefficient.  
-In contrast, the most negatively correlation efficient is for pattern $sg_{11}$. 
-When we compare these two patterns, these two patterns have the same number of edges but  different style of connectivity.
-This confirms our hypotheses: (i) The connectivity structure of projection graphs of coherent texts are similar to each other and different with those of incoherent texts. 
+Among all patterns that have positive correlation coefficients with readability scores, $p_{12}$ has the highest correlation coefficient. 
+In contrast, the most negatively correlation coefficient is for pattern $p_{11}$. 
+A comparison among these two patterns shows that they have the same number of edges but different styles of connectivity.
+This confirms our intuitions: (i) The connectivity structure of projection graphs representing coherent texts are similar to each other and different with those that represent incoherent texts. 
 (ii) The frequency of subgraphs can encode the connectivity structure of projection graphs and consequently coherence. 
-\newcite[p.29]{stoddard91} explains this by the \emph{ambiguity node}\ phenomenon: ``[...] in some cases, there may be more
-than one logical, possible node for a given cohesive element in a text, in which case, a reader may see the resulting ambiguity but not be able to decide between the choices''. 
-E.g., in $sg_{11}$ a reader may make a decision about the focus of attention in $s_w$, while in $sg_{12}$ the focus of attention of $s_w$ is the same as the
-focus of attention of $s_t$. 
-This phenomenon can also be observed in all positively correlated subgraphs. 
-If readers have to return to one point in the text, they prefer to return to a sentence which is the core of the preceding sentences.
-Finally, we conclude that in all strongly negative correlated patterns, a subgraph suffers either from edge shortage or the \textit{ambiguity node}\ phenomenon like $sg_7$.
+Moreover, these patterns roughly remind us the \emph{ambiguity node}\ phenomenon introduced by \newcite{stoddard91} [p.\ 29]: 
+\emph{
+	``[...] in some cases, there may be more
+	than one logical, possible node for a given cohesive element in a text, in which case, a reader may see the resulting ambiguity but not be able to decide between the choices''.
+	}
+In pattern $p_{11}$ a reader may make a decision about the center in $s_w$, while in $p_{12}$ the center of $s_w$ is the same as the center of $s_t$. 
+This phenomenon can also be observed in all positively correlated patterns.  
+It can be interpreted in the way that if readers have to return to one point in the text, they prefer to return to a sentence which is the core of the preceding sentences.
+Finally, we conclude that all strongly negatively correlated patterns capture either connection shortage or the \textit{ambiguity node}\ phenomenon like $p_7$.
 
+Considering the results related to 3-node patterns, presented in Table \ref{tab:correlation-3node}, and the results of 4-node patterns, shown in Table \ref{tab:correlation-4node}, two observations are noticeable.
+First, the number of 4-node patterns that are significantly correlated with readability rankings is more than those in 3-node pattens. 
+This confirms our intuition that large subgraphs capture more information about the connectivity style of projection graphs and therefore are powerful predictor of coherence.  
+Second, the correlation coefficient obtained for $p_{12}$, the pattern with the strongest correlation, in 4-node patterns is greater than the one of pattern $p_4$, the pattern with strongest correlation, in 3-node patterns, this can be because $p_{12}$ captures more circumstances about connectivity of node $s_t$. 
+However, we should refrain of interpreting too much into these patterns. 
 
-Considering the correlation of 3-node subgraphs in Table \ref{table:3node_pearson} and 4-node subgraphs in Table \ref{table:correlation_4node_subgraph}, two results are noticeable.
-First, there are more strongly correlated 4-node patterns than 3-node pattens, confirming our hypothesis that larger subgraphs capture more information about the connectivity style of projection graphs and therefore more powerful predictor of coherence.  
-Second, the Pearson correlation coefficient obtained for $sg_{12}$ in 4-node subgraphs is greater than the one of than $sg_4$ in 3-node subgraphs, this can be because $sg_{12}$ captures more circumstances about connectivity of $s_t$. 
-However, we should refrain of interpreting too much into these patterns.
-
-
-Following observations conclude the results of this experiment:
+We summarize our observations in this experiment as follows: 
 
 \begin{itemize}
-	\item The average outdegree metric is not significantly correlated with human rankings assigned to documents in the examined dataset 
 
-	\item The connectivity style of projection graphs representing entity-based relations among sentences of coherent texts are similar to each other and different with those of incoherent texts
+	\item The average outdegree metric proposed by \newcite{guinaudeau13} is not significantly correlated with human ratings assigned to texts in the examined dataset;
 
-	\item The connectivity style of a projection graph can be encoded by the frequency of coherence patterns 
+	\item 3-node patterns mined from projection graphs are roughly similar to patterns introduced by \newcite{danes74};
 
-	\item We found our coherence patterns that mined automatically from projection graphs are roughly similar to patterns introduced by \newcite{danes74}
+	\item The connectivity style of a projection graph can be encoded by the frequency of basis subgraphs or coherence patterns; 
 
-	\item Our coherence patterns are not limited to adjacent sentences and they can model long distant connections as well 
+	\item More number of 4-node patterns are strongly correlated with readability rankings than 3-node patterns.
 
 \end{itemize}
 
 
 \subsection{Readability Ranking} 
 \label{subsec:Readability Ranking}
-%
-The readability of a document depends on various factors ranging from the length of words and sentences that are used in the document to more complex factors such as the familiarity of vocabularies for a reader and semantic relations among sentences. 
-Although coherence is one of the crucial factors of easy to read texts but it is not sufficient to predict the readability score of documents. 
-Instead, coherence models can be evaluated by ranking documents. 
-Given that easier to read documents are more coherent than difficult documents, we can rank documents with respect to their readability. 
-Then, we investigate how well a ranking of documents based on their coherence match with the ranking based on readability. 
-A coherence model that ranks documents more similar to rankings based on readability is a better coherence model for the readability task. 
 
-In addition, the readability ranking task may in fact be the more natural one, since in most applications the main concern is with the relative quality of documents rather than their absolute scores. 
+In this experiment, we use coherence models to rank texts. 
+Given that easier to read texts are more coherent than difficult texts, we can rank texts with respect to their readability. 
+We investigate how well rankings predicted by a coherence model match with rankings that are based on the  readability ratings assigned by humans. 
+The readability ranking task may in principle be more natural than readability assessment because in most NLP applications the main concern is with the relative quality of texts rather than their absolute scores. 
+Following \newcite{pitler08} we rank texts in a pairwise approach with respect to their readability ratings that are assigned by humans. 
+We follow \newcite{pitler08} and treat this as a classification problem such that given a text pair, which text is easier to read?
 
-
-\paragraph{Implementation Details. }
-%
-We follow \newcite{pitler08} and rank documents in a pairwise approach with respect to their readability. 
-Text pairs include texts of the dataset (introduced in Section \ref{}) that their readability scores differ by at least $0.5$. 
-This criteria ensures that the difference in readability ratings of texts in a text pair is noticeable enough that a coherence model distinguishes their difference. 
-
-We treat this as a classification problem such that given a text pair, is the first document in the pair easier to read than the second one? 
-We employ WEKA's linear support vector implementation (SMO)  to classify the pairs.
-The SMO model is supplied by different sets of coherence features representing the coherence of each text. 
-
-The first set of coherence features is grammatical transitions of entities proposed by the entity grid model. 
-All nouns in texts are taken as mentions of entities in a text. 
-The gold parse trees from the Penn Treebank \cite{marcus94} are employed to extract all nouns in a document. 
-We use Stanford CoreNLP\footnote{http://nlp.stanford. edu/software/corenlp.shtml} to extract stems of all nouns and then nouns with identical stem make entities. 
-\textbf{[TO DO: do you use coherencetoolkit to extract entity grids? or did you implement it yourself? How do you extract grammatical roles of entities? Stanford dependency parser or BrownCoherenceToolkit?]}
-
-The performance of a set of coherence features for the readability ranking task is measured by the accuracy of rankings  predicted by the SMO model when it is supplied by the feature set. 
+\paragraph{Accuracy.}
+The performance of a set of coherence features for the readability ranking task is measured by the accuracy of rankings  predicted by the classification model where it is supplied by the feature set. 
 The accuracy is calculated as follows:
 
 \begin{equation}
-Accuracy = \frac{\textit{number of correct rankings}}{\textit{number of pairs}}. 
+Accuracy = \frac{\textit{the number of correct rankings}}{\textit{the number of pairs}}. 
 \end{equation}
 
 Since the dataset is not accompanied by any standard split of training and test sets, we use 10-fold cross-validation for comparing the quality of different coherence feature sets. 
 The reported accuracy is the average over all accuracies obtained from all runs of 10-fold cross-validation. 
 
-\textbf{[What is the number pairs?]}
 
-\paragraph{Results. }
-%
-Table \ref{table:classification_task} summarizes the results of the readability ranking task. 
+\paragraph{Experimental settings.}
+We follow the settings of this experiment as performed by \newcite{pitler08}. 
+Text pairs include texts, from the dataset introduced in Section \ref{sec:data_pitler}, that their readability scores differ by at least $0.5$. 
+This criteria ensures that the difference in readability ratings of texts in a text pair is noticeable enough that a coherence model distinguishes their difference. 
+If the first text in a pair has a greater readability score, a label ``A'' is assigned to the pair, otherwise a label ``B'' is assigned. 
+In total, the number of pairs obtained by this procedure is 209 pairs in which 105 pairs have label ``A''  and 104 pairs have label ``B''.  
+We employ WEKA's linear support vector implementation (SMO) to classify the pairs.
+The SMO model is supplied by different sets of coherence features representing the coherence of each text. 
+The first set of coherence features is grammatical transitions of entities, with sequence length of two, proposed by the entity grid model \cite{barzilay05a,barzilay08}. 
+For creating entity grids we use Brown Coherence Toolkit v1.0, which is setup in a docker by the author of this thesis\footnote{The docker is available \url{}}. 
+The input parse trees to this toolkit are gold parse trees from Penn TreeBank II \cite{marcus94}. 
 
-We compare our graph-based coherence features obtained from the k-node subgraphs of projection graphs with the proposed features obtained from grammatical transitions of entities by the entity gird model. 
-In order to compare different sets of coherence features, we employ the same machine learning model, (i.e. SMO) for training and testing on each feature set. 
-Therefore in Table \ref{table:classification_task},  we only show the name of feature set that is used to represent the coherence property of texts, all other settings are unique. 
+\paragraph{Results.}
+We compare our graph-based coherence features, which are the frequencies of \mbox{k-node} subgraphs in projection graphs, with the proposed features obtained from grammatical transitions of entities by the entity gird model. 
+In order to compare different sets of coherence features, we employ the same machine learning model, i.e. SVM, for training and testing on each feature set. 
+Table \ref{tab:ranking-pitler} summarizes the results of the readability ranking task on this dataset. 
+Since the reported F-Measure and Accuracy have the same trend, we compare systems only based on Accuracy.  
+Baseline features are the frequency of grammatical transitions of entities across sentences. 
+This feature set is also evaluated\footnote{The accuracy reported in their paper is $79.42\%$. Our reimplementation achieves higher accuracy because our dataset has three articles less.} as coherence features on this dataset by \newcite{pitler08}.
 
-In Table \ref{table:classification_task}, Baseline features are the frequency of grammatical transitions of entities over sentences. 
-This feature set is also evaluated\footnote{The accuracy reported in their paper is $79.42\%$. Our reimplementation achieves higher accuracy, because our dataset has three articles less.} as coherence features on this dataset by \newcite{pitler08}.
-
-\begin{table}[!h]
-\centering
-\begin{small}
-\begin{tabular}{@{}lc@{}}
-\hline
-\textbf{Features} & \textbf{Accuracy} \\\hline
-\multicolumn{2}{l}{\textbf{Baselines}} \\
-None (Majority class) & 47.85\% \\
-Baseline features \cite{pitler08} & 83.25\% \\\hline
-\multicolumn{2}{l}{\textbf{Graph-based Features}} \\
-%Number of components & 61.72\%\\
-3-node & 79.43\% \\
-4-node & 89.00\%  \\
-3-node \& 4-node & 88.52\% \\
-Baseline + 4-node & 93.30\% \\
-\hline
-\end{tabular}
-\end{small}
-\caption{SVM prediction accuracy.}
-\label{table:classification_task}
+\begin{table}[!ht]
+	\begin{center}
+		\begin{tabular}{lcc}
+			\hline
+			Features 						  & Accuracy		& F-Measure	\\
+			\hline
+			\multicolumn{2}{l}{\textbf{Baselines}}								\\
+			None (Majority class) 			  & $47.85\%$		& $0.478$		\\
+			Baseline features 			  	  & $83.25\%$     	& $0.833$		\\
+			\hline
+		
+			\multicolumn{2}{l}{\textbf{Graph-based Features}}					\\
+			3-node 							  & $79.43\%$		& $0.794$		\\
+			4-node 						      & $89.00\%$		& $0.890$		\\
+			3-node \& 4-node 				  & $88.52\%$		& $0.885$		\\
+			Baseline + 4-node 				  & $93.30\%$		& $0.933$		\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{The accuracy of the SMO classifier with different sets of coherence features.}
+	\label{tab:ranking-pitler}
 \end{table}
 
 When classifying with the frequency of 3-node subgraphs as coherence features, the obtained accuracy is lower than when the baseline coherence features are employed.  
 This could have two reasons. 
-The entity grid features represent grammatical role transitions of entities, that is more informative than the connections used in 3-node subgraphs only model the occurrence of entities between sentences. 
+The entity grid features represent grammatical role transitions of entities, which is more informative than the connections used in 3-node patterns that only model the existence of a shared entity between sentences. 
 On the other hand, 3-node patterns are small and more likely to occur in most projection graphs, so their frequencies cannot distinguish between coherent and incoherent texts easily. 
 
 The feature set containing the frequency of 4-node patterns outperforms the baseline feature set by about $6\%$. 
-This confirms our hypothesis that the entity-based connectivity structure among sentences, which is modeled by projection graphs, distinguishes coherent texts from incoherent texts. 
-An advantage of 4-node subgraphs over the baseline features is that long-distant relations are also taken into account. 
-On the other hand, our coherence patterns lack the grammatical grammatical of entities. 
-Our other hypothesis was that since 4-node patterns are larger than 3-node patterns, they have more capacity, in terms of nodes and edges, to model the connectivity of nodes in projection graphs and therefore coherence. 
-This hypothesis is confirmed by comparing the accuracy of 4-node subgraphs against 3-node subgraphs.
-4-node subgraphs outperforms 3-node subgraphs by $10\%$ difference in accuracy . 
-That is a considerable improvement that verifies that larger subgraphs capture connectivity style between nodes of projection graphs much better.   
+This confirms our intuition that the entity-based connectivity structure among sentences, which is modeled by projection graphs, distinguishes coherent texts from incoherent texts. 
+An advantage of 4-node patterns over the baseline features is that long-distant relations are also taken into account. 
+however, our coherence patterns lack the grammatical information in the entity relations. 
+Our other hypothesis was that since 4-node patterns are larger than 3-node patterns, they have more capacity in terms of nodes and edges, to model the connectivity of nodes in projection graphs and therefore coherence. 
+This hypothesis is confirmed by comparing the accuracy of 4-node patterns against 3-node patterns.
+4-node patterns outperform 3-node patterns by $10\%$ difference in accuracy . 
+That is a considerable improvement that verifies that large subgraphs capture more information about the connectivity style of nodes in projection graphs.    
 
-In another experiment, we use the frequency of all 3-node and 4-node subgraphs in projection graphs. 
-The obtained accuracy is better than the one with only 3-node patters but slightly worse  ($-1\%$) than the one with only 4-node patterns. 
-An explanation for this is that 4-node subgraph implicitly contain 3-node subgraphs in themselves. 
-Combining these two sets of features does not probably provide any useful information for modeling the connectivity style of projection graphs more than what exists in 4-node subgraphs. 
+We combine the frequency of all 3-node and 4-node patterns into one feature set, and supply it to the classifier.   
+The obtained accuracy is superior than the one with only 3-node patters but slightly worse  ($-1\%$) than the one with only 4-node patterns. 
+An explanation for this is that 4-node patterns implicitly contain 3-node patterns in themselves. 
+Combining these two sets of features does not probably provide any useful information for modeling the connectivity style of projection graphs more than what exists in 4-node patterns. 
 
-Finally, the combination of baseline coherence features, (i.e. the frequency of grammatical transitions of entities over adjacent sentences), and 4-node subgraphs achieves the best accuracy. 
+Finally, the combination of baseline coherence features, (i.e.\ the frequency of grammatical transitions of entities over adjacent sentences), and 4-node subgraphs achieves the best accuracy. 
 This might be interpreted in this way that although our coherence patterns capture the connectivity structure among sentences of a text, integrating linguistic information such syntactic transitions of entities may improve the quality of a coherence model.  
 
-
-
-%This idea that each word in a text will be considered a cohesive ties is introduced in \newcite{stoddard91}. 
-% \newcite{stoddard91} in her analysis expresses that designing a research package for analyzing of  cohesion patterns is complicated because of different number of cohesive ties, the number of evaluated written texts by human readers. 
-% The narrowing can be done in any one or several ways. 
-% One is the selection of the type of cohesion ties to be analyzed. 
-% The second is the selection of the corpus. 
-% Following our entity-based setting in previous chapters, we limit our cohesive ties are restricted version of references in \newcite{halliday76}, the string match between nouns. 
-% If, however, a writer chooses to simply repeat nodes without using many cohesive elements, we might expect that readers would find  the content equally cohesive (but probably boring for its repetitiveness).
-% There would be a relationship between the phenomenon of node repetition and memory retention \cite{stoddard91}. 
-%Certainly, cohesive ties that span sentence and paragraph boundaries have greater potential for unifying a text and making it more cohesive. 
-
 \subsection{Automatic Summarization}
-\label{subsec:automatic_summarization}
-%
-Automatic summarization has been receiving a lot of attentions by researchers in natural language processing because of its potential for various information access applications. 
-For instance it is useful for tools that aid users navigate and digest web content (e.g., news, social media, product reviews), question answering, and personalized recommendation engines. 
-Single document summarization is the task of producing a shorter version of a document while preserving its information content. 
-This task is perhaps the most basic of summarization tasks that have been identified over the years \cite{nenkova11}. 
 
-A basic approach to single document summarization is extractive in that a summary is produced by identifying and concatenating the most important sentences in a document. 
-Ideally, information in selected sentences for a summary should be most important information of a document; have enough variance (or minimum redundancy); and be presented in a coherent way in the summary to be readable. 
-
-Developing an extractive summarizer that jointly optimizes these three crucial factors -- importance, diversity, and coherence -- is a challenging task, because the inclusion of relevant sentences relies not only on properties of the sentences themselves, also properties of every other sentences in a summary. 
-Moreover, sine the length of a summary is limited\footnote{Forcing summaries to obey a length constraint is a common set-up in summarization as it allows for a fair empirical comparison between different possible outputs. 
- Furthermore, it represents an important ``real world'' scenario where summaries are generated in order to be displayed on small screens, such as mobile devices.
-} making a balance between these three factors is difficult. 
-For example, a summarizer may need to select a sentence that contains less important information with respect to other sentences, just to make other selected sentences coherent. 
-
-This optimization problem is typically solved in one of two ways:  Optimizing these factors separately; Optimizing all criteria in tandem. 
-The work of \cite{mckeown99} is an example of the first solution. 
-It presents a \mbox{two-stage} system in which sentences are initially clustered, and then representative sentences are chosen from each cluster to be included into the final summary. 
-Here, the clustering stage minimizes redundancy and the representative sentence selection maximizes importance.
-The work of \cite{carbonell98} is an example of the second solution.  
-It propose a global model through the use of the maximum marginal relevance (MMR) criteria, which scores sentences under consideration as a weighted combination of importance plus redundancy with sentences already in the summary. 
-Summaries are then created with an approximate greedy procedure that incrementally includes the sentence that maximizes this criteria. Greedy MMR style algorithms are still a standard baseline for summarization. 
-
-One of the popular approaches for global optimization problems is the Integer Linear Programming (ILP) formulation. 
-ILP techniques have been used to solve many intractable inference problems in NLP applications. 
-Examples include applications to sentence compression \cite{clarke10,filippova13}, coreference resolution \cite{denis09},  syntactic parsing \cite{klenner07a}, as well as semantic role labeling \cite{punyakanok04b}.
-\cite{marciniak05b,mcdonald07,bergkirkpatrick11,woodsend12,lichen13a,hirao13}.
-In an ILP approach, an optimization problem is modeled by an objective function and some constraints. 
-Solving arbitrary ILPs is an \mbox{NP-hard} problem. 
-However, ILPs are a well studied optimization problem with efficient \mbox{branch-and-bound} algorithms for finding the optimal solution. 
-Similar to the other NLP applications, ILP has been popularly employed for automatic summarization 
-\cite{marciniak05b,mcdonald07,bergkirkpatrick11,woodsend12,lichen13a,hirao13}.  
-
-\newcite{parveen15} propose an automatic summarizer using ILP.  
-The objective of the optimization is to select a subset of sentences from an input document such that the selected sentences produce a summary that is optimal in terms of importance, non-redundancy, and coherence. 
-This model is of our interest, because it sets up their optimization problem on the entity graph representations of documents. 
-Given an input document, the importance and non-redundancy of selected sentences for a summary are measured by the bipartite entity graph of the input document. 
-They hypothesis that the outdegree of each node in the projection graph of the input document measures how crucial the corresponding sentence with the node is crucial for coherence of the summary.  
+In this section, we evaluate our coherence patterns in a text generation system, automatic text summarization. 
+We employ the summarization proposed by \newcite{parveen15} as it is based on the entity graph model (see Chapter \ref{ch:rel-work}), the same frame work as our coherence model
+They assume that the outdegree of each node in the projection graph of the input text measures how crucial the corresponding sentence with the node is for coherence of the summary.  
 This has two weaknesses: 
 
 \begin{itemize}
 	\item 
-	The entity-graph coherence model uses the average outdegree of the projection graph of a document to measure the coherence of the entire document. 
-	Limiting this metric to each sentence, in this way that nodes of projection graphs with higher outdegree represent sentences that are more crucial for coherence, biases the summarizer to select more sentences from the begging of documents. 
-	This happens because projection graphs are directed to capture the sentence order of documents, so early sentences in documents are more connected to other sentences. 
+	The entity-graph coherence model uses the average outdegree of the projection graph of a text to measure the coherence of the entire text.  
+	Limiting this metric to each sentence such that nodes of projection graphs with higher outdegree represent sentences that are more crucial for coherence, makes the summarizer bias to select more sentences from the beginning of a text.  
+	This happens because projection graphs are directed to capture the sentence order in texts, so the early sentences in texts have greater outdegree than later sentences in a text.  
+
+	\item The outdegree of sentence nodes are computed in projection graphs of input texts for the summarization model,  
+	whereas the ideal aim of a summarization system is to extract sentences that make the summary coherent. 
+	So the connectivity of sentences should be evaluated with respect to only other selected sentences for the summary, not all sentences in the text. 
 
 
-	\item The outdegree of sentence nodes are computed in projection graphs of input documents for the summarization model,  
-	whereas the goal is to select sentences that make the produced summary more coherent. So the connectivity of sentences should be evaluated with respect to only other selected sentences for the summary, not all sentences in the document. 
-
-
-	\item 
-	We have shown that the average outdegree is not the best metric for encoding the connectivity style of projection graphs and therefore coherence. 
+	\item In the readability experiment we have shown that the average outdegree is not the best metric for encoding the connectivity style of projection graphs and therefore coherence. 
+	So this metric can be replaced with the coherence features presented in this chapter. 
 
 \end{itemize} 
 
-Here, we emphasize on the coherence aspect of the proposed summarization system by \newcite{parveen15} with two motivations:
-\begin{itemize}
-	\item Using the automatic summarization task as another application for evaluating our graph-based coherence patterns, introduced in Chapter \ref{}
-
-	\item Improving the performance of the examined summarization  model by integrating our coherence patterns, rather than outdegree, into the summarization model
-\end{itemize}
-
+Here, we emphasize on the coherence aspect of the proposed summarization system by \newcite{parveen15} with two motivations: Using the automatic summarization task as another application for evaluating our graph-based coherence patterns; and improving the performance of the examined summarization  model by integrating our coherence patterns, rather than outdegree, into the summarization model. 
 Our intuition is that human generated summaries given in a dataset are expected to be coherent enough to be readable.
-So if a summarization system extracts sentences of a document such that their connectivity styles in the produced summary are similar to the connectivity styles of sentences in human generated summaries, then the produced summary is sufficiently well-connected and therefore coherent. 
+So if a summarization system extracts sentences of a text so that their connectivity style in the produced summary are similar to the connectivity style of sentences in human generated summaries then the produced summary is sufficiently well-connected and therefore coherent. 
  
-% We employ discourse entities as the unit of information that relate sentences because they can also be served to measure the importance, diversity of sentences in a summary. 
-% Sentences that contain prominent entities of a document are important to be extracted. 
-% A summary whose sentences refer to few entities may contain redundant information. 
-% The order of sentences in a summary and the way that they share entities make the summary coherent. 
 % We extract useful connectivity patterns for automatic summarization using a data-driven approach. 
-% Given gold summaries, we represent entity relations between sentences of each summary via a graph whose nodes are sentences and edges are entity-based relations between sentences. 
+% Given gold summaries, they represent entity relations between sentences of each summary via a graph whose nodes are sentences and edges are entity-based relations between sentences. 
 % By applying a subgraph mining method to graph representations of gold summaries all subgraphs (coherence patterns) are extracted. 
 % More frequent patterns are preferred to be observed in a machine generated summary more than other patterns. 
 % So the frequency of patterns in gold summaries is used as an indicator of human preferences over patterns to be used for connecting sentences in a summary. 
 % These patterns and their frequency are combined with other conditions for importance and diversity of sentences using the linear programming fashion. 
-
 % We run our summarizers on DUC dataset that is commonly used for this task, and on PubMed corpus that consists of scientific articles. 
 % Summarizing texts of scientific articles are taken difficult as multi-document summarization. 
 % In addition, articles in PubMed corpus are associated with some summaries written by editors of the PubMed journal that can be used for evaluation. 
