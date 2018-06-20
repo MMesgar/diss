@@ -926,6 +926,8 @@ The use of lexical chains allows topicality to be taken into account to heighten
 \newcite{clarke10} require the entity that serves as the center of a sentence (in the sense of the Centering Theory) be retained in a summary. 
 \newcite{mckeown99} present a \mbox{two-stage} system in which sentences are initially clustered, and then representative sentences are chosen from each cluster to be included into the final summary. 
 Here, the clustering stage minimizes redundancy and the representative sentence selection maximizes importance.
+\newcite{jha15} consider Minimum Independent Discourse Contexts (MIDC) to solve the problem of non-coherence in extractive summarization.
+However, this model does not deal with the problem of coherence within the task of sentence selection. 
 \newcite{carbonell98} propose a global model through the use of the maximum marginal relevance (MMR) criteria, which scores sentences under consideration as a weighted combination of importance plus redundancy with sentences already in the summary. 
 Summaries are then created with an approximate greedy procedure that incrementally includes the sentence that maximizes this criteria. Greedy MMR style algorithms are still a standard baseline for summarization. 
 
@@ -937,9 +939,9 @@ In an ILP approach, an optimization problem is modeled by an objective function 
 Solving arbitrary ILPs is an \mbox{NP-hard} problem. 
 However, ILPs are a well studied optimization problem with efficient \mbox{branch-and-bound} algorithms for finding the optimal solution. 
 Similar to the other NLP applications, ILP has been popularly employed for automatic summarization 
-\cite{marciniak05b,mcdonald07,bergkirkpatrick11,woodsend12,lichen13a,hirao13}.  
+\cite{illick09,nishikawa10,galanis12,marciniak05b,mcdonald07,bergkirkpatrick11,woodsend12,lichen13a,hirao13}.  
 
-\newcite{parveen15} propose an automatic summarizer using ILP.  
+\newcite{parveen15a} propose an automatic summarizer using ILP.  
 The objective of the optimization is to select a subset of sentences from an input document such that the selected sentences produce a summary that is optimal in terms of importance, non-redundancy, and coherence. 
 This model is of our interest because it sets up the optimization problem on the entity graph representations of texts. 
 Given an input text, the importance and non-redundancy of selected sentences for a summary are measured by the bipartite entity graph of the input text. 
@@ -950,84 +952,3 @@ The order of sentences in a summary and the way that they share entities make th
 They use the outdegree of each node in the projection graph of the input text to measure how crucial the corresponding sentence with the node is for coherence of the summary.  
 In Chapter \ref{ch:coh-patterns}, we employ this model to evaluate our coherence patterns by involving them into a summarizer instead of the outdegree feature in this model. 
 
-
-% \subsection{Other Applications and Evaluation Methods}
-
-% In order to complete the discussion about coherence applications and evaluation methods, 
-% in this part of the thesis we review other related methods in the literature. 
-
-% \paragraph{Sentence ordering.} 
-% The flow of information presented in coherent texts is easy to follow \cite{lapata03,barzilay04,karamanis04b,barzilay05a,soricut06}. 
-% As it is explained in Chapter \ref{ch:coherence}, a text is beyond a random sequence of sentences. 
-% The order of sentences affects how difficult information presented in a text can be understood.  
-% Given the above explanation, a text can be taken as an unordered bag of sentences and an evaluation task for a coherence model would be to find the perfect order of sentences that maximizes the coherence of the text.  
-% Unfortunately, finding the best ordering is NP-complete \cite{?} and non-approximative \cite{althaus04}.
-% Therefore, the sentence ordering task needs to be simplified for being used as a coherence evaluation method. 
-% Two restricted versions of this task are the discrimination task, and the insertion task. 
-% In both subtasks the model is examined to check whether it can distinguish between the correct (original) order of sentences in a document and an incorrect (non-original) one. 
-
-
-% The discrimination task is based on this assumption that the original order of sentences in a text is taken as the best order and any scrambling of sentences disturbs the perceived coherence of the text. 
-% By rearranging the order of sentences in a text, the text becomes more difficult to understand or less coherent because the order of presented information is disturbed. 
-% A coherence model ideally ranks the original order of sentences higher than any other permutations. 
-% The permutation task is easy to solve \cite{elsner11b}, especially for documents with many sentences, because permuting whole sentences yields a version of a text which is very different, and therefore easier to distinguish, from the original text. 
-
-% The insertion task \cite{barzilay05a}, similar to the discrimination task, is designed to evaluate the ability of a coherence model in distinguishing the proper order of sentences in a text from other orders. 
-% However, the insertion task provides permutations that are not very different with the original text. 
-% The intuition is that if one sentence of a text is removed from the text, a gap is created between sentences which disturbs the perceived coherence of the text.  
-% The removed sentence can be inserted in between of any two sentences in the text and creates a permutation of the original text.   
-% Given a document with $n$ sentences, if the sentence at position $i$ is removed then there are $n$ possible positions, including the position $i$, to reinsert this sentence and create a permutation. 
-% Table \ref{tab:insertion_task} shows an example of removing the sentence in position $0$ ($\underline{A}$) of a document with four sentences, $\left \{ A, B, C, D \right \}$, and reinserting the sentence in all possible positions. 
-
-% \begin{table}[!ht]
-% 	\begin{center}
-% 		\begin{tabular}{cc|cccc}
-% 		\hline
-% 		Position & Original order  & \multicolumn{4}{c}{Permutations}\\
-% 		\hline
-% 		$0$ & $\underline{A}$ & $\underline{A}$ & $B$ & $B$ & $B$\\
-% 		$1$ & $B$ 			  & $B$  & $\underline{A}$ & $C$ & $C$\\
-% 		$2$ & $C$			  & $C$ & $C$ & $\underline{A}$ & $D$\\
-% 		$3$ & $D$			  & $D$ & $D$ & $D$ & $\underline{A}$\\
-% 		\end{tabular}
-% 	\end{center}
-% 	\caption{An illustration of the insertion task. } 
-% 	\label{table:insertion_task}  
-% \end{table}
-
-% The insertion task differs with the permutation task in three properties. 
-% First, in the insertion task a text with $n$ sentences is evaluated exactly in $n^2$ time, which, though it can be significant, is still much faster than ordering. 
-% Second, it is more difficult for texts with many sentences to solve this task, because permutations only differ by one sentence.  
-% Third, in the insertion task a text is compared with many more permutations.  
- 
-% In general, both sentence ordering tasks are artificial. 
-% Texts are generated ..... 
-
-% \paragraph{Essay Scoring} 
-
-% Higgins et al. ("Evaluating multiple aspects of coherence in student essays") evaluate multiple aspects of coherence in essays by defining some features based on semantic similarity measures and discourse structures. 
-% Some features include the relatedness between the essay and the topic and some other capture the relatedness between discourse elements (e.g. intra-sentential quality and sentence-relatedness within discourse segments. 
-% In earlier work, Folz et al. (1998) and Wiemer-Hastings and Graesser (2000) have developed coherence aspects of student writing.
-% Their system measures lexical relatedness between text segments by using vector-based similarity between adjacent sentences.
-% This linear approach to similarity scoring is in line with the TextTiling scheme (Hearst and Plaunt, 1993; Hearst 1997), which may be used to identify the subtopic structure of student essays. 
-% Miltsakaki and Kukich (2000) have also addressed the issue of establishing coherence of student essays, using the Rough shift element of Centering Theory. 
-% Higgins et al. () adopted a vector-based method of semantic representation: Random Indexing (Kanerva et al. 2000; Sahlgren, 2001) while other work use Latent Semantic Analysis as a semantic similarity measure. 
-% Their output shows that the semantic similarity between sentences is not as promising as other features. 
-% It relatively is rare to find a sentence which is not related to anything in the same discourse. 
-% \newcite{benguosheng13} propose a bilingual lexical cohesion model for document-level machine translation.  
-% The coherence of the translated document is achieved by considering lexical cohesion items in the source document. 
-% The idea is that the strength of the semantic relation between two words should be retained in their counterparts in the translated document. 
-% In this way the translated document is easier to read if the source document is readable. 
-% \newcite{wongbillytm12} integrate lexical cohesion in assessment of translated documents. 
-% Lexical cohesion items in a translated document should be ideally similar to those in its associated human translation. 
-% In a closely related study, \newcite{fenglijun09} use lexical chains to measure readability. 
-% Lexical chain features are employed to indicate the number of entities/concepts that a reader must keep in mind while reading a document.  
-% \newcite{flor13} present a coherence model based on lexical tightness among content words in a text. 
-% Lexical tightness represents the degree to which a text tends to use words that are highly inter-associated in a language. 
-% They show that lexical tightness strongly correlates with readability level of expertly rated reading materials. 
-
-% \newcite{burstein10} use the same scoring function that is used by \newcite{barzilay05}. 
-% The main contrinution of this paper is that they collect some some essay data and ask human annotators to read it and classify them into two category low- and high- coherence. 
-
-
-% % Webber et al. (NLE 2012, Discourse structure and language technology):
