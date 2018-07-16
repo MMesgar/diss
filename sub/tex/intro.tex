@@ -6,7 +6,9 @@
 
 Research in natural language processing intends to provide models for understanding and generating texts.   
 One crucial aspect in processing of multi-sentence texts is \emph{coherence}, how sentences in a text are related to one another to make the text as a whole. 
-As an example, consider the following text snippet\footnote{Taken from \url{file:///Users/mohsenmesgar/Downloads/sum-docs/D31038.M.100.T.B.html}, accessed 28 May 2018.}:
+As an example, consider the following text snippet\footnote{Article \emph{D31038.M.100.T.B} Taken from \url{http://people.csail.mit.edu/regina/coherence/} accessed 28 May 2018. 
+%\url{file:///Users/mohsenmesgar/Downloads/sum-docs/D31038.M.100.T.B.html}, accessed 28 May 2018.
+}:
 
 \begin{examples}
 A total of 248 people, including a dozen Americans, were killed in the terrorist bombing of the U.S.\ Embassy in Nairobi on August 7, 1998. 
@@ -22,7 +24,10 @@ The first sentence gives some information about ``bombing''.
 The second sentence takes this information and expands it to another instance. 
 The third sentence uses given information (``bombing'') in its preceding sentences to introduces ``Osama bin Laden'' as new information. 
 The rest of sentences follow a similar structure of relations.  
-The text below\footnote{Taken from \url{file:///Users/mohsenmesgar/Downloads/sum-docs/D31038.M.100.T.16.html}, accessed 28 May 2018.}, which is an automatically generated summary of the same cluster of documents, is less coherent due to its sentences are weakly related. 
+The text below\footnote{Article \emph{D31038.M.100.T.16} taken from 
+\url{http://people.csail.mit.edu/regina/coherence/}
+%\url{file:///Users/mohsenmesgar/Downloads/sum-docs/D31038.M.100.T.16.html}, 
+accessed 28 May 2018.}, which is an automatically generated summary of the same cluster of documents, is less coherent due to its sentences are weakly related. 
 
 \begin{examples}
 Solemn-faced Kenyans, whose relatives were killed in the terrorist bombing of a U.S.\ Embassy, collected benefits on Friday. 
@@ -38,9 +43,9 @@ As it has been shown in the above examples, applications of a coherence model ar
 One example is readability assessment, in which coherence is employed as an important factor to measure the quality of texts. 
 Coherent texts avoid confusions, so they are easy to read and follow. 
 Another example is document summarization, which can employ a coherence model in two ways. 
-First, as one factor for evaluating outputs of automatic summarizers. 
-In this case, the usage of coherence models is similar to text quality assessment. 
-Second, as one component of summarization systems in order to generate coherent summaries. 
+First, a coherence model can be used for evaluating the quality of outputs of automatic summarizers. 
+In this sense, the usage of coherence models for the summarization task is similar to general text quality assessment. 
+Second, a coherence model can be integrated as one component into summarization systems in order to directly generate coherent summaries. 
 
 
 In the research presented in this thesis we aim to develop a computational model for text coherence. 
@@ -59,28 +64,31 @@ The underlying assumption of these models is that coherent texts reveal certain 
 However, these models predefine and limit patterns to linear relations over adjacent sentences. 
 This observation leads us to the first research question investigated in this thesis: 
 \textbf{Do there exist nonlinear connectivity patterns in coherent texts that consider long distant relations into account?} 
-If we can answer this question by discovering some frequent patterns in coherent texts, a follow-up question emerges, which is how the frequency of these patterns are correlated with the quality of texts. 
+If we can answer this question by discovering some frequent patterns in coherent texts, a follow-up question emerges, which is how the frequency of these patterns correlates with the quality of texts. 
 Another natural question is whether these coherence features can be employed by other NLP systems to improve their performance. 
-The answer of these questions indicate how our coherence patterns compete with its peers where they are used by downstream tasks. 
+The answers of these questions indicate how our coherence patterns compete with its peers where they are evaluated in coherence related downstream tasks. 
 
 In order to develop a powerful computational coherence model, we not only need an approach to extract patterns, which represent connectivity structures of sentences, we also require a computational method to encode semantic relations between sentences. 
-Sentence relations are not limited to only coreference between referring expressions; other semantic relations can cohere sentences as well. 
-This motivates our second research question: \textbf{How can we model sentence relations in a text beyond coreference relations over named entities and based on semantic relations between words of sentences?}  
-In order to answer this question, we first have to define an appropriate word representation.  
-This representation should give the model the capability to quantify lexico-semantic relations between words. 
-We then need to encode connections between sentences based on their semantically related words.
-Finally, given such representations of relations among sentences in a text, we can use our approach to coherence pattern mining to model the connectivity structure of sentences, and then rank texts based on the coherence of texts. 
+Sentence relations are not limited to only coreference between referring expressions in the sentences; other semantic relations, such as synonymy and antonym, and etc, among words in the sentences can cohere sentences as well. 
+This motivates our second research question: 
+%\textbf{How can we model sentence relations in a text beyond coreference relations over named entities and based on semantic relations between words of sentences?} 
+\textbf{How can we model sentence relations in a text beyond coreference relations over named entities by means of semantic relations between words of sentences?} 
+
+In order to answer this question, we first need to define appropriate word representations.  
+The word representations should give the model the capability to quantify lexico-semantic relations between words. 
+We then require to encode connections between sentences based on the words that are semantically related. 
+Finally, given such representations of relations among sentences in a text, we can use our approach to coherence pattern mining in order to model the connectivity structure of sentences in texts, and then rank the texts with respect to their coherence. 
 
 \section{Contributions}
 \label{sec:intro-contributions}
 
 We answer the first question by proposing a graph-based representation of coherence patterns. 
-The proposed representation enables our coherence model to take long distant relations, as well as relations between adjacent sentences,  into account. 
-It also considers the connectivity style of relations among sentences. 
-We formulate this by representing a text by a graph whose nodes encode sentences and edges capture relations between sentences. 
-Having such graph representations of texts in a corpus leads us to formulate the task of extracting coherence patterns from a set of texts as a subgraph mining problem from a set of graphs in graph theory. 
+The graph representation enables our coherence model to take long distant relations, as well as relations between adjacent sentences,  into account. 
+It also captures the connectivity style of relations among sentences. 
+In such graphs, nodes encode sentences and edges capture relations between sentences. 
+Then, we formulate the task of extracting coherence patterns from a set of texts as a subgraph mining problem from a set of graphs. 
 We show that how frequencies of subgraphs in a graph capture the connectivity style of nodes in the graph and consequently the coherence of the corresponding text. 
-We illustrate how frequencies of patterns in texts correlate with quality ratings that are assigned to texts by human judges. 
+We illustrate how frequencies of patterns in texts correlate with the quality ratings that are assigned to texts by human judges. 
 
 We answer the second question by motivating and developing an approach to coherence modeling based on lexical relations. 
 This approach represents relations among sentences by a graph. 
@@ -90,9 +98,9 @@ We show that applying subgraph mining methods on such graph representations of t
 We investigate the impact of the size of subgraphs on the performance of patterns. 
 We discuss that although large subgraphs capture more information about connectivity structures of graphs in comparison to small subgraphs but most of the large subgraphs may occur in few graph representations of texts.  
 This results a sparsity problem. 
-We show how smoothing methods, which are used in statistical language models, can be adapted to solve this sparsity problem in frequency of coherence patterns. 
+We show how smoothing methods, which are used in statistical language models, can be adapted to solve this sparsity problem in the frequency of coherence patterns. 
 
-The implementation of graph representations, subgraph mining approaches, and the smoothing method discussed in this thesis are publicly available\footnote{Available for download at http://.....}. 
+The implementation of graph representations, subgraph mining approaches, and the smoothing method discussed in this thesis are publicly available\footnote{Available for download at \url{https://github.com/MMesgar/}}. 
 
 
 \section{Outline}
@@ -102,22 +110,25 @@ The reminder of this thesis is organized into six chapters.
 In Chapter \ref{ch:coherence}, we discuss the task of coherence modeling in detail. 
 We give a formal definition and discuss linguistic properties, main issues and our evaluation approaches. 
 
-In Chapter \ref{ch:rel-work}, we review related work on that we mainly built our coherence model. 
-We survey different tasks that have been used to evaluate coherence models. 
+In Chapter \ref{ch:rel-work}, we review the related work on that we mainly built our coherence model. 
+We survey different tasks that have been used to evaluate coherence models presented in the research in this thesis. 
 
 In Chapter \ref{ch:coh-patterns}, we present our approach to coherence pattern mining. 
-We show that how coherence patterns extracted from a set of news articles are correlated with human readability ratings assigned by human judges. 
-We see our patterns provide more predictive information than other examined coherence features for ranking texts with respect to their coherence. 
-A basic analysis of the size of extracted subgraphs in this chapter leads to this observation that larger subgraphs better rank texts for the readability assessment task. 
-We furthermore evaluate our coherence patterns in the summarization task.  
-we show how subgraphs extracted from coherent summaries can improve the performance of a strong automatic summarization system to produce more coherent texts. 
+We recast the problem of coherence pattern mining as extracting popular subgraphs in graph representations of texts. 
+We assess the usefulness of these coherence patterns on the readability assessment task. 
+We show that how coherence patterns extracted from a set of news articles  correlates with human readability ratings assigned by human judges. 
+We observe that the frequencies of patterns as coherence features are more predictive than other examined features for ranking texts with respect to their coherence. 
+A basic analysis of the size of extracted subgraphs leads us to this observation that by increasing the number of nodes in subgraphs the predictive power of coherence patterns for ranking texts improves. 
+We furthermore evaluate  our approach to coherence pattern mining in the summarization task.  
+we show that how subgraphs extracted from coherent summaries can improve the performance of a strong automatic summarization system to produce more coherent texts. 
 
-In Chapter \ref{ch:lex-graph}, we propose our graph-base approach to coherence modeling based on lexical semantic relations between words in sentences. 
-We show that coherence patterns extracted from these graphs are more informative for ranking texts for the readability assessment task, because of integrating any semantic relations between sentences into graph representations of texts. 
-We explain about the sparsity problem and our approach to solve this problem. 
+In Chapter \ref{ch:lex-graph}, we propose a graph-based representation of a text for coherence modeling based on lexical semantic relations between words in the sentences of the text.  
+We show that coherence patterns extracted from such graphs are more beneficial for the readability assessment task in comparison with the patterns that are extracted from the entity graph representation of texts.  
+We investigate more about the quality of coherence patterns extracted from such lexical graph representations of texts and the influence of their size on the overall performance of the model.   
+We explain the sparsity problem in frequencies of subgraphs and its impact on the performance of the coherence model. Inspired by smoothing methods in statistical language models, we introduce an approach to solve this sparsity problem in graphs.  
 
-In Chapter \ref{ch:conc}, we summarize the answers that the research in this gives to the research questions formed in this chapter. 
-We discuss possible way for future work. 
+In Chapter \ref{ch:conc}, we summarize the answers that the research in this thesis gives to the research questions formed in Section \ref{sec:intro-motivation}. 
+We discuss possible ways for future work. 
 
 \section{Published Work}
 \label{sec:intro-published}
@@ -128,6 +139,7 @@ Some parts of the presented research are based on the published research to whic
 The idea of using subgraphs as coherence patterns presented in Chapter \ref{ch:coh-patterns} was published in \newcite{mesgar15}. 
 A preliminary investigation of graph-based coherence modeling was presented in \newcite{mesgar14}. 
 The application of coherence patterns in summarization presented in Chapter \ref{ch:coh-patterns} is published in \newcite{parveen16}. 
-Our lexical approach to coherence modeling and the smoothing method proposed in Chapter \ref{ch:lex-graph} are described in \newcite{mesgar16} and employed in \newcite{born17}. 
+Our lexical approach to coherence modeling and the smoothing method proposed in Chapter \ref{ch:lex-graph} are described in \newcite{mesgar16}.
+% and employed in \newcite{born17}. 
 
 
