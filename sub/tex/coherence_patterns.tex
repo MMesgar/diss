@@ -394,9 +394,9 @@ where  $\phi \left( G \right)$ denotes the graph signature and $f_i$ is the freq
 The frequency of graph $G_i$ in graph $G$ is computed as follows:
 
 \begin{equation}
- f_i = \frac{\mathtt{count}(G_i, G)}{\sum_{G_j \in \zeta}{\mathtt{count}(G_j, G)}}
+ f_i = \frac{count(G_i, G)}{\sum_{G_j \in \zeta}{count(G_j, G)}}
 \end{equation}
-where $\mathtt{count}(G_i, G)$ is the number of occurrences of $G_i$ in graph $G$. 
+where $count(G_i, G$ is the function that counts the number of occurrences of $G_i$ in graph $G$. 
 The reason of using normalized frequency instead of raw count is that normalized frequency cannot become biased to the number of nodes and edges in graph $G$. 
 Normalized frequency of a subgraph can also be interpreted as the probability of the subgraph given graph $G$.  
 
@@ -422,18 +422,18 @@ Figure \ref{fig:pattern-extraction} illustrates our approach for extracting cohe
 \begin{figure}[!ht]
 	\begin{center}
 		\begin{tikzpicture}
-			\node[] (dataset1) at (0,10)  {\includegraphics[scale=0.10]  {../figures/text.jpeg}};
-			\node[] (eg1) 	   at (0,8)   {\includegraphics[scale=0.03] {../figures/bg1.png}};
-			\node[] (proj1)    at (0,6.2) {\includegraphics[scale=0.03] {../figures/proj1.png}};
+			\node[] (dataset1) at (0,10)  {\includegraphics[scale=0.20]  {../figures/text.jpeg}};
+			\node[] (eg1) 	   at (0,6)   {\includegraphics[scale=0.05] {../figures/bg1.png}};
+			\node[] (proj1)    at (0,2.2) {\includegraphics[scale=0.05] {../figures/proj1.png}};
 
 			\path[->, thick] (dataset1) edge  (eg1);
 			\path[->, thick] (eg1) edge  (proj1);
 
 
 
-			\node[] (dataset2) at (3,10)  {\includegraphics[scale=0.10]{../figures/text.jpeg}};
-			\node[] (eg2) 	   at (3,8)   {\includegraphics[scale=0.03]{../figures/bg1.png}};
-			\node[] (proj2)    at (3,6.2) {\includegraphics[scale=0.03]{../figures/proj1.png}};
+			\node[] (dataset2) at (3,10)  {\includegraphics[scale=0.20]{../figures/text.jpeg}};
+			\node[] (eg2) 	   at (3,6)   {\includegraphics[scale=0.05]{../figures/bg1.png}};
+			\node[] (proj2)    at (3,2.2) {\includegraphics[scale=0.05]{../figures/proj1.png}};
 			\path[->, thick] (dataset2) edge  (eg2);
 			\path[->, thick] (eg2) edge  (proj2);
 
@@ -441,14 +441,14 @@ Figure \ref{fig:pattern-extraction} illustrates our approach for extracting cohe
 
 			\node[] (eg) at (6,8) {...};
 
-			\node[] (dataset3) at (9,10)  {\includegraphics[scale=0.10]{../figures/text.jpeg}};
-			\node[] (eg3) 	   at (9,8)	  {\includegraphics[scale=0.03]{../figures/bg1.png}};
-			\node[] (proj3)    at (9,6.2) {\includegraphics[scale=0.03]{../figures/proj1.png}};
+			\node[] (dataset3) at (9,10)  {\includegraphics[scale=0.20]{../figures/text.jpeg}};
+			\node[] (eg3) 	   at (9,6)	  {\includegraphics[scale=0.05]{../figures/bg1.png}};
+			\node[] (proj3)    at (9,2.2) {\includegraphics[scale=0.05]{../figures/proj1.png}};
 			\path[->, thick] (dataset3) edge  (eg3);
 			\path[->, thick] (eg3) edge  (proj3);
 			
 			
-			\node[] (minesg) at (5,4.2) {\includegraphics[scale=0.3]{../figures/3node.jpg}};
+			\node[] (minesg) at (5,-2.2) {\includegraphics[scale=0.5]{../figures/3node.jpg}};
 			\path[->, thick] (proj1) edge (minesg);
 			\path[->, thick] (proj2) edge (minesg);
 			\path[->, thick] (proj3) edge (minesg);
@@ -602,7 +602,7 @@ The text presented in Example \ref{ex:wsj-1818} is one\footnote{The article's ID
 	The sense grows that modern public bureaucracies simply don't perform their assigned functions well. 
 \end{examples}
 
-\textbf[Do you have some statistics about the dataset. If so put it here. Read Pitler and Nenkova paper for one more time.].
+% \textbf[Do you have some statistics about the dataset. If so put it here. Read Pitler and Nenkova paper for one more time.].
 
 We exclude three articles from the dataset to make the texts consistent in style; for instance one of these articles is poem that follows a totally different style. 
 The final list of articles that are used from this dataset in the experiments presented in this thesis is as follows:
@@ -1197,13 +1197,13 @@ This confirms our intuition that the average outdegree metric is insufficient to
 \begin{table}[!ht]
 	\begin{center}
 		\begin{tabular}{lcc}
-			\hline
+			\toprule
  			Projection Type		& $\rho$ 						& p\_value\\
- 			\hline
+ 			\midrule
 			$P_U$ 				& $-0.013$ 						& $0.949$ \\
 			$P_W$ 				& $\textcolor{white}{+}0.151$  	& $0.452$ \\
 			$P_{Acc}$ 			& $\textcolor{white}{+}0.150$ 	& $0.455$ \\
-			\hline
+			\bottomrule
 		\end{tabular}
 	\end{center}
 	\caption{The correlation of the average outdegree metric of different projection graphs with human readability ratings.}
@@ -1216,14 +1216,14 @@ Table \ref{tab:correlation-3node} shows the Pearson correlation coefficient and 
 \begin{table}[!ht]
 	\begin{center}
 		\begin{tabular}{lcc}
-		\hline
-  	 	& $\rho$ 		& $p\_value$ 								    \\
-  	 	\hline
+		\toprule
+  	 	& $\rho$ 		& p\_value								    \\
+  	 	\midrule
  		$p_1$ 			& $\textcolor{white}{+}0.310$ & $0.116$ 		\\
  		$p_2$ 			& $-0.325$ 				      & $0.098$ 		\\
 		$\mathbf{p_3}$ 	& $\mathbf{-0.384}$ 		  & $\mathbf{0.048}$\\
  		$p_4$ 			& $\textcolor{white}{+}0.108$ & $0.592$			\\
- 		\hline
+ 		\bottomrule
 		\end{tabular}
 	\end{center}
 	\caption{The Pearson correlation coefficient and $p\_value$ between the frequency of 3-node patterns (see Figure \ref{fig:3node-patterns}) and readability ratings assigned by human judges.} 
@@ -1257,9 +1257,9 @@ The second column presents the number of edges in each pattern.
 \begin{table}[!ht]
 	\begin{center}
 		\begin{tabular}{lccc}
-			\hline
-   								& Number of Edges & $\rho$ 						 	& $p\_value$				\\
-   			\hline
+			\toprule
+   								& Number of Edges & $\rho$ 						 	& p\_value				\\
+   			\midrule
 			$p_1$ 				& 6 			  & $\textcolor{white}{+}{0.103}$ 	& $0.609$					\\
 			$p_2$ 				& 5 			  & $-0.212$ 					 	& $0.288$					\\
 			$p_3$  				& 5				  & $-0.176$				     	& $0.380$					\\
@@ -1284,7 +1284,7 @@ The second column presents the number of edges in each pattern.
 			$p_{22}$			& 3				  & $-0.374$ 						& $0.055$					\\
 			$p_{23}$			& 3				  & $-0.314$ 						& $0.111$					\\
 			$p_{24}$ 			& 3				  & $\textcolor{white}{+}{0.100}$   & $0.620$					\\
-			\hline
+			\bottomrule
 		\end{tabular}
 	\end{center}
 	\caption{The number of edges in 4-node patterns, and the Pearson correlation coefficient and their corresponding $p\_value$ between the frequency of patterns and readability ratings.} 
@@ -1349,6 +1349,27 @@ The accuracy is calculated as follows:
 
 \begin{equation}
 Accuracy = \frac{\textit{the number of correct rankings}}{\textit{the number of pairs}}. 
+\end{equation} 
+
+We also compute the F-measure in order to compare our features with baseline features. 
+The F-measure is the average of the F1-measures that are computed for each class. 
+Note that our problem is ranking that is treated as classification.  There is no true class in to be classified. 
+So, in different turns we take each class as the true class and compute the F1-measure for that class. 
+Then we report the average F1-scores as the F-measure for this task. 
+The F1-measure for each class is the harmonic mean of precision ($P$) and recall $R$:
+\begin{equation}
+F-measure = 2.\frac{P \cdot R}{P + R}.  
+\end{equation}
+Precision is computed as follows: 
+
+\begin{equation}
+P = \frac{\textit{the number of correct decisions}}{\textit{the number of decisions}}
+\end{equation}
+
+Recall is calculated as follows:
+
+\begin{equation}
+R = \frac{\textit{the number of correct decisions}}{\textit{the number of pairs in that class}}
 \end{equation}
 
 Since the dataset is not accompanied by any standard split of training and test sets, we use 10-fold cross-validation for comparing the quality of different coherence feature sets. 
@@ -1380,20 +1401,16 @@ This feature set is also evaluated\footnote{The accuracy reported in their paper
 \begin{table}[!ht]
 	\begin{center}
 		\begin{tabular}{lcc}
-			\hline
-			Features 						  & Accuracy		& F-Measure	\\
-			\hline
-			\multicolumn{2}{l}{\textbf{Baselines}}								\\
+			\toprule
+			Features 						  & Accuracy		& F-measure	\\
+			\midrule
 			None (Majority class) 			  & $47.85\%$		& $0.478$		\\
 			Baseline features 			  	  & $83.25\%$     	& $0.833$		\\
-			\hline
-		
-			\multicolumn{2}{l}{\textbf{Graph-based Features}}					\\
 			3-node 							  & $79.43\%$		& $0.794$		\\
 			4-node 						      & $89.00\%$		& $0.890$		\\
 			3-node \& 4-node 				  & $88.52\%$		& $0.885$		\\
-			Baseline + 4-node 				  & $93.30\%$		& $0.933$		\\
-			\hline
+			Baseline features + 4-node 				  & $93.30\%$		& $0.933$		\\
+			\bottomrule
 		\end{tabular}
 	\end{center}
 	\caption{The accuracy of the SMO classifier with different sets of coherence features.}
@@ -1424,7 +1441,7 @@ Finally, the combination of baseline coherence features, i.e.\ the frequency of 
 An interpretation for this is that although our coherence patterns capture the connectivity structure among sentences of a text, integrating linguistic information such syntactic transitions of entities may improve the quality of a coherence model.  
 
 \subsection{Automatic Summarization}
-
+\label{sec:auto-summarization}
 In this section we evaluate our approach to coherence patterns in automatic text summarization, which an instance of text generation systems. 
 We employ the summarization proposed by \newcite{parveen15a} as it is based on the entity graph model (see Chapter \ref{ch:rel-work}). 
 This matters because the entity graph model is the framework of our coherence model as well.  
@@ -1487,12 +1504,12 @@ In order to model this, we weigh each coherence pattern based on its number of o
 The weight of a coherence pattern, $weight(p_u)$, is the sum of its counts in all graphs in $GS_H$ divided by its maximum count:
 
 \begin{equation}
-weight(p_u) = \frac{\sum_{k=1}^{M}{\mathtt{count}(p_u,g_k)}}{\max_{k=1}^{M}{\mathtt{count}(p_u,g_k)}},
+weight(p_u) = \frac{\sum_{k=1}^{M}{count(p_u,g_k)}}{\max_{k=1}^{M}{count(p_u,g_k)}},
 \end{equation}
 where $M$ is the number of graphs in $GS_H$, and $g_k$ indicates the $k$th projection graph in $GS_H$.
 The nominator of the weight function counts the number of occurrences of $p_u$ in all graphs in $GS_H$. 
 The denominator diminishes the weight of a coherence pattern if it  occurs in a few graphs of $GS_H$. 
-In an extreme case, if a pattern occurs only in one graph in the graph set then $max_{k=1}^{q}{\mathtt{count}(p_u,g_k)}$ is equal to $\sum_{k=1}^{q}{\mathtt{count}(p_u,g_k)}$, so the weight of the pattern becomes one. 
+In an extreme case, if a pattern occurs only in one graph in the graph set then $max_{k=1}^{q}{count(p_u,g_k)}$ is equal to $\sum_{k=1}^{q}{count(p_u,g_k)}$, so the weight of the pattern becomes one. 
 If a pattern occurs in many graphs in $GS_H$ the denominator becomes smaller than the nominator, therefore the weight becomes greater than one. 
 The weights of coherence patterns are not on the same scale.  
 So we normalize the weights by 
@@ -1669,7 +1686,7 @@ To do so, we borrow constrains from \newcite{lerouge15} to check if the pattern 
 \item Every edge of the pattern matches at most to one unique edge of the graph:
 
 \begin{equation}
-\sum_{kl\in E_g}y_{ij,kl} \leq 1 \quad \forall ij\in E_{p_{u}},
+\sum_{kl\in E_g}y_{ij,kl} \leq 1 \quad \forall (i,j)\in E_{p_{u}},
 \end{equation}
 
 \item Every node of the graph matches at most to one node of the pattern:
@@ -1687,23 +1704,23 @@ To do so, we borrow constrains from \newcite{lerouge15} to check if the pattern 
 \item A node of pattern $p_u$ matches a node of graph $g$ if an edge targeting the node of $p_u$ matches an edge targeting the node of $g$:
 
 \begin{equation}
-\sum_{kl \in E_g}y_{ij,kl} =  x_{j,l}\textit{  }\forall l \in V_g,\textit{  }\forall ij \in E_{p_{u}},
+\sum_{kl \in E_g}y_{ij,kl} =  x_{j,l}\textit{  }\forall l \in V_g,\textit{  }\forall (i,j) \in E_{p_{u}},
 \end{equation}
 
-\item We need a constraint to extract induced patterns. 
+\item Following constraint ensures that the model extracts induced patterns.  
 Pattern $p_{u}$ is an induced subgraph of graph $g$ if $p_{u}$ contains all possible edges that are present in $g$. 
 So
 
 \begin{equation}
-\sum_{i \in V_{pat_{u}}}x_{i,k} + \sum_{j \in V_{pat_{u}}}x_{j,l} - \sum_{ij\in E_{pat_{u}}}y_{ij,kl} \leq 1
- \quad\textit{  }\forall kl\in E_g
+\sum_{i \in V_{pat_{u}}}x_{i,k} + \sum_{j \in V_{pat_{u}}}x_{j,l} - \sum_{(i,j)\in E_{pat_{u}}}y_{ij,kl} \leq 1
+ \quad\textit{  }\forall (k,l)\in E_g
 \end{equation}
 \end{itemize}
 
 So far, our constrains check whether the pattern is an induced subgraph of the projection graph. 
-But we must check if the pattern occurs in a subgraph of the projection graph that contains only selected sentence nodes for producing the summary. 
-These constraints are not sufficient to check this. 
-So we define some more constraints:
+But we must also check if the pattern occurs in a subgraph of the projection graph such that the subgraph contains only selected sentence nodes for producing the summary. 
+Introduced constraints up to now are not sufficient to check this. 
+So we define some more constraints in this regard:
 
 \begin{itemize}
 
@@ -1729,188 +1746,205 @@ Let $|V_{p_{u}}|$ be the number of nodes and $|E_{p_u}|$ be the number of edges 
 Now we can set up our experiments for evaluating our approach to coherence patterns on the summarization task. 
 
 \paragraph{Data.}
-We evaluate our model on two datasets:  \emph{PLOS medicine} and \emph{DUC}. 
-The PLOS medicine dataset contains $50$ scientific articles.  
+We evaluate our model on two datasets:  \emph{PLOS medicine} and \emph{DUC 2002}. 
+The PLOS medicine dataset consists of $50$ scientific articles.  
 We are motivated to evaluate our model on scientific articles because of the growth in the number of scientific publications in different research fields.  
 A summarizers assist researchers to have an informative and coherent gist of long scientific articles. 
-Moreover, summarizing scientific articles is as difficult as multi-document summarization because scientific articles are tend to be long and the important information is spread all over the article unlike information in news articles \cite{teufel02}. 
+Moreover, summarizing scientific articles is as difficult as multi-document summarization because scientific articles are tend to be long and the important information is spread all over an article,  unlike the distribution of information in a news article \cite{teufel02}. 
 The reason that we selected the PLOS medicine dataset is that articles in this dataset are accompanied by summaries written by editors of the month. 
 Editors' summaries have a broader perspective than abstracts of articles.  
-We use scientific articles and their corresponding editor's summaries as dataset $D$ in our formulation.
+We use scientific articles and their corresponding editor's summaries as dataset $D$ in our formulation for the summarization task (see Section \ref{sec:auto-summarization}). 
 Abstracts of scientific articles can be taken as summaries of articles as well, which are coherent because they are written by humans. 
 we collect abstracts of $700$ scientific articles from the PubMed\footnote{\url{http://www.ncbi.nlm.nih.gov/pmc/tools/ftp/}} corpus, which is in the \mbox{bio-medicine} field, to mine coherence patterns and compute their weights. 
-This dataset of abstracts is dataset $H$ in our formulation. 
+This dataset of abstracts is dataset $H$ in our formulation for the summarization task.  
 The articles of this dataset do not overlap with articles in PLOS Medicine dataset. 
-In scientific papers clarity is paramount, so the author will endeavor to state things explicitly and avoid ambiguity. 
-Authors of scientific articles repeat terminologies to be explicit.     
-In contrast, in literature, word repetition is not only uncommon, but it is usually a sign of bad writing. 
 
 We also evaluate our model on the DUC 2002 dataset that has been annotated for the Document Understanding Conference 2002. 
 It contains $567$ news articles for summarization. 
 Every article in this dataset is associated with at least two gold summaries written by humans. 
 This is dataset $D$ in our formulation and we use this dataset for the evaluation purposes. 
-We use human summaries in the DUC 2005 dataset, which has $300$ articles, to mine coherence patterns and to calculate their weights. 
+We use human summaries in the DUC 2005 dataset, which has $300$ articles, to mine coherence patterns and then calculate the weights of patterns.  
 This is dataset $H$ in our formulation. 
-% DUC 2002 articles are shorter than \emph{PLOS Medicine}\ articles (25 vs.\ 154 sentences average\ length). 
+
+DUC 2002 articles are shorter than \emph{PLOS Medicine}\ articles (25 vs.\ 154 sentences average\ length). 
+In scientific papers clarity is paramount, so the author will endeavor to state things explicitly and avoid ambiguity. 
+Authors of scientific articles repeat terminologies to be explicit.     
+In contrast, in literature, word repetition is not only uncommon, but it is usually a sign of bad writing. 
 
 \paragraph{Experimental settings.}
-In the preprocessing phase of scientific articles, we extract texts of articles by removing all figures, tables, references and \mbox{non-alphabetical} characters.
-For both datasets, we use the Stanford parser \cite{klein03b} to pars sentences. 
-We represent each text by its entity graph that is obtained based on its entity grid representations. 
+In the preprocessing phase, we extract texts from scientific articles by removing all figures, tables, references and \mbox{non-alphabetical} characters.
+For both datasets, we use the Stanford parser \cite{klein03b} to parse sentences. 
+We represent each text by its entity graph that is obtained based on its entity grid representation. 
 We employ the Brown coherence toolkit \cite{elsner11b} to build entity grids from parse trees.  
 We use gSpan \cite{yanxifeng02} to extract all coherence patterns from the projection graphs in $GS_H$. 
-We use coherence patterns with $3$ and $4$ nodes to which we refer by 3-node and 4-node patterns respectively. 
-The optimization is formulated as Mixed Integer Programming (MIP), which deals with quadratic constraints. 
+We use coherence patterns with three and four nodes to which we refer as 3-node and 4-node patterns respectively. 
+The optimization is formulated as Mixed Integer Programming (MIP) that deals with quadratic constraints. 
 We use Gurobi \cite{gurobi14} to solve the MIP optimization problem.
 We determine the best values for $\lambda_{I}$, $\lambda_R$, and $\lambda_{c}$ on the development sets.
-\textbf{SIZE OF DEV SET? SPLIT PRECENTAGE?}
 $\lambda_{I}=0.4$, $\lambda_R=0.3$, and $\lambda_{c}=0.3$ are the best weights for the \emph{PLOS Medicine}\ development set. 
 Weights for the DUC 2002 development set are $\lambda_{I}=0.5$, $\lambda_R=0.2$ and $\lambda_{c}=0.3$.
 When a summary is produced all pronouns are substituted with their antecedences using the pronoun resolution system provided by \newcite{martschat13}. 
-we limit the length of summaries to $5$ sentences,  when we compare our system with the state-of-the-art systems on PLOS Medicine. 
-However, since the word length limit of a summary is more reasonable than the sentence length limit of a summary, in addition we compare the examined summarization models when the length of a summary is restricted to the average length of editor's summaries in the dataset ($750$ words). 
+We limit the length of summaries to $5$ sentences,  where we compare our system with the \mbox{state-of-the-art} systems on PLOS Medicine. 
+However, since the word length limit of a summary is more reasonable than the sentence length limit of a summary, in addition we compare the examined summarization models where the length of a summary is restricted to the average length of editor's summaries in the dataset ($750$ words). 
 
-\paragraph{Results.}
-We evaluate our model in two ways. 
-First, we use ROUGE scores to compare our summarizer with other models. 
-Second, we explicitly evaluate the coherence of summaries by human judgements.
-
-\textbf{ROUGE Assessment.}
-The ROUGE score \cite{linchinyew04} is a standard evaluation metric for automatic text summarization. 
-It principally measures word overlaps between gold summaries (usually generated by humans) and summaries produced by a model. 
-ROUGE 1, ROUGE 2 and ROUGE SU4 are three versions of ROUGE that are popularly reported for comparing different summarization systems.  
-We refer interested readers to  \newcite{graham15} for more explanations about evaluation metrics for the summarization task. 
-We compare our system with the following summarization systems: 
+\paragraph{Compared summarization systems.}
+We compare our summarization system, which is enriched with coherence patterns, with the following summarization systems: 
 
 \begin{itemize}
-	\item \emph{Random}: that selects sentences randomly;
+	\item \emph{Random}: This model selects sentences randomly from the input document;
 
-	\item \emph{Lead}: that includes the top n\% of the sentences of a document
+	\item \emph{Lead}: This model takes the top n\% of the sentences of the input document;
 
-	\item \emph{Maximal Marginal Relevance (MMR)} \cite{carbonell98}: which uses a \mbox{trade-off} between relevance and redundancy; 
+	\item \emph{Maximal Marginal Relevance (MMR)} \cite{carbonell98}: This model uses a \mbox{trade-off} between relevance and redundancy to rank sentences. 
+	 To do this, the model defines a linear ranking function as:
+	 \begin{equation}
+	 MMR(s_i) = \mathtt{\argmax}_{s_i}\lbrace \gamma sim(s_i,title) + (1-\gamma)\mathtt{\max}_{s_j}sim(s_i,s_j)) \rbrace 
+	 \end{equation} 
+	 where $\gamma$ is the trade-off factor. 
+	 If $\gamma$ equals to one then the sentences in the input document are ranked merely based on their similarity with the title, which means ranking based on relevance. 
+	 If $\gamma$ equals to zero, sentences are ranked based on the similarity among themselves, which can be interpreted as redundancy. 
 
-	\item \emph{Text-Rank} \cite{mihalcea04b}: represents an input document by a graph whose nodes represent sentences and edges are weighted by cosine similarity between sentences; 
-	\textbf{Then?}
+	\item \emph{Text-Rank} \cite{mihalcea04b}: This graph-based model allows for ranking over sentences that is recursively computed based on the information drawn from the entire text. 
+	It represents the input document by a graph whose nodes represent sentences and edges indicate existence of content overlaps between sentences. 
+	Edges are weighted by the number of content words that overlap between sentences. 
+	The ranking of sentences are measured by computing the importance of its corresponding node in the graph. 
+	The node importance in the graph is computed based on the global information which is recursively drawn from the entire graph. 
+	The importance score of each node in each recursion is updated with respect to the importance score of its neighbors in the graph. 
+	
+	\item \emph{EntOD} \cite{parveen15a}: 
+	This model uses ILP in order to optimize the summary based on importance, non-redundancy, and coherence. 
+	The importance and non-redundancy components are identical with with these components in the summarization system that is explained here. 
+	The only difference between the EntOD system and our summarization system is in the coherence component. 
+	In EntOD, the input document is represented by the entity graph to encode \mbox{entity-based} relations among sentences. 
+	Then the outdegree of sentence nodes in the projection graph of an input document, as the coherence measure of each sentence. 
+	That is why we refer to this model as EntOD. 
 
-	\item \emph{$E_{Coh}$}\ \cite{parveen15a}: that uses the entity graph of an input document to encode \mbox{entity-based} relations among sentences. 
-	It uses the outdegree of sentence nodes in the projection graph of an input document, as the coherence measure of each sentence.
-
-	\item \emph{$T_{Coh}$}\ \cite{parveen15b}: that uses topical graphs instead of entity graphs to encode topical relations among sentences. 
+	\item \emph{TopicOD} \cite{parveen15b}: 
+	This summarization system is as same as the EntOD system except the way that texts are represented. 
+	This model uses topical graphs, instead of entity graphs, to encode topical relations among sentences. 
 	Topical graphs are bipartite graphs consisting of two sets of nodes: sentences and topics. 
 	The outdegree of each sentence in weighted projection graphs are taken as the coherence measure of the sentence.
 
-	\item \emph{Mead} \cite{radev04b}: that assigns a score to each sentence of a document using three other scores: the centroid score (which is a measure of the centrality of a sentence to the overall topic of a document), the position score (which  decreases linearly as the sentence gets farther from the beginning of a document), and the \mbox{overlap-with-first} score (which is the inner product of the \mbox{TF*IDF-weighted} vector representations of a sentence and the first sentence (or title, if there is one) of an input document. 
-	MEAD discards sentences that are too similar to other sentences (based on a cosine similarity). 
-	Any sentence that is not discarded due to high similarity and which gets a high score (within the specified compression rate) is included in the summary. 
-	% All three features do not take care of the coherence of a summary as they do not have any notion of the order and the structure of a summary .
+	\item \emph{Mead} \cite{radev04b}: This model assigns a score to each sentence of the input document using three other scores: the centroid score (which is a measure of the centrality of a sentence to the overall topic of the input document), the position score (which decreases linearly as the sentence gets farther from the beginning of the input document), and the \mbox{overlap-with-first} score (which is the inner product of the \mbox{TF*IDF-weighted} vector representations of a sentence and the first sentence (or title, if there is one) of the input document. 
+	MEAD discards sentences that are too similar to other sentences (based on the cosine similarity). 
+	Any sentence which is not discarded due to high similarity and which obtains a high score (within the specified compression rate) is included in the summary. 
 	
 \end{itemize}
 
 
-Table \ref{table:plos_5len_editor} reports ROUGE scores of different systems on the \emph{PLOS Medicine} dataset. 
+\paragraph{Results.}
+We evaluate the summarization system, which is enriched by coherence patterns in, two ways. 
+First, we use ROUGE scores to compare our summarizer with other models. 
+Second, we explicitly evaluate the coherence of summaries by human judgements.
+
+\paragraph{ROUGE assessment.}
+The ROUGE score \cite{linchinyew04} is a standard evaluation metric for automatic text summarization. 
+It principally measures word overlaps between gold summaries (usually generated by humans) and summaries produced by a model. 
+ROUGE-1, ROUGE-2 and ROUGE-SU4 are three versions of ROUGE that are popularly reported for comparing different summarization systems. 
+ROUGE-1 and ROUGE-2 capture unigram and bigram overlap between a gold summary and a produced summary. 
+These are meant to assess informativeness. 
+ROUGE-SU4 captures skip-bigram plus unigram-based co-occurrence statistics. 
+We refer interested readers to  \newcite{graham15} for more explanations about evaluation metrics for the summarization task. 
+
+Table \ref{table:plos_5len_editor} reports ROUGE scores of different systems on the \emph{PLOS Medicine} dataset where the length of summaries is limited to five sentences. 
+Our summarization system that uses three nodes outperforms other systems.  
+
 
 \begin{table}[!ht]
 	\begin{center}
 		\begin{tabular}{lcc}
-		\hline
-		Systems & R-SU4 & R-2\\
-		\hline
-		\textbf{Baselines}&  & \\
-		Lead & 0.067 &  0.055  \\
-		Random &  0.048  & 0.031  \\
-		MMR & 0.069 &  0.048  \\
-		TextRank & 0.068  & 0.048  \\
-		\textbf{State-of-the-art}&  & \\
-		$E_{Coh}$ & 0.131& 0.098 \\
-		$T_{Coh}$\ & 0.129 & 0.095  \\
-		Mead & 0.084 & 0.068 \\
-		\textbf{Our Model} & & \\
-		3-node & \textbf{0.135} & \textbf{0.103} \\
-		\hline
+		\toprule
+		Systems 			& ROUGE-SU4 &ROUGE-2\\
+		\midrule
+		Lead 				& 0.067 	& 0.055  \\
+		Random 				& 0.048  	& 0.031  \\
+		MMR 				& 0.069 	& 0.048  \\
+		TextRank 			& 0.068  	& 0.048  \\
+		Mead 				& 0.084 	& 0.068  \\
+		EntOD 				& 0.131		& 0.098  \\
+		TopicOD				& 0.129 	& 0.095  \\
+		\textbf{3-node} 				& \textbf{0.135} & \textbf{0.103} \\
+		\bottomrule
 		\end{tabular}
 	\end{center}
 	\caption{\emph{PLOS Medicine}, editor's summaries with \textbf{5 sentences}.}
 	\label{table:plos_5len_editor}
 \end{table}
 
-Table \ref{tab:plos_rougesu4} shows the performance of different systems with $750$ words limit for a summary when editor's summaries are taken as gold standard. 
+Table \ref{tab:plos-750words} shows the performance of different systems with $750$ words limit for a summary where editor's summaries are taken as gold standard. 
 We calculate different variations of ROUGE-2 and ROUGE-SU4. 
-These variations demonstrate the effect of stop words and stemming in ROUGE calculation.
-For sake of brevity, we use the notation ``SW'' to refer to stop words and ``SM'' to refer to word stemming.  
+These variations demonstrate the effect of stop words and stemming in the ROUGE calculation.
+For the sake of brevity, we use the notation ``SW'' to refer to stop words and ``SM'' to refer to word stemming.  
 ``SW--'' shows that stop words are not taken into account in ROUGE calculation; ``SW+'' is the opposite. 
 ``SM--'' shows that Porter Stemmer is not applied to summaries in ROUGH calculation, ``SM+'' is its opposite. 
  
 Our models achieves the best performance in comparison to other examined systems with respect to all variations of ROUGE. 
-When we integrate coherence patterns with three nodes into the summarizer, $P_3$, it significantly outperforms $E_{Coh}$ that uses the outdegree of sentence nodes as the coherence feature. 
-This result confirms our intuition that the outdegree of nodes in the projection graph of a document is not a powerful representative for coherence of selected sentences for a summary. 
-$P_3$ works better than $E_{Coh}$ basically because our coherence patterns capture the connectivity style among selected sentences for a summary, whereas
-the outdegree measures to what extend a sentence is connected to other sentences  in a document, rather than a summary. 
+When we integrate coherence patterns with three nodes into the summarizer, i.e.\ 3-node, the summarizer significantly outperforms EntOD that uses the outdegree of sentence nodes as the coherence feature. 
+These results confirm our intuition that the outdegree of nodes in the projection graph of the input document is not a powerful representative for the coherence of selected sentences for a summary. 
+3-node works better than EntOD basically because our coherence patterns capture the connectivity style among selected sentences from the input document for the summary, whereas
+the outdegree measures to what extend a sentence is connected to other sentences in the input document, rather than the summary. 
 Moreover, the outdegree does not capture how sentences should be connected to have a coherent summary. 
 
 \begin{table}[!ht]
 	\begin{center}
 		\begin{tabular}{lr@{}lrrr||r@{}lrrr}
-		\hline
+		\toprule
 		\emph{PLOS Medicine}& SW--& & SW-- & SW+ & SW+& SW-- & & SW-- & SW+ & SW+ \\
-		Editor's summaries  & SM-- & & SM-- &  SM+ & SM-- &  SM+  & & SM-- &  SM+  & SM-- \\\hline
-		&& \multicolumn{4}{c||}{ROUGE SU4 ($\ast p<.05$)} & \multicolumn{4}{c}{ROUGE 2 ($\ast p<.01$)}\\
-		\hline
-		\textbf{Baselines} & & & & & & & & & &\\
+		Editor's summaries  & SM-- & & SM-- &  SM+ & SM-- &  SM+  & & SM-- &  SM+  & SM-- \\
+		\midrule
+		&& \multicolumn{4}{c||}{ROUGE-SU4 ($\ast p<.05$)} & \multicolumn{4}{c}{ROUGE-2 ($\ast p<.01$)}\\
+		\midrule
 		Random &  0.140& & 0.113 & 0.169  & 0.153 &  0.102 & & 0.088 & 0.125 & 0.116 \\
 		Lead & 0.191 & & 0.158 & 0.246 & 0.222  & 0.158 & & 0.140 &0.185 &0.171   \\
 		MMR & 0.183& & 0.149 & 0.240 & 0.215 & 0.141 & & 0.125 & 0.171 &0.157 \\
 		TextRank & 0.148& & 0.104 & 0.161 & 0.159 & 0.115 & & 0.084 &0.126 & 0.118\\
-		\textbf{State-of-the-art} & & & & & & & & & & \\
 		Mead & 0.197 & & 0.165 & 0.246 & 0.222& 0.156 & &0.139 & 0.186 & 0.172 \\
-		$E_{Coh}$ & 0.204&* & 0.167 & 0.254& 0.228 &0.160 &* & 0.145 &0.187 & 0.173\\
-		$T_{Coh}$\ & 0.195 & &0.161 & 0.231 &0.206 & 0.157 &  & 0.140 &0.169 & 0.165 \\
-		\textbf{Our Model} & & & & & & & & & &\\
+		EntOD & 0.204&* & 0.167 & 0.254& 0.228 &0.160 &* & 0.145 &0.187 & 0.173\\
+		TopicOD & 0.195 & &0.161 & 0.231 &0.206 & 0.157 &  & 0.140 &0.169 & 0.165 \\
 		3-node &0.215& * &0.178& 0.268& 0.241& 0.172 & * & 0.153 & 0.200 &0.184 \\
-		4-node & \textbf{0.218}& & \textbf{0.179} & \textbf{0.270} & \textbf{0.245}  & \textbf{0.175} & & \textbf{0.156} & \textbf{0.201} & \textbf{0.187} \\
-		\hline
+		\textbf{4-node} & \textbf{0.218}& & \textbf{0.179} & \textbf{0.270} & \textbf{0.245}  & \textbf{0.175} & & \textbf{0.156} & \textbf{0.201} & \textbf{0.187} \\
+		\bottomrule
 		\end{tabular}
 	\end{center}
 	\caption{ROUGE scores on \emph{PLOS Medicine} with \textbf{750 words}.}
 	\label{tab:plos-750words}
 \end{table}
 
-When we integrate 4-node coherence patterns the summarizer works slightly better than when 3-node patterns are combined; This confirms that large subgraphs capture more information about the connectivity style of nodes in a projection graph and therefore the coherence of sentences.  
+When we integrate 4-node coherence patterns into the summarizer, the summarizer works slightly better than when 3-node patterns are combined; This confirms that large subgraphs capture more information about the connectivity style of nodes in a projection graph and therefore the coherence of sentences.  
 However, this improvement is not statistically significant. 
 4-node patterns are less likely than 3-node patterns to occur in a subgraph of the projection graph where the subgraph contains only selected nodes for the summary. 
 
-The summarizer that is enriched by our coherence pattern outperforms \emph{Mead} as one of the state-of-the-art summarization systems. 
+The summarizer that is enriched by our coherence patterns outperforms \emph{Mead} as one of the state-of-the-art summarization systems. 
 On average summaries produced by \emph{Mead} contains less number of sentences than summaries produced by 3-node patterns (17.5 vs 27.2 sentences per summary).
 This shows that \emph{Mead} selects longer sentences in comparison to our 3-node patterns.  
 Long sentences are more complex and less readable. 
-They also contain more irrelevant entities than shorter sentences.
+They may also contain more irrelevant entities than shorter sentences because they are longer. 
 
-Table \ref{tab:summary-duc} shows the results on DUC 2002 for well-performed  systems in the previous experiment. 
+Table \ref{tab:summary-duc} shows the results on DUC 2002 of well-performed  systems in the previous experiment. 
 In addition to other models, we compare our model to \emph{NN-SE} that utilizes a neural network hierarchical document encoder and an \mbox{attention-based} extractor to extract sentences from a document for a summary \cite{chengjianpeng16}.
 
-ROUGE scores of our approach on this dataset surpass the scores of baselines and state-of-the-art systems. 
+ROUGE scores of our summarization approach, i.e.\ 3-node in Table \ref{tab:summary-duc}, on this dataset surpass the scores of other summarization systems. 
 This shows that our system performs well even in a different domain and with considerably shorter input documents. 
-Our model outperforms the \emph{NN-SE} system, because our model explicitly takes into account the connectivity of selected sentences in the sentence extraction phase. 
-We only use 3-node subgraphs on this dataset because the summaries are supposed to be very short so 3-node subgraphs are sufficient to capture the connectivity style of selected sentences. 
+Our model outperforms the \emph{NN-SE} system because our model explicitly takes into account the connectivity of selected sentences in the sentence extraction phase. 
+We only use 3-node subgraphs on this dataset because the summaries are supposed to be very short. 
+So 3-node subgraphs are sufficient to capture the connectivity style of selected sentences. 
 
 
 \begin{table}[!ht]
 	\begin{center}
 		\begin{tabular}{lccc}
-			\hline
-			Systems 					& R-1 	& R-2 	& R-SU4 \\
-			\hline
-			\textbf{Baselines} 			&	  	&		&		\\
+			\toprule
+			Systems 					& ROUGE-1 	& ROUGE-2 	& ROUGE-SU4 \\
+			\midrule
 			Lead 						& 0.459 & 0.180 & 0.201	\\
 			TextRank 					& 0.470 & 0.195 & 0.217	\\
 			DUC 2002 Best 				& 0.480 & 0.228 & 		\\
-			\textbf{State-of-the-art} 	& 		& 		&		\\
 			Mead 						& 0.445 & 0.200 & 0.210	\\
-			$E_{Coh}$ 					& 0.485 & 0.230 & 0.253 \\
-			$T_{Coh}$ 					& 0.481 & 0.243 & 0.242 \\
+			EntOD						& 0.485 & 0.230 & 0.253 \\
+			TopicOD 					& 0.481 & 0.243 & 0.242 \\
 			NN-SE 						& 0.474 & 0.230 & 		\\
-			\textbf{Our Model} 			& 		& 		& 		\\
-			3-node 						& \textbf{0.490} & \textbf{0.247} & \textbf{0.258}\\
-			\hline
+			\textbf{3-node} 						& \textbf{0.490} & \textbf{0.247} & \textbf{0.258}\\
+			\bottomrule
 		\end{tabular}
 	\end{center}
 	\caption{ROUGE scores on DUC 2002.}
@@ -1920,43 +1954,45 @@ We only use 3-node subgraphs on this dataset because the summaries are supposed 
 \paragraph{Coherence Assessment.} 
 Here we exclusively assess the coherence aspect of summaries by asking human judges to rank summaries that are generated by different systems. 
 To this end, we ask four human judges\footnote{Human judges are one PostDoc, two PhD students and one Masters student in our NLP group.} to rank summaries of four different systems for ten different articles. 
-The most coherent summary is assigned rank $1$, the second best is assigned rank $2$, the third best gets rank $3$, and the worst is assigned rank $4$.
+The most coherent summary is assigned with rank $1$, the second best is assigned with rank $2$, the third best gets rank $3$, and the worst obtains rank $4$.
 The four summarization systems are
-\emph{3-node}, \emph{$E_{Coh}$}, \emph{Text-Rank}, and \emph{Lead}.
+\emph{3-node}, \emph{EntOD}, \emph{Text-Rank}, and \emph{Lead}.
 
 The Kendall concordance coefficient (W) \cite{siegel88} over the rankings is calculated in order to measure the agreement between the human judges.  
-We calculate Kendall's W for every scientific article which is given to the human subjects. 
+We calculate Kendall's W for every scientific article, which is given to the human subjects. 
 Then, we calculate the average of Kendall's W of scientific articles. 
-The average Kendall's W is $0.6725$,  which indicates a high level of agreement between human subjects.
-Applying the $\chi^2$ test shows that W is statistically significant (p\_value <.05), indicating that the rankings provided by the human judges are reliable and informative.
+The average Kendall's W is $0.6725$, which indicates a high level of agreement between human subjects.
+Applying the $\chi^2$ statistical test shows that W is statistically significant (p\_value <.05).  This indicates that the rankings provided by the human judges are reliable and informative.
 Table \ref{tab:summary-human} shows the overall average rankings summaries produced by a system received by human judges. 
 
 \begin{table}[!ht]
 	\begin{center}
 		\begin{tabular}{lc}
-		\hline
-		System 			&  Average Human scores \\
-		\hline
-		TextRank 		& 3.950					\\
-		$E_{Coh}$ 		& 2.325					\\
-		3-node			& \textbf{1.875} 		\\
-		Lead 			& 1.625					\\
-		\hline
+		\toprule
+		System 				&  Average Human scores \\
+		\midrule
+		TextRank 			& 3.950					\\
+		EntOD 				& 2.325					\\
+		\textbf{3-node}		& \textbf{1.875} 		\\
+		Lead 				& 1.625					\\
+		\bottomrule
 		\end{tabular}
 	\end{center}
-	\caption{The average human scores evaluated on the PLOS Medicine dataset. Lower is better. }
+	\caption{The average human scores evaluated on the PLOS Medicine dataset. Lower is better. 
+	The bold line is our system.}
 	\label{tab:summary-human}
 \end{table}
 
 \emph{Lead} obtains the best overall average rank because it extracts adjacent sentences from the beginning of the text. 
 Hence, the summaries produced by this system are as coherent as the author intends them to be. 
-Our summarizer that uses 3-node patterns follows $LEAD$ by outperforming $E_{Coh}$ and $TextRank$.  
-This shows that integration of our coherence patterns into the summarization system yield coherent texts in comparison with other basic model such as $E_{Coh}$ that uses the average outdegree.  
+Our summarizer, which is enriched with 3-node coherence patterns, follows LEAD by outperforming EntOD and TextRank.  
+This shows that the integration of our coherence patterns into the summarization system yields texts that are more coherent in comparison with summaries that are produced by baseline summarizers such as EntOD that uses the average outdegree.  
 
 \section{Summary}
 \label{sec:summary}
 
-In this chapter, we challenged the average outdegree metric that is heuristically defined so that documents whose projection graphs have higher average outdegrees are more coherent. 
+In this chapter, we challenged the average outdegree metric that is heuristically defined by the entity graph model. 
+The main intuition behind the usage of this metric is that documents whose projection graphs have higher average outdegrees are more coherent. 
 We showed that the average outdegree of nodes in a projection graph is not sufficient to capture the connectivity style of nodes and consequently the perceived coherence of the corresponding document. 
 Instead, we proposed novel coherence patterns that capture the entity-based connectivity style of sentences in documents. 
 We employed projection graphs of texts in a corpus to encode the connectivity style of sentences.  
@@ -1964,11 +2000,11 @@ Then by applying a subgraph mining algorithm to all projection graphs of all tex
 We use the frequency of each coherence pattern in a projection graph as a representative feature of the connectivity style of nodes in the projection graph and consequently, a representative feature of the perceived coherence of the corresponding document. 
 
 We evaluated our coherence patterns in two applications: readability assessment and extractive \mbox{single-document} summarization. 
-In the former, we observed that frequencies of some coherence patterns are positively and some other negatively correlated with readability scores assigned by human judges. 
+In the former, we observed that frequencies of some coherence patterns are positively and some others are negatively correlated with readability ratings, which are assigned to texts by human judges. 
 Positively correlated patterns mostly depict this intuition in texts that a sentence introduces some entities and its subsequent sentences elaborate each of them.  
 Negatively correlated patterns roughly remind us the linear chain pattern in linguistics where a sentence is located between two unrelated sentences to make them connected. 
-Although this pattern is useful but if it occurs too frequently in a document then it hurts the coherence of the document. 
-Our experiments showed that 4-node subgraphs have a better predictive power than  3-node subgraphs in ranking documents with respect to their readability. 
+Although this pattern is useful but if it occurs too frequently in a document then it disturbs the coherence of the document. 
+Our experiments showed that 4-node subgraphs are more predictive than 3-node subgraphs in ranking documents with respect to their readability. 
 We believe that this is mainly because large coherence patterns have more capacity than small ones for encoding the connectivity style of nodes in projection graphs. 
 
 In the summarization task, we examined our coherence patterns by integrating them into an existing summarization system that is developed on the entity graph representation of documents. 
@@ -1976,24 +2012,23 @@ This task was challenging  because we had to model the existence of our coherenc
 The results of our experiments on DUC 2002 as an standard dataset for summarization and PLOS Medicine as a corpus of scientific articles show that our coherence patterns improve the performance of the summarizer with respect to ROUGE and human evaluation. 
 
 
-The key message of this chapter is that in order to capture the connectivity style of sentences in  a document, which is encoded via the projection graph of the text, coherence patterns that are obtained automatically by applying a subgraph mining algorithm to projection graphs are more useful than average outdegree that is designed heuristically. 
-Coherence patterns capture coherence beyond the level of sentences, and take a sentence in its connections with other sentences. 
-Our \mbox{data-driven} approach to coherence patterns enables us to extract patterns from documents that are provided for an application and collected in a dataset. 
+The key message of this chapter is that in order to capture the connectivity style of sentences in  a document, which is encoded via the graph representation of the text, coherence patterns, which are obtained automatically by applying a subgraph mining algorithm to graphs, are more useful than average outdegree, which is designed heuristically. 
+Coherence patterns capture coherence by taking each sentence in its connections with other sentences in the summary. 
+Our \mbox{data-driven} approach to coherence pattern mining enables us to extract patterns from documents that are provided for an application and collected in a dataset. 
 
-We observed that 4-node subgraphs are better coherence patterns than 3-node subgraphs. 
+We observe that 4-node subgraphs are better coherence patterns than 3-node subgraphs. 
 However, more investigation is requited to be performed on how the size of subgraphs influences the performance of the model. 
-The entity graph does not include mentions that are semantically related but are not correferent. 
-It would be interesting to see if entity graphs will have enriched by more  connections, the our coherence patterns still work. 
-We follow these points in the next chapter of this thesis.  
-However, we see other directions for future work for this chapter. 
+The entity graph does not include mentions that are semantically related but are not coreferent. 
+In addition, it is also restricted to only noun overlap relation among sentences in a text, while any lexical semantic relation between words in sentence can relate sentences. 
+We follow these points in the following chapter of this thesis. 
 
-The main contributions of this chapter are:
+The main contributions of the research in this chapter are:
 
 \begin{itemize}
-\item Analyzing the power of the average outdegree in coherence measurement
-\item Proposing subgraphs of projection graphs as coherence patterns and their frequency as coherence features 
-\item Evaluating the predictive power of coherence patterns in classifying coherent texts vs incoherent ones
-\item Showing that how our novel coherence patterns can be utilized in readability assessment as a text quality evaluation task, and the document summarization task as an instance of text generation systems.   
+\item analyzing the power of the average outdegree in coherence measurement
+\item proposing subgraphs of projection graphs as coherence patterns and their frequencies as coherence features 
+\item evaluating the predictive power of coherence patterns in classifying coherent texts vs incoherent ones
+\item showing that how coherence patterns can be utilized in readability assessment as a text quality evaluation task, and the document summarization task as an instance of text generation systems.   
 \end{itemize}
 
 
