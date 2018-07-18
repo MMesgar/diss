@@ -34,6 +34,34 @@ An implementation of the frameworks discussed in this thesis is publicly availab
 \selectlanguage{ngerman}
 \addchap*{\abstractname}
 
+Die lokale Kohärenz ist eine Schlüsseleigenschaft von den gut geschriebenen Texten. Es macht einen Mehrsatztext unterschiedlich von einer Folge der zufällig aufgereihten Sätzen.
+Die Aufgabe der lokalen Kohärenzmodellierung ist nämlich ein Weg, dadurch die Sätze in einem Text miteinander verbinden.
+Die Lösung dieser Aufgabe ist nützlich für die Bewertung der Textqualität.
+Außerdem kann eine Kohärenzmodellierung als der Bestandteil der Texterzeugungssysteme Beispiel die Textzusammenfassung integriert werden.
+
+In dieser Doktorarbeit präsentieren wir einen graphbasierten Ansatz der lokalen Kohärenzmodellierung, welcher die Verbindungsstruktur unter den Sätzen in einem Text darstellt.
+Die Graphen geben unserem Modell die Fähigkeit, sowohl die Verhältnisse zwischen den nicht angrenzenden Sätzen als auch die Verhältnisse zwischen diesen und benachbarten Sätzen zu berücksichtigen. 
+Darüber hinaus spiegelt der Verbindungsstil unter Knoten in Graphen, wie sich die Sätze in einem Text aufeinander beziehen.
+Zuerst widmen wir uns mit dem Wesen Graph-Ansatz, vorgeschlagen von \newcite{guinaudeau13}, um einen Text über den Graph darzustellen.
+In diesem Graph erwähnt in den Sätzen die Darstellung eines Textes, die Knoten, die die Sätze  Kodieren und die Kanten, die die Existenz eines Paares von Korefrenten abbilden.
+Unter Berücksichtigung solcher grafischen Darstellungen von Texten führen wir graphbasierte Funktionen ein, um die Strukturen der Kanten in einem Graph und folglich die Kohärenzeigenschaft des entsprechenden Textes zu der Graphen zu kodieren.
+Wir extrahieren alle Untergraphen in Graphen und verweisen auf sie als Kohärenzmuster.
+Die Vielfalt zwischen den Frequenzen der Kohärenzmuster in den Graphdarstellungen von Texten erfasst die Unterschiede zwischen Strukturen von Graphen.
+In der Folge korrelieren die Frequenzen der Kohärenzmuster mit der wahrgenommenen Kohärenz von Texten.
+
+Um unseren Ansatz an die Kohärenzmodellierung zu vervollständigen, schlagen wir ein neues Graphrepresentation der Texte vor, anstatt des Entitätgraphes.
+Unser Ansatz setzt lexikalische Beziehungen unter Wörtern in Sätzen statt nur Koreferentbeziehungen ein, um semantische Beziehungen zwischen Sätzen sowie ein Graph zu modellieren.
+Die Kombination unserer Methode für Kohärenzmusterverminung und unserem lexikalischen Ansatz
+zur Textrepräsentation ergibt sich ein vollständiges Kohärenzmodell.
+
+Wir evaluieren unseren Ansatz überwiegend auf die Lesbarkeitsbewertung der Aufgabe, weil ein Schlüsselfaktor für diese Aufgabe Kohärenz ist.
+In einem zusammenhängenden Text werden Sätze zur Vereinigung des Textes als Ganzes zusammengehängt.
+Solche Texte sind einfach zu lesen und zu verstehen und folglich benötigen sie weniger Bemühung von der Seite ihren Lesern.
+Durch weitgehende Versuche auf zwei getrennte Lesbarkeitsbewertung der Datensätze untersuchen wir die Korrelation zwischen Frequenzen der Kohärenzmuster in Texten und Lesbarkeitsbewertungen, die von menschlichen Richtern zugeteilt sind.
+Wir benutzen zusätzlich ein maschinelles Lernverfahren zu lernen, wie Kohärenzmuster die Texte in Bezug auf Lesbarkeit rangieren können.
+Seit dem höchsten ziel der Kohärenzmodelle ist für die Texterzeugungssysteme zu verwenden, untersuchen wir, wie unsere Kohärenzmuster in einem graphbasierten Textzusammenfasser zum Erzeugen der informativen und kohärenten Zusammenfassungen integriert werden können. 
+Eine Implementierung der in dieser Doktorarbeit diskutierten Frameworke ist öffentlich verfügbar.
+
 
 
 
