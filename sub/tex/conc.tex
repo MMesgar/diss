@@ -46,14 +46,14 @@ First, we find out that some of these patterns are similar, in terms of structur
 This shows that our LexGraph model is linguistically sound. 
 We observed that frequencies of coherence patterns in lexical cohesion graphs are more predictive than those in entity graphs for the readability ranking task. 
 We also noticed that large coherence patterns perform superior to the small ones on lexical cohesion graphs.  
-However, there exist the risk of sparsity where coherence patterns become very large. 
+However, there exists the risk of sparsity where coherence patterns become very large. 
 We adapted the Keneser-Ney smoothing for this problem, which improved the performance of our model. 
 
 \section{Future Work}
 \label{sec:conc-future_work}
 
 Based on the research presented in this thesis, several possible ways for future work exist. 
-Those can be in directions of either the coherence modeling method or the influence of the coherence model in other natural language processing applications. ''   
+Those can be in directions of either the coherence modeling method or the influence of the coherence model in other natural language processing applications.   
 We discuss three possible extensions of the work presented in this thesis. 
 
 \paragraph{Using a machine learning method for coherence pattern mining.} 
@@ -67,8 +67,8 @@ Deep learning models such as convolutional neural networks (CNNs) \cite{kimyoon1
 Furthermore, in the proposed lexical cohesion graph representation, which is based on lexical relations among words in sentences, words are taken into account individually. 
 In other words, sentences are taken as a bag of words while the structure within sentences \cite{louis12} and the order of words in sentences provide some clues for coherence models. 
 Recurrent neural networks (RNNs) can solve this weakness. 
-These models sequentially take embeddings of each word in a sentence and at each word returns a vector, which is called a state vector.  
-State vectors contain information in its corresponding input word embeddings and information in embeddings of other words in a sentence as context.  
+These models sequentially take embeddings of each word in a sentence and at each word return a vector, which is called a state vector.  
+State vectors contain information of their corresponding input word embeddings and information in embeddings of other words in a sentence as context.  
 As we discussed, a CNN can be used on the top of the RNN states to extract coherence patterns automatically. 
 
 \paragraph{Analysis of coherence patterns for other NLP applications.}
@@ -83,7 +83,7 @@ Therefore, in evaluation of a coherence model for this task, one should involve 
 
 Further, a similar approach can be performed on essays written by non-native speakers. 
 Texts that are written by people with an identical mother tongue may reveal certain regularities in the way that sentences are connected. 
-I am curious to see if the coherence patterns presented in this thesis can distinguish essays based on the mother tongue of their authors. 
+We are curious to see if the coherence patterns presented in this thesis can distinguish essays based on the mother tongue of their authors. 
 An applicable dataset for this task is TOEFL11 \cite{blanchard11}. 
 
 \paragraph{Analyzing coherence patterns for other domains and languages.}
