@@ -8,26 +8,25 @@ In this chapter we motivate and devise a method for extracting coherence pattern
 We first provide motivations for representing texts by graphs and for a need of graph-based patterns for coherence modeling (Section \ref{sec:motivation}).  
 We then present an algorithm for coherence pattern extraction based on subgraph mining algorithms (Section \ref{sec:pattern-extraction}) in graph theory.  
 We finally show how extracted coherence patterns can be used to represent the coherence of a text (Section \ref{sec:coh-modeling}) and evaluate coherence patterns and the coherence model on assessing the readability of texts and on generating coherent summaries (Section \ref{sec:exp}). 
-We conclude by a summary of main contributions presented in this chapter (Section \ref{sec:summary}). 
+We conclude with a summary of main contributions presented in this chapter (Section \ref{sec:summary}). 
 
 \section{Why Graph-based Patterns?}
 \label{sec:motivation}
 
 In Chapter \ref{ch:coherence}, we introduced the formal definition of the coherence modeling problem that is investigated in the research presented in this thesis. 
 We used the set notation in mathematics to provide a general formulation. 
-We first defined the relation set whose members indicate which sentences in a text are connected to each other. 
+We first defined the relation set as a set whose members indicate which sentences in a text are connected to each other. 
 Then the concept of coherence pattern is explained as a subset of the relation set (see Definition \ref{def:def-coh-pattern} in Chapter \ref{ch:coherence}). 
 Our definitions do not provide any assumption about the structure of connections among sentences in a text in order to give coherence models some flexibility to define or learn such structures. 
 
 In Chapter \ref{ch:rel-work}, we discuss the entity grid 
 \cite{barzilay05a,barzilay08} and the entity graph 
 \cite{guinaudeau13} coherence models. 
-The entity gird model represents the relation set in our definition by a matrix. 
+The entity grid model represents the relation set in our definition via a matrix. 
 This model makes the definition of coherence patterns more specific by considering sequences of grammatical transitions instead of sets.  
 It pre-defines coherence pattens by all possible grammatical transitions of entities across two adjacent sentences. 
 The entity graph model employs graphs to represent the relation set of a text.  
-It does not extract any pattern but it makes a strong assumption about the set of all relations, which are represented by a graph, in a text:
-bigger the relation set among sentences is, more coherent the text is. 
+It does not extract any pattern but it makes a strong assumption about the set of all relations among sentences in a text: Bigger the relation set among sentences is, more coherent the text is. 
 
 However, the entity graph model, without using any pattern, outperforms the entity grid model in experiments performed by \newcite{guinaudeau13}. 
 They argue that the entity graph model achieves higher performance than the entity grid model because the graph representation captures the distribution of entities across adjacent and non-adjacent sentences. 
@@ -1390,7 +1389,7 @@ For creating entity grids we use Brown Coherence Toolkit v1.0, which is set up i
 The input parse trees to this toolkit are gold parse trees from Penn TreeBank II \cite{marcus94}. 
 
 \paragraph{Results.}
-We compare our graph-based coherence features, which are the frequencies of \mbox{k-node} subgraphs in projection graphs, with the proposed features obtained from grammatical transitions of entities by the entity gird model. 
+We compare our graph-based coherence features, which are the frequencies of \mbox{k-node} subgraphs in projection graphs, with the proposed features obtained from grammatical transitions of entities by the entity grid model. 
 In order to compare different sets of coherence features, we employ the same machine learning model, i.e. SVM, for training and testing on each feature set. 
 
 Table \ref{tab:ranking-pitler} summarizes the results of the readability ranking task on this dataset. 

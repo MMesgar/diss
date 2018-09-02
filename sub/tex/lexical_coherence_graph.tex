@@ -16,7 +16,7 @@ Finally, we provide a summary of the research in this chapter (Section \ref{sec:
 
 \section{Lexical Cohesion}
 \label{sec:lex-graph-motivation}
-\textcolor{red}{
+
 Coherent texts are beyond arbitrary choices of words and sentences.  
 In such texts, sentences are related to each other to smooth the flow of information in texts. 
 This is achieved by means of cohesive semantic relations that are expressed through the grammar and the vocabulary of a language \cite{halliday76}. 
@@ -71,7 +71,7 @@ Embedding representations of words give the model the capability to efficiently 
 Words that are semantically related in the text space, their embeddings are similar to each other in the vector space. 
 Therefor the semantic relations between words can simply be measured by the cosine function over the angle between the corresponding word vectors. 
 It is worth to mention that such word vectors can be easily trained for any language if a large corpus of texts on the language is available.  
-}\textbf{IS IT REPETITION?}
+
 In the research presented in this thesis, we use word embeddings to check whether there exists a relationship between two words or not.  
 There is no straight way to determine the type of a relation between two words by means of the cosine function. 
 However, this is something that we do not need for the purpose of research in this thesis. 
@@ -828,14 +828,15 @@ We use 5-node patterns because these patterns can distinguish between texts bett
     \begin{tabular}{lccc}
       \hline
       \emph{5-node}\  & EGraph      & LCG       \\\hline
-Administrative  & $69.49\%$   & $71.69\%$ \\
-Journalistic    & $65.01\%$   & $82.12\%$ \\
-Manuals         & $54.95\%$   & $61.54\%$ \\
-Misc.           & $70.68\%$   & $76.69\%$ \\\hline
-\end{tabular}
-\caption{Accuracy of \emph{EGraph}\ and \emph{LCG}\ on different
-  genres in the \declercqds dataset.}
-\label{table:declercq_genre}
+      Administrative  & $69.49\%$   & $71.69\%$ \\
+        Journalistic    & $65.01\%$   & $82.12\%$ \\
+        Manuals         & $54.95\%$   & $61.54\%$ \\
+        Misc.           & $70.68\%$   & $76.69\%$ \\\hline
+        \end{tabular}
+        \caption{Accuracy of \emph{EGraph}\ and \emph{LCG}\ on different
+          genres in the \declercqds dataset.}
+        \label{table:declercq_genre}
+  \end{center}
 \end{table}
 
 
