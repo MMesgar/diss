@@ -17,7 +17,7 @@ In Chapter \ref{ch:coherence}, we introduced the formal definition of the cohere
 We used the set notation in mathematics to provide a general formulation. 
 We first defined the relation set as a set whose members indicate which sentences in a text are connected to each other. 
 Then the concept of coherence pattern is explained as a subset of the relation set (see Definition \ref{def:def-coh-pattern} in Chapter \ref{ch:coherence}). 
-Our definitions do not provide any assumption about the structure of connections among sentences in a text in order to give coherence models some flexibility to define or learn such structures. 
+Our definitions do not make any assumption about the structure of connections among sentences in a text in order to give coherence models some flexibility to define or learn such structures. 
 
 In Chapter \ref{ch:rel-work}, we discuss the entity grid 
 \cite{barzilay05a,barzilay08} and the entity graph 
@@ -26,25 +26,25 @@ The entity grid model represents the relation set in our definition via a matrix
 This model makes the definition of coherence patterns more specific by considering sequences of grammatical transitions instead of sets.  
 It pre-defines coherence pattens by all possible grammatical transitions of entities across two adjacent sentences. 
 The entity graph model employs graphs to represent the relation set of a text.  
-It does not extract any pattern but it makes a strong assumption about the set of all relations among sentences in a text: Bigger the relation set among sentences is, more coherent the text is. 
+It does not extract any pattern but it makes a strong assumption about the set of all relations among sentences in a text: The bigger the relation set among sentences is, the more coherent the text is. 
 
 However, the entity graph model, without using any pattern, outperforms the entity grid model in experiments performed by \newcite{guinaudeau13}. 
 They argue that the entity graph model achieves higher performance than the entity grid model because the graph representation captures the distribution of entities across adjacent and non-adjacent sentences. 
-Graphs are preferred more than grids for coherence modeling for two reasons:
+Graphs are preferred over grids for coherence modeling for two reasons:
 
 \begin{itemize}
 
-	\item They can model long-distant connections between sentences,
+	\item They can model long-distance connections between sentences,
 
-	\item They do not encounter with the sparsity problem in the text representation. 
+	\item They do not encounter the sparsity problem in the text representation. 
 
 \end{itemize}
 
 The graph representation of the distribution of entities in a text is transformed into a \mbox{one-mode} projection graph among sentence nodes. 
-The average outdegree of nodes in projection graphs is used to measure the extend to what sentence nodes in a projection graph are connected to each other. 
+The average outdegree of nodes in projection graphs is used to measure the extent to which sentence nodes in a projection graph are connected to each other. 
 \newcite{guinaudeau13} assume that the average outdegree of a projection graph quantifies the local coherence of its corresponding text. 
 This assumption has been challenged by other research (See Chapter \ref{ch:rel-work}) by defining different graph-based metrics to capture more information about the connectivity structure of graphs. 
-So the average outdegree of sentence nodes in a projection graph seems insufficient to measure the connectivity style of relations among nodes in the graph and, therefor, the perceived coherence of a text. 
+So the average outdegree of sentence nodes in a projection graph seems insufficient to measure the connectivity style of relations among nodes in the graph and, therefore, the perceived coherence of a text. 
 The results of some experiments in this chapter support this claim as well. 
 
 This weakness of the entity graph model motives us to introduce some graph-based features that capture the connectivity style of nodes, how nodes are connected, in projection graphs. 
@@ -55,7 +55,7 @@ In general, the term ``pattern'' refers to some elements which are repeated or w
 From the machine learning perspective, ``pattern'' refers to regularities in data \cite{bishop06}.     
 In graph theory, patterns are subgraphs that occur or can potentially occur in graphs \cite{newmanmark10}. 
 Graph-based patterns can be extracted by means of subgraph mining methods. 
-These subgraphs are called motifs in the graph theory. 
+These subgraphs are called motifs in graph theory. 
 Inspired by linguistic work by \newcite{danes74a}, in the research of this thesis we refer to the  subgraphs that are extracted from graph representation of texts as connectivity patterns for graphs and coherence patterns for texts.  
 
 
@@ -64,13 +64,13 @@ Inspired by linguistic work by \newcite{danes74a}, in the research of this thesi
 
 In Chapter \ref{ch:coherence}, different linguistic approaches to coherence patterns are discussed. 
 The major intuition of coherence patterns in the research in this thesis is inspired by the theory proposed by \newcite{danes74a}. 
-What \newcite{danes74a} propose is that the generalized structure of coherent texts may be described in terms of an underlying patterns of transitions between presented information in texts.  
+What \newcite{danes74a} proposes is that the generalized structure of coherent texts may be described in terms of underlying patterns of transitions between presented information in texts.  
 Following entity-based approaches, we take entities mentioned in a text as pieces of information that make sentences connected. 
 The entity graph representation, introduced in Chapter \ref{ch:rel-work}, is employed to model the distribution of entities across sentences of a text. 
 Then the projection graphs are obtained from the entity graph representations of texts. 
 Projection graphs model the structure of sentence relations, which are obtained based on the coreferent mentions, in texts. 
 We employ a subgraph mining algorithm to automatically extract all connectivity patterns occurring in projection graphs of texts in a corpus as coherence patterns. 
-We show that our patterns are almost similar to pattern introduced by \newcite{danes74a}. 
+We show that our patterns are almost similar to the patterns introduced by \newcite{danes74a}. 
 
 % However, we show that there is a similarity between the automatically mined subgraphs of projection graphs and the coherence patterns proposed by \newcite{danes74a}, indicating that our model's foundation is also linguistically sound.  
 % The entity graph model uses the average ourdegree to encode the connectivity of sentence nodes in projection graphs. 
@@ -90,7 +90,7 @@ We refer to these terms in the rest of the content of this thesis.
 
 \paragraph{Graph.}
 %
-A \emph{graph} consists of a set of vertices, which are referred to as nodes, and a set links, which are called edges. 
+A \emph{graph} consists of a set of vertices, which are referred to as nodes, and a set of links, which are called edges. 
 Following is a formal definition of a graph. 
 
 \begin{definition}
@@ -411,16 +411,16 @@ The main contribution of the research in this chapter is to introduce a set of g
 We use the frequencies of different subgraphs occurring in projection graphs to encode the connectivity style of projection graphs and ideally the coherence of texts. 
 
 Given a corpus of texts, we model connections among sentences in each text by its simple projection graph representation, $P_U$. 
-Two sentence nodes are connected in such a projection graph if they share at least one entity node in common (See Chapter \ref{ch:rel-work} for more details).  
+Two sentence nodes are connected in such a projection graph if they share at least one entity node (see Chapter \ref{ch:rel-work} for more details).  
 This leads us to a set of graphs, each of which represents connections among sentences in a text in the corpus.   
 We refer to this set as the \emph{graph set}. 
 
 The connectivity of each graph in a graph set can be represented by its graph signature.
 The graph signature encodes the connectivity style of a graph into a vector. 
-However, for representing the connectivity style of a graph by a graph signature a list of basis graphs are required (See Section \ref{sec:back-graphs}).  
+However, for representing the connectivity style of a graph by a graph signature, a list of basis graphs are required (See Section \ref{sec:back-graphs}).  
 We apply a subgraph mining algorithm to graphs in the graph set in order to extract all subgraphs that occur in projection graphs as basis graphs for computing graph signatures. 
 These basis subgraphs can be taken as patterns that may have several instances, i.e.\ occurrences, in the graph representation of a text.  
-This is the reason that these basis graphs are referred to as coherence patterns, and the frequencies of them, which are encoded in the signature of the graph, is considered coherence features. 
+This is the reason that these basis graphs are referred to as coherence patterns, and the frequencies of them, which are encoded in the signature of the graph, is taken as coherence features. 
 Figure \ref{fig:pattern-extraction} illustrates our approach for extracting coherence patterns.
 
 \begin{figure}[!ht]
@@ -466,7 +466,7 @@ Figure \ref{fig:pattern-extraction} illustrates our approach for extracting cohe
 
 \paragraph{The gSpan Method.}
 %
-Coherence patterns are subgraphs that occur at least once in one of projection graphs of texts in a corpus. 
+Coherence patterns are subgraphs that occur at least once in one of the projection graphs of texts in a corpus. 
 Mining all subgraphs that occur in a graph set is computationally expensive and is proved to be an NP-complete problem \cite{althaus04}. 
 Intuitively, a graph with $|E|$ edges, potentially has $\mathcal{O} \left( 2^{| E |} \right)$ subgraphs.  
 A graph with $| V |$ nodes at most has  $\frac{(| V |-1)(| V |-2)}{2}$ edges which is in order of $\mathcal{O} \left( | V | ^2 \right)$. 
@@ -480,7 +480,7 @@ Interested readers may find more information about the exact algorithm of gSpan 
 
 The gSpan, which stands for \underline{g}raph-based \underline{S}ubstructure \underline{pa}tter\underline{n} mining, algorithm is an approach for extracting all connectivity patterns (i.e.\ subgraphs) that occur in a graph set. 
 It discovers all subgraphs without generating the candidates, so
-it is efficient in terms of computation time and the memory usage. 
+it is efficient in terms of computation time and memory usage. 
 The gSpan method orders graphs in a graph set with respect to their structures and then adapts a Depth-First-Search (DFS)  strategy to extract connected subgraphs efficiently. 
 It begins with subgraphs with only two nodes and expands them to larger subgraphs. 
 We use gSpan to extract patterns from projection graphs. 
@@ -497,9 +497,9 @@ The projection graph models the overall entity-based relationships among sentenc
 We extract all possible k-node subgraphs (i.e.\ coherence patterns) which occur in projection graph representations of texts in the corpus. 
 The parameter k controls the size of subgraphs.  
 Controlling the size of subgraphs mainly helps to run the subgraph mining algorithm more efficiently in terms of the computational time.
-In addition, it controls the number of possible subgraphs that can be extracted: large values of k yield many number of possible graphs with the size of k. 
+In addition, it controls the number of possible subgraphs that can be extracted: large values of k yield many possible graphs with the size of k. 
 Moreover, small subgraphs are likely to occur inside large subgraphs. 
-Therefore, involving subgraphs with different sizes results in subgraphs whose frequencies might be dependent to one another. 
+Therefore, involving subgraphs with different sizes results in subgraphs whose frequencies might be dependent on one another. 
 This type of features are advised to be supplied separately to machine learning methods \cite{aggarwalcharu18}. 
 
 Assume that $m$ coherence patterns, i.e.\ k-node subgraphs, are mined from all graph representations of texts in a corpus, the coherence of a text is encoded by a vector of frequencies of these patterns in the graph representation of the text. 
@@ -508,11 +508,11 @@ More formally, the coherence of  text $d$ is represented by a vector as follows:
 \begin{equation}
 Coh(T) \approx <f_0,f_1,f_2,...,f_m>
 \end{equation}
-where $f_i$ represents the frequency of the $i${th} pattern in the graph representation of text $d$. 
+where $f_i$ represents the frequency of the $i${th} pattern in the graph representation of text $T$. 
 
-This vector representation of coherence is identical with the graph signature concept in graph theory (See Section \ref{sec:back-graphs}). 
+This vector representation of coherence is identical with the graph signature concept in graph theory (see Section \ref{sec:back-graphs}). 
 As these vectors can be used to model the similarities and dissimilarities in connectivity structures of graphs, they can also model similarities and dissimilarities of connectivity structures of sentences in a text. 
-This matches with out definition of coherence vector in Chapter \ref{ch:coherence}.   
+This matches our definition of coherence vector in Chapter \ref{ch:coherence}.   
 From the machine learning viewpoint, these vectors can be taken as feature vector representations of coherence. 
 Each element of a vector is a feature which represents one aspect of the connectivity structure of sentences in a text. 
 Consequently, these feature vectors can be supplied to a machine learning model in order to rank texts with respect to their coherence. 
@@ -528,7 +528,7 @@ where $d_v$ and $d^\prime_v$ are the feature vectors representing the coherence 
 \label{sec:exp}
 
 In this section we perform a set of experiments to assess coherence patterns and features discussed in this chapter. 
-We fist investigate how patterns and their frequencies behave on encoding coherence in comparison to the average outdegree.  
+We first investigate how patterns and their frequencies behave on encoding coherence in comparison to the average outdegree.  
 We then examine how the size of patterns affects the predictive power of our features for distinguishing graph representations of coherent texts against incoherent ones. 
 
 To this end, we limit the size of patterns by fixing parameter k in the model, which equals to the number of nodes in subgraphs (See Section \ref{sec:coh-modeling}). 
@@ -538,7 +538,7 @@ There is no criteria on the number of edges in subgraphs.
 
 We begin with extracting 3-node subgraphs in order to examine the soundness of mined coherence patterns.  
 3-node subgraphs are the smallest meaningful patterns that can model the connectivity style of sentence nodes in projection graphs. 
-There is only one 2-node subgraph, $G = \left( V = \lbrace a,b \rbrace, E=\lbrace \left( a, b \right) \rbrace \right)$, that its frequency in a projection graph is equal to the number of edges in the graph. 
+There is only one 2-node subgraph, $G = \left( V = \lbrace a,b \rbrace, E=\lbrace \left( a, b \right) \rbrace \right)$, whose frequency in any projection graph is equal to the number of edges in the graph. 
 Its interpretation is as same as the interpretation of the average outdegree applied by the entity graph model.  
 3-node subgraphs are too small and therefore are very likely to occur in most projection graphs in a graph set. 
 Moreover, in order to analyze impacts of the size of patterns, we extract 4-node subgraphs to have more informative representations of the connectivity style of graphs. 
@@ -548,14 +548,14 @@ It is mainly because annotating texts for coherence is quite expensive and contr
 In the research in this thesis we focus on two extrinsic evaluation tasks: readability assessment and automatic text summarization. 
 The former one is used to evaluate the predictive power of different proposed coherence features by computing the correlation between the values of the coherence features and the readability ratings assigned by human judges. 
 We also check how well coherence features can rank texts with respect to their readability levels. 
-The latter task is a specific instance of text generation, where a subset of informative sentences in a text should be extracted and presented in a proper order to generate a coherence and readable summary. 
+The latter task is a specific instance of text generation, where a subset of informative sentences in a text should be extracted and presented in a proper order to generate a coherent and readable summary. 
 In this experiment, we evaluate the capabilities of our coherence patterns in producing coherent summaries. 
 We show that by integrating our coherence patterns into a graph-based text summarizer \cite{parveen15a}, the performance of the summarizer improves in terms of ROUGE metrics and human qualitative evaluations.
 
 \subsection{Readability Assessment}
 \label{sec:readability_assessment}
 
-Readability assessment is about how well a text is understandable for its readers? 
+Readability assessment is about how well a text is understandable for its readers.  
 Possible applications of readability assessment are automatic text summarization and simplification systems. 
 Measuring readability can also be used in question answering and knowledge extraction systems to prune texts with low readability \cite{kate10}. 
 
@@ -568,7 +568,7 @@ It is shown that the entity graph representations of the entity distribution acr
 Here, we first investigate if the average outdegree metric proposed by the entity graph model strongly correlates with readability ratings. 
 We also use this experiment to evaluate and interpret our coherence patterns. 
 
-It is worth to emphasis that the readability of a text is, of course, beyond the coherence of the text. 
+It is worth to emphasize that the readability of a text is, of course, beyond the coherence of the text. 
 This is why we do not use coherence features to exactly predict the readability scores associated with texts. 
 However, since coherence is one of the crucial factors for readability assessment, easy-to-read texts imply to be coherent as well. 
 We expect that the values of coherence features show a strong correlation with readability scores associated with texts. 
@@ -579,9 +579,9 @@ In another experiment, we also check how well we can rank texts with respect to 
 \label{sec:data_pitler}
 We use the dataset collected by \newcite{pitler08}. 
 It consists of thirty articles randomly selected from the Wall Street Journal (WSJ) corpus. 
-These articles are intended for an educational adult audience so they are well-written and free of grammatical error. 
-The articles were rated by three human judges on a scale from $1$ to $5$ where a higher ratings indicates an easier text to read. 
-Each of judges was given unlimited time to read the texts and perform the ratings. 
+These articles are intended for an educated adult audience so they are well-written and free of grammatical error. 
+The articles were rated by three human judges on a scale from $1$ to $5$ where a higher rating indicates an easier to read text. 
+Each of the judges was given unlimited time to read the texts and perform the ratings. 
 Human judges received following questions \cite{pitler08}:
 \begin{itemize}
 	\item How well-written is the article?
@@ -590,7 +590,7 @@ Human judges received following questions \cite{pitler08}:
 	\item How interesting is the article?
 \end{itemize} 
  
-\newcite{pitler08} state that since in most cases judges gave the same rating to all questions, they only consider the given rates for the first question (``How well-written is this article?''). 
+\newcite{pitler08} state that since in most cases judges gave the same rating to all questions, they only consider the given rates for the first question (``How well-written is the article?''). 
 Then the average ratings for this question is defined as the final rating of a text. 
 This is the reason that they use these scores for coherence evaluations as well \cite{pitler08}. 
 This dataset is suitable for coherence evaluation because its articles appeared in the Wall Street Journal and are aimed at the same target audience. 
@@ -609,7 +609,7 @@ The text presented in Example \ref{ex:wsj-1818} is one\footnote{The article's ID
 
 % \textbf[Do you have some statistics about the dataset. If so put it here. Read Pitler and Nenkova paper for one more time.].
 
-We exclude three articles from the dataset to make the texts consistent in style; for instance one of these articles is poem that follows a totally different style. 
+We exclude three articles from the dataset to make the texts consistent in style; for instance one of these articles is a poem that follows a totally different style. 
 The final list of articles that are used from this dataset in the experiments presented in this thesis is as follows:
 \emph{
 WSJ\_0068,
@@ -662,7 +662,7 @@ Our experiments, here, follow their research direction, so we also use the Pears
 
 \paragraph{The Pearson correlation coefficient.} 
 The Pearson correlation coefficient is a measure of the linear correlation between values of two variables. 
-In our experiments, variables are coherence features and the readability ratings, where ratings are assigned to articles by human judges.  
+In our experiments, variables are coherence features and readability ratings, which are assigned to articles by human judges.  
 The Pearson correlation coefficient, $\rho$, ranges between $-1$ and $+1$. 
 A high absolute value of $\rho$ shows a strong correlation between the input variables. 
 The sign of $\rho$ indicates the direction of relationship between examined variables. 
@@ -670,14 +670,14 @@ In extreme cases, $+1$ shows a total positive linear correlation, $0$ is no line
 The Pearson correlation also measures how statistically significant examined variables are correlated. 
 This measure is referred to by p\_value. 
 We consider correlations with p\_value < 0.05 statistically significant. 
-We compare following features with each others: average outdegree, frequencies of 3-node patterns, frequencies of 4-node patterns. 
+We compare the following features with each other: average outdegree, frequencies of 3-node patterns, frequencies of 4-node patterns. 
 
 \paragraph{Experimental settings.} 
 In order to be compatible with the entity grid features that are used by \newcite{pitler08}, we use the gold parse trees in the Penn Treebank II \cite{marcus94} to extract all nouns in an article as mentions. 
-All nouns with identical stems are taken coreferent to the same entity. 
+All nouns with identical stems are taken to be coreferent to the same entity. 
 The Stemmer class from Stanford CoreNLP\footnote{V3.2.0, 2013-06-19} is employed in this regard.  
-The entity graph implementation is performed in Java and is publicly available in the Github of the author of this thesis
-\footnote{The code of the entity graph project is here: \url{}.}. 
+The entity graph implementation is performed in Java and is publicly available in the Github of the author of this thesis.
+\footnote{The code of the entity graph project is here: \url{}.} 
 
 The subgraph mining and primary subgraph counting parts are performed by the Java implementation of the gSpan algorithm that is also publicly available\footnote{\url{http://www.cs.ucsb.edu/~xyan/software/gSpan.htm}}. 
 This package counts all subgraphs but it does not take care whether a subgraph is induced or not. 
@@ -763,7 +763,7 @@ We interpret these patterns as follows:
 	\item \boldmath{$p_1$}\textbf{:} 
 	A sentence is connected with two of its subsequent sentences.
 	More precisely, at least two entities are mentioned in one sentence, $s_t$, and the subsequent ones, $s_u$ and $s_v$,  are about these entities. 
-	This pattern is almost similar to two coherence patterns that are defined by \newcite{danes74a}, i.e.\ pattern 2 and pattern 3 illustrated in Table \ref{tab:danesh_coherence_patterns}. 
+	This pattern is similar to two coherence patterns that are defined by \newcite{danes74a}, i.e.\ pattern 2 and pattern 3 illustrated in Table \ref{tab:danesh_coherence_patterns}. 
 
 	\item \boldmath{$p_2$}\textbf{:} 
 	The connection between two sentences is made by a sentence that comes after those sentences. 
@@ -773,7 +773,7 @@ We interpret these patterns as follows:
 	\item \boldmath{$p_3$}\textbf{:} 
 	Each sentence tends to refer to an entity in its immediately preceding sentence. 
 	The absence of a connection between $s_t$ and $s_v$ indicates that the entity that connects $s_t$ and $s_u$ is different with the entity that connects $s_u$ and $s_v$. 
-	This pattern roughly reminds us the shift of center in the centering theory. 
+	This pattern roughly reminds us of the shift of center in the centering theory. 
 	This pattern is also almost similar to the linear pattern proposed by \newcite{danes74a}, i.e.\ pattern 1 depicted in Table \ref{tab:danesh_coherence_patterns}. 
 
 	\item \boldmath{$p_4$}\textbf{:} 
@@ -786,7 +786,7 @@ We interpret these patterns as follows:
 Figure \ref{fig:4node-patterns} shows all extracted subgraphs with four nodes from the projection graphs corresponding to texts in the readability dataset. 
 These 4-node subgraphs have more capacity to capture connectivity information than 3-node subgraphs, because 4-node patterns contain more nodes and therefore more possible edges. 
 However, 4-node subgraphs are less likely to occur in projection graphs.
-So their frequencies are expected to better distinguish texts.  
+So they are expected to better distinguish texts.  
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -797,10 +797,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=1mm]
         		\tikzstyle{edge}=[draw, thick,->]
        			\begin{scope}
-			    	\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			    	\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
@@ -814,10 +814,10 @@ So their frequencies are expected to better distinguish texts.
 			    \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
 			    \tikzstyle{edge}=[draw, thick, ->]
 			    \begin{scope}
-					\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+					\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
@@ -830,10 +830,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
@@ -847,10 +847,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
@@ -864,10 +864,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
@@ -880,10 +880,10 @@ So their frequencies are expected to better distinguish texts.
 		        \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
 		        \tikzstyle{edge}=[draw, thick, ->]
 		       \begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
@@ -896,10 +896,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
         			\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
         			\path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
         			\path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
@@ -912,10 +912,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
         			\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
         			\path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
         			\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
@@ -930,10 +930,10 @@ So their frequencies are expected to better distinguish texts.
 		    	\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
 		       	\tikzstyle{edge}=[draw, thick, ->]
 		       	\begin{scope}
-		        	\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-		        	\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-		        	\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-		        	\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+		        	\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+		        	\node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+		        	\node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+		        	\node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 		        	\path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 		        	\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 		        	\path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
@@ -946,10 +946,10 @@ So their frequencies are expected to better distinguish texts.
 		    	\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
 		        \tikzstyle{edge}=[draw, thick, ->]
 		        \begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
@@ -961,10 +961,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
         			\path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
         			\path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
         			\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
@@ -976,10 +976,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
@@ -994,10 +994,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-       				\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+       				\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
         			\path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
         			\path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
         			\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
@@ -1009,10 +1009,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+         			\node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
@@ -1024,10 +1024,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
@@ -1038,10 +1038,10 @@ So their frequencies are expected to better distinguish texts.
        			\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-        			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+        			\node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
         			\path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
         			\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
         			\path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
@@ -1056,10 +1056,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
@@ -1070,10 +1070,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
 		        \begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
@@ -1084,10 +1084,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-         			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-         			\node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-        			\node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-        			\node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+         			\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+         			\node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+        			\node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+        			\node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
         			\path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
         			\path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
         			\path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
@@ -1098,10 +1098,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
@@ -1115,10 +1115,10 @@ So their frequencies are expected to better distinguish texts.
 			    \tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
 			    \tikzstyle{edge}=[draw, thick, ->]
 			    \begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s3);
@@ -1130,10 +1130,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
         		\begin{scope}
-        			\node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-				    \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-				    \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-				    \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+        			\node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+				    \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+				    \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+				    \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 				    \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 				    \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
 				    \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
@@ -1144,10 +1144,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
 			        \path[edge] (s2) edge [above] node[font=\tiny] {} (s4);
 			        \path[edge] (s3) edge [above] node[font=\tiny] {} (s4);
@@ -1158,10 +1158,10 @@ So their frequencies are expected to better distinguish texts.
         		\tikzstyle{sentence}=[circle,thick,draw=black!75,fill=black!10,minimum size=2mm]
         		\tikzstyle{edge}=[draw, thick, ->]
        			\begin{scope}
-			        \node [sentence] (s1) at (0,2) {\tiny{$s_1$}};
-			        \node [sentence] (s2) at (2,2) {\tiny{$s_2$}};
-			        \node [sentence] (s3) at (2,0) {\tiny{$s_3$}};
-			        \node [sentence] (s4) at (0,0) {\tiny{$s_4$}};  
+			        \node [sentence] (s1) at (0,2) {\tiny{$s_t$}};
+			        \node [sentence] (s2) at (2,2) {\tiny{$s_u$}};
+			        \node [sentence] (s3) at (2,0) {\tiny{$s_v$}};
+			        \node [sentence] (s4) at (0,0) {\tiny{$s_w$}};  
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s2);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s3);
 			        \path[edge] (s1) edge [above] node[font=\tiny] {} (s4);
@@ -1180,9 +1180,9 @@ So their frequencies are expected to better distinguish texts.
 \paragraph{Results.}
 
 Given the extracted coherence patterns as basis graphs, we compute the graph signature representation of each projection graph corresponding with each text in the dataset. 
-The elements of the graph signature of projection graph are frequencies of the extracted patterns in the projection graph. 
+The elements of the graph signature of a projection graph are frequencies of the extracted patterns in the projection graph. 
 These elements together model the connectivity style of the graph. 
-From texture perspective, the frequency of each subgraphs the models how frequently a coherence pattern is used in a text. 
+From texture perspective, the frequency of each subgraph models how frequently a coherence pattern is used in a text. 
 
 We begin with the evaluation of the average outdegree metric as proposed by the entity graph model. 
 Table \ref{tab:correlation-outdegree} shows the results of computing the Pearson correlation between the average outdegree of three projection graphs defined in the entity graph model \cite{guinaudeau13}. 
@@ -1195,7 +1195,7 @@ This confirms our argument at the beginning of this section:  The average outdeg
 	\begin{center}
 		\begin{tabular}{lcc}
 			\toprule
- 			\textbf{Projection type}		& $\rho$  & \textbf{P\_value}\\
+ 			\textbf{Projection type}& $\rho$  & \textbf{P\_value}\\
  			\midrule
 			$P_U$ 				& $-0.013$ 						& $0.949$ \\
 			$P_W$ 				& $\textcolor{white}{+}0.151$  	& $0.452$ \\
@@ -1239,15 +1239,15 @@ Good writers usually initiate topics, ideas or claims and then provide clear ela
 %That is, a sequence of many related words and phrases will be evoked to explain an idea provide an account of the writer's reasoning. 
 Also, in the English-speaking school of essay writing and debating, there is the tendency to state the central claim of a text or a paragraph in the very first sentence followed by supporting arguments \cite{peldszus15}. 
 
-The frequency of pattern $p_2$ is negatively correlated with human rankings, showing that this pattern has not been observed in coherent texts as frequent as in incoherent ones. 
+The frequency of pattern $p_2$ is negatively correlated with human rankings, showing that this pattern has not been observed in coherent texts as frequently as in incoherent ones. 
 This explains that it is difficult for readers to process sentences that become connected via their  subsequent sentences.  
 Interestingly, the structural difference between pattern $p_2$ and pattern $p_1$ can be interpreted as the difference in the order of sentences. 
 If node $s_t$ proceeded node $s_u$ in pattern $p_2$ then this pattern would look like pattern $p_1$, which is a property of coherent texts. 
 This means that these patterns can capture the order of information presented in sentences as well. 
 
 Finally, the frequency of one of our coherence patterns, unlike the average outdegree, is significantly correlated with human readability ratings. 
-The correlation coefficients, $\rho$, have more distant with zero in comparison with those of the average outdegree metric. 
-This indicates the frequency of coherence patterns are more correlated with readability scores assigned by human judges in comparison to the average outdegree.  
+The correlation coefficients, $\rho$, have more distance to zero in comparison to those of the average outdegree metric. 
+This indicates that the frequency of coherence patterns is more correlated with readability scores assigned by human judges compared to the average outdegree.  
 Coherence patterns capture the connectivity style among sentences in a text as small units and beyond the individual sentence connectivity, which is one of the essential differences between our coherence patterns and average outdegree. 
 
 Table \ref{tab:correlation-4node} shows the Pearson correlation coefficient and their corresponding p\_value between the frequencies of 4-node patterns and readability ratings assigned by human judges. 
@@ -1294,11 +1294,11 @@ The second column presents the number of edges in each pattern.
 %First, most 4-node patterns with less than four edges are negatively correlated with readability ratings, except $p_{20}$ and $p_{24}$ that are weakly correlated with readability rankings. 
 %Few connections between sentences make the text difficult to read.
 Among all patterns that have positive correlation coefficients with readability scores, $p_{12}$ has the highest correlation coefficient. 
-In contrast, the most negatively correlation coefficient is for pattern $p_{11}$. 
+In contrast, the most negative correlation coefficient is for pattern $p_{11}$. 
 A comparison among these two patterns shows that they have the same number of edges but different styles of connectivity.
-This confirms our intuitions: (i) The connectivity structure of projection graphs that represent coherent texts are similar to each other and different with those that represent incoherent texts. 
+This confirms our intuitions: (i) The connectivity structure of projection graphs that represent coherent texts are similar to each other and different from those that represent incoherent texts. 
 (ii) The frequency of subgraphs can encode the connectivity structure of projection graphs and consequently coherence. 
-Moreover, these patterns roughly remind us the \emph{ambiguity node}\ phenomenon introduced by \newcite{stoddard91} [p.\ 29]: 
+Moreover, these patterns roughly remind us of the \emph{ambiguity node}\ phenomenon introduced by \newcite{stoddard91} [p.\ 29]: 
 \emph{
 	``[...] in some cases, there may be more
 	than one logical, possible node for a given cohesive element in a text, in which case, a reader may see the resulting ambiguity but not be able to decide between the choices''.
@@ -1318,7 +1318,7 @@ However, we should refrain of interpreting too much into these patterns.
 
 Finally, \newcite{pitler08} show that none of the entity transition features of the entity grid coherence model is strongly correlated with readability ratings of these texts. 
 While these features are intended to capture entity-based coherence, entity transitions in isolation seem to be too weak to actually do so. 
-In contrast to them, we are able to report a statistically significant correlation between some entity-based features and human readability ratings.
+In contrast to \newcite{pitler08}, we are able to report a statistically significant correlation between some entity-based features and human readability ratings.
 
 We summarize our observations in this experiment as follows: 
 
@@ -1328,9 +1328,7 @@ We summarize our observations in this experiment as follows:
 
 	\item 3-node patterns, mined from projection graphs, are roughly similar to patterns introduced by \newcite{danes74};
 
-	\item The connectivity style of a projection graph can be encoded by the frequency of extracted subgraphs or coherence patterns; 
-
-	\item The number of 4-node patterns whose frequencies are strongly correlated with readability ratings is more than 3-node patterns, showing that large pattern are better predictive for the coherence of a text.
+	\item The connectivity style of a projection graph can be encoded by the frequency of extracted subgraphs or coherence patterns.
 
 \end{itemize}
 
@@ -1378,14 +1376,14 @@ The reported numbers are the average over all numbers obtained from all runs of 
 
 \paragraph{Experimental settings.}
 The settings of this experiment are as it is performed by \newcite{pitler08}. 
-Text pairs include texts, from the dataset introduced in Section \ref{sec:data_pitler}, that their readability scores differ by at least $0.5$. 
-This criteria ensures that the difference in readability ratings of texts in a text pair is noticeable enough that a coherence model distinguishes their differences. 
+Text pairs include texts, from the dataset introduced in Section \ref{sec:data_pitler}, whose readability scores differ by at least $0.5$. 
+This criterion ensures that the difference in readability ratings of texts in a text pair is noticeable enough that a coherence model distinguishes their differences. 
 If the first text in a pair has a greater readability score, a label $+1$ is assigned to the pair, otherwise a label $-1$ is assigned. 
 In total, the number of pairs obtained by this procedure is 209 pairs in which 105 pairs have label $+1$  and 104 pairs have label $-1$.  
 We employ WEKA's linear support vector implementation (SMO) to classify the pairs.
-The SMO model is supplied by different sets of coherence features representing the coherence of each text. 
+The SMO model is supplied with different sets of coherence features representing the coherence of each text. 
 The first set of coherence features is grammatical transitions of entities, with sequence length of two, proposed by the entity grid model \cite{barzilay05a,barzilay08}. 
-For creating entity grids we use Brown Coherence Toolkit v1.0, which is set up in a docker by the author of this thesis\footnote{The docker is available \url{https://github.com/MMesgar/text_to_entity_grid}} to be used quickly for the future research. 
+For creating entity grids we use Brown Coherence Toolkit v1.0, which is set up in a docker by the author of this thesis\footnote{The docker is available \url{https://github.com/MMesgar/text_to_entity_grid}} to be used quickly for future research. 
 The input parse trees to this toolkit are gold parse trees from Penn TreeBank II \cite{marcus94}. 
 
 \paragraph{Results.}
@@ -1424,8 +1422,8 @@ On the other hand, 3-node patterns are small and consequently more likely to occ
 
 The feature set containing the frequency of 4-node patterns outperforms the baseline feature set by about $6\%$. 
 This confirms our intuition that the entity-based connectivity structure among sentences, which is modeled by projection graphs, distinguishes coherent texts from incoherent texts. 
-An advantage of 4-node patterns over the baseline features is that long-distant relations are also taken into account. 
-however, our coherence patterns lack the grammatical information in the entity relations. 
+An advantage of 4-node patterns over the baseline features is that long-distance relations are also taken into account. 
+However, our coherence patterns lack the grammatical information in the entity relations. 
 Our other hypothesis was that since 4-node patterns are larger than 3-node patterns, they have more capacity in terms of nodes and edges, to model the connectivity of nodes in projection graphs and therefore coherence. 
 This hypothesis is confirmed by comparing the accuracy of 4-node patterns against 3-node patterns.
 4-node patterns outperform 3-node patterns by $10\%$ difference in accuracy. 
@@ -1442,7 +1440,7 @@ An interpretation for this is that although our coherence patterns capture the c
 
 \subsection{Automatic Summarization}
 \label{sec:auto-summarization}
-In this section we evaluate our approach to coherence patterns mining in automatic text summarization, which is an instance of text generation systems. 
+In this section we evaluate our approach to coherence pattern mining in automatic text summarization, which is an instance of text generation systems. 
 We employ the summarization system proposed by \newcite{parveen15a} as it is based on the entity graph model (see Chapter \ref{ch:rel-work}). 
 This matters because the entity graph model is the framework of our coherence model as well.  
 \newcite{parveen15a} assume that the outdegree of a node in the projection graph of an input text measures how crucial its corresponding sentence is for the coherence of the summary.  
@@ -1450,7 +1448,7 @@ This assumption has three weaknesses:
 
 \begin{itemize}
 	\item 
-	The summarizer becomes bias to extract sentences from the beginning of a text because these sentences potentially have high outdegrees. 
+	The summarizer becomes biased to extract sentences from the beginning of a text because these sentences potentially have high outdegrees. 
 	This is because edges in a projection graph are directed to capture the sentence order in a text.
 	As the text progresses, the potential outdegrees of sentence nodes decrease. 
 	As an example, assume a text with $n$ sentences, the outdegree of the first sentence in this text can be high as up to $n-1$ but the outdegree of the last sentence is zero. 
@@ -1459,8 +1457,8 @@ This assumption has three weaknesses:
 	
 	\item 
 	In the summarization model proposed by \newcite{parveen15a}  the outdegrees of sentence nodes are computed in the projection graph of the input text.   
-	The ideal aim of a summarization system is to extract sentences that make the summary coherence. 
-	So, the connectivity of sentences should be evaluated with respect to only other selected sentences for the summary, rather than all sentences in the input text. 
+	The ideal aim of a summarization system is to extract sentences that make the summary coherent. 
+	So, the connectivity of sentences should be evaluated with respect to only  selected sentences for the summary, rather than all sentences in the input text. 
 
 
 	\item In the readability experiment in the previous section, we have shown that the average outdegree is not the best metric for encoding the connectivity style of projection graphs and therefore coherence. 
@@ -1485,11 +1483,12 @@ So, if a summarization system extracts sentences of a text so that their connect
 
 \paragraph{Summarization Problem Formulation.}
 We use notation $H$ to denote the dataset that consists of summaries written by humans for a set of texts.  
-Notation \mbox{$D=\lbrace \left( d_i, s_i \right) \rbrace$} refers to another dataset consisting of a set of document-summary pairs where the $i$th pair contains document $d_i$ and  its gold summary $s_i$ written by humans.  
+Notation \mbox{$D=\lbrace \left( d_0, s_0 \right), \left( d_1, s_1 \right),...,\left( d_N, s_N \right) \rbrace$} refers to another dataset consisting of a set of document-summary pairs where the $i$th pair contains document $d_i$ and  its gold summary $s_i$ written by humans. 
+Parameter $N$ is the number of document-summary pairs.  
 We assume that each document has a title. 
 In practice, in automatic summarization models when an input text does not have any title, the first sentence of the text is taken as the title. 
 Gold summaries can be employed to train a summarization model, and can also be used to evaluate summaries produced by the model during the evaluation phase. 
-We make a challenging assumption such that documents in $H$ and $D$ are disjoint (i.e.\ there is no intersection among summaries or documents of these two datasets) but from the same genre. 
+We make a challenging assumption such that documents in $H$ and $D$ are disjoint (i.e.\ there is no intersection among summaries or documents of these two datasets) but come from the same genre. 
 % because we want them to have similar styles of connectivity. 
 
 \subsubsection{Coherence Pattern Mining.}
@@ -1501,7 +1500,7 @@ We refer to the set of projection graphs that represent texts in $H$ by $GS_H$, 
 Afterwards, we use the gSpan method to extract all possible subgraphs from  graphs in $GS_H$. 
 In Section \ref{sec:readability_assessment}, we have shown that frequencies of coherence patterns in a projection graph capture the connectivity style of the graph and correlate with readability ratings assigned by humans.  
 Similarly, we take the subgraphs that frequently occur in $GS_H$ as the connectivity styles that are desired by humans to connect sentences in summaries. 
-In order to model this, we weigh each coherence pattern based on its number of occurrences, i.e.\ count, in graphs in $GS_H$.  
+In order to model this, we weight each coherence pattern based on its number of occurrences, i.e.\ count, in graphs in $GS_H$.  
 The weight of a coherence pattern, $weight(p_u)$, is the sum of its counts in all graphs in $GS_H$ divided by its maximum count:
 
 \begin{equation}
@@ -1527,7 +1526,7 @@ scales weights to a value between $0$ and $1$.
 
 \subsubsection{Summary Generation.}
 Assume that we want to produce a summary for document $d$ from data set $D$. 
-\newcite{parveen15a} develop an Integer Linear Programming (ILP) to extract the best possible subset of sentences with respect to importance, non-redundancy and coherence factors. 
+\newcite{parveen15a} develop an Integer Linear Programming (ILP) approach to extract the best possible subset of sentences with respect to importance, non-redundancy and coherence factors. 
 They measure the contribution of sentences in a document to the coherence of the output summary by the outdegree of the sentence node in projection graph but we use coherence patterns. 
 To formulate the problem in ILP we represent all sentences in input document $d$ by set 
 $S = \lbrace \hat{s}_0, \hat{s}_1,..., \hat{s}_n \rbrace$, where $\hat{s}_i$ is a boolean variable whose value represents if the $i$th sentence of document $d$ is selected for the summary or not.  
@@ -1552,7 +1551,7 @@ where $Rank(s_i)$ represents the rank of sentence $s_i$ with respect to other se
 Parameter $n$ is the number of sentences in input document $d$.  
 
 The ranks of sentences are calculated  by the \mbox{Hyperlink-Induced} Topic Search (HITS) algorithm.
-HITS algorithm is developed by \newcite{kleinberg99} for ranking web pages considering the way they are connected.  
+HITS algorithm was developed by \newcite{kleinberg99} for ranking web pages considering the way they are connected.  
 \newcite{kleinberg99} categorized web pages in two groups:  Authorities, which are informative web pages; and Hubs, pages that link to informative web pages\footnote{The idea behind Hubs and Authorities stemmed from a particular insight into the creation of web pages when the Internet was originally forming; that is, certain web pages, known as hubs, served as large directories that were not actually authoritative in the information that they held, but were used as compilations of a broad catalog of information that led users direct to other authoritative pages \cite{}.}.
 Here, authorities are sentences and hubs are entities.  
 The entity graph representation of document $d$ encodes the connections among sentences and entities in the document. 
@@ -1587,8 +1586,8 @@ f_C(P) = \sum_{u=1}^{U}{weight(p_u) \cdot \hat{p}_u},
 where $\hat{p}_u$ is the binary variable associated with coherence pattern $p_u$, and $weight(p_u)$ is the weight of this pattern, which is basically the frequency of pattern $p_u$ in graph set $GS_H$ (see Equation \ref{eq:ch-weight}). 
 The value of binary variable $\hat{p}_u$ is one if pattern $p_u$ is a subgraph of the projection graph representation of selected sentences from the input document.  
 Computing the value of $\hat{p}_u$ is challenging because the list of selected sentences at different optimization states is not explicit, so building the entity and projection graphs only over the selected sentences at different states is impossible. 
-However, since the projection graph of selected sentences at different states of ILP is a subgraph of the projection graph of the input document, we can define some constrains for our ILP to check if a coherence pattern occurs in a subgraph of the projection graph of the input document such that the subgraph consists of nodes associated with selected sentences or not. 
-In following, we explain constraints that are used in our ILP formulation. 
+However, since the projection graph of selected sentences at different states of ILP is a subgraph of the projection graph of the input document, we can define some constraints for our ILP to check if a coherence pattern occurs in a subgraph of the projection graph of the input document such that the subgraph consists of nodes associated with selected sentences or not. 
+In the following, we explain constraints that are used in our ILP formulation. 
 
 \paragraph{Constraints.}
 Here we define all constraints over variables of our model to complete our ILP formulation of the summarization task. 
@@ -1616,7 +1615,7 @@ Similarly if an entity is selected to be mentioned in the summary then at least 
 \end{equation}
 where $S_j$ represents the set of binary variables of sentences whose nodes in the entity graph representation of the document are connected to the entity node associated with $\hat{e}_j$.  
 
-In order to define constrains for involving coherence patterns in the optimization process, we adapt the graph matching algorithm proposed by \newcite{lerouge15}.
+In order to define constraints for involving coherence patterns in the optimization process, we adapt the graph matching algorithm proposed by \newcite{lerouge15}.
 This algorithm uses ILP to check if a pattern is a subgraph of another graph. 
 We need to introduce more criteria to check if a pattern occurs in a subgraph of a projection graph,  where the subgraph consists of only selected nodes. 
 
@@ -1675,23 +1674,23 @@ Figure \ref{fig:mapping-var} illustrates these matching variables.
 
 \end{figure}
 
-Given the above variables, we need to define some constrains in order to check if pattern $p_u$ is an induced subgraph of the selected nodes in projection graph $g$. 
+Given the above variables, we need to define some constraints in order to check if pattern $p_u$ is an induced subgraph of the selected nodes in projection graph $g$. 
 To do so, we explain constrains which are used to check if a pattern is an induced subgraph of the projection graph or not. 
 
 \begin{itemize}
-\item Every node of the pattern matches at most to one unique node of the graph:
+\item Every node of the pattern matches at most one unique node of the graph:
 
 \begin{equation}
 \sum_{k\in V_g}\hat{x}_{i,k} \leq 1 \quad \forall i\in V_{p_{u}},
 \end{equation}
 
-\item Every edge of the pattern matches at most to one unique edge of the graph:
+\item Every edge of the pattern matches at most one unique edge of the graph:
 
 \begin{equation}
 \sum_{kl\in E_g}\hat{y}_{ij,kl} \leq 1 \quad \forall (i,j)\in E_{p_{u}},
 \end{equation}
 
-\item Every node of the graph matches at most to one node of the pattern:
+\item Every node of the graph matches at most one node of the pattern:
 
 \begin{equation}
 \sum_{i\in V_{p_{u}}}\hat{x}_{i,k} \leq 1 \quad \forall k\in V_g,
@@ -1719,7 +1718,7 @@ So
 \end{equation}
 \end{itemize}
 
-The above constrains check whether the pattern is an induced subgraph of the projection graph. 
+The above constraints check whether the pattern is an induced subgraph of the projection graph. 
 But we must also check if the pattern occurs in a subgraph of the projection graph such that the subgraph contains only selected sentence nodes for producing the summary. 
 In simple words, all associated nodes to the pattern nodes must be selected for the summary. 
 So we define some more constraints in this regard:
@@ -1752,8 +1751,8 @@ Now we can set up our experiments for evaluating our approach to coherence patte
 We evaluate our model on two datasets:  \emph{PLOS medicine} and \emph{DUC 2002}. 
 The PLOS medicine dataset consists of $50$ scientific articles.  
 We are motivated to evaluate our model on scientific articles because of the growth in the number of scientific publications in different research fields.  
-A summarizers assist researchers to have an informative and coherent gist of long scientific articles. 
-Moreover, summarizing scientific articles is as difficult as multi-document summarization because scientific articles are tend to be long and the important information is spread all over an article,  unlike the distribution of information in a news article \cite{teufel02}. 
+A summarizer assists researchers to have an informative and coherent gist of long scientific articles. 
+Moreover, summarizing scientific articles is as difficult as multi-document summarization because scientific articles tend to be long and the important information is spread all over an article,  unlike the distribution of information in a news article \cite{teufel02}. 
 Generating coherent summaries from a cluster of documents is quite challenging. 
 The reason that we selected the PLOS medicine dataset is that articles in this dataset are accompanied by summaries written by editors of the month. 
 Editors' summaries have a broader perspective than abstracts of articles.  
@@ -1787,7 +1786,7 @@ We use Gurobi \cite{gurobi14} to solve the MIP optimization problem.
 The values of weights of the importance, non-redundancy and coherence functions are set as 
 $\lambda_{I}=0.4$, $\lambda_R=0.3$, and $\lambda_{c}=0.3$ for the \emph{PLOS Medicine}\ data set.  
 Weights for the DUC 2002 development set are $\lambda_{I}=0.5$, $\lambda_R=0.2$ and $\lambda_{c}=0.3$.
-Once a summary is produced, all pronouns in the summary are substituted with their antecedences using the pronoun resolution system provided by \newcite{martschat13}. 
+Once a summary is produced, all pronouns in the summary are substituted with their antecedents using the pronoun resolution system provided by \newcite{martschat13}. 
 We limit the length of summaries to $5$ sentences,  where we compare our system with the \mbox{state-of-the-art} systems on PLOS Medicine. 
 However, since the word length limit of a summary is more reasonable than the sentence length limit of a summary, in addition we compare the examined summarization models where the length of a summary is restricted to the average length of editor's summaries in the dataset ($750$ words). 
 
@@ -1817,19 +1816,19 @@ We compare our summarization system, which is enriched with coherence patterns, 
 	
 	\item \emph{EntOD} \cite{parveen15a}: 
 	This model uses ILP in order to optimize the summary based on importance, non-redundancy, and coherence. 
-	The importance and non-redundancy components are identical with these components in the summarization system that is explained here. 
+	The importance and non-redundancy components are identical to these components in the summarization system that is explained here. 
 	The only difference between the EntOD system and our summarization system is in the coherence component. 
 	In EntOD, the input document is represented by the entity graph to encode \mbox{entity-based} relations among sentences. 
 	Then the outdegree of a node in the projection graph representation of the input document is taken as a measure of the contribution of each sentence to the coherence of the summary. 
 	That is why we refer to this model as EntOD. 
 
 	\item \emph{TopicOD} \cite{parveen15b}: 
-	This summarization system is as same as the EntOD system except in the way that texts are represented. 
+	This summarization system is the same as the EntOD system except in the way that texts are represented. 
 	TopicOD uses topical graphs, instead of entity graphs, to encode topical relations among sentences. 
 	Topical graphs are bipartite graphs consisting of two sets of nodes: sentences and topics. 
 	The outdegree of each sentence in weighted projection graphs are taken as the coherence measure of the sentence.
 
-	\item \emph{Mead} \cite{radev04b}: This model assigns a score to each sentence of the input document using three scores: the centroid score (which is a measure of the centrality of a sentence to the overall topic of the input document), the position score (which decreases linearly as the sentence gets farther from the beginning of the input document), and the \mbox{overlap-with-first} score (which is the inner product of the TF*IDF\footnote{Term Frequency- Inverse Document Frequency}-weighted vector representations of a sentence and the first sentence (or title, if there is one) of the input document. 
+	\item \emph{Mead} \cite{radev04b}: This model assigns a score to each sentence of the input document using three scores: the centroid score (which is a measure of the centrality of a sentence to the overall topic of the input document), the position score (which decreases linearly as the sentence gets farther from the beginning of the input document), and the \mbox{overlap-with-first} score (which is the inner product of the TF*IDF-weighted vector representations of a sentence and the first sentence (or title, if there is one) of the input document. 
 	MEAD discards sentences that are too similar to other sentences (based on the cosine similarity). 
 	Any sentence which is not discarded due to high similarity and which obtains a high score (within the specified compression rate) is included in the summary. 
 	
@@ -1880,13 +1879,13 @@ We calculate different variations of ROUGE-2 and ROUGE-SU4.
 These variations demonstrate the effect of stop words and stemming in the ROUGE calculation.
 For the sake of brevity, we use the notation ``SW'' to refer to stop words and ``SM'' to refer to word stemming.  
 ``SW--'' shows that stop words are not taken into account in ROUGE calculation; ``SW+'' is the opposite. 
-``SM--'' shows that Porter Stemmer is not applied to summaries in ROUGH calculation, ``SM+'' is its opposite. 
+``SM--'' shows that Porter Stemmer is not applied to summaries in ROUG calculation, ``SM+'' is its opposite. 
  
-Our models achieves the best performance in comparison to other examined systems with respect to all variations of ROUGE. 
+Our model achieves the best performance in comparison to other examined systems with respect to all variations of ROUGE. 
 When we integrate coherence patterns with three nodes into the summarizer, i.e.\ 3-node, the summarizer significantly outperforms EntOD that uses the outdegree of sentence nodes as the coherence feature. 
 These results confirm our argument at the beginning of this section: The outdegree of nodes in the projection graph of the input document is not a powerful representative for the coherence of selected sentences for a summary. 
 3-node works better than EntOD basically because our coherence patterns capture the connectivity style among selected sentences from the input document for the summary, whereas
-the outdegree measures to what extend a sentence is connected to other sentences in the input document, rather than the summary. 
+the outdegree measures to what extent a sentence is connected to other sentences in the input document, rather than the summary. 
 Moreover, the outdegree does not capture how sentences should be connected so that the summary would be be coherent. 
 
 \begin{table}[!ht]
@@ -1914,15 +1913,15 @@ Moreover, the outdegree does not capture how sentences should be connected so th
 	\label{tab:plos-750words}
 \end{table}
 
-When we integrate 4-node coherence patterns into the summarizer, the summarizer works slightly better than when 3-node patterns are combined; This confirms that large subgraphs capture more information about the connectivity style of nodes in a projection graph and therefore the coherence of sentences.  
+When we integrate 4-node coherence patterns into the summarizer, the summarizer works slightly better than when 3-node patterns are combined. 
+This confirms that large subgraphs capture more information about the connectivity style of nodes in a projection graph and therefore the coherence of sentences.  
 However, this improvement is not statistically significant. 
 4-node patterns are less likely than 3-node patterns to occur in a subgraph of the projection graph where the subgraph contains only selected nodes for the summary. 
 
 The summarizer that is enriched by our coherence patterns outperforms \emph{Mead} as one of the state-of-the-art summarization systems. 
-On average summaries produced by \emph{Mead} contains less number of sentences than summaries produced by 3-node patterns (17.5 vs 27.2 sentences per summary).
+Summaries produced by \emph{Mead} on average contain fewer sentences than summaries produced by 3-node patterns (17.5 vs 27.2 sentences per summary).
 This shows that \emph{Mead} selects longer sentences in comparison to our 3-node patterns.  
-Long sentences are more complex and less readable. 
-They may also contain more irrelevant entities than shorter sentences because they are longer. 
+Long sentences are more complicated, less readable, and may also contain more irrelevant entities than shorter sentences. 
 
 Table \ref{tab:summary-duc} shows the results on DUC 2002 of well-performed  systems in the previous experiment. 
 In addition to other models, we compare our model to \emph{NN-SE} that utilizes a neural network hierarchical document encoder and an \mbox{attention-based} extractor to extract sentences from a document for a summary \cite{chengjianpeng16}.
@@ -2006,9 +2005,9 @@ We use the frequency of each coherence pattern in a projection graph as a repres
 
 We evaluated our coherence patterns in two applications: readability assessment and extractive \mbox{single-document} summarization. 
 In the former, we observed that frequencies of some coherence patterns are positively and some others are negatively correlated with readability ratings, which are assigned to texts by human judges. 
-Positively correlated patterns mostly depict this intuition in texts that a sentence introduces some entities and its subsequent sentences elaborate each of them.  
+Positively correlated patterns mostly depict the intuition in texts that a sentence introduces some entities and its subsequent sentences elaborate each of them.  
 Negatively correlated patterns roughly remind us the linear chain pattern in linguistics where a sentence is located between two unrelated sentences to make them connected. 
-Although this pattern is useful but if it occurs too frequently in a document then it disturbs the coherence of the document. 
+Although this pattern is useful, if it occurs too frequently in a document then it disturbs the coherence of the document. 
 Our experiments showed that 4-node subgraphs are more predictive than 3-node subgraphs in ranking documents with respect to their readability. 
 We believe that this is mainly because large coherence patterns have more capacity than small ones for encoding the connectivity style of nodes in projection graphs. 
 
@@ -2022,9 +2021,9 @@ Coherence patterns capture coherence by taking each sentence in its connections 
 Our \mbox{data-driven} approach to coherence pattern mining enables our model to extract patterns from documents so that the patterns are beneficial for a desired application. 
 
 We observe that 4-node subgraphs are better coherence patterns than 3-node subgraphs. 
-However, more investigation is requited to be performed on how the size of subgraphs influences the performance of the model. 
+However, more investigation is required to be performed on how the size of subgraphs influences the performance of the model. 
 The entity graph does not include mentions that are semantically related but are not coreferent. 
-In addition, it is also restricted to only noun overlap relation among nouns in sentences in a text, while any lexical semantic relation between words in sentence can relate sentences. 
+In addition, it is also restricted to only noun overlap relation among nouns in sentences in a text, while any lexical semantic relation between words in sentences can relate sentences. 
 We follow these points in the following chapter of this thesis. 
 
 The main contributions of the research in this chapter are:
@@ -2033,7 +2032,7 @@ The main contributions of the research in this chapter are:
 \item analyzing the power of the average outdegree in coherence measurement,
 \item proposing subgraphs of projection graphs as coherence patterns and their frequencies as coherence features,
 \item evaluating the predictive power of coherence patterns in ranking texts with respect to their coherence property,
-\item showing that how coherence patterns can be utilized in readability assessment as a text quality evaluation task, and the document summarization task as an instance of text generation systems.   
+\item showing how coherence patterns can be utilized in readability assessment as a text quality evaluation task, and the document summarization task as an instance of text generation systems.   
 \end{itemize}
 
 
