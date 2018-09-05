@@ -21,7 +21,7 @@ Coherent texts are beyond arbitrary choices of words and sentences.
 In such texts, sentences are related to each other to smooth the flow of information in texts. 
 This is achieved by means of cohesive semantic relations that are expressed through the grammar and the vocabulary of a language \cite{halliday76}. 
 The former is referred to as grammatical local coherence, and the latter as lexical cohesion.  
-Grammatical coherence encompasses relations such as coreference, substitution, ellipsis, and etc. 
+Grammatical coherence encompasses relations such as coreference, substitution, ellipsis, etc. 
 Lexical cohesion comprises one of the semantic connections among words in a text \cite{hoey91}. 
 
 The basis of lexical cohesion is, in fact, extended to any pair of lexical items that stand next to each other in some lexicosemantic relations. 
@@ -69,7 +69,7 @@ The other alternative for identifying lexical relations is to employ a set of pr
 Word embeddings which are trained on large corpora of texts can capture word relationships in a language. 
 Embedding representations of words give the model the capability to efficiently encode semantic relations among lexical items in a vector space. 
 Words that are semantically related in the text space, their embeddings are similar to each other in the vector space. 
-Therefor the semantic relations between words can simply be measured by the cosine function over the angle between the corresponding word vectors. 
+Therefore, the semantic relations between words can simply be measured by the cosine function over the angle between the corresponding word vectors. 
 It is worth to mention that such word vectors can be easily trained for any language if a large corpus of texts on the language is available.  
 
 In the research presented in this thesis, we use word embeddings to check whether there exists a relationship between two words or not.  
@@ -639,7 +639,7 @@ In the LexGraph representations of texts, edges whose weights are less than thre
 We selected this value to connect only sentences that are strongly related. 
 In this way, we prevent noisy edges, which are not strong enough in terms of the cosine similarity, to be involved in graphs. 
 Adding noisy edges to lexical cohesion graphs makes the discriminating between graphs difficult.
-A similar issue happens where full coreferent relations are incorporated in the entity graph representation of texts.   
+A similar issue happens where full coreference relations are incorporated in the entity graph representation of texts.   
 
 We check the impact of the size of subgraphs on the performance of the model by evaluating patterns with different number of nodes $k \in \lbrace3,4,5,6\rbrace$. 
 We need to count all possible k-node subgraphs because the probability should be distributed among all possible subgraphs.  
@@ -680,28 +680,28 @@ We finally evaluate the quality of the several coherence patterns that are extra
 Here, we evaluate LexGraph representations of texts on the \pitlerds dataset. 
 Figure \ref{fig:pitler-ds} reports the accuracies of different models on the \pitlerds dataset. 
 We can observe from the results that both the entity graph model, i.e.\ EGraph and the LexGraph model rank texts with respect to their coherence superior than the EGrid model \cite{barzilay08}.  
-This observation confirms our primary intuition in the research in this thesis that graph-based models have more capacity to encode relations among sentences in a text because graphs can capture long distant relations, which is informative for coherence modeling.  
+This observation confirms our primary intuition in the research in this thesis that graph-based models have more capacity to encode relations among sentences in a text because graphs can capture long-distance relations, which is informative for coherence modeling.  
 
-\begin{table}[!ht]
-  \begin{center}
-    \begin{tabular}{lcc}
-      \hline
-      Model  & \multicolumn{2}{c}{Accuracy} \\
-      \hline
-      ZeroR   & \multicolumn{2}{c}{50.24\%} \\
-      EGrid   & \multicolumn{2}{c}{83.25\%} \\
-      \hline
-      \knode\ & EGraph       &  LCG         \\
-      \hline
-      3-node  &    $80.38$\%   &  $78.95$\% \\
-      4-node  &    $89.95$\%   &  $89.47$\% \\
-      5-node  &    $95.69$\%   &  $97.13$\% \\
-      \hline
-    \end{tabular}
-  \end{center}
-  \caption{The accuracies of different systems on the \pitlerds dataset.}
-  \label{tab:pitler-ds}
-\end{table}
+% \begin{table}[!ht]
+%   \begin{center}
+%     \begin{tabular}{lcc}
+%       \hline
+%       Model  & \multicolumn{2}{c}{Accuracy} \\
+%       \hline
+%       ZeroR   & \multicolumn{2}{c}{50.24\%} \\
+%       EGrid   & \multicolumn{2}{c}{83.25\%} \\
+%       \hline
+%       \knode\ & EGraph       &  LCG         \\
+%       \hline
+%       3-node  &    $80.38$\%   &  $78.95$\% \\
+%       4-node  &    $89.95$\%   &  $89.47$\% \\
+%       5-node  &    $95.69$\%   &  $97.13$\% \\
+%       \hline
+%     \end{tabular}
+%   \end{center}
+%   \caption{The accuracies of different systems on the \pitlerds dataset.}
+%   \label{tab:pitler-ds}
+% \end{table}
 
 \begin{figure}[!ht]
   \begin{center}
@@ -764,25 +764,25 @@ Finally, 5-node patterns yield reasonable performance on the \declercqds dataset
 In this case, the LexGraph model outperforms the EGraph model significantly. 
 5-node patterns are sufficiently large to encode the connectivity structure of nodes in LexGraphs, and consequently the local coherence of texts. 
 
-\begin{table}[!ht]
-  \begin{center}
-    \begin{tabular}{lccc}
-    \hline
-    system  & \multicolumn{2}{c}{Accuracy}              \\
-    \hline  
-    ZeroR   & \multicolumn{2}{c}{$42.312$\%}            \\
-    \hline
-    k-node  & EGraph	  & LexGraph\textsuperscript{$\twowhitestars$}     \\\hline
+% \begin{table}[!ht]
+%   \begin{center}
+%     \begin{tabular}{lccc}
+%     \hline
+%     system  & \multicolumn{2}{c}{Accuracy}              \\
+%     \hline  
+%     ZeroR   & \multicolumn{2}{c}{$42.312$\%}            \\
+%     \hline
+%     k-node  & EGraph	  & LexGraph\textsuperscript{$\twowhitestars$}     \\\hline
 
-    3-node  & $42.31\%$ & $42.31\%^\twowhitestars$       \\
-    4-node  & $48.07\%$ & $49.12\%^\twostars$            \\
-    5-node  & $65.77\%$ & $76.27\%^\twostars$	           \\
-    \hline
-    \end{tabular}
-  \end{center}
-  \caption{The accuracy of different system on the \declercqds dataset.}
-  \label{tab:declercq-ds}
-\end{table}
+%     3-node  & $42.31\%$ & $42.31\%^\twowhitestars$       \\
+%     4-node  & $48.07\%$ & $49.12\%^\twostars$            \\
+%     5-node  & $65.77\%$ & $76.27\%^\twostars$	           \\
+%     \hline
+%     \end{tabular}
+%   \end{center}
+%   \caption{The accuracy of different system on the \declercqds dataset.}
+%   \label{tab:declercq-ds}
+% \end{table}
 
 \begin{figure}[!ht]
   \begin{center}
@@ -823,21 +823,21 @@ This can basically be because the texts in the \declercqds dataset are from four
 In order to gain a deeper insight to this, we compute the accuracies of these systems on texts exclusively from each genre in the \declercqds dataset. 
 We use 5-node patterns because these patterns can distinguish between texts better than other pattern for any of two examined graph representations of texts, i.e.\ the entity graph and the \mbox{LexGraph} representations. 
 
-\begin{table}[!ht]
-  \begin{center}
-    \begin{tabular}{lccc}
-      \hline
-      \emph{5-node}\  & EGraph      & LCG       \\\hline
-      Administrative  & $69.49\%$   & $71.69\%$ \\
-        Journalistic    & $65.01\%$   & $82.12\%$ \\
-        Manuals         & $54.95\%$   & $61.54\%$ \\
-        Misc.           & $70.68\%$   & $76.69\%$ \\\hline
-        \end{tabular}
-        \caption{Accuracy of \emph{EGraph}\ and \emph{LCG}\ on different
-          genres in the \declercqds dataset.}
-        \label{table:declercq_genre}
-  \end{center}
-\end{table}
+% \begin{table}[!ht]
+%   \begin{center}
+%     \begin{tabular}{lccc}
+%       \hline
+%       \emph{5-node}\  & EGraph      & LCG       \\\hline
+%       Administrative  & $69.49\%$   & $71.69\%$ \\
+%         Journalistic    & $65.01\%$   & $82.12\%$ \\
+%         Manuals         & $54.95\%$   & $61.54\%$ \\
+%         Misc.           & $70.68\%$   & $76.69\%$ \\\hline
+%         \end{tabular}
+%         \caption{Accuracy of \emph{EGraph}\ and \emph{LCG}\ on different
+%           genres in the \declercqds dataset.}
+%         \label{table:declercq_genre}
+%   \end{center}
+% \end{table}
 
 
 \begin{figure}[!ht]
@@ -933,23 +933,23 @@ In other words, the performance of the system is more even with smoothing rather
   \label{fig:pitler-smoothing}
 \end{figure}
 
-  \begin{table}[!ht]
-  \begin{center}
-  \begin{tabular}{ccccc}
-  \hline
-   & \multicolumn{2}{@{}c}{\pitlerds}  & \multicolumn{2}{c@{}}{\declercqds} \\
-   \hline
-  \knode\ & -- Smoothing & + Smoothing & -- Smoothing & + Smoothing \\\hline
-  3-node &     $84.52\%$ & $89.00\%$   & $42.31\%$    &   $49.60\%$ \\
-  4-node &     $95.69\%$ & $96.17\%$   & $65.10\%$    &   $66.23\%$ \\
-  5-node &     $97.61\%$ & $98.08\%$   & $79.33\%$    &   $79.85\%$ \\
-  6-node &     $93.26\%$ & $95.69\%$   & $76.67\%$    &   $78.03\%$\\
-  \hline
-  \end{tabular}
-  \end{center}
-  \caption{Applying smoothing method on the LCG model yields to higher accuracies for larger subgraphs.}
-  \label{table:smoothing}
-  \end{table}
+  % \begin{table}[!ht]
+  % \begin{center}
+  % \begin{tabular}{ccccc}
+  % \hline
+  %  & \multicolumn{2}{@{}c}{\pitlerds}  & \multicolumn{2}{c@{}}{\declercqds} \\
+  %  \hline
+  % \knode\ & -- Smoothing & + Smoothing & -- Smoothing & + Smoothing \\\hline
+  % 3-node &     $84.52\%$ & $89.00\%$   & $42.31\%$    &   $49.60\%$ \\
+  % 4-node &     $95.69\%$ & $96.17\%$   & $65.10\%$    &   $66.23\%$ \\
+  % 5-node &     $97.61\%$ & $98.08\%$   & $79.33\%$    &   $79.85\%$ \\
+  % 6-node &     $93.26\%$ & $95.69\%$   & $76.67\%$    &   $78.03\%$\\
+  % \hline
+  % \end{tabular}
+  % \end{center}
+  % \caption{Applying smoothing method on the LCG model yields to higher accuracies for larger subgraphs.}
+  % \label{table:smoothing}
+  % \end{table}
 
 \begin{figure}[!ht]
   \begin{center}
@@ -1001,7 +1001,7 @@ One may get better performance by tuning the parameters.
 \paragraph{Mined coherence patterns.}
 In this experiment, we compute the Pearson correlation coefficient between the frequencies of few patterns in the LexGraphs of texts in the \pitlerds dataset and the readability ratings that are assigned to texts by humans. 
 
-Table \ref{tab:correlated-graphs} shows the patterns whose frequencies are significantly (p-value <0.05) correlated with readability ratings assigned by humans. 
+Table~\ref{tab:correlated-graphs} (page \pageref{tab:correlated-graphs}) shows the patterns whose frequencies are significantly (p-value <0.05) correlated with readability ratings assigned by humans. 
 
 \begin{table}[!ht]
   \begin{center}
@@ -1127,14 +1127,15 @@ Table \ref{tab:correlated-graphs} shows the patterns whose frequencies are signi
 Among all 3-node patterns only the frequency of one pattern in the LexGraph representations of texts in this dataset is positively correlated with readability ratings that are assigned by humans.  
 Among the patterns with four nodes, frequencies of six patterns are significantly correlated with readability scores assigned by humans. 
 The frequency of only one pattern is positively correlated, while other five patterns are negatively correlated. 
-Interestingly, both positively correlated 3-node and 4-node patterns have been determined as positively and significantly correlated with human readability ratings in experiments that are performed in the research presented in Chapter \ref{ch:coh-patterns}, which indicates that our coherence model is linguistically sound.  
+Interestingly, both positively correlated 3-node and 4-node patterns have been determined as positively and significantly correlated with human readability ratings in experiments that are performed in the research presented in Chapter \ref{ch:coh-patterns}.
+It indicates that our coherence model is linguistically sound.  
 
 \section{Summary}
 \label{sec:lex-graph-summary}
 
 In the research presented in this chapter, we introduced a graph-based approach for representing the relations among sentences in a text based on the lexical relations among the words of sentences, LexGraph. 
 We employ pre-trained word embeddings to identify lexical relations between words in sentences. 
-We believe that this approach provides more informative graph representations of texts for coherence modeling in comparison to the entity graph representations of texts because the relations between sentences in LexGraph are not limited to coreference relation among named entities. 
+We believe that this approach provides more informative graph representations of texts for coherence modeling in comparison to the entity graph representations of texts because the relations between sentences in LexGraph are not limited to coreference relation among entities. 
 Relations in the lexical cohesion graph can be built upon the semantic relation between any word pair in sentences. 
 We extract large subgraphs to model coherence patterns. 
  which show similarity to patterns described in

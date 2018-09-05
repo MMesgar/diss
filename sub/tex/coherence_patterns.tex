@@ -24,7 +24,7 @@ In Chapter \ref{ch:rel-work}, we discuss the entity grid
 \cite{guinaudeau13} coherence models. 
 The entity grid model represents the relation set in our definition via a matrix. 
 This model makes the definition of coherence patterns more specific by considering sequences of grammatical transitions instead of sets.  
-It pre-defines coherence pattens by all possible grammatical transitions of entities across two adjacent sentences. 
+It pre-defines coherence patterns by all possible grammatical transitions of entities across two adjacent sentences. 
 The entity graph model employs graphs to represent the relation set of a text.  
 It does not extract any pattern but it makes a strong assumption about the set of all relations among sentences in a text: The bigger the relation set among sentences is, the more coherent the text is. 
 
@@ -70,7 +70,7 @@ The entity graph representation, introduced in Chapter \ref{ch:rel-work}, is emp
 Then the projection graphs are obtained from the entity graph representations of texts. 
 Projection graphs model the structure of sentence relations, which are obtained based on the coreferent mentions, in texts. 
 We employ a subgraph mining algorithm to automatically extract all connectivity patterns occurring in projection graphs of texts in a corpus as coherence patterns. 
-We show that our patterns are almost similar to the patterns introduced by \newcite{danes74a}. 
+We show that our patterns are similar to the patterns introduced by \newcite{danes74a}. 
 
 % However, we show that there is a similarity between the automatically mined subgraphs of projection graphs and the coherence patterns proposed by \newcite{danes74a}, indicating that our model's foundation is also linguistically sound.  
 % The entity graph model uses the average ourdegree to encode the connectivity of sentence nodes in projection graphs. 
@@ -534,7 +534,7 @@ We then examine how the size of patterns affects the predictive power of our fea
 To this end, we limit the size of patterns by fixing parameter k in the model, which equals to the number of nodes in subgraphs (See Section \ref{sec:coh-modeling}). 
 This yields two sets of patterns. 
 One set consists of subgraphs with three nodes, 3-node patterns, and the other set contains subgraphs with four nodes, which are referred to as 4-node patterns.  
-There is no criteria on the number of edges in subgraphs.  
+There are no criteria on the number of edges in subgraphs.  
 
 We begin with extracting 3-node subgraphs in order to examine the soundness of mined coherence patterns.  
 3-node subgraphs are the smallest meaningful patterns that can model the connectivity style of sentence nodes in projection graphs. 
@@ -772,9 +772,9 @@ We interpret these patterns as follows:
 
 	\item \boldmath{$p_3$}\textbf{:} 
 	Each sentence tends to refer to an entity in its immediately preceding sentence. 
-	The absence of a connection between $s_t$ and $s_v$ indicates that the entity that connects $s_t$ and $s_u$ is different with the entity that connects $s_u$ and $s_v$. 
+	The absence of a connection between $s_t$ and $s_v$ indicates that the entity that connects $s_t$ and $s_u$ is different from the entity that connects $s_u$ and $s_v$. 
 	This pattern roughly reminds us of the shift of center in the centering theory. 
-	This pattern is also almost similar to the linear pattern proposed by \newcite{danes74a}, i.e.\ pattern 1 depicted in Table \ref{tab:danesh_coherence_patterns}. 
+	This pattern is also similar to the linear pattern proposed by \newcite{danes74a}, i.e.\ pattern 1 depicted in Table \ref{tab:danesh_coherence_patterns}. 
 
 	\item \boldmath{$p_4$}\textbf{:} 
 	This pattern encodes three sentences that all are connected with each other. 
@@ -1309,7 +1309,7 @@ It can be interpreted such that if readers have to return to one point in the te
 %Finally, we conclude that all strongly negatively correlated patterns, such as pattern $p_7$, capture either connection shortage or the \textit{ambiguity node}\ phenomenon.
 
 Considering the results related to 3-node patterns, presented in Table \ref{tab:correlation-3node}, and the results of 4-node patterns, shown in Table \ref{tab:correlation-4node}, two observations are noticeable.
-First, the number of 4-node patterns that are significantly correlated with readability ratings is more than those in 3-node pattens. 
+First, the number of 4-node patterns that are significantly correlated with readability ratings is more than those in 3-node patterns. 
 This confirms our intuition that large subgraphs capture more information about the connectivity style of projection graphs. 
 So they are powerful predictor of coherence in comparison to 3-node patterns.  
 Second, the correlation coefficient obtained for pattern $p_{12}$, as the pattern with the strongest correlation, in 4-node patterns is greater than the correlation coefficient of pattern $p_4$, as the pattern with strongest correlation, in 3-node patterns. 
@@ -1337,7 +1337,7 @@ We summarize our observations in this experiment as follows:
 
 In this experiment, we use coherence models to rank texts with respect to their readability property. 
 Given that easier to read texts are more coherent than difficult texts, a coherence model should ideally be able to rank texts with respect to their readability. 
-We investigate how well rankings predicted by a coherence model match with rankings that are based on the  readability ratings assigned by humans. 
+We investigate how well rankings predicted by a coherence model match rankings that are based on the readability ratings assigned by humans. 
 The readability ranking task may in principle be more natural than readability assessment because in most NLP applications the main concern is with the relative quality of texts rather than their absolute scores. 
 Following \newcite{pitler08} we rank texts in a pairwise approach with respect to their readability ratings that are assigned by humans. 
 We treat this task as a classification task: Given a pair of texts, which one is easier to read or more coherent?
@@ -1351,14 +1351,14 @@ Accuracy = \frac{\textit{the number of correct rankings}}{\textit{the number of 
 \end{equation} 
 
 We also compute the F-measure in order to compare our features with baseline features. 
-The F-measure is the average of the F1-measures that are computed for each class. 
+The F-measure is the average of the F1-scores that are computed for each class. 
 Note that our problem is ranking that is treated as classification. 
 There is no true class to be classified. 
 So, in different turns we take each class as the true class and compute the F1-measure for that class. 
 Then we report the average F1-scores as the F-measure for this task. 
-The F1-measure for each class is the harmonic mean of precision ($P$) and recall $R$:
+The F-score for each class is the harmonic mean of precision ($P$) and recall $R$:
 \begin{equation}
-F\-measure = 2.\frac{P \cdot R}{P + R}.  
+\textit{F1-score} = 2\frac{P \cdot R}{P + R}.  
 \end{equation}
 Precision is computed as follows: 
 
@@ -1372,7 +1372,7 @@ R = \frac{\textit{the number of correct decisions}}{\textit{the number of pairs 
 \end{equation}
 
 Since the dataset is not accompanied by any standard split of training and test sets, we use 10-fold cross-validation for comparing the quality of different coherence feature sets. 
-The reported numbers are the average over all numbers obtained from all runs of 10-fold cross-validation. 
+The reported numbers are the average over all numbers obtained from all runs of \mbox{10-fold} \mbox{cross-validation}. 
 
 \paragraph{Experimental settings.}
 The settings of this experiment are as it is performed by \newcite{pitler08}. 
@@ -1417,7 +1417,7 @@ This feature set is also evaluated\footnote{The accuracy reported in their paper
 The accuracy of the classifier where it is supplied with 3-node subgraphs as coherence patterns is lower than where the classifier is trained  by the entity grid's coherence features.   
 This could happen because of two reasons. 
 The entity grid features represent grammatical role transitions of entities, which is more informative than the connections used in 3-node patterns.
-Connections in 3-node pattens only capture the existence of at least one shared entity between sentences. 
+Connections in 3-node patterns only capture the existence of at least one shared entity between sentences. 
 On the other hand, 3-node patterns are small and consequently more likely to occur in most projection graphs, so their frequencies cannot distinguish between coherent and incoherent texts effectively. 
 
 The feature set containing the frequency of 4-node patterns outperforms the baseline feature set by about $6\%$. 
@@ -1675,7 +1675,7 @@ Figure \ref{fig:mapping-var} illustrates these matching variables.
 \end{figure}
 
 Given the above variables, we need to define some constraints in order to check if pattern $p_u$ is an induced subgraph of the selected nodes in projection graph $g$. 
-To do so, we explain constrains which are used to check if a pattern is an induced subgraph of the projection graph or not. 
+To do so, we explain constraints which are used to check if a pattern is an induced subgraph of a projection graph or not. 
 
 \begin{itemize}
 \item Every node of the pattern matches at most one unique node of the graph:
@@ -1990,7 +1990,7 @@ Table \ref{tab:summary-human} shows the overall average rankings summaries produ
 \emph{Lead} obtains the best overall average rank because it extracts adjacent sentences from the beginning of the text. 
 Hence, the summaries produced by this system are as coherent as the author intends them to be. 
 Our summarizer, which is enriched with 3-node coherence patterns, follows LEAD by outperforming EntOD and TextRank.  
-This shows that the integration of our coherence patterns into the summarization system yields texts that are more coherent in comparison with summaries that are produced by baseline summarizers such as EntOD that uses the average outdegree.  
+This shows that the integration of our coherence patterns into the summarization system yields texts that are more coherent in comparison to summaries that are produced by baseline summarizers such as EntOD that uses the average outdegree.  
 
 \section{Summary}
 \label{sec:summary}
@@ -2006,8 +2006,9 @@ We use the frequency of each coherence pattern in a projection graph as a repres
 We evaluated our coherence patterns in two applications: readability assessment and extractive \mbox{single-document} summarization. 
 In the former, we observed that frequencies of some coherence patterns are positively and some others are negatively correlated with readability ratings, which are assigned to texts by human judges. 
 Positively correlated patterns mostly depict the intuition in texts that a sentence introduces some entities and its subsequent sentences elaborate each of them.  
-Negatively correlated patterns roughly remind us the linear chain pattern in linguistics where a sentence is located between two unrelated sentences to make them connected. 
-Although this pattern is useful, if it occurs too frequently in a document then it disturbs the coherence of the document. 
+Negatively correlated patterns roughly remind us of the linear chain pattern in linguistics where a sentence is located between two sentences with different topics to make the topic change smooth across sentences. 
+This pattern is an indicator of a topic shift.  
+Although topic shifts make a text interesting, too frequent occurrences of this pattern in a document disturbs the readability of the document. 
 Our experiments showed that 4-node subgraphs are more predictive than 3-node subgraphs in ranking documents with respect to their readability. 
 We believe that this is mainly because large coherence patterns have more capacity than small ones for encoding the connectivity style of nodes in projection graphs. 
 
