@@ -17,8 +17,7 @@ In this research, we tackle the problem of local coherence modeling.
 The simplified definition of this task is to model how text units (or segments) in a text are related to one another. 
 This task has been the focus of the majority work in text processing (see Chapter~\ref{ch:rel-work}). 
 Variations of this task consider different types of relations, such as rhetorical \cite{hovyeduard89} or lexical \cite{morris91}, between different spans of texts, such as clauses \cite{strube.col98} or sentences \cite{halliday76}, in various text types, such as dialogue \cite{wangxinhao13} or monologue \cite{barzilay08}. 
-Here we formally define the problem that is investigated in the research in this thesis.  
-This definition is used to establish the next chapters of this thesis. 
+Here we formally define this task as it is investigated in this research with the goal to use this definition to establish the next chapters of this thesis. 
 
 \subsection{Formal Modeling}
 
@@ -56,8 +55,8 @@ Given the above definition of the relationship function, relationships across al
 Let $r_{ij}= R(s_i,s_j)$ indicate the relationship between a sentence pair $(s_i,s_j)$ in a text $T$; the set $P = \lbrace r_{ij}| (s_i,s_j) \in T^2, i \neq j \rbrace$ contains all $r_{ij}$ for any pair of sentences in $T$.
 \end{definition}  
 
-Although we define $P$ as a set, it can be partially structured, e.g.,\ when sentence $s_i$ has to proceed sentence $s_j$ in a text. 
-However, we do not make any assumption in this regard to enable coherence models to make it concrete. 
+Although we define $P$ as a set, it can be partially structured, e.g.,\ where sentence $s_i$ has to proceed sentence $s_j$ in a text. 
+However, we do not make any assumption in this regard in our formulation to give coherence models the freedom to make it concrete. 
 
 While some texts can easily be recognized as coherent or incoherent, often local coherence is a matter of degree \cite{halliday76}. 
 A text can be less coherent when compared to one text, but more coherent when compared to another. 
@@ -93,19 +92,20 @@ We further improve the predictive power of coherence patterns by a new approach 
 \section{The Linguistics of Coherence}
 \label{sec:coh-linguistics}
 
-The aforementioned formal definition is sufficient for the research in this dissertation to develop a representation of cohesive relations in a text, and to extract coherence patterns. 
-However, since coherence is a semantic property of texts, the definition requires to be related to the linguistic properties of texts. 
+The aforementioned formal definitions are sufficient for the research in this dissertation to develop a representation of cohesive relations, extract coherence patterns, and model coherence computationally.  
+However, since coherence is a semantic property of text, its definition requires to be related to the text linguistic properties.   
+Therefore, in this section, we explain the linguistics of coherence. 
 
-We aim to develop an approach which provides a representation of the coherence of a text. 
-Therefore, we should understand what aspects of sentences serve to relate sentences and how coherence patterns are modeled in the linguistics of coherence. 
-In order to accomplish this, we explain related linguistic properties, which are required to complete our definition. 
-
+We start with the linguistic properties of what we refer to as a text in this research. 
+As we aim to represent cohesive relations among sentences, we explain what aspects of sentences serve to relate them in a text. 
+We finally discuss how coherence patterns are approached in the linguistics of coherence, since they are the core of our coherence model.  
 
 \subsection{Text}
 
-The first definition in our formal model of coherence is about a text. 
-In linguistic research, the word ``text'' is used to refer to any passage, spoken or written, of whatever length that forms a unified whole.  
+The first definition in our formal model of coherence is about text. 
+In linguistics, the word ``text'' is used to refer to any passage, spoken or written, of whatever length that forms a unified whole.  
 In this dissertation, we follow other coherence models \cite{barzilay08,guinaudeau13} and use the word ``text'' to denote a  monologue written passage, which includes more than one sentence.
+
 One-sentence texts, of course, do exist, such as public notices, proverbs, and advertising slogans.  
 For instance, a sample text with only one sentence is shown in Example~\ref{ex:coh-one-sent-text}\footnote{Taken from \url{https://www.engvid.com/english-resource/50-common-proverbs-sayings/}, accessed 1 June 2018.}: 
 
@@ -121,31 +121,32 @@ We also assume that texts are written in a formal language, in contrast to an in
 
 Coherence is a vital factor for distinguishing a well-written text from an unrelated sequence of sentences. 
 A coherent text discusses a sequence of topics in a structured way by which a reader can recognize the relationships among topics, and collectively render the text as a unified whole \cite{stede12}. 
-Each topic tends to occupy a (topical) segment of a text \cite{hearst97}. 
-Coherence is the result of the relations and the structures of topical segments in a text. 
-This structure is sometimes referred to as global coherence since it is coarse-grained and spans the entire text \cite{elsner07}. 
-\newcite{lautamatti78} defines the term ``topic'' as what sentences are about and the term ``comment'' as information about the topic.  
-In general, it is not straightforward, first, to define the notion of topics and, second, to recognize topics and their boundaries across text segments \cite{stede12}.
-However, we review some computational topical coherence models in Chapter~\ref{ch:rel-work}. 
+\newcite{lautamatti78} defines the term ``topic'',  generally, as what text units are mainly about.   
+Therefore, each topic tends to occupy a (topical) segment in a text. 
+Coherence is the result of the relations and the structures of topical segments in a text \cite{hearst97}. 
+This structure is sometimes referred to as global coherence since it is coarse-grained and may span the entire text \cite{elsner07}. 
+In general, however, it is not straightforward, first, to define the notion of topics and, second, to recognize topics and their boundaries across text segments \cite{stede12}. 
+Notwithstanding, we review a few computational topical coherence models in Chapter~\ref{ch:rel-work}. 
 
 \subsection{Local Coherence}
 
-From the linguistic viewpoint, a coherent text employs linguistic devices, more readily identifiable linguistic signals, to relate sentences of a text to each other. 
+From the linguistic viewpoint, a (coherent) text employs linguistic devices, which are more readily identifiable linguistic signals, to relate sentences\footnote{We limit the text units in linguistics to sentences.} of a text to each other. 
 These devices signal readers to interpret each sentence while considering its relations with other linked sentences \cite{vandijk77}. 
-Therefore, understanding the text implies uncovering these relationships.  
-The way that linguistic devices are used to relate sentences in a text is referred to as local coherence. 
-In some literature in text linguistics, e.g.\ \newcite{halliday76}, this phenomenon is referred to as cohesion.   
+Therefore, understanding a text implies uncovering such relationships among its sentences. 
+Local coherence is about the way that linguistic devices are utilized to relate sentences in a text \cite{stede12}.  
+In some literature in text linguistics, e.g.\ \newcite{halliday76}, this phenomenon is referred to as ``cohesion''.    
 \newcite{stoddard91} argues that local coherence and cohesion are not distinguishable and can be used interchangeably. 
 \newcite{stede12} states that signals of local coherence serve as indicators of topic continuity; consequently, the absence of a surface relation is a sign of a topic shift. 
-Since the research in this thesis is about local coherence modeling, henceforth in this thesis it is referred to as ``coherence modeling''. 
+So the local coherence of text implies its global coherence \cite{barzilay08}.   
+Since the research in this dissertation is about local coherence modeling, henceforth we refer to it shortly as ``coherence modeling''.  
 We explicitly distinguish them where they are not distinguishable from the context. 
 
-Prominent cohesive devices can be grouped into grammatical and lexical relations between elements of sentences \cite{halliday76}. 
+Prominent cohesive devices, which are used to connect sentences, can be grouped into grammatical and lexical relations between elements of sentences \cite{halliday76}. 
 Grammatical relations are reference, substitution, ellipsis and conjunctions. 
 Lexical relations include any lexico-semantic relation such as repetition, synonym, antonym, and the like between words of sentences. 
-Among the grammatical relations, reference devices are also known as entity-based relations. 
-The intuition behind the leveraging entity relations for coherence modeling is that related sentences in a text keep referring to the same entity. 
-Following \newcite{barzilay05a} and \newcite{elsner10}, we define an entity as follows: 
+Among the grammatical relations, reference devices, which are also known as entity relations, have widely been studied.  
+The intuition behind the leveraging of entity relations for coherence modeling is that related sentences in a text keep referring to the same entities. 
+Since the core of these models is entity, we follow \newcite{barzilay05a} and \newcite{elsner10}, and define an entity as follows: 
 
 \begin{definition}
     An entity is perceived as a person, a physical object, a concept, or an abstraction that exists (or may exist) in the world external to a text.  
@@ -154,7 +155,7 @@ Following \newcite{barzilay05a} and \newcite{elsner10}, we define an entity as f
 An entity can be referred to in different ways by various expressions, or mentions. 
 
 \begin{definition}
-	Pieces of a text that are used to refer to an entity are called mentions. 
+    The pieces of a text that refer to an entity are called mentions. 
 \end{definition}
 
 Given these definitions, one way of representing an entity is to group all mentions that refer to that entity. 
@@ -162,69 +163,65 @@ Each cluster of mentions represents an entity.
 The task of identifying mentions that refer to the same entity is known as coreference resolution.  
 
 \begin{definition}
-	The task of detecting all mentions in a text and clustering all mentions that refer to the same entities is called coreference resolution. 
+    The task of detecting all mentions in a text and clustering all mentions that refer to the same entities is called coreference resolution. 
 \end{definition}
 
- 
-The sample text in Example~\ref{ex:coh-ref}\footnote{Taken from \url{https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1162/handouts/cs224n-lecture11-coreference-6up.pdf}, accessed 2 June 2018.} shows how entity-based relations link sentences. 
+The sample text in Example~\ref{ex:coh-ref}\footnote{Taken from \url{https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1162/handouts/cs224n-lecture11-coreference-6up.pdf}, accessed 2 June 2018.} shows how coreference relations among mentions of an entity relate the sentences. 
 
 \begin{examples}
-	\label{ex:coh-ref}
-	\textbf{Mr.\ Obama} visited the city. \\
-	\textbf{The president} talked about Milwaukee’s economy. \\
-	\textbf{He} mentioned new jobs. \\
+    \label{ex:coh-ref}
+    \textbf{Mr.\ Obama} visited the city. \\
+    \textbf{The president} talked about Milwaukee’s economy. \\
+    \textbf{He} mentioned new jobs. \\
 \end{examples} 
 
-\emph{Mr.\ Obama}, \emph{The president} and \emph{He} are three mentions that refer to the 44th president of the United States. 
-Three sentences of the text shown in Example~\ref{ex:coh-ref} are connected because they contain mentions that refer to the same entity. 
+In the text shown in Example~\ref{ex:coh-ref}, \emph{Mr.\ Obama}, \emph{The president} and \emph{He} are three mentions that refer to the 44th president of the United States. 
+The three sentences of this text are connected because they contain mentions that refer to the same entity. 
 
 One of the popular entity-based frameworks for local coherence modeling is the centering theory \cite{grosz95}. 
-The core of this theory is the concept of the text center. 
-The center at any given point in a text is the most salient entity at that point. 
-For instance, at the end of the last sentence in the text that is shown in Example~\ref{ex:coh-ref}, the center is on the entity ``Barack Obama''.
-The center captures the focus of attention in the reader's mind \cite{grosz95} as the text progresses. 
-The centering theory accounts for the process of center flowing in a text. 
-The original centering theory (for English texts) views the grammatical roles of the mentions of entities in sentences as the most critical linguistic signs of saliency of entities. 
-Precisely, the grammatical subject is taken as the default position for the text center. 
-Depending on the configuration of grammatical roles of mentions of an entity in adjacent sentences, \newcite{brennan87} define four different types of transitions for the text center across sentences of a text. 
-These transitions capture the smoothness of the center move from one sentence to another. 
-When a sentence focuses on the topic, i.e.\ the center, which is discussed in sentences preceding that sentence, then the transition is Retain or Continue; the other types of transitions involve a topic shift: Smooth Shift, or Rough Shift. 
-The idea of the centering theory has been applied directly in models of coherence \cite{karamanis04a}.  
-However, since it requires human annotations for center transitions across sentences, some models employ the basic principles of the centering theory as soft constraints or features in a probabilistic framework. 
-An example of such models is the entity grid model \cite{barzilay05a,barzilay08}, which will be discussed in more details in Chapter~\ref{ch:rel-work}. 
+The heart of this theory is the concept of the ``text center''. 
+The text center at any given point in a text is the most ``salient'' entity at that point. 
+For instance, at the end of the last sentence in the text that is shown in Example~\ref{ex:coh-ref}, the text center is on the entity ``Barack Obama''.
+The centering theory (for English texts) takes the grammatical roles of mentions of entities in sentences as the most significant linguistic signs for the saliency of entities. 
+Precisely, the grammatical subject is preferred as the default position for the text center. 
+So the text center can be various entities at different points in a text. 
 
-Further research shows that grammatical role information is far less predictive for tracking the text center in German, as it is a free word order language \cite{strube.acl96}. 
-Instead, the functional information structure \cite{danes74a} is considered.   
-This structure captures the flow of information in a text. 
-Some information in a sentence is known (or old) for readers because preceding sentences discuss it, and some information is new. 
-The functional information structure is explained by \newcite{halliday76} as \mbox{theme-rheme} relations in a text. 
-A theme can be taken as given information, as a departure point in a text, and rheme is roughly similar to new information, as clarification information about the theme. 
-While a theme conveys information that is initially introduced in a text, rheme presents specific information about the theme. 
-As the theme-rheme movement continues through a text, ideas in the text are expected to flow along smoothly and be easy for readers to understand. 
-Thematic relations between sentences in texts reveal some patterns \cite{danes74a}, which are called ``coherence patterns''. 
-We discuss this area of research in more details where we explain the linguistics of coherence patterns. 
-In Chapter \ref{ch:coh-patterns}, we precisely define our approach to coherence pattern mining from texts. 
+The centering theory accounts for the process of the center flow in a text, as the text center captures the focus of attention in the reader's mind as the text progresses \cite{grosz95}. 
+Depending on the configuration of the grammatical roles of mentions of an entity in adjacent sentences, \newcite{brennan87} define four different types of transitions for the text center across sentences. 
+These transitions capture the smoothness of the center move from one sentence to another and can encode the coherence of a text.   
+Where a sentence focuses on the topic, i.e.\ the text center, that is discussed in sentences preceding that sentence, the transition is Retain or Continue. 
+Other transitions involve a topic shift: Smooth Shift, or Rough Shift. 
+The ideas of the centering theory have directly motivated several coherence models, e.g., the model proposed by \newcite{karamanis04a}.  
+However, since the centering theory requires human annotations for center transitions across sentences, some computational models preferred to employ principles of the centering theory as soft constraints or features in a probabilistic framework. An example of such models is the entity grid model \cite{barzilay05a,barzilay08}, which is discussed in more details in Chapter~\ref{ch:rel-work}. 
+
+Further linguistic research shows that grammatical role information is far less predictive for tracking the text center in other languages such as German, which is a free word order language \cite{strube.acl96}. 
+Instead of that, the ``functional information structure'' \cite{danes74a} is considered \cite{strube.acl96}.  
+The idea behind this structure is to capture the flow of information within a text.  
+Some information in a sentence is known (or old) for readers because sentences preceding that sentence discuss it, and some information is new. 
+The way that the information status changes within a text reveals how smoothly topics flow across sentences, or how coherent the text is \cite{danes74a}.    
 
 The other perspective of local coherence is lexical cohesion. 
-It is the cohesive effect based on \mbox{lexico-semantic} relations between words in a text. 
-An advantage of lexical cohesion models, in contrast to \mbox{entity-based} models, is that it requires no annotation because lexicons are directly accessible from a text. 
-The insight of local coherence resulting from lexical relations is that content words in a text do not occur independently of one another but rather bear semantic similarity because of the common topic. 
+It is the cohesive effect based on lexico-semantic relations between words in a text \cite{halliday76}.  
+An advantage of lexical cohesion models, in contrast to entity-based models, is that they require no entity annotation because lexicons are directly accessible from the text surface.  
+The insight of local coherence resulting from lexical relations is that content words in a text do not occur independently of one another, but rather bear semantic similarity because of their common topic. 
+So in a coherent text content words of sentences are expected to be semantically related.  
 A form of lexical cohesion is reiterations, which involve different types of lexical relations such as repeating a word, using a synonym of a word, and employing a superordinate word. 
 Example~\ref{ex:coh-lex} is taken from \newcite{halliday76} to illustrate these relations:
 
+
 \begin{examples}
-	\label{ex:coh-lex}
-	(a) Repetition: \\
-	There was a large \textbf{mushroom} growing near her, about the same height as herself; and when she had looked under it, it occurred to her that she might as well look and see what was on the top of it.\\
-	She stretched herself up on tiptoe and peeped over the edge of the \textbf{mushroom}, [...] 
+    \label{ex:coh-lex}
+    (a) Repetition: \\
+    There was a large \textbf{mushroom} growing near her, about the same height as herself; and when she had looked under it, it occurred to her that she might as well look and see what was on the top of it.\\
+    She stretched herself up on tiptoe and peeped over the edge of the \textbf{mushroom}, [...] 
 
-	(b) Synonymy: \\
-	Accordingly [...] I took leave, turned to the \textbf{ascent} of the peak. \\
-	The \textbf{climb} is perfectly easy. 
+    (b) Synonymy: \\
+    Accordingly [...] I took leave, turned to the \textbf{ascent} of the peak. \\
+    The \textbf{climb} is perfectly easy. 
 
-	(c) Superordinate: \\
-	Henry's bought himself a new \textbf{Jaguar}. \\
-	He practically lives in the \textbf{car}. 
+    (c) Superordinate: \\
+    Henry's bought himself a new \textbf{Jaguar}. \\
+    He practically lives in the \textbf{car}. 
 
 \end{examples} 
 
@@ -232,241 +229,249 @@ In Example~\ref{ex:coh-lex}(a), the word ``mushroom'' is exactly repeated.
 In (b) two words ``ascent'' and ``climb'' carry the same meaning. 
 In (c), the word ``car'' is a superordinate, any word whose meaning includes that of the earlier one, of ``Jaguar'' since a vehicle is a superordinate of a car. 
 The relationship between ``spoon'' and ``teaspoon'' is another example of the superordinate relation. 
-The boundary between the reiteration type of lexical cohesion and reference type in entity-based relations is by no means clearcut \cite{halliday76}. 
-It clarifies why for purposes of the research in this thesis, local coherence and cohesion are largely synonymous. 
+The boundary between the reiteration type of lexical cohesion and reference type in entity relations is by no means clearcut \cite{halliday76}. 
+It clarifies why for purposes of the research in this dissertation, local coherence and cohesion are largely synonymous. 
 
-Two lexical occurrences are not needed to be coreferent in order to make a cohesive relation.  
-For instance, consider the text shown in Example~\ref{ex:coh-nonref} which taken from \newcite{halliday76}(p.~282). 
-The word ``boy'' in the question and the word ``boys'' in the answer (a) are not coreferent; however, their semantic relationship serves to link the sentences. 
-This relationship is not in any way dependent on the presence of other words in the sentence; it is not the wriggling in (a) that provides the context for the context, as the answer (b) shows. 
+% Two lexical occurrences are not needed to be coreferent in order to make a cohesive relation.  
+% For instance, consider the text shown in Example~\ref{ex:coh-nonref} which taken from \newcite{halliday76}(p.~282). 
+% The word ``boy'' in the question and the word ``boys'' in the answer (a) are not coreferent; however, their semantic relationship serves to link the sentences. 
+% This relationship is not in any way dependent on the presence of other words in the sentence; it is not the wriggling in (a) that provides the context for the context, as the answer (b) shows. 
+
+% \begin{examples}
+%     \label{ex:coh-nonref}
+%     Why does this little \textbf{boy} have to wriggle all the time? \\
+%     (a) Good \textbf{boys} don't wriggle. \\
+%     (b) \textbf{Boys} should be kept out of here. \\
+% \end{examples} 
+
+% It leads to a systematic relationship between a pair of words because the words frequently occur in similar textual context. 
+% For instance, words ``boy'' and ``girls'' in Example~\ref{ex:coh-collocation}
+% \footnote{The text is taken from \cite{halliday76}(p.~285) relate the sentences, although they are neither coreferent nor even synonym.} 
+
+% \begin{examples}
+%     \label{ex:coh-collocation}
+%     Why does this little \textbf{boy} have to wriggle all the time? \\
+%     \textbf{Girls} don't wriggle. 
+% \end{examples}
+
+In summary, there is a local coherence relation between any pair of lexical items that stand to each other in some lexico-semantic relations, even including relations between word pairs shown in Example~\ref{ex:coh-word-pairs} \cite{halliday76}. % (p.~285). 
 
 \begin{examples}
-	\label{ex:coh-nonref}
-	Why does this little \textbf{boy} have to wriggle all the time? \\
-	(a) Good \textbf{boys} don't wriggle. \\
-	(b) \textbf{Boys} should be kept out of here. \\
-\end{examples} 
-
-It leads to a systematic relationship between a pair of words because the words frequently occur in similar textual context. 
-For instance, words ``boy'' and ``girls'' in Example~\ref{ex:coh-collocation}
-\footnote{The text is taken from \cite{halliday76}(p.~285) relate the sentences, although they are neither coreferent nor even synonym.} 
-
-\begin{examples}
-	\label{ex:coh-collocation}
-	Why does this little \textbf{boy} have to wriggle all the time? \\
-	\textbf{Girls} don't wriggle. 
+    \label{ex:coh-word-pairs}
+    rail ... road \\
+    car ... brake \\
+    try ... succeed \\
+    walk ... drive \\
+    Tuesday ... Thursday \\
+    like ... hate \\
+    red ... green 
 \end{examples}
 
-In summary, there is a local coherence relation between any pair of lexical items that stand to each other in some lexico-semantic relations including relations between word pairs shown in Example \ref{ex:coh-word-pairs} \cite{halliday76} (p.~285). 
-
-\begin{examples}
-	\label{ex:coh-word-pairs}
-	rail ... road \\
-	car ... brake \\
-	try ... succeed \\
-	walk ... drive \\
-	Tuesday ... Thursday \\
-	like ... hate \\
-	red ... green 
-\end{examples}
-
-For textual purposes, it is (almost) sufficient to know that a pair of words is in a relationship, rather than the type of relation \cite{halliday76}. %(p. 285).  
-\newcite{hoey91} examines how lexical elements make a text organized and contribute to local coherence. 
-He shows that relations between semantically related words in a text follow similar patterns in texts. 
+For local coherence modeling, it is (almost) sufficient to know that a pair of words is in a relationship, apart from the type of the relation \cite{halliday76}. %(p. 285).  
+\newcite{hoey91} also examined how lexical elements make a text organized and contribute to local coherence. 
+He showed that relationships between semantically related words in a text follow similar patterns in texts. 
 In Chapter~\ref{ch:rel-work}, we survey some related computational models of lexical cohesion in texts.  
-
 
 \subsection{Coherence Patterns}
 
 Numerous researchers and practitioners in natural language processing deal with whole texts rather than individual sentences. 
-While it is evident that text must have a beneficial structure \cite{webber12a}, its characteristics are less explicit, making it more difficult to exploit in applications. 
+While it is evident that text must have a beneficial structure, its characteristics are less explicit, making it more difficult to exploit in applications \cite{webber12a}. 
 A text commonly comprises a sequence of sentences. 
-Within a text, the patterns formed by its sentences mean that the whole text conveys more than the sum of its separate parts. 
-Text structures are the patterns that one sees in \mbox{multi-sentence} texts \cite{webber12a}. 
-Recognizing these patterns in terms of the elements that compose them is essential to derive and interpret information in a text correctly. 
-As discussed before, a text can be structured by its topics, each of which comprises a set of entities and a limited range of things about them. 
-Patterns of coherence relations can also be characteristic of particular types of text and therefore be of value in assessing the quality of texts generated automatically. 
+%Within a text, the patterns formed by its sentences mean that the whole text conveys more than the sum of its separate parts. 
+Text structures are the patterns that one observes in connections among multi-sentence texts \cite{webber12a}. 
+Recognizing these patterns, which are referred to as coherence patterns, in terms of the elements that compose them is essential to derive and interpret information in a text correctly. 
+Coherence patterns can also be characteristics of particular types of texts and therefore be of value in assessing the quality of texts generated automatically. 
 
-The concept of coherence patterns is linguistically derived from the texture of texts. 
-\newcite{stoddard91} defines a text as ``a phenomenon of seemingly infinite complexity due to its synergistic nature'', where elements of a text are supposed to corporate together for an enhanced effect. 
+The concept of coherence pattern is linguistically derived from the ``texture'' of texts \cite{halliday76}.  
+The texture of text is the quality created by the combination of the different text units.  
+\newcite{stoddard91} defines a text as ``a phenomenon of seemingly infinite complexity due to its synergistic nature'', where units of a text are supposed to corporate together for an enhanced effect. 
 It is synergism that makes texts more than consecutive words and sentences. 
 The dynamic of synergism, which is because of its multi-dimensionality, is beyond the linear, sequential structure of texts. 
-One cause of the multi-dimensionality of synergism is a global component which is referred to as ``texture''. 
-The texture of text is the quality created by the combination of the different elements in a text \cite{stoddard91}. 
-Indeed, one of the preliminary principles of texture is coherence, which is a  unifying device we construct consciously or unconsciously as we process texts \cite{halliday76}. 
+One cause of the multi-dimensionality of synergism is a global component which is referred to as texture. 
 
 From \newcite{stoddard91}'s perspective, the texture of text is interpretable by means of elements that are common in all texts and those that discriminate texts. 
-These elements are referred to as patterns of coherence by \newcite{stoddard91}.  
-She believes that the texture property of texts manifests itself in patterns of coherence in written texts. 
-It is worth noting that texture, in one sense, involves the quality of depth, which may range from minimal (approximating ``flatness'') to maximal, or at any level in between. 
-In other words, patterns of coherence can be as basic as the linear order of elements of a text or be more complicated by incorporating relations between non-adjacent sentences. 
-Incorporating non-adjacent relations yields non-linear patterns. 
-\newcite{stoddard91} describes the texture of texts as a composite of patterns -- storyline patterns, rhetorical patterns, linguistic patterns and so on -- which when overlaid to create the totality of a text creates variant textures which are like the ``fingerprint'' of a text. 
-In this sense, the texture of texts is more closely related to ``style'', which is undoubtedly related to local coherence \cite{barzilay08}. 
+She refers to these elements as ``coherence patterns''.   
+So, texture manifests itself in coherence patterns that occur in similar texts. 
+We have discussed that texture is one cause of the multi-dimensionality of synergism in texts; therefore, texture involves the quality of depth, which may range from minimal (approximating ``flatness'') to maximal or at any level in between. 
+In other words, coherence patterns can be as basic as the linear relations among consecutive text units, or be non-linear and more complicated by incorporating long-distance relations between non-adjacent units. 
 
-\newcite{halliday76} claim that ``linguistic patterns  [...] embody, and at the same time impose structure on our experience of the environment [...]''.
-Because of this, they suggest that patterns help readers to understand a text as coherent and consistent with our knowledge, experience, and environment. 
+The texture, which is a composite of patterns, is like the ``fingerprint'' of a text \cite{stoddard91}, which can be used to distinguish texts. 
+In this sense, the texture of text is mostly related to ``style'', which is undoubtedly associated with the local coherence of text \cite{barzilay08}. 
+This explains why such patterns are referred to as coherence patterns. 
+Furthermore, this linguistically supports our first research question that concerns with \mbox{non-linearity} of patterns in distinguishing coherent texts from incoherent ones.  
 
-One factor that must be considered in describing coherence patterns as the input to texture is the likelihood of patterns occurring over the large stretch of a text \cite{stoddard91}.  
-The unity of texts happens because readers perceive the interactiveness of ``text components''. 
-Because these appear to have a degree of consistency across all texts, they should be identifiable as texture-forming mechanisms.
-Moreover, this would be easier for readers to smoothly process texts in which the patterns of interactiveness among components are familiar to the reader.  
+% \newcite{stoddard91} describes the texture, which is a composite of patterns -- storyline patterns, rhetorical patterns, linguistic patterns, and so on -- when overlaid to create the totality of a text creates variant textures which are like the ``fingerprint'' of a text. 
+% In this sense, the texture of texts is more closely related to ``style'', which is undoubtedly related to local coherence \cite{barzilay08}. 
+% All of this linguistically supports our first research question that concerns with \mbox{non-linearity} of patterns in distinguishing coherent texts from incoherent ones.  
 
+% \newcite{halliday76} claim that ``linguistic patterns  [...] embody, and at the same time impose structure on our experience of the environment [...]''.
+% Because of this, they suggest that patterns help readers to understand a text as coherent and consistent with our knowledge, experience, and environment. 
 
-\newcite{stoddard91} illustrate the patterns of coherence and the way that the patterns interact graphically for a few texts. 
-The term of ``networks of cohesion'' proposed by \newcite{halliday76} can be interpreted (almost) equivalent to this graphical illustration. 
-The results of the text analysis in \newcite{stoddard91} show that local coherence leads to connectivity patterns.
-She suggests unifying a text by means of coherence patterns which span varying lengths of text passages. 
-The importance of the results is that typologies (i.e.\ graphical structure) and counting, when supplemented with other kinds of analysis, gives a better understanding of local coherence. 
+Coherence patterns occurring in a text should be recognizable by readers of the text to assist them to understand the text easily.  
+The unity of texts happens if readers readily perceive the interactiveness of text units.  
+Such interactiveness seems to have a degree of consistency across texts \cite{stoddard91}, so they should be identifiable as patterns.  
+Moreover, it would be easier for readers to smoothly process texts in which  patterns of interactions of text units are not only clearly recognizable, but also familiar to readers.  
+ 
+\newcite{stoddard91} graphically illustrates\footnote{
+The term of ``networks of cohesion'' proposed by \newcite{halliday76} can be interpreted (almost) equivalent to this graphical illustration.} the way that text units interact in a few texts. 
+The results of her text analysis show that local coherence manifests itself in the connectivity structure of text units in the graphical illustrations of texts.  
+The key results of her study can be summarized as follows:
+First, the unity of a text is better to modeled by means of patterns that span through adjacent and non-adjacent text units, and second, 
+both typologies (i.e.\ graphical structure) and counting should be involved to gain a better understanding of the local coherence of text.  
+So, one factor that must be considered in describing coherence patterns as the input to texture is the likelihood of patterns occurring over the broad stretch of a text.  
+The facts that cohesive patterns occur in texts and cohesiveness is relative in texts provide useful validation of the intuition used in the research presented in this thesis: Coherent texts reveal some regularities in their structure that can be encoded with the frequency of coherence patterns. 
 
-The facts that cohesive patterns occur in texts and cohesiveness is relative in texts provide useful validation of the intuition used in the research presented in this thesis: Coherent texts reveal some regularities in their structure that can be encoded by the frequency of coherence patterns. 
-All of this also linguistically supports our first research question that is concerned with \mbox{non-linearity} of patterns. 
-
-Another piece of linguistic research related to coherence patterns is performed by \newcite{danes74a}. 
-He describes the structure of texts by the concept of ``thematization'' that has also been noticed by \newcite{halliday76} as ``information focus'' or \mbox{given-new} information. 
-\newcite{halliday76} summarize it in this way: ``Given information'' has been talked about in text and ``new information'' is been mentioned now.  
-Similarly, a theme, from \newcite{danes74a}'s point of view, is the point of departure where the text flows from a topic (``given information'') towards another topic (``new information''). 
-In simple words, theme can be realized as ``given information'', and rheme is ``new information'' and ``thematization'' is about patterns of transitions between themes and rhemes in a text. 
-
+\newcite{danes74a} had spoken about the concepts of text structure and coherence patterns more generally and earlier than \newcite{stoddard91}. 
+\newcite{danes74a} describes the structure of texts by the concept of ``thematization'', which has also been noticed by \newcite{halliday76} as ``given-new information structure''. 
+At each point of a text, ``given information'' is what has been talked about earlier than that point in the text and ``new information'' is been mentioned now.  
+A theme, from \newcite{danes74a}'s point of view, is a point of departure where a text flows from a topic (i.e.\ given information) towards a rheme or another topic (i.e., similar to new information). 
+In simple words, theme can be realized as given information, and rheme is new information. 
 The contextual determination of givenness is far from being a simple phenomenon \cite{danes74a}. 
-Tentatively, some information that is mentioned directly or indirectly in a text can be interpreted as given information. 
-\newcite{danes74a} explains that ``given information'' can be realized either directly with an identically wording expression or indirectly with a synonymous one.   
+%Tentatively, some information that is mentioned directly or indirectly in a text can be interpreted as given information. 
+\newcite{danes74a} explains that given information can be realized either directly with an identically wording expression or indirectly with a synonymous one. 
 The indirect mentioning is based on semantic inference. 
 For instance, the expression ``illness'' occurring in a sentence might convey a piece of given information if in one of its preceding sentences ``disease'' has been somehow mentioned. 
-In contrary, the new information may either not be mentioned in its proceeding context or be related to the given information. 
-This phenomenon is known as the relation between ``theme'' and ``rheme'' in \newcite{danes74a} as is shown by  $T \rightarrow R$. 
-This illustrates that the flow of information is from ``given information'' (or ``theme'') to ``new information'' (or ``rheme'').
-\newcite{danes74a} states that the inquiry into the thematic organization of the text is closely connected with the investigation of the so-called ``text coherence'' or ``text connectivity''.
-He analyzes Czech scientific and other professional texts, as well as some tentative soundings in the area of German and English language materials.
+In contrary, the new information may neither be mentioned in its proceeding context nor be related to any given information. 
+
+Thematization is about the structure of transitions between themes and rhemes in a text. 
+\newcite{danes74a} illustrates the relation between a theme and a rheme in a text unit by $T \rightarrow R$. 
+This notation encodes that the flow of information in a text unit is from given information (or theme, T) to new information (or rheme, R).
+\newcite{danes74a} states that the inquiry into the thematic organization of the text is highly connected with the investigation of the so-called ``text coherence'' or ``text connectivity''.
+He analyzes Czech scientific and other professional texts, as well as some other materials in the German and English languages. 
 He ascertains several essential types of organizational patterns in examined texts, represented in Table~\ref{tab:danesh_coherence_patterns}. 
 %
 \begin{table}
-	\begin{center}
-		\begin{tabular}{c|c}
-		\toprule
-		\textbf{Pattern ID} & \textbf{Pattern} \\
-		\midrule
-		\begin{tikzpicture}
-			\node [] (n0)  at (0.0,0.0) {};
-			\node [] (n1)  at (0.0,1.0) {Pattern 1}; 
-		\end{tikzpicture} 
-		&
-		\begin{tikzpicture}
-			\node [] (n1)  at (0.0,2.0) {$T_1 \rightarrow R_1$}; 
-			\node [] (n2)  at (1.8,1.0) {$T_2 (= R_1) \rightarrow R_2$};
-			\node [] (n3)  at (4.2,0.0) {$T_3 (= R_2) \rightarrow R_3$}; 
-			\draw[->] (0.5,1.7) -- (0.5,1.3);
-			\draw[->] (3.0,0.7) -- (3.0,0.3);
-		\end{tikzpicture}
+    \begin{center}
+        \begin{tabular}{c|c}
+        \toprule
+        \textbf{Pattern ID} & \textbf{Pattern} \\
+        \midrule
+        \begin{tikzpicture}
+            \node [] (n0)  at (0.0,0.0) {};
+            \node [] (n1)  at (0.0,1.0) {Pattern 1}; 
+        \end{tikzpicture} 
+        &
+        \begin{tikzpicture}
+            \node [] (n1)  at (0.0,2.0) {$T_1 \rightarrow R_1$}; 
+            \node [] (n2)  at (1.8,1.0) {$T_2 (= R_1) \rightarrow R_2$};
+            \node [] (n3)  at (4.2,0.0) {$T_3 (= R_2) \rightarrow R_3$}; 
+            \draw[->] (0.5,1.7) -- (0.5,1.3);
+            \draw[->] (3.0,0.7) -- (3.0,0.3);
+        \end{tikzpicture}
 
-		\\
-		\midrule
-		\begin{tikzpicture}
-			\node [] (n0)  at (0.0,0.0) {};
-			\node [] (n1)  at (0.0,1.0) {Pattern 2}; 
-		\end{tikzpicture} 
-		 &
-		\begin{tikzpicture}
-			\node [] (n1)  at (0.0,2.0) {$T_1 \rightarrow R_1$}; 
-			\node [] (n2)  at (0.0,1.0) {$T_1 \rightarrow R_2$};
-			\node [] (n3)  at (0.0,0.0) {$T_1 \rightarrow R_3$}; 
-			\draw[->] (-0.6,1.7) -- (-0.6,1.3);
-			\draw[->] (-0.6,0.7) -- (-0.6,0.3);
-		\end{tikzpicture}
+        \\
+        \midrule
+        \begin{tikzpicture}
+            \node [] (n0)  at (0.0,0.0) {};
+            \node [] (n1)  at (0.0,1.0) {Pattern 2}; 
+        \end{tikzpicture} 
+         &
+        \begin{tikzpicture}
+            \node [] (n1)  at (0.0,2.0) {$T_1 \rightarrow R_1$}; 
+            \node [] (n2)  at (0.0,1.0) {$T_1 \rightarrow R_2$};
+            \node [] (n3)  at (0.0,0.0) {$T_1 \rightarrow R_3$}; 
+            \draw[->] (-0.6,1.7) -- (-0.6,1.3);
+            \draw[->] (-0.6,0.7) -- (-0.6,0.3);
+        \end{tikzpicture}
 
-		\\
-		\midrule
-		\begin{tikzpicture}
-			\node [] (n0)  at (0.0,0.0) {};
-			\node [] (n1)  at (0.0,2.0) {Pattern 3}; 
-		\end{tikzpicture} 
-		&
-		\begin{tikzpicture}
-			\node [] (n0)  at (2.2,4.0) {$[T]$}; 
-			\node [] (n1)  at (0.0,3.0) {$T_1 \rightarrow R_1$}; 
-			\node [] (n2)  at (1.8,2.0) {$T_2 \rightarrow R_2$};
-			\node [] (n3)  at (4.2,1.0) {$T_3  \rightarrow R_3$}; 
+        \\
+        \midrule
+        \begin{tikzpicture}
+            \node [] (n0)  at (0.0,0.0) {};
+            \node [] (n1)  at (0.0,2.0) {Pattern 3}; 
+        \end{tikzpicture} 
+        &
+        \begin{tikzpicture}
+            \node [] (n0)  at (2.2,4.0) {$[T]$}; 
+            \node [] (n1)  at (0.0,3.0) {$T_1 \rightarrow R_1$}; 
+            \node [] (n2)  at (1.8,2.0) {$T_2 \rightarrow R_2$};
+            \node [] (n3)  at (4.2,1.0) {$T_3  \rightarrow R_3$}; 
 
-			\draw[->] (n0.south) -- (-0.5,3.3);
-			\draw[->] (n0.south) -- (1.3,2.3);
-			\draw[->] (n0.south) -- (3.5,1.3);
-		\end{tikzpicture}
+            \draw[->] (n0.south) -- (-0.5,3.3);
+            \draw[->] (n0.south) -- (1.3,2.3);
+            \draw[->] (n0.south) -- (3.5,1.3);
+        \end{tikzpicture}
 
-		\\
-		\midrule
+        \\
+        \midrule
 
-		\begin{tikzpicture}
-			\node [] (n0)  at (0.0,0.0) {};
-			\node [] (n1)  at (0.0,2.0) {Pattern 4}; 
-		\end{tikzpicture} 
-		&
-		\begin{tikzpicture}
-			\node [] (n0)  at (0.0,4.0) {$T_1 \rightarrow R_1\textit{ }( = R_1^\prime + R_2^{\prime\prime} )$}; 
-			\node [] (d0)  at (0.0,3) {$\vdots$}; 
-			\node [] (n1)  at (0.0,2) {$T_2^\prime \rightarrow R_2^\prime$}; 
-			\node [] (d0)  at (0.0,1) {$\vdots$}; 
-			\node [] (n2)  at (0.0,0.0) {$T_2^{\prime\prime} \rightarrow R_2^{\prime\prime}$};
-			\draw [->] (0.5, 3.7) -- (0.5, 3.5) -- (-0.6, 3.5) -- (-0.6, 2.3);
-			\draw [->] (1.5, 3.7) -- (1.5, 1.5) -- (-0.6, 1.5) -- (-0.6, 0.3);
-		\end{tikzpicture}
-		\\
-		\bottomrule
-		\end{tabular}
-	\end{center}
-	\caption{Coherence patterns that are defined by \newcite{danes74a}. The horizontal arrow indicates a transition in an utterance, while a vertical one indicates the contextual connection within utterances.}
-	\label{tab:danesh_coherence_patterns}
+        \begin{tikzpicture}
+            \node [] (n0)  at (0.0,0.0) {};
+            \node [] (n1)  at (0.0,2.0) {Pattern 4}; 
+        \end{tikzpicture} 
+        &
+        \begin{tikzpicture}
+            \node [] (n0)  at (0.0,4.0) {$T_1 \rightarrow R_1\textit{ }( = R_1^\prime + R_2^{\prime\prime} )$}; 
+            \node [] (d0)  at (0.0,3) {$\vdots$}; 
+            \node [] (n1)  at (0.0,2) {$T_2^\prime \rightarrow R_2^\prime$}; 
+            \node [] (d0)  at (0.0,1) {$\vdots$}; 
+            \node [] (n2)  at (0.0,0.0) {$T_2^{\prime\prime} \rightarrow R_2^{\prime\prime}$};
+            \draw [->] (0.5, 3.7) -- (0.5, 3.5) -- (-0.6, 3.5) -- (-0.6, 2.3);
+            \draw [->] (1.5, 3.7) -- (1.5, 1.5) -- (-0.6, 1.5) -- (-0.6, 0.3);
+        \end{tikzpicture}
+        \\
+        \bottomrule
+        \end{tabular}
+    \end{center}
+    \caption{Coherence patterns that are defined by \newcite{danes74a}. The horizontal arrow indicates a transition in an utterance, while a vertical one indicates the contextual connection within utterances.}
+    \label{tab:danesh_coherence_patterns}
 \end{table}
 %
 \newcite{danes74a} interprets these patterns as follows:
 
 \begin{itemize}
-\item Pattern 1: A linear transition pattern between themes and rhemes. 
-In this pattern, each utterance takes the rheme presented in the preceding context of the utterance as given information and transfers it to new information or a new rheme. 
-In other words, each R (i.e.\ new information) becomes T (i.e.\ given information) in its next utterance. 
+\item Pattern 1: This patterns illustrates a linear transition between themes and rhemes. 
+In this pattern, each text unit takes the rheme presented in the preceding context of the unit as given information and transfers it to new information or a new rheme. 
+In other words, each R (i.e.\ new information) in a text unit becomes T (i.e.\ given information) in its next unit.  
 
 
 \item Pattern 2: 
-This pattern depicts that a constant theme continues across utterances. 
-The same theme appears in a series of utterances. 
-Each utterance, however, presents new information about the theme. 
+This pattern depicts a constant theme continuation across text units.  
+One theme appears in a series of text units, each of which, however, presents new information about the presented theme. 
 
 
 \item Pattern 3: 
 In this pattern, $[T]$ indicates a hypertheme, which is a global theme of a text unit.  
-This pattern shows that different utterances can be connected because their themes, or their given information, are semantically connected to a hypertheme. 
+This pattern shows that different units can be connected because their themes, or their given information, are semantically related to a hypertheme. 
 
 \item Pattern 4: 
 Different combinations of patterns can emerge in different texts. 
-Some of such combinations are so frequent that they can be taken as particular types of theme-rheme transitions of a higher order. 
-This pattern is one of the most high-order patterns, where an utterance presents two (which can in potential be several) rhemes, $R^\prime$ and $R^{\prime\prime}$, in connection with a given theme. 
+Some of such combinations are such frequent that they can be taken as particular types of theme-rheme transitions of a higher order. 
+This pattern is one of the most high-order patterns, where a text unit presents two (which can in potential be several) rhemes, $R^\prime$ and $R^{\prime\prime}$, in connection with a given theme. 
 First, $R^{\prime}$ is expounded, and when its progression completes, $R^{\prime\prime}$ becomes the theme for another transition. 
  In-between transitions for extending each rheme may follow their own patterns. 
 \end{itemize}
 
-\newcite{danes74a} brings this point to the attention that one of the crucial properties of these patterns is the missing links in patterns.  
-For example, in Pattern 1 there is no link between the earliest and latest utterance. 
-Those are connected because of the middle utterance that makes transitions between themes and rhemes smoother. 
-In contrast, all utterances in Pattern 3  are linked to each other because they all have $T_1$ as shared given information. 
+\newcite{danes74a} brings this point to the attention that one of the crucial properties of these patterns is their missing link.   
+For example, in Pattern 1 there is no link between the earliest and latest text units. 
+Those are connected because of the middle unit that makes transitions between themes and rhemes smoother. 
+In contrast, all text units in Pattern 3  are linked to each other because they all have $T_1$ as shared given information. 
 
 \section{Evaluation}
 \label{sec:coh-eval}
 
 The goal of the research presented in this dissertation is to provide an approach to coherence modeling and compare it with other models. 
 In order to accomplish this, it is essential to have a method to evaluate the performance of coherence models. 
-In this section, we complete our definition by describing the evaluation methods we employ for assessing coherence models that are examined by experiments in this research.   
+In this section, we complete our definition by describing the evaluation methods we employ for assessing coherence models that are examined in our experiments. 
 
-\subsection{Intrinsic vs Extrinsic}
+\subsection{Intrinsic vs. Extrinsic}
 
 Intrinsic and extrinsic are two types of evaluation methodologies for computational methods.  
 In an intrinsic evaluation, system outputs are directly evaluated in terms of a set of norms or predefined criteria about the desired functionality of the system itself. 
 In an extrinsic evaluation, system outputs are assessed on their impacts on a task external to the system itself. 
 
-Some other approaches take the coherence of a text as a factor of the text quality and extrinsically evaluate the coherence model in downstream tasks. 
-In this dissertation, we follow extrinsic evaluation methods, i.e., the readability assessment task and the automatic single document summarization task.  
+Some research papers on local coherence modeling use intrinsic evaluation approaches such as sentence ordering \cite{lapata03, mihalcea04b, karamanis04a, barzilay04, barzilay08}. 
+Such an evaluation method is primarily designed to model violations of restrictions in the centering theory \cite{karamanis04a}. 
+The goal of the sentence ordering task is to check if a coherence model can recognize the original order of sentences in a text as the best order of its sentences. 
+The main underlying assumption for this task is that perturbing the order of sentences in a text disturbs its coherence.  
+However, this task is too artificial and not suitable for evaluating the coherence of text. 
 
-In the readability assessment task  \cite{pitler08}, a coherence model is used to assess the readability of texts. 
+Some other approaches take the coherence of a text as a factor of the text quality and extrinsically evaluate the coherence model in downstream tasks \cite{miltsakaki04a,yannakoudakis12}. 
+In this dissertation, we follow extrinsic evaluation methods, and evaluate a coherence model based on its performance on the readability assessment task and the automatic single document summarization task.  
+
+In the readability assessment task  \cite{miltsakaki00,pitler08,petersen09,flor13}, a coherence model is used to assess the readability of texts. 
 The insight of this task is that coherent texts are less complicated than other ones; therefore, they are easy to read and understand \cite{pitler08}. 
-We take readability assessment in as an extrinsic evaluation for coherence models because there are many other characteristics of text that influence readability.  
+We take readability assessment as an extrinsic evaluation task for coherence models because there are many other characteristics of text that influence readability.  
 
 Automatic summarization has been receiving enormous attention by researchers in natural language processing because of its potential for various information access applications. 
 For instance, it is useful for tools that aid users to navigate and digest web content (e.g.\ news, social media, product reviews), question answering, and personalized recommendation engines. 
@@ -476,26 +481,28 @@ Ideally, information in selected sentences for a summary should be the most impo
 This information, however, should have satisfactory variance (or minimum redundancy), and be presented coherently in the summary to be readable. 
 Developing an extractive summarizer that jointly optimizes these three crucial factors -- importance, diversity, and coherence -- is a challenging task because the inclusion of relevant sentences relies not only on properties of the sentences themselves, but also the properties of every other sentence in a summary. 
 Moreover, since the length of a summary is limited\footnote{Forcing summaries to obey a length constraint is a typical setup in summarization as it allows for a fair empirical comparison between different possible outputs. 
- Furthermore, it represents a ``real world'' scenario where summaries are supposed to be displayed on small screens, such as mobile devices.
+ Furthermore, it represents a real world scenario where summaries are supposed to be shown on small screens. 
 }, making a balance between these three factors is difficult. 
 For example, a summarizer may need to select a sentence that contains less important information with respect to other sentences to make other selected sentences coherent. 
 
 \subsection{Ranking as Classification} 
 
 Coherence is not a binary property of a text that either exists or not. 
-It is a comparative attribute of texts: Whether a text is more coherent than the other one. 
-Even for humans, it might be ambiguous to decide if a text is coherent or not; however, they can rank texts with respect to their coherence \cite{halliday76}.   
+It is a comparative attribute of texts: Is a text more coherent than other one? 
+Even for humans, it might be ambiguous to decide if a text is coherent or not; however, they can rank texts with respect to their coherence \cite{halliday76}. 
+This fits to the task of text ranking with respect to readability, where a coherence model is evaluated by comparing its rankings with rankings provided by humans for readability. 
 
 From the computational point of view, the core of the evaluation method in this dissertation is a pairwise ranking task: Given a pair of texts, which one is more coherent? 
 For being convenient for machine learning models, the pairwise ranking task is recast as a classification task, where each text pair is associated with a label. 
-The value of the label represents which text in the pair should be ranked higher; we use label $+1$ where the first text is more coherent and $-1$ otherwise. 
-This binary classification task can be solved by a machine learning approach, such as Support Vector Machine \cite{bishop06}.  
+The value of the label represents which text in a pair should be ranked higher; we use label $+1$ where the first text in a pair is more coherent and $-1$ otherwise. 
+This binary classification task can be solved by a machine learning approach, such as Support Vector Machines (SVMs) \cite{bishop06}.  
 The details of experimental setups for machine learning models are explained in Chapter~\ref{ch:coh-patterns} and Chapter~\ref{ch:lex-graph}.  
 
 \subsection{Evaluation Metrics}
 
-In order to perform a quantitative analysis of labels predicted by a coherence model, we employ different metrics such as accuracy and F1-measure. 
+In order to perform a quantitative analysis of labels predicted by a coherence model, we employ different metrics.
 
+For the readability assessment task we use accuracy and F1-measure. 
 Accuracy quantifies how often a coherence model makes a correct decision on text pairs in test data.
 A decision is correct if the label predicted by a model for a text pair is identical with the label that is assigned by human judges.
 
@@ -506,6 +513,384 @@ However, it is also likely that a model does not rank a pair of texts and sees t
 In such cases, precision and accuracy are not identical.    
 Recall is the number of correct predictions among the number of pairs with the desired label in test data. 
 
-In the summarization task, we use ROUGE metrics to evaluate the performance of the examined summarizers. 
+For the summarization task, we use ROUGE metrics to evaluate the performance of the examined summarizers. 
 ROUGE is a standard metric for text summarization. It compares a summary generated by a summarizer with a gold summary, which usually is generated by a human, based on word overlaps between summaries. 
 We explain these metrics in more details in related chapters of this thesis. 
+
+% \section{The Linguistics of Coherence}
+% \label{sec:coh-linguistics}
+
+% The aforementioned formal definition is sufficient for the research in this dissertation to develop a representation of cohesive relations in a text, and to extract coherence patterns. 
+% However, since coherence is a semantic property of texts, the definition requires to be related to the linguistic properties of texts. 
+
+% We aim to develop an approach which provides a representation of the coherence of a text. 
+% Therefore, we should understand what aspects of sentences serve to relate sentences and how coherence patterns are modeled in the linguistics of coherence. 
+% In order to accomplish this, we explain related linguistic properties, which are required to complete our definition. 
+
+
+% \subsection{Text}
+
+% The first definition in our formal model of coherence is about a text. 
+% In linguistic research, the word ``text'' is used to refer to any passage, spoken or written, of whatever length that forms a unified whole.  
+% In this dissertation, we follow other coherence models \cite{barzilay08,guinaudeau13} and use the word ``text'' to denote a  monologue written passage, which includes more than one sentence.
+% One-sentence texts, of course, do exist, such as public notices, proverbs, and advertising slogans.  
+% For instance, a sample text with only one sentence is shown in Example~\ref{ex:coh-one-sent-text}\footnote{Taken from \url{https://www.engvid.com/english-resource/50-common-proverbs-sayings/}, accessed 1 June 2018.}: 
+
+% \begin{examples}
+%     \label{ex:coh-one-sent-text}
+%     A journey of a thousand miles begins with a single step.
+% \end{examples}
+
+% However, in the research of this thesis\footnote{Texts that consist of one sentence do not exist in the datasets employed for experiments of the research in this thesis.}, we assume that texts contain at least two sentences. 
+% We also assume that texts are written in a formal language, in contrast to an informal language like what is used in tweets\footnote{A post made on the social media application Twitter.}. 
+
+% \subsection{Coherence}
+
+% Coherence is a vital factor for distinguishing a well-written text from an unrelated sequence of sentences. 
+% A coherent text discusses a sequence of topics in a structured way by which a reader can recognize the relationships among topics, and collectively render the text as a unified whole \cite{stede12}. 
+% \newcite{lautamatti78} defines the term ``topic'',  generally, as what units of text are mainly about.   
+% Therefore, each topic tends to occupy a (topical) segment of a text. 
+% Coherence is the result of the relations and the structures of topical segments in a text \cite{hearst97}. 
+% This structure is sometimes referred to as global coherence since it is coarse-grained and may span the entire text \cite{elsner07}. 
+% In general, however, it is not straightforward, first, to define the notion of topics and, second, to recognize topics and their boundaries across text segments \cite{stede12}. 
+% Notwithstanding, we review a few computational topical coherence models in Chapter~\ref{ch:rel-work}. 
+
+% \subsection{Local Coherence}
+
+% From the linguistic viewpoint, a coherent text employs linguistic devices, more readily identifiable linguistic signals, to relate sentences of a text to each other. 
+% These devices signal readers to interpret each sentence while considering its relations with other linked sentences \cite{vandijk77}. 
+% Therefore, understanding the text implies uncovering these relationships.  
+% local coherence is about the way that linguistic devices are utilized to relate sentences in a text \cite{stede12}.  
+% In some literature in text linguistics, e.g.\ \newcite{halliday76}, this phenomenon is referred to as cohesion.   
+% \newcite{stoddard91} argues that local coherence and cohesion are not distinguishable and can be used interchangeably. 
+% \newcite{stede12} states that signals of local coherence serve as indicators of topic continuity; consequently, the absence of a surface relation is a sign of a topic shift. 
+% Since the research in this thesis is about local coherence modeling, henceforth in this thesis it is referred to as ``coherence modeling''. 
+% We explicitly distinguish them where they are not distinguishable from the context. 
+
+% Prominent cohesive devices can be grouped into grammatical and lexical relations between elements of sentences \cite{halliday76}. 
+% Grammatical relations are reference, substitution, ellipsis and conjunctions. 
+% Lexical relations include any lexico-semantic relation such as repetition, synonym, antonym, and the like between words of sentences. 
+% Among the grammatical relations, reference devices, which are also known as entity relations, have widely been studied.  
+% The intuition behind the leveraging entity relations for coherence modeling is that related sentences in a text keep referring to the same entities. 
+% Since the core of these models is entity, we follow \newcite{barzilay05a} and \newcite{elsner10}, and first define an entity as follows: 
+
+% \begin{definition}
+%     An entity is perceived as a person, a physical object, a concept, or an abstraction that exists (or may exist) in the world external to a text.  
+% \end{definition}
+
+% An entity can be referred to in different ways by various expressions, or mentions. 
+
+% \begin{definition}
+% 	Pieces of a text that are used to refer to an entity are called mentions. 
+% \end{definition}
+
+% Given these definitions, one way of representing an entity is to group all mentions that refer to that entity. 
+% Each cluster of mentions represents an entity. 
+% The task of identifying mentions that refer to the same entity is known as coreference resolution.  
+
+% \begin{definition}
+% 	The task of detecting all mentions in a text and clustering all mentions that refer to the same entities is called coreference resolution. 
+% \end{definition}
+
+ 
+% The sample text in Example~\ref{ex:coh-ref}\footnote{Taken from \url{https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1162/handouts/cs224n-lecture11-coreference-6up.pdf}, accessed 2 June 2018.} shows how entity coreference relations link the sentences. 
+
+% \begin{examples}
+% 	\label{ex:coh-ref}
+% 	\textbf{Mr.\ Obama} visited the city. \\
+% 	\textbf{The president} talked about Milwaukee’s economy. \\
+% 	\textbf{He} mentioned new jobs. \\
+% \end{examples} 
+
+% \emph{Mr.\ Obama}, \emph{The president} and \emph{He} are three mentions that refer to the 44th president of the United States. 
+% The three sentences of the text shown in Example~\ref{ex:coh-ref} are connected because they contain mentions that refer to the same entity. 
+
+% One of the popular entity-based frameworks for local coherence modeling is the centering theory \cite{grosz95}. 
+% The heart of this theory is the concept of the text ``center''. 
+% Center at any given point in a text is the most salient entity at that point. 
+% For instance, at the end of the last sentence in the text that is shown in Example~\ref{ex:coh-ref}, the text center is on the entity ``Barack Obama''.
+% The centering theory observes the grammatical roles of mentions of entities in sentences (for English texts) as the most significant linguistic signs for the saliency of entities. 
+% Precisely, the grammatical subject is taken as the default position for the text center. 
+% So the text center can be various entities at different points in a text. 
+% The centering theory accounts for the process of the center flow in a text, as the text center captures the focus of attention in the reader's mind as the text progresses \cite{grosz95}. 
+% Depending on the configuration of the grammatical roles of mentions of an entity in adjacent sentences, \newcite{brennan87} define four different types of transitions for the text center across sentences. 
+% These transitions capture the smoothness of the center move from one sentence to another and can encode the coherence of a text.   
+% Where a sentence focuses on the topic, i.e.\ the text center, that is discussed in sentences preceding that sentence, the transition is Retain or Continue. 
+% Other transitions involve a topic shift: Smooth Shift, or Rough Shift. 
+% The ideas of the centering theory have directly motivated several coherence models, e.g., the model proposed by \newcite{karamanis04a}.  
+% However, since the centering theory requires human annotations for center transitions across sentences, some models preferred to employ principles of the centering theory as soft constraints or features in a probabilistic framework. An example of such models is the entity grid model \cite{barzilay05a,barzilay08}, which will be discussed in more details in Chapter~\ref{ch:rel-work}. 
+
+% Further research shows that grammatical role information is far less predictive for tracking the text center in other languages, such as German which is a free word order language \cite{strube.acl96}. 
+% Instead, the ``functional information structure'' \cite{danes74} of utterances is considered \cite{strube.acl96}.  
+% The idea behind this structure is to capture the flow of information within a text.  
+% Some information in a sentence is known (or old) for readers because sentences preceding that sentence discuss it, and some information is new \cite{danes74}. 
+% The way that information status moves within a text reveals how smoothly topics flow across sentences.  
+
+% % Further research shows that grammatical role information is far less predictive for tracking the text center in other languages, such as German which is a free word order language \cite{strube.acl96}. 
+% % Instead, the functional information structure \cite{danes74a} is considered \cite{strube.acl96}.  
+% % This structure captures the flow of information within a text.
+% % However, in linguistic theory, the information presented in a text is not restricted to entities mentioned in the text. 
+% % Some information in a sentence is known (or old) for readers because preceding sentences discuss it, and some information is new. 
+% % As shortly discussed at the beginning of this section, \newcite{halliday76} explain the functional information structure as \mbox{theme-rheme} relations in text. 
+% % A theme can be taken as given information and rheme is roughly similar to new information, which is clarification information about the theme. 
+% % While a theme conveys information that is initially introduced in a text, rheme presents specific information about the theme. 
+% % As the theme-rheme movement continues through a text, ideas in the text are expected to flow along smoothly and be easy for readers to understand. 
+% % Thematic relations between sentences in texts reveal some patterns \cite{danes74a}, which are called ``coherence patterns''. 
+% % We discuss the linguistics of coherence patterns in more details in the following sections. 
+
+% The other perspective of local coherence is lexical cohesion. 
+% It is the cohesive effect based on \mbox{lexico-semantic} relations between words in a text \cite{halliday76}.  
+% An advantage of lexical cohesion models, in contrast to \mbox{entity-based} models, is that they require no entity annotation because lexicons are directly accessible from a text. 
+% The insight of local coherence resulting from lexical relations is that content words in a text do not occur independently of one another but rather bear semantic similarity because of their common topic. 
+% A form of lexical cohesion is reiterations, which involve different types of lexical relations such as repeating a word, using a synonym of a word, and employing a superordinate word. 
+% Example~\ref{ex:coh-lex} is taken from \newcite{halliday76} to illustrate these relations:
+
+
+% \begin{examples}
+% 	\label{ex:coh-lex}
+% 	(a) Repetition: \\
+% 	There was a large \textbf{mushroom} growing near her, about the same height as herself; and when she had looked under it, it occurred to her that she might as well look and see what was on the top of it.\\
+% 	She stretched herself up on tiptoe and peeped over the edge of the \textbf{mushroom}, [...] 
+
+% 	(b) Synonymy: \\
+% 	Accordingly [...] I took leave, turned to the \textbf{ascent} of the peak. \\
+% 	The \textbf{climb} is perfectly easy. 
+
+% 	(c) Superordinate: \\
+% 	Henry's bought himself a new \textbf{Jaguar}. \\
+% 	He practically lives in the \textbf{car}. 
+
+% \end{examples} 
+
+% In Example~\ref{ex:coh-lex}(a), the word ``mushroom'' is exactly repeated. 
+% In (b) two words ``ascent'' and ``climb'' carry the same meaning. 
+% In (c), the word ``car'' is a superordinate, any word whose meaning includes that of the earlier one, of ``Jaguar'' since a vehicle is a superordinate of a car. 
+% The relationship between ``spoon'' and ``teaspoon'' is another example of the superordinate relation. 
+% The boundary between the reiteration type of lexical cohesion and reference type in entity relations is by no means clearcut \cite{halliday76}. 
+% It clarifies why for purposes of the research in this thesis, local coherence and cohesion are largely synonymous. 
+
+% % Two lexical occurrences are not needed to be coreferent in order to make a cohesive relation.  
+% % For instance, consider the text shown in Example~\ref{ex:coh-nonref} which taken from \newcite{halliday76}(p.~282). 
+% % The word ``boy'' in the question and the word ``boys'' in the answer (a) are not coreferent; however, their semantic relationship serves to link the sentences. 
+% % This relationship is not in any way dependent on the presence of other words in the sentence; it is not the wriggling in (a) that provides the context for the context, as the answer (b) shows. 
+
+% % \begin{examples}
+% % 	\label{ex:coh-nonref}
+% % 	Why does this little \textbf{boy} have to wriggle all the time? \\
+% % 	(a) Good \textbf{boys} don't wriggle. \\
+% % 	(b) \textbf{Boys} should be kept out of here. \\
+% % \end{examples} 
+
+% % It leads to a systematic relationship between a pair of words because the words frequently occur in similar textual context. 
+% % For instance, words ``boy'' and ``girls'' in Example~\ref{ex:coh-collocation}
+% % \footnote{The text is taken from \cite{halliday76}(p.~285) relate the sentences, although they are neither coreferent nor even synonym.} 
+
+% % \begin{examples}
+% % 	\label{ex:coh-collocation}
+% % 	Why does this little \textbf{boy} have to wriggle all the time? \\
+% % 	\textbf{Girls} don't wriggle. 
+% % \end{examples}
+
+% In summary, there is a local coherence relation between any pair of lexical items that stand to each other in some lexico-semantic relations, even including relations between word pairs shown in Example~\ref{ex:coh-word-pairs} \cite{halliday76} (p.~285). 
+
+% \begin{examples}
+% 	\label{ex:coh-word-pairs}
+% 	rail ... road \\
+% 	car ... brake \\
+% 	try ... succeed \\
+% 	walk ... drive \\
+% 	Tuesday ... Thursday \\
+% 	like ... hate \\
+% 	red ... green 
+% \end{examples}
+
+% For textual purposes, it is (almost) sufficient to know that a pair of words is in a relationship, rather than the type of relation \cite{halliday76}. %(p. 285).  
+% \newcite{hoey91} examines how lexical elements make a text organized and contribute to local coherence. 
+% He shows that relations between semantically related words in a text follow similar patterns in texts. 
+% In Chapter~\ref{ch:rel-work}, we survey some related computational models of lexical cohesion in texts.  
+
+% \subsection{Coherence Patterns}
+
+% Numerous researchers and practitioners in natural language processing deal with whole texts rather than individual sentences. 
+% While it is evident that text must have a beneficial structure \cite{webber12a}, its characteristics are less explicit, making it more difficult to exploit in applications. 
+% A text commonly comprises a sequence of sentences. 
+% Within a text, the patterns formed by its sentences mean that the whole text conveys more than the sum of its separate parts. 
+% Text structures are the patterns that one observes in \mbox{multi-sentence} texts \cite{webber12a}. 
+% Recognizing these patterns, which are referred to as coherence patterns, in terms of the elements that compose them is essential to derive and interpret information in a text correctly. 
+% Coherence patterns can also be characteristic of particular types of text and therefore be of value in assessing the quality of texts generated automatically. 
+
+% The concept of coherence pattern is linguistically derived from the ``texture'' of texts \cite{halliday76}.  
+% The texture of text is the quality created by the combination of the different  text units \cite{stoddard91}. 
+% \newcite{stoddard91} defines a text as ``a phenomenon of seemingly infinite complexity due to its synergistic nature'', where units of a text are supposed to corporate together for an enhanced effect. 
+% It is synergism that makes texts more than consecutive words and sentences. 
+% The dynamic of synergism, which is because of its multi-dimensionality, is beyond the linear, sequential structure of texts. 
+% One cause of the multi-dimensionality of synergism is a global component which is referred to as texture. 
+
+% From \newcite{stoddard91}'s perspective, the texture of text is interpretable by means of elements that are common in all texts and those that discriminate texts. 
+% She refers to these elements as ``coherence patterns''.   
+% So, the texture of text manifests itself in coherence patterns in written texts. 
+% We discussed that texture is one cause of the multi-dimensionality of synergism in texts. 
+% Therefore, texture, in one sense, involves the quality of depth, which may range from minimal (approximating ``flatness'') to maximal, or at any level in between. 
+% In other words, coherence patterns can be as basic as the linear order of text units or be more complicated by incorporating relations between non-adjacent units. 
+% Incorporating long-distance relations yields non-linear patterns. 
+
+% The texture, which is a composite of patterns, is like the ``fingerprint'' of a text \cite{stoddard91}, which can be used to differentiate between texts. 
+% In this sense, the texture of text is largely related to ``style'', which is undoubtedly related to the local coherence of text \cite{barzilay08}. 
+% It explains why such patterns are referred to as coherence patterns. 
+% Moreover, all of this, linguistically supports our first research question that concerns with \mbox{non-linearity} of patterns in distinguishing coherent texts from incoherent ones.  
+
+% % \newcite{stoddard91} describes the texture of text, which is a composite of patterns -- storyline patterns, rhetorical patterns, linguistic patterns, and so on -- when overlaid to create the totality of a text creates variant textures which are like the ``fingerprint'' of a text. 
+% % In this sense, the texture of texts is more closely related to ``style'', which is undoubtedly related to local coherence \cite{barzilay08}. 
+% % All of this, linguistically supports our first research question that concerns with \mbox{non-linearity} of patterns in distinguishing coherent texts from incoherent ones.  
+
+% % \newcite{halliday76} claim that ``linguistic patterns  [...] embody, and at the same time impose structure on our experience of the environment [...]''.
+% % Because of this, they suggest that patterns help readers to understand a text as coherent and consistent with our knowledge, experience, and environment. 
+
+% Coherence patterns occurring in a text are recognizable by readers of a text to assist them understand the text easily.  
+% In fact, the unity of texts happens if readers clearly perceive the interactiveness of text units.  
+% Such interactiveness seem to have a degree of consistency across texts \cite{stoddard91}, so they should be identifiable as patterns.  
+% Moreover, it would be easier for readers to smoothly process texts in which the patterns of interactiveness among text units not only are easily recognizable, but also are familiar to the reader.  
+ 
+% \newcite{stoddard91} graphically illustrate\footnote{
+% The term of ``networks of cohesion'' proposed by \newcite{halliday76} can be interpreted (almost) equivalent to this graphical illustration.} the way that text units interact for a few texts. 
+% The results of her text analysis show that local coherence manifests itself in connectivity structure in the graphical illustrations of texts.  
+% The key results of her study can be summarized as follows:
+% First, the unity of a text is better to modeled by means of patterns that span through adjacent and non-adjacent text units, and second, 
+% both typologies (i.e.\ graphical structure) and counting should be involved to gain a better understanding of the local coherence of text.  
+% So, one factor that must be considered in describing coherence patterns as the input to texture is the likelihood of patterns occurring over the large stretch of a text \cite{stoddard91}. 
+
+% The facts that cohesive patterns occur in texts and cohesiveness is relative in texts provide useful validation of the intuition used in the research presented in this thesis: Coherent texts reveal some regularities in their structure that can be encoded with the frequency of coherence patterns. 
+
+% \newcite{danes74a} had spoken about the concept of text structure, and coherence patterns, more generally and earlier, than \newcite{stoddard91} . 
+% \newcite{danes74a} describes the structure of texts by the concept of ``thematization'', which has also been also noticed by \newcite{halliday76} as ``given-new information structure''. 
+% ``Given information'' has been talked about in text and ``new information'' is been mentioned now.  
+% A theme, from \newcite{danes74a}'s point of view, is a point of departure where a text flows from a topic (i.e.\ given information) towards a rheme or another topic (i.e.\ similar to new information). 
+% In simple words, theme can be realized as given information, and rheme is new information. 
+% The contextual determination of givenness is far from being a simple phenomenon \cite{danes74a}. 
+% Tentatively, some information that is mentioned directly or indirectly in a text can be interpreted as given information. 
+% \newcite{danes74a} explains that given information can be realized either directly with an identically wording expression or indirectly with a synonymous one. 
+% The indirect mentioning is based on semantic inference. 
+% For instance, the expression ``illness'' occurring in a sentence might convey a piece of given information if in one of its preceding sentences ``disease'' has been somehow mentioned. 
+% In contrary, the new information may neither be mentioned in its proceeding context nor be related to the given information. 
+
+% Thematization is about the structure of transitions between themes and rhemes in a text. 
+% \newcite{danes74a} shows the relation between a theme and a rheme in a text unit with $T \rightarrow R$. 
+% This notation illustrates that the flow of information is from given information (or theme) to new information (or rheme).
+% \newcite{danes74a} states that the inquiry into the thematic organization of the text is closely connected with the investigation of the so-called ``text coherence'' or ``text connectivity''.
+% He analyzes Czech scientific and other professional texts, as well as some tentative soundings in the area of German and English language materials.
+% He ascertains several essential types of organizational patterns in examined texts, represented in Table~\ref{tab:danesh_coherence_patterns}. 
+% %
+% \begin{table}
+% 	\begin{center}
+% 		\begin{tabular}{c|c}
+% 		\toprule
+% 		\textbf{Pattern ID} & \textbf{Pattern} \\
+% 		\midrule
+% 		\begin{tikzpicture}
+% 			\node [] (n0)  at (0.0,0.0) {};
+% 			\node [] (n1)  at (0.0,1.0) {Pattern 1}; 
+% 		\end{tikzpicture} 
+% 		&
+% 		\begin{tikzpicture}
+% 			\node [] (n1)  at (0.0,2.0) {$T_1 \rightarrow R_1$}; 
+% 			\node [] (n2)  at (1.8,1.0) {$T_2 (= R_1) \rightarrow R_2$};
+% 			\node [] (n3)  at (4.2,0.0) {$T_3 (= R_2) \rightarrow R_3$}; 
+% 			\draw[->] (0.5,1.7) -- (0.5,1.3);
+% 			\draw[->] (3.0,0.7) -- (3.0,0.3);
+% 		\end{tikzpicture}
+
+% 		\\
+% 		\midrule
+% 		\begin{tikzpicture}
+% 			\node [] (n0)  at (0.0,0.0) {};
+% 			\node [] (n1)  at (0.0,1.0) {Pattern 2}; 
+% 		\end{tikzpicture} 
+% 		 &
+% 		\begin{tikzpicture}
+% 			\node [] (n1)  at (0.0,2.0) {$T_1 \rightarrow R_1$}; 
+% 			\node [] (n2)  at (0.0,1.0) {$T_1 \rightarrow R_2$};
+% 			\node [] (n3)  at (0.0,0.0) {$T_1 \rightarrow R_3$}; 
+% 			\draw[->] (-0.6,1.7) -- (-0.6,1.3);
+% 			\draw[->] (-0.6,0.7) -- (-0.6,0.3);
+% 		\end{tikzpicture}
+
+% 		\\
+% 		\midrule
+% 		\begin{tikzpicture}
+% 			\node [] (n0)  at (0.0,0.0) {};
+% 			\node [] (n1)  at (0.0,2.0) {Pattern 3}; 
+% 		\end{tikzpicture} 
+% 		&
+% 		\begin{tikzpicture}
+% 			\node [] (n0)  at (2.2,4.0) {$[T]$}; 
+% 			\node [] (n1)  at (0.0,3.0) {$T_1 \rightarrow R_1$}; 
+% 			\node [] (n2)  at (1.8,2.0) {$T_2 \rightarrow R_2$};
+% 			\node [] (n3)  at (4.2,1.0) {$T_3  \rightarrow R_3$}; 
+
+% 			\draw[->] (n0.south) -- (-0.5,3.3);
+% 			\draw[->] (n0.south) -- (1.3,2.3);
+% 			\draw[->] (n0.south) -- (3.5,1.3);
+% 		\end{tikzpicture}
+
+% 		\\
+% 		\midrule
+
+% 		\begin{tikzpicture}
+% 			\node [] (n0)  at (0.0,0.0) {};
+% 			\node [] (n1)  at (0.0,2.0) {Pattern 4}; 
+% 		\end{tikzpicture} 
+% 		&
+% 		\begin{tikzpicture}
+% 			\node [] (n0)  at (0.0,4.0) {$T_1 \rightarrow R_1\textit{ }( = R_1^\prime + R_2^{\prime\prime} )$}; 
+% 			\node [] (d0)  at (0.0,3) {$\vdots$}; 
+% 			\node [] (n1)  at (0.0,2) {$T_2^\prime \rightarrow R_2^\prime$}; 
+% 			\node [] (d0)  at (0.0,1) {$\vdots$}; 
+% 			\node [] (n2)  at (0.0,0.0) {$T_2^{\prime\prime} \rightarrow R_2^{\prime\prime}$};
+% 			\draw [->] (0.5, 3.7) -- (0.5, 3.5) -- (-0.6, 3.5) -- (-0.6, 2.3);
+% 			\draw [->] (1.5, 3.7) -- (1.5, 1.5) -- (-0.6, 1.5) -- (-0.6, 0.3);
+% 		\end{tikzpicture}
+% 		\\
+% 		\bottomrule
+% 		\end{tabular}
+% 	\end{center}
+% 	\caption{Coherence patterns that are defined by \newcite{danes74a}. The horizontal arrow indicates a transition in an utterance, while a vertical one indicates the contextual connection within utterances.}
+% 	\label{tab:danesh_coherence_patterns}
+% \end{table}
+% %
+% \newcite{danes74a} interprets these patterns as follows:
+
+% \begin{itemize}
+% \item Pattern 1: A linear transition pattern between themes and rhemes. 
+% In this pattern, each utterance takes the rheme presented in the preceding context of the utterance as given information and transfers it to new information or a new rheme. 
+% In other words, each R (i.e.\ new information) becomes T (i.e.\ given information) in its next utterance. 
+
+
+% \item Pattern 2: 
+% This pattern depicts that a constant theme continues across utterances. 
+% The same theme appears in a series of utterances. 
+% Each utterance, however, presents new information about the theme. 
+
+
+% \item Pattern 3: 
+% In this pattern, $[T]$ indicates a hypertheme, which is a global theme of a text unit.  
+% This pattern shows that different utterances can be connected because their themes, or their given information, are semantically connected to a hypertheme. 
+
+% \item Pattern 4: 
+% Different combinations of patterns can emerge in different texts. 
+% Some of such combinations are so frequent that they can be taken as particular types of theme-rheme transitions of a higher order. 
+% This pattern is one of the most high-order patterns, where an utterance presents two (which can in potential be several) rhemes, $R^\prime$ and $R^{\prime\prime}$, in connection with a given theme. 
+% First, $R^{\prime}$ is expounded, and when its progression completes, $R^{\prime\prime}$ becomes the theme for another transition. 
+%  In-between transitions for extending each rheme may follow their own patterns. 
+% \end{itemize}
+
+% \newcite{danes74a} brings this point to the attention that one of the crucial properties of these patterns is the missing links in patterns.  
+% For example, in Pattern 1 there is no link between the earliest and latest utterance. 
+% Those are connected because of the middle utterance that makes transitions between themes and rhemes smoother. 
+% In contrast, all utterances in Pattern 3  are linked to each other because they all have $T_1$ as shared given information. 
+
+% \section{Evaluation}
+% \label{sec:coh-eval}
+
+% The goal of the research presented in this dissertation is to provide an approach to coherence modeling and compare it with other models. 
+% In order to accomplish this, it is essential to have a method to evaluate the performance of coherence models. 
+% In this section, we complete our definition by describing the evaluation methods we employ for assessing coherence models that are examined by experiments in this research.   
