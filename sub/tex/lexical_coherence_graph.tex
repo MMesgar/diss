@@ -153,8 +153,8 @@ Figure \ref{fig:lex-graph-lexgraph} illustrates our approach to model the connec
     \end{tabular}
   \end{center}
   \caption{(a) Sentence $A$ with three words $\lbrace w_1,w_2,w_3 \rbrace$ precedes sentence $B$ with two words $\lbrace w_4,w_5 \rbrace$.  
-  (b) Words of sentences are replaced by their associated pre-trained word embeddings. 
-  Different type of connections represents various edge weights, i.e.\ cosine metric between vector pairs. 
+  (b) Words of sentences are replaced by their associated \mbox{pre-trained} word embeddings. 
+  Different type of connections represents various edge weights, i.e.,\ the cosine metric between vector pairs. 
   Solid edges have higher weights than dashed edges.  
   The cosing metric of $\vec{v}_4$ and $\vec{v}_2$ is the highest among all edges that are connected to $\vec{v}_4$. 
   The same interpretation holds for the connection between $\vec{v}_5$ and $\vec{v}_3$.
@@ -226,7 +226,7 @@ Then from all connections among the vector pairs in sentence $A$ and sentence $B
       (b)
     \end{tabular}
   \end{center}
-  \caption{The word relation with the maximum weight (a) represents the connections between sentences (b).}
+  \caption{(a) The word relation with the maximum weight (b) represents the connections between sentences.}
   \label{fig:sent_rel}
 \end{figure}
 
@@ -870,7 +870,7 @@ We use 5-node patterns because these patterns can distinguish between texts bett
       \end{axis}
     \end{tikzpicture}
   \end{center}
-  \caption{The accuracies of different systems on the various genres that are used in the \declercqds dataset.}
+  \caption{The accuracies of different systems on the various genres of articles collected in the \declercqds dataset.}
   \label{fig:declercq-genre}
 \end{figure}
 
@@ -1119,8 +1119,8 @@ Table~\ref{tab:correlated-graphs} (page \pageref{tab:correlated-graphs}) shows t
       \bottomrule
     \end{tabular}
   \end{center}
-  \caption{The Pearson correlation coefficients between frequencies of 3-node and 4-node
-  patterns that are significantly correlated with readability ratings that are assigned by humans to texts in the \pitlerds dataset.}
+  \caption{The Pearson correlation coefficient between frequencies of 3-node and \mbox{4-node}
+  patterns that are significantly correlated with readability ratings that are assigned by human judges to texts in the \pitlerds dataset.}
   \label{tab:correlated-graphs}
 \end{table}
 %
