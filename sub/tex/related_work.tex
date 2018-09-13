@@ -71,7 +71,7 @@ Finally, if a sentence contains several mentions of one entity, the correspondin
 
 The discussion of entity grids develops around two essential questions: Which textual units should be considered mentions of an entity? How should different mentions be linked to represent an entity? 
 A perfect solution in this regard would use a coreference resolution system to recognize mentions, to link arbitrary mentions to the same entities, and to discard noun phrases which do not correspond to an entity. 
-Since coreference resolution systems are far from perfect\footnote{The highest reported precision of a coreference system on the ? dataset is ?.}, and tend to work even more poorly on incoherent texts, this approach is not generally one utilized.  
+Since coreference resolution systems are far from perfect, and tend to work even more poorly on incoherent texts, this approach is not generally one utilized.  
 Moreover, a non-perfect coreference system introduces more noisy connections to a coherence model than what it fixes \cite{barzilay08}.  
 As an alternative, implementations of the entity grid model tend to employ all noun phrases as mentions and apply a heuristic coreference resolution to them.  
 This coreference model connects all mentions that have an identical head noun as one entity. 
@@ -966,13 +966,12 @@ Greedy MMR style algorithms are still a standard baseline for summarization.
 
 One of the popular approaches to optimizing three main factors for summarization -- importance, variance, and coherence -- is Integer Linear Programming (ILP). 
 ILP techniques have been used to solve many intractable inference problems in NLP applications. 
-Examples include applications to sentence compression \cite{clarke10,filippova13}, coreference resolution \cite{denis09},  syntactic parsing \cite{klenner07a}, as well as semantic role labeling \cite{punyakanok04b}.
-%\cite{marciniak05b,mcdonald07,bergkirkpatrick11,woodsend12,lichen13a,hirao13}.
+Examples include applications to sentence compression \cite{clarke10,filippova13}, coreference resolution \cite{denis09},  syntactic parsing \cite{klenner07a}, as well as semantic role labeling \cite{punyakanok04b}. 
 In an ILP approach, an objective function and some constraints model the optimization problem.  
 Solving arbitrary ILPs is an \mbox{NP-hard} problem. 
 However, ILPs are well studied resulting in efficient \mbox{branch-and-bound} algorithms for finding an optimal solution. 
 Similar to the other NLP applications, ILP has been popularly employed for automatic summarization 
-\cite{nishikawa10,galanis12,marciniak05b,mcdonald07,bergkirkpatrick11,woodsend12,lichen13a,hirao13}.  
+\cite{nishikawa10,galanis12,marciniak05b,mcdonald07,berg-kirkpatrick11,woodsend12,lichen13a,hirao13}.  
 
 \newcite{parveen15a} propose an automatic summarizer using ILP.  
 The objective of the optimization in their ILP formulation is to select a subset of sentences from the input document so that the selected sentences produce a summary.

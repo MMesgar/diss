@@ -4,14 +4,14 @@
 \chapter{Lexical Cohesion Graph}
 \label{ch:lex-graph}
 
-An important type of relations across sentences in a text is the semantic relation among words of sentences. 
+An essential type of relations across sentences in a text is the semantic relationships among words of sentences. 
 This type of connectivity in text processing is known as lexical cohesion. 
 In this chapter, we devise a method for identifying and representing lexical cohesion in texts. 
 We first motivate the usage of lexical relations in a text for coherence modeling (Section \ref{sec:lex-graph-motivation}). 
 We then explain a graph-based approach for modeling lexical relations among sentences in a text (Section \ref{sec:lex-graph-representation}). 
 We employ a sampling method for extracting subgraphs from graph representations of texts (Section \ref{sec:lex-graph-pattern-mining}). 
 We explain the sparsity problem related to the frequencies of subgraphs and then adapt a solution from statistical language modeling methods for this problem for graphs (Section \ref{sec:lex-graph-smoothing}). 
-We assess the lexical cohesion graph representations of texts  and the effect of the smoothing method on two datasets for the readability assessment task (Section \ref{sec:lex-graph-results}). 
+We assess the lexical cohesion graph representations of texts and the effect of the smoothing method on two datasets for the readability assessment task (Section \ref{sec:lex-graph-results}). 
 Finally, we provide a summary of the research in this chapter (Section \ref{sec:lex-graph-summary}).
 
 \section{Lexical Cohesion}
@@ -19,8 +19,8 @@ Finally, we provide a summary of the research in this chapter (Section \ref{sec:
 
 Coherent texts are beyond arbitrary choices of words and sentences.  
 In such texts, sentences are related to each other to smooth the flow of information in texts. 
-This is achieved by means of cohesive semantic relations that are expressed through the grammar and the vocabulary of a language \cite{halliday76}. 
-The former is referred to as grammatical local coherence, and the latter as lexical cohesion.  
+This is achieved through cohesive semantic relations that are expressed through the grammar and the vocabulary of a language \cite{halliday76}. 
+The former is referred to as grammatical local coherence and the latter as lexical cohesion.  
 Grammatical coherence encompasses relations such as coreference, substitution, ellipsis, etc. 
 Lexical cohesion comprises one of the semantic connections among words in a text \cite{hoey91}. 
 
@@ -38,16 +38,16 @@ For example, verbs ``buy'' and ``purchase'' have a synonymy relationship with ea
 \item Hyperonymy, which shows the relationship between a generic word (hypernym) in a sentence and a specific instance of it (hyponym) in another sentence. 
 For example, there exist a hyperonymy relationship between words ``red'', ``blue'' and ``color'';
 
-\item Meronymy, which happens when a word in a sentence is a constituent part of, or a member of the concept that is mentioned by a word in another sentence. 
+\item Meronymy, which happens when a word in a sentence is a constituent part of or a member of the concept that is mentioned by a word in another sentence. 
 For example, ``finger'' and ``hand'' are in the meronymy relationship because a finger is part of a hand;
 
-\item Antonymy, which occurs when two words are semantically opposite to each other, e.g.,\ words ``willing'' and  ``reluctant'' are antonym of each other. 
+\item Antonymy, which occurs when two words are semantically opposite to each other, e.g.,\ words ``willing'' and  ``reluctant'' are an antonym of each other. 
 
 \item Collocation, which happens when two words frequently occur in the same context together. As an example, words ``doctor'' and ``patient'' are semantically related just because they are frequently used together.
 
 \end{itemize}
 
-An important property of lexical relations is that lexical items should not necessarily have the same reference in order to relate two sentences \cite{halliday76}.
+An essential property of lexical relations is that lexical items should not necessarily have the same reference in order to relate two sentences \cite{halliday76}.
 Consider the sample text\footnote{Taken from the \emph{Cohesion in English} book written by \newcite{halliday76}.} that is presented in Example \ref{ex:lex-graph-boy-girl-text}.
 
 \begin{examples}
@@ -61,8 +61,8 @@ The lexical items ``boy'' and ``girls'' do not refer to the same entity but they
 In order to recognize lexical semantic relations between words, a lexical knowledge resource is needed.   
 One option is to use a lexical resource such as WordNet \cite{fellbaum98} or Freebase \cite{bollacker08}.  
 This option is expensive in terms of determining the best resource.  
-WordNet lacks a broad coverage in particular with proper names and Freebase is restricted to nominal concepts and entities. 
-In addition, this type of resources are rarely available for other languages than English.
+WordNet lacks a broad coverage in particular with proper names, and Freebase is restricted to nominal concepts and entities. 
+Besides, this type of resources is rarely available for other languages than English.
 If they are available, their coverage is not as broad as their versions for English. 
 Almost none of the available non-English WordNet resources comes close to WordNet's size and coverage on English. 
 The other alternative for identifying lexical relations is to employ a set of pre-trained word embeddings. 
@@ -83,13 +83,13 @@ There is coherence between any pair of lexical items that stand to each other in
 
 Since graph representations of entity-based relations across sentences in a text have been shown useful for modeling coherence (see Chapter \ref{ch:coh-patterns}), we focus on providing a graph representation of lexical semantic relations across sentences in a text. 
 This graph is built on the existence of lexical relations among words in sentences. 
-In the research in this thesis, we refer to this graph representation of a text as lexical cohesion graph or \emph{LexGraph}. 
+In the research in this dissertation, we refer to this graph representation of a text as a lexical cohesion graph or \emph{LexGraph}. 
 
 More formally, LexGraph $G=<V,E>$ comprises two sets: $V$ is a set of nodes representing sentences in a text, and $E$ is a set of directed edges. 
 The direction of an edge between two nodes indicates the order of the sentences that are associated with the nodes. 
-The edge itself represents the existence of of two word vectors with high cosine similarity, which is a proxy of lexical semantic relation between words and therefore their corresponding sentences. 
+The edge itself represents the existence of two word vectors with high cosine similarity, which is a proxy of a lexical semantic relation between words and therefore their corresponding sentences. 
 
-Inspired by the lexical cohesion theory \cite{halliday76}, two sentences are semantically connected if there exist at least one semantic relation between a pair of words in the sentences. 
+Inspired by the lexical cohesion theory \cite{halliday76}, two sentences are semantically connected if there exists at least one semantic relation between a pair of words in the sentences. 
 Semantic relations between words are modeled by their corresponding pre-trained word embeddings.  
 Given word vector $\vec{v}_i$ for word $w_i$ and word vector $\vec{v}_j$ for word $w_j$, the value of the cosine metric between these two word vectors, $\mathtt{cos}(\vec{v}_i,\vec{v}_j)$, measures the strength of the relation between word $w_i$ and word $w_j$. 
 The range of the cosine metric is in the interval $\left[ -1, +1 \right]$.  
@@ -152,11 +152,12 @@ Figure \ref{fig:lex-graph-lexgraph} illustrates our approach to model the connec
       (b)
     \end{tabular}
   \end{center}
-  \caption{(a) Sentence $A$ with three words $\lbrace w_1,w_2,w_3 \rbrace$ precedes sentence $B$ with two words $\lbrace w_4,w_5 \rbrace$.  
+  \caption{
+  (a) Sentence $A$ with three words $\lbrace w_1,w_2,w_3 \rbrace$ precedes sentence $B$ with two words $\lbrace w_4,w_5 \rbrace$.  
   (b) Words of sentences are replaced by their associated \mbox{pre-trained} word embeddings. 
   Different type of connections represents various edge weights, i.e.,\ the cosine metric between vector pairs. 
   Solid edges have higher weights than dashed edges.  
-  The cosing metric of $\vec{v}_4$ and $\vec{v}_2$ is the highest among all edges that are connected to $\vec{v}_4$. 
+  The cosine metric of $\vec{v}_4$ and $\vec{v}_2$ is the highest among all edges that are connected to $\vec{v}_4$. 
   The same interpretation holds for the connection between $\vec{v}_5$ and $\vec{v}_3$.
   } 
   \label{fig:lex-graph-lexgraph}
@@ -231,11 +232,11 @@ Then from all connections among the vector pairs in sentence $A$ and sentence $B
 \end{figure}
 
 We follow the above procedure for all sentence pairs in a text. 
-It results in a graph in which every two nodes are connected by weighted edges.    
+It results in a graph in which weighted edges connect every two nodes.    
 We prune all edges whose weights are below a fixed threshold. 
 This threshold is a parameter of the model.
-From the texture perspective, it ensures that relations that are made based on strong lexical relations are taken into account and weak relations are filtered out. 
-From the computational point of view, this parameter makes the graphs sparse so that the differences in the connectivity structures of graphs can be distinguished by the model. 
+From the texture perspective, it ensures that relations that are made based on strong lexical relations are taken into account, and weak relations are filtered out. 
+From the computational point of view, this parameter makes the graphs sparse so that the model can distinguish the differences in the connectivity structures of graphs. 
 
 \section{Coherence Pattern Mining}
 \label{sec:lex-graph-pattern-mining}
@@ -254,15 +255,15 @@ Here we introduce another approach for extracting and counting coherence pattern
 
 \subsection{Pattern Mining: Sampling}
 In order to extract k-node subgraphs and compute their frequencies, we resort to a sampling approach. 
-This approach is not new and the problem of sampling subgraphs from graphs has been widely studied \cite{weissman03,shervashidze09}. 
-Assume that we construct all possible k-node subgraphs in advance and we save them in a lookup table, which is called \emph{pattern-list}.  
+This approach is not new, and the problem of sampling subgraphs from graphs has been widely studied \cite{weissman03,shervashidze09}. 
+Assume that we construct all possible k-node subgraphs in advance, and we save them in a lookup table, which is called \emph{pattern-list}.  
 We need to define this pattern-list only once, so the processing time of this step does not have any negative impact on the overall efficiency of the mining method.  
-The idea is to sample k-node subgraphs from graphs and if the sample hits with one of the patterns in the list then the count of the pattern in the graph increases by one. 
-Ideally, if a sufficient number of sample subgraphs are drawn from a graph then the empirical distribution is close to actual distribution of patterns in the graph. 
+The idea is to sample k-node subgraphs from graphs, and if the sample hits with one of the patterns in the list, then the count of the pattern in the graph increases by one. 
+Ideally, if a sufficient number of sample subgraphs are drawn from a graph, then the empirical distribution is close to the actual distribution of patterns in the graph. 
 
 We follow Algorithm \ref{alg:pattern-counting} to count subgraphs in lexical cohesion graphs.  
 Function $\mathtt{Generate}$ performs the sampling task.  
-It selects $k$ random nodes and any edge that connects a pair of these nodes from the input graph. 
+It selects $k$ random nodes and an edge that connects a pair of these nodes from the input graph. 
 Function $\mathtt{GetID}$ compares its input subgraph with each pattern in the pattern-list and returns the index of the pattern that is induced and isomorphic with the input subgraph.  
 
 \begin{algorithm}
@@ -291,8 +292,7 @@ Function $\mathtt{GetID}$ compares its input subgraph with each pattern in the p
     \label{alg:pattern-counting}
 \end{algorithm}
 
-The complexity of the method presented in Algorithm \ref{alg:pattern-counting} is $\mathcal{O}(N^ \ast M)$  where $N$ is the number of graphs (i.e.\ the number of texts in a corpus) and $M$ is the maximum number of samples that should be drawn from each graph, which is shown by $\mathtt{MAX}$.
-% in Algorithm \ref{alg:pattern-counting}.
+The complexity of the method presented in Algorithm \ref{alg:pattern-counting} is $\mathcal{O}(N^ \ast M)$  where $N$ is the number of graphs (i.e.\ the number of texts in a corpus) and $M$ is the maximum number of samples that should be drawn from each graph, which is shown by $\mathtt{MAX}$. 
 It is worth to note that because the counting procedure of patterns in a graph (i.e.\ the inner loop in the function) is independent of the counting procedure in other graphs, the Algorithm \ref{alg:pattern-counting}, in practice, is implemented in parallel over graphs. 
   
 \section{Smoothing} 
@@ -302,33 +302,32 @@ Considering the results of experiments in Chapter \ref{ch:coh-patterns},
 by increasing the size (i.e.\ parameter $k$) of subgraphs, patterns capture more
 structural information about the connectivity of nodes. 
 Specifically, 4-node subgraphs contain more nodes and edges, so they potentially capture more information about the connectivity of graphs than what 3-node subgraphs capture.  
-In addition, by enlarging the subgraphs, the number of patterns and consequently the number of features increase as well.   
-However, many of large subgraphs do not occur in a graph representation of a text. 
-This can yield the sparsity problem in feature vectors. 
+Besides, by enlarging the subgraphs, the number of patterns and consequently the number of features increase as well.   
+However, many large subgraphs do not occur in a graph representation of a text yielding a sparsity problem in feature vectors. 
 On the other hand, large subgraphs are unlikely to occur in all graphs. 
 They have zero frequencies in most graphs and non-zero frequencies in a few graphs.  
-On contrary, small subgraphs occur frequently in many graphs (so they have non-zero frequencies in most graphs) but
+On the contrary, small subgraphs frequently occur in many graphs (so they have non-zero frequencies in most graphs) but
 they are not as informative as large subgraphs about the
 connectivity style of graphs. 
 In order to use the predictive power of large subgraphs, we need to overcome the sparsity problem in graphs. 
   
 The sparsity issue in subgraphs may lead to two problems. 
 Machine learning methods may become biased to some features because they occur only in a few graphs. 
-The other problem is that if a large pattern has not been seen in training data (i.e.\ it has zero frequency in all graphs during the training) then the pattern is not informative for graphs  that contain this pattern during the test time. 
+The other problem is that if a large pattern has not been seen in training data (i.e.\ it has zero frequency in all graphs during the training) then the pattern is not informative for graphs that contain this pattern during the test time. 
 
 These issues happen in statistical language models as well \cite{jurafsky08}. 
-These models use \emph{N-gram} (which is a contiguous sequence of $n$ words from a text) features in probabilistic language models . 
+These models use \emph{N-gram} (which is a contiguous sequence of $n$ words from a text) features in probabilistic language models. 
 Long \emph{N-gram} features have zero frequencies in many texts.  
 The solution proposed in language modeling is smoothing, which deals with the problem of zero counts in feature vectors. 
 It basically introduces pseudo frequency for \emph{N-gram} features that are not seen during training but are plausible for prediction at test phase. 
 One of the \mbox{well-known} smoothing methods in language modeling is \mbox{Kneser-Ney} smoothing. 
 In this technique, the probability of a long n-gram is computed based on its actual frequency and the frequencies of short n-grams that are part of the long n-gram. 
 
-We show that the sparsity issue in graphs can also be solved by a smoothing technique.  
+We show that a smoothing technique can also solve the sparsity issue in graphs.  
 We adopt the \mbox{Kneser-Ney} smoothing method.   
 This approach provides a trade-off between the predictive power of large subgraphs and frequently occurring small subgraphs. 
 It estimates the frequency of a large subgraph based on the frequencies of subgraphs that are smaller than the large subgraph. 
-This allows the model to estimate frequencies of patterns in a graph even where subgraphs are not present in the graph. 
+It allows the model to estimate frequencies of patterns in a graph even where subgraphs are not present in the graph. 
 
 In order to use the Kneser-Ney smoothing, we need to extract not only all possible k-node subgraphs but all subgraphs whose sizes are less than k. 
 The introduced sampling approach for subgraph mining in Section \ref{sec:lex-graph-pattern-mining} efficiently supports this requirement. 
@@ -354,7 +353,7 @@ $P_b(p)$ in the \mbox{Kneser-Ney} formulation (Equation \ref{eq:knser-ney}) is t
 It is computed based on hierarchical relations among patterns. 
 Figure \ref{fig:parent-child-rel} shows hierarchical 
 relations between subgraphs with up to three nodes. 
-Each level of this tree contains all patterns with certain number of nodes. 
+Each level of this tree contains all patterns with a certain number of nodes. 
 A k-node pattern $p_i$ is connected to a (k+1)-node pattern $p_j$ if pattern $p_i$ is a subgraph of pattern $p_j$. 
 We see pattern $p_i$ as one of the parents of $p_j$ that is captured by the direction of the edge. 
 
@@ -456,8 +455,10 @@ We see pattern $p_i$ as one of the parents of $p_j$ that is captured by the dire
     \end{tikzpicture}
   }
   \end{center}
-  \caption{Hierarchical relations among patterns up to three nodes. A connection from a pattern to another pattern shows that the former pattern is a subgraph of the latter one. 
-  The former pattern is taken as the parent and the latter one as the child in this relationship.} 
+  \caption{
+  Hierarchical relations among patterns up to three nodes, where a connection from a pattern to another pattern shows that the former pattern is a subgraph of the latter one. 
+  The former pattern is taken as the parent and the latter one as the child in this relationship.
+  } 
   \label{fig:parent-child-rel}
 \end{figure}
 %
@@ -483,12 +484,12 @@ P_b(p_j)  = P \cdot W,
 %
 where $P$ is a vector of \mbox{Kneser-Ney} probabilities of all patterns that are parents of $p_j$ and $W$ is the weight vector of relations between them. 
 
-This method of smoothing recursively traverse the tree from large subgraphs to small subgraphs. 
-We assume that the probability of the parent of pattern $p_0$ is one because its parent is a graph with no nodes, i.e.\ a subgraph of any graph.
-Because the weights of connections in the hierarchal relations among subgraphs are normalized in interval $[0,1]$, the
+This method of smoothing traverse the tree recursively from large subgraphs to small subgraphs. 
+We assume that the probability of the parent of pattern $p_0$ is one because its parent is a graph with no nodes, i.e., \ a subgraph of any graph.
+Because the weights of connections in the hierarchal relations among subgraphs are normalized in the interval of $[0,1]$, the
 sum of the probabilities of all patterns with k-node is always
 equal to one. 
-This is a necessary condition, which must hold to have a probability distribution among patterns.  
+It is a necessary condition, which must hold to have a probability distribution among patterns.  
 
 \paragraph{Proof.} 
 Assume $I$ and $J$ are the sets of all k-node and (k+1)-node
@@ -556,14 +557,14 @@ So the assumption that $\sum_{i=1}^N p_b(p_i) = 1$ is a valid assumption.
 \section{Experiments}
 \label{sec:lex-graph-results}
 
-We evaluate our LexGraph model by some experiments.  
-In order to gain a better insight about the influence of the size of patterns on the predictive power of coherence patterns, we experiment with different sizes of patterns. 
+We evaluate our LexGraph model through some experiments.  
+In order to gain a better insight into the influence of the size of patterns on the predictive power of coherence patterns, we experiment with different sizes of patterns. 
 We investigate the problem of sparsity in the frequencies of subgraphs and then show that the smoothing approach proposed in this chapter of the thesis can overcome the sparsity problem. 
 
 We employ readability assessment as the running evaluation task in the research of this thesis.
-We approach to readability assessment as the task of ranking texts with respect to their readability. 
+We approach readability assessment as the task of ranking texts with respect to their readability. 
 The intuition is that more coherent texts are easier to
-read or more readable. 
+read.  
 So a coherence model ideally ranks texts similar to the rankings provided by humans.  
 
 \subsection{Data}
@@ -575,7 +576,7 @@ It contains 27 news articles that are randomly selected from
 the Wall Street Journal corpus. 
 The average number of sentences per text is about 10.   
 Every article is associated with a human score between $[0.0,5.0]$ indicating the readability ratings of that article. 
-We create pairs of texts, if the difference between the readability ratings of texts is greater than $0.5$. 
+We create pairs of texts if the difference between the readability ratings of texts is higher than $0.5$. 
 If the first text in a pair has a higher score, we label
 the pair with $+1$, otherwise with $-1$. 
 The number of text pairs in this dataset is 209.
@@ -621,7 +622,7 @@ Table \ref{tab:genre-prop} summarizes some properties of this dataset.
 Here we explain the settings that are considered in the experiments presented in this chapter. 
 
 \paragraph{Word embeddings.}
-In order to reduce the effect of very frequent words, stop words are eliminated by using the SMART English stop word list \cite{salton71} in pre-processing.  
+In order to reduce the effect of frequent words, stop words are eliminated by using the SMART English stop word list \cite{salton71} in pre-processing.  
 We use GloVe\footnote{GloVe is publicly available at \url{https://nlp.stanford.edu/projects/glove/}.} \cite{pennington14} as \mbox{pre-trained} word embeddings to measure semantic relatedness between words. 
 Word embeddings in GloVe are trained on Common Crawl with 840B tokens and 2.2M vocabulary. 
 The length of each word vector is 300. 
@@ -634,21 +635,21 @@ All other settings are identical.
 
 We extend the entity grid representations of texts by incorporating the connections between pronouns and their antecedents. 
 To this end, we apply the Stanford coreference resolution system \cite{leeheeyoung13} to resolve all pronouns. 
-Involving the full coreference relations, however, decreases performance, hence we only use resolved pronouns. 
+Involving the full coreference relations, however, decreases performance; hence we only use resolved pronouns. 
 In the LexGraph representations of texts, edges whose weights are less than threshold $0.9$ are filtered out. 
 We selected this value to connect only sentences that are strongly related. 
 In this way, we prevent noisy edges, which are not strong enough in terms of the cosine similarity, to be involved in graphs. 
 Adding noisy edges to lexical cohesion graphs makes the discriminating between graphs difficult.
 A similar issue happens where full coreference relations are incorporated in the entity graph representation of texts.   
 
-We check the impact of the size of subgraphs on the performance of the model by evaluating patterns with different number of nodes $k \in \lbrace3,4,5,6\rbrace$. 
+We check the impact of the size of subgraphs on the performance of the model by evaluating patterns with a different number of nodes $k \in \lbrace3,4,5,6\rbrace$. 
 We need to count all possible k-node subgraphs because the probability should be distributed among all possible subgraphs.  
 In the experiments in which we use smoothing, we compute the frequencies of coherence patterns by the sampling method that is explained in this chapter.  
 For sampling, we draw $10,000$ samples from each graph. 
 We compute the base probability for all subgraphs with $k \leq 6$.  
-The best value for the discount factor, i.e.\ parameter $\alpha$ in Equation \ref{eq:knser-ney}, is obtained in a greedy fashion and iterative way.   
+The best value for the discount factor, i.e.\ parameter $\alpha$ in Equation \ref{eq:knser-ney}, is obtained greedily and iteratively.   
 First, we initialize $\alpha$ with $0.001$. 
-In each iteration we compute the performance. 
+In each iteration, we compute the performance. 
 Then we multiply the discount factor by $10$. 
 We iterate as long as the discount factor is less than $1000$. 
 We report the best performance.
@@ -662,11 +663,11 @@ The evaluation is computed by \mbox{10-fold} \mbox{cross-validation}.
 We compare our LexGraph model with EGraph model.
 In the LexGraph model, each text is represented by a graph which is build based on lexico-semantic relationships between words in sentences.  
 We employ a subgraph mining method to extract all possible subgraphs from graphs as coherence patterns. 
-The frequencies of patterns in a graph is taken as features, which encode the connectivity structure of the graph and ideally the local coherence of the corresponding text. 
+The frequencies of patterns in a graph are taken as features, which encode the connectivity structure of the graph and ideally the local coherence of the corresponding text. 
 We compare this model with the same method on the entity graph representation, which is referred to as EGraph, of texts. 
 It is worth noting that in this chapter the EGraph model uses the projection graph representations of texts and employs our coherence pattern mining approach to extract coherence features, rather than the average outdegree metric. 
-We keep all the experimental settings identical for these systems to only investigate the impact of  text representations on the performance of the coherence model. 
-In addition, we compare these models with the EGrid model \cite{barzilay08} as a non-trivial baseline. 
+We keep all the experimental settings identical for these systems to only investigate the impact of text representations on the performance of the coherence model. 
+Besides, we compare these models with the EGrid model \cite{barzilay08} as a non-trivial baseline. 
 We also use a majority baseline (\emph{ZeroR}) to put our results in context. 
 
 
@@ -679,8 +680,8 @@ We finally evaluate the quality of the several coherence patterns that are extra
 \paragraph{Evaluating LexGraph representations.} 
 Here, we evaluate LexGraph representations of texts on the \pitlerds dataset. 
 Figure \ref{fig:pitler-ds} reports the accuracies of different models on the \pitlerds dataset. 
-We can observe from the results that both the entity graph model, i.e.\ EGraph and the LexGraph model rank texts with respect to their coherence superior than the EGrid model \cite{barzilay08}.  
-This observation confirms our primary intuition in the research in this thesis that graph-based models have more capacity to encode relations among sentences in a text because graphs can capture long-distance relations, which is informative for coherence modeling.  
+We can observe from the results that both the entity graph model, i.e.\ EGraph and the LexGraph model rank texts with respect to their coherence superior to the EGrid model \cite{barzilay08}.  
+This observation confirms our initial intuition in the research in this thesis that graph-based models have more capacity to encode relations among sentences in a text because graphs can capture long-distance relations, which is informative for coherence modeling.  
 
 % \begin{table}[!ht]
 %   \begin{center}
@@ -738,27 +739,27 @@ This observation confirms our primary intuition in the research in this thesis t
 \end{figure}
 
 The other observation of the results presented in Figure \ref{fig:pitler-ds} is that the accuracies of both \mbox{LexGraph} and EGraph models increase by enlarging the size of patterns.  
-This is compatible with the results reported in Chapter \ref{ch:coh-patterns}, and confirms the intuition that large subgraphs capture more information about the connectivity style of graph representations of texts.
+This observation is compatible with the results reported in Chapter \ref{ch:coh-patterns}, and confirms the intuition that large subgraphs capture more information about the connectivity style of graph representations of texts.
 Large patterns can lead to features that are highly predictive for discriminating coherent texts from incoherent ones. 
 
-Given 3-node patterns the LexGraph model does not beat the EGraph model. 
+Given 3-node patterns, the LexGraph model does not beat the EGraph model. 
 Considering \mbox{4-node} patterns, the performance of LexGraph is close to the performance of the EGraph model. 
 Finally, when 5-node patterns are used the LexGraph mode significantly outperforms the entity graph model. 
 These results can be explained such that the lexical graph representation of texts have more edges than the entity graph representations. 
-Since the LexGraph are denser, 3-node subgraphs cannot encode the difference between the structure of these graphs. 
-But when sufficiently large patterns are employed we see that the LexGraph representation is more predictive than the entity graph.   
+Since the LexGraph is dense, 3-node subgraphs cannot encode the difference between the structure of them. 
+However, when sufficiently large patterns are employed we see that the LexGraph representation is more predictive than the entity graph.   
 
 The best result on the \pitlerds dataset is about 97\%. 
 This performance leads us to evaluate our model on the \declercqds dataset for further investigation. 
 The \declercqds dataset contains more articles than the \pitlerds dataset. 
-The other major difference between these two dataset is that the articles in the \declercqds dataset are from different genres but those in the \pitlerds dataset are only from newswire. 
+The other major difference between these two datasets is that the articles in the \declercqds dataset are from different genres, but those in the \pitlerds dataset are only from the newswire. 
 Different genres may follow different styles of connectivity. 
 Therefore, in order to have a better comparison between the LexGraph representations of texts and the entity graphs, we evaluate these two models on the \declercqds dataset as well. 
 
 Figure \ref{fig:declercq-ds} shows the performance of different models on the \declercqds dataset.   
 The accuracies of both EGraph and LexGraph models are on par with the baseline system for 3-node patterns. 
-Since these patterns occur frequently in all graphs, they are not able to distinguish texts. 
-4-node patterns lead both EGraph and LexGraph to work superior than the baseline. 
+Since these patterns frequently occur in all graphs, they are not able to distinguish texts. 
+4-node patterns lead both EGraph and LexGraph to work superior to the baseline. 
 However, these patterns are not big enough to capture the connectivity style of dense graphs such as LexGraphs. 
 Finally, 5-node patterns yield reasonable performance on the \declercqds dataset. 
 In this case, the LexGraph model outperforms the EGraph model significantly. 
@@ -819,9 +820,9 @@ In this case, the LexGraph model outperforms the EGraph model significantly.
 \end{figure}
 
 When we compare the EGraph model and the LexGraph model on these two datasets, we observe that the general performance of these models on the \declercqds dataset is lower than the performance on the \pitlerds dataset. 
-This can basically be because the texts in the \declercqds dataset are from four different genres. These genres may have various styles of connectivity.  
-In order to gain a deeper insight to this, we compute the accuracies of these systems on texts exclusively from each genre in the \declercqds dataset. 
-We use 5-node patterns because these patterns can distinguish between texts better than other pattern for any of two examined graph representations of texts, i.e.\ the entity graph and the \mbox{LexGraph} representations. 
+It can be because the texts in the \declercqds dataset are from four different genres. These genres may have various styles of connectivity.  
+In order to gain a deeper insight into this, we compute the accuracies of these systems on texts exclusively from each genre in the \declercqds dataset. 
+We use 5-node patterns because these patterns can distinguish between texts better than other patterns for any of the two examined graph representations of texts, i.e., \ the entity graph and the \mbox{LexGraph} representations. 
 
 % \begin{table}[!ht]
 %   \begin{center}
@@ -874,27 +875,27 @@ We use 5-node patterns because these patterns can distinguish between texts bett
   \label{fig:declercq-genre}
 \end{figure}
 
-Figure \ref{fig:declercq-genre} shows the performance of the EGraph model and the LexGraph model using 5-node patterns on different genres in the \declercqds dataset. 
-The performance of the LexGraph model is higher than the EGraph model on all genres. 
-This is compatible with the results reported in Figure \ref{fig:declercq-ds}. 
-On the Administrative articles the difference in accuracies of the models is not substantial.  
-In these texts, the exact repetition of words among sentences is very frequent to ensure that texts are completely unambiguous. 
+Figure \ref{fig:declercq-genre} shows the performance of the EGraph model and the LexGraph model using 5-node patterns in different genres in the \declercqds dataset. 
+The performance of the LexGraph model is higher than the EGraph model in all genres. 
+This observation is compatible with the results reported in Figure \ref{fig:declercq-ds}. 
+On the Administrative articles, the difference between the accuracies of the models is not substantial.  
+In these texts, the exact repetition of words among sentences is persistent to ensure that texts are entirely unambiguous. 
 Unlike the EGraph model, the LexGraph model achieves the best performance on Journalistic articles. 
 The Journalistic texts use more variations of words to relate sentences, so the LexGraph representation is more predictive than the EGraph. 
-The lowest performance of both models is obtained on texts that are Manuals; however the LexGraph model with a large margin outperforms the EGraph model on this genre as well. 
+The lowest performance of both models is obtained from texts that are Manuals; however, the LexGraph model with a large margin outperforms the EGraph model on this genre as well. 
 
 \paragraph{Evaluating the smoothing approach.}
 While large subgraphs are very informative for coherence modeling (especially for dense graphs such as LexGraphs), many large subgraphs have low or zero frequency in a graph.
-This yields a sparsity problem in the feature vector representation of graphs. 
-On the other hand, large subgraphs occur in few graphs in a dataset. 
-So when large subgraphs are taken into account, each graph is represented by a large vector because there are many possible subgraphs, where most of elements in the vector are zero.   
+It yields a sparsity problem in the feature vector representation of graphs where large subgraphs are taken as patterns. 
+On the other hand, large subgraphs occur in a few graphs in a dataset. 
+So when large subgraphs are taken into account, each graph is represented by a large vector because there are many possible subgraphs, where most of the elements in the vector are zero.   
 The problem with such vectors is that each graph representation becomes unique in a dataset and a machine learning model cannot learn from similarities and dissimilarities between vectors. 
 Here we evaluate our solution that is \mbox{Kneser-Ney} smoothing for solving this problem. 
 
 Figure \ref{fig:pitler-smoothing} shows the performance of the LexGraph model on the \pitlerds dataset where the smoothing method is employed to overcome the sparsity problem in frequencies of patterns in graph representations of texts. 
 The performance of the model increases by enlarging the size of patterns up to five nodes. 
-When 6-node patterns are employed the performance of the model drops. 
-This can be because of the sparsity problem. 
+When 6-node patterns have employed, the performance of the model drops. 
+This result can be because of the sparsity problem. 
 When we use smoothing the performance of the model for any pattern size improves in comparison to the settings without smoothing.  
 We observe that the drop in performance from 5-node patterns to 6-node patterns when smoothing is applied is less than the drop in their performance without smoothing.
 In other words, the performance of the system is more even with smoothing rather than when smoothing is not applied. 
@@ -994,7 +995,7 @@ It decreases the effect of frequency through all subgraphs by considering parent
 That is the advantage of the \mbox{Kneser-Ney} method in comparison to the other smoothing methods like Laplace smoothing \cite{jurafsky08}. 
 
 In general, we observe the similar trend in results of the LexGraph model on the \declercqds dataset and on the \pitlerds dataset. 
-This shows that our coherence patterns plus the LexGraph representation of a text constructs a model for local coherence modeling. 
+It shows that our coherence patterns plus the LexGraph representation of a text construct a model for local coherence modeling. 
 It is also worth to mention that none of the parameters (such the maximum number samples drawn from a graph and the threshold for filtering edges of the LexGraph graph) in this work is tuned on the datasets. 
 One may get better performance by tuning the parameters.
 
@@ -1124,9 +1125,9 @@ Table~\ref{tab:correlated-graphs} (page \pageref{tab:correlated-graphs}) shows t
   \label{tab:correlated-graphs}
 \end{table}
 %
-Among all 3-node patterns only the frequency of one pattern in the LexGraph representations of texts in this dataset is positively correlated with readability ratings that are assigned by humans.  
+Among all 3-node patterns, only the frequency of one pattern in the LexGraph representations of texts in this dataset is positively correlated with readability ratings that are assigned by humans.  
 Among the patterns with four nodes, frequencies of six patterns are significantly correlated with readability scores assigned by humans. 
-The frequency of only one pattern is positively correlated, while other five patterns are negatively correlated. 
+The frequency of only one pattern is positively correlated, while the other five patterns are negatively correlated. 
 Interestingly, both positively correlated 3-node and 4-node patterns have been determined as positively and significantly correlated with human readability ratings in experiments that are performed in the research presented in Chapter \ref{ch:coh-patterns}.
 It indicates that our coherence model is linguistically sound.  
 
@@ -1141,22 +1142,22 @@ We extract large subgraphs to model coherence patterns.
  which show similarity to patterns described in
 text linguistics \cite{danes74a}.
 
-While the entity grid works only on sequences of up to two adjacent sentences, we are able to model relationships of up to six non-adjacent sentences. 
+While the entity grid works only on sequences of up to two adjacent sentences, we can model relationships of up to six non-adjacent sentences. 
 We solve the sparsity problem of large subgraphs by adapting \mbox{Kneser-Ney} smoothing to graphs. 
 Smoothing prevents LexGraph from losing performance with large subgraphs and leads to superior performance on the \newcite{pitler08} dataset and to a first reasonable \mbox{state-of-the-art} on the \newcite{declercq14} dataset.
 
 On the \pitlerds dataset, we achieve the best results to date.  
 \newcite{pitler08} reported 83.25\% accuracy. 
 In Chapter \ref{ch:coh-patterns}, by applying the idea of using frequency of subgraph as coherence features on the entity graph representation of texts, the model obtains the 89.95\% accuracy. 
-In the research of this chapter, by providing the lexical cohesion graph over sentences in texts and applying smoothing to frequencies of 5-node subgraphs we are able to report 98.08\% accuracy. 
-This, however, indicates that this dataset may not be the best one to report performance on and evaluate our coherence model. 
-Therefore, we investigate if smoothing also improves the performance on the other dataset, i.e.\ the \declercqds dataset.
+In the research of this chapter, by providing the lexical cohesion graph over sentences in texts and applying a smoothing method to frequencies of 5-node subgraphs, we could report 98.08\% accuracy. 
+ These results, however, indicate that this dataset may not be the best one to report performance on and evaluate our coherence model. 
+Therefore, we investigate if smoothing also improves the performance on the other dataset, i.e., \ the \declercqds dataset.
 
 
 To conclude this chapter, the results confirm the intuition that the lexical coherence graph \emph{LexGraph}\ captures coherence and models lexical cohesion appropriately.
-Applying smoothing on graphs of EGraph model increases the performance of this model. 
-But this improvement is not as high as the obtained improvement on LexGraph.
-This shows that our smoothing method is useful for both graph-based models, and our new graph representation is more informative than the entity graph model for coherence modeling. 
+Applying the smoothing method on graphs of EGraph model increases the performance of this model. 
+However, this improvement is not as high as the obtained improvement on LexGraph.
+These results show that our smoothing method is useful for both graph-based models, and our new graph representation is more informative than the entity graph model for coherence modeling. 
 
 We summarize the contributions of this chapter as follows:
 
