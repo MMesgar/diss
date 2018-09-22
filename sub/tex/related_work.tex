@@ -4,12 +4,12 @@
 \chapter{Related Work}
 \label{ch:rel-work}
 
-The task of coherence modeling has received a lot of attention due to its crucial impacts on other natural language processing systems. 
+The task of coherence modeling has received much attention due to its significant impacts on other natural language processing systems. 
 In this dissertation, we propose a novel approach to local coherence modeling based on graph representations of texts. 
 We apply our approach to two types of graphs.  
 The first type captures coreference relations among entity mentions in a text. 
 The second one captures lexical relations among words in a text.  
-We evaluate our coherence model by examining its impacts on readability assessment and text summarization. 
+We evaluate our coherence model by examining its impact on readability assessment and text summarization. 
 
 Accordingly, we first review entity-based approaches to local coherence (Section \ref{sec:rel-entity-models}). 
 We then survey lexical approaches (Section \ref{sec:rel-ent-grid}). 
@@ -23,26 +23,24 @@ In this section, we explain the details of two popular entity-based models: the 
 We also discuss their extensions.  
 
 \paragraph{Historical Review.} 
-
-
-
 Entity-based approaches to local coherence modeling have a long history within linguistic literature \cite{kuno72,halliday76,prince81a,joshi98}.
 Most approaches share a common primary assumption: Coherence is perceived based on how entities are introduced and discussed within a text \cite{barzilay08}. 
 Texts that keep referring to similar entities are supposed to be more coherent than those with random and unexpected switches from one entity to another. 
 Different linguistic theories support this premise. 
 One of them is the centering theory \cite{grosz95,joshi98}, which is discussed in Chapter \ref{ch:coherence}. 
 
-A great deal of research has been devoted to implementing the centering theory \cite{miltsakaki00,karamanis04a} directly. 
+A great deal of research has been devoted to implementing the centering theory directly \cite{miltsakaki00,karamanis04a}.  
 However, it is a challenging task because computational models need to determine how to instantiate the parameters of the theory as they are often underspecified. 
 Interestingly, \newcite{poesio04b} noticed that even for basic parameters of the centering theory such as ``utterance'', ``realization'', and ``ranking'', multiple interpretations have been developed.
 It is because the original theory of centering does not explicitly specify its concepts. 
-For example, in some studies entities are ranked with respect to the grammatical role of entity occurrences in a text \cite{brennan87,grosz95} whereas in some other studies entities are ranked with respect to the position of entity mentions in sentences \cite{prince81a} or the familiarity status (the thematic role) \cite{strube.cl99,moens08} of entities.  
+For example, in some studies entities are ranked with respect to the grammatical roles of their mentions \cite{brennan87,grosz95} whereas in some other studies entities are ranked with respect to the position of their mentions \cite{prince81a}. 
+In some other studies they are ranked concerning their familiarity status (the thematic role) \cite{strube.cl99,moens08}.  
 Two instantiations of the same theory make different predictions for the same input. 
 
 Another vein of research tries to avoid this by finding an instantiation of parameters so that the parameters are the most consistent with observable data \cite{strube.cl99,karamanis04a,poesio04b}. 
 Some others adopt a specific instantiation in a way that the performance of the coherence model improves for a specific task. 
 For example, \newcite{miltsakaki00} annotate a corpus of student essays with entity transition information and then show that the distribution of transitions correlates with human grades. 
-Analogously, \newcite{hasler03} investigate whether the centering theory can be used in evaluating the readability of summaries, which can be produced by humans or machines, by annotating them with the entity transition information. 
+Analogously, \newcite{hasler03} investigate whether the centering theory can be used in evaluating the readability of summaries, which were produced by humans or machines, by annotating them with the entity transition information. 
 \newcite{poesio04b} demonstrate that the predictive power of the models that directly implement centering theory is highly sensitive to their parameter instantiations, no matter for which task such instantiations are specified. 
 
 \newcite{barzilay05a,barzilay08} propose a general framework for coherence modeling.  
@@ -64,8 +62,8 @@ So entity coreference relations can be seen as signals for local coherence.
 \subsubsection{Text Representation: Entity Grids}
 
 In the entity grid model, each text is represented by a grid, which is a two-dimensional array, whose rows correspond to entities and whose columns match sentences.
-An entry $r_{i;j}$ in a grid describes the syntactic role of entity $i$ in sentence $j$ if the entity is mentioned in the sentence. 
-The syntactic roles are categorized as subject (S), object (O), or all other syntactic roles (X). 
+An entry $r_{i;j}$ in a grid describes the grammatical role of entity $i$ in sentence $j$ if the entity is mentioned in the sentence. 
+The grammatical roles are categorized as subject (S), object (O), or all other grammatical roles (X). 
 Besides, if an entity is not mentioned in a sentence, an especial marker (-) fills the corresponding entry $r_{i;j}$ in the grid. 
 Finally, if a sentence contains several mentions of one entity, the corresponding entry describes the most important grammatical role of the mentions in the sentence: subject if possible, then object, or finally other. 
 
@@ -80,7 +78,7 @@ Detailed discussions of this heuristic are given in \newcite{poesio04c} and \new
 
 Example~\ref{ex:rel-text} shows a sample text\footnote{The text with ID D31010, taken from the Document Understanding Conference (DUC-2002) dataset, which we use in one of our summarization experiments. Numbers are not marked because they are filtered out in preprocessing.}.  
 In this example, noun phrases are marked with brackets as an indication of mentions. 
-Mentions in a sentence are associated with their syntactic roles in the sentence, annotated with a letter (S: subject, O: object, and X: others) next to the brackets. 
+Mentions in a sentence are associated with their grammatical roles in the sentence, annotated with a letter (S: subject, O: object, and X: others) next to the brackets. 
 %/hits/fast/nlp/mesgarmn/Data/ACL13/SummaryCoherence/texts/
 %D31010.M.100.T.E.txt. Nubembers (e.g. 29) are filtered out in preprocessing.}  
 
@@ -122,7 +120,7 @@ The coreferent mentions are detected by string matching over head-nouns.
 	\begin{center}
 		\begin{tabular}{lcccccc}
 			\toprule
-			Entity  		& $s_0$ & $s_1$ & $s_2$ & $s_3$ & $s_4$ & $s_5$ 
+			\textbf{Entity}  		& $\mathbf{s_0}$ & $\mathbf{s_1}$ & $\mathbf{s_2}$ & $\mathbf{s_3}$ & $\mathbf{s_4}$ & $\mathbf{s_5}$ 
 			\\
 			\midrule
 			WAVE 			& S & - & - & - & - & - \\
@@ -163,15 +161,10 @@ The coreferent mentions are detected by string matching over head-nouns.
 	\end{center}
 \end{table}
 
-It is worth noting that although entities in the original version of the entity grid are indicated by the head of a noun phrase 
-%(such as ``flight'' in Example \ref{ex:rel-text}), 
-\newcite{elsner11a} show that adding non-head nouns 
-%(like ``the personal \textbf{country} flight'' in Example \ref{ex:rel-text}) 
-to a grid is beneficial to improve the representation power of the entity grid model. 
+It is worth noting that although entities in the original version of the entity grid are indicated by the head of a noun phrase, 
+\newcite{elsner11a} show that adding non-head nouns to a grid is beneficial to improve the representation power of the entity grid model. 
 This enables the model to involve both head nouns and pre-modifiers in noun phrases to link sentences. 
-Therefore, \newcite{elsner11a} consider all nouns 
-%(both ``country'' and ``flight'' in the text shown in Example \ref{ex:rel-text}) 
-as entities in the entity grid representation.  
+Therefore, \newcite{elsner11a} consider all nouns as entities in the entity grid representation.  
 The non-head mentions are given the role X. 
 
 \subsection{Pattern Definition: Grammatical Transitions}
@@ -180,7 +173,7 @@ The key hypothesis in the entity grid model is that the way that entities are di
 \newcite{barzilay05a,barzilay08} predefine all possible transitions that may occur for an entity in a text as patterns. 
 
 More concretely, they define a transition pattern as a sequence of employed symbols with size $n$, i.e., $\{ S,O,X,\textit{--} \}^n$. 
-Each pattern represents entity occurrences between sentences and the way that their syntactic roles in $n$ adjacent sentences change. 
+Each pattern represents entity occurrences between sentences and the way that their grammatical roles in $n$ adjacent sentences change. 
 For instance, for two adjacent sentences ($n=2$) there are $16$ possible patterns.
 These patterns are shown in Table~\ref{table:rel-egrid-pattern}. 
 
@@ -208,7 +201,7 @@ These patterns are shown in Table~\ref{table:rel-egrid-pattern}.
 \end{table}
 
 Each pattern that is shown in Table \ref{table:rel-egrid-pattern} represents one possible way in which an entity may occur in two adjacent sentences. 
-For example, pattern ``S O'' encodes that an entity appears in two adjacent sentences, and its syntactic role is changing from subject to object across sentences. 
+For example, pattern ``S O'' encodes that an entity appears in two adjacent sentences, and its grammatical role is changing from subject to object across sentences. 
 As another example, consider pattern ``S --''. 
 It indicates that an entity is referred to by a mention in the subject position of a sentence, and the entity has no mention in the immediately next sentence. 
 
@@ -223,12 +216,10 @@ More formally, given the entity grid representation of a text, the probability o
 p(t) = \frac{n(t)}{n(t^*)},
 \end{equation}
 where $t$ is a transition, $n(t)$ indicates the number of times that transition $t$ occurs in the entity grid, and denominator $n(t^*)$ depicts the number of occurrences of all patterns whose length is as same as the length of $t$ in the grid. 
-For instance, consider the grid in Table~\ref{tab:rel-egrid}; the probability of pattern ``O O'' is $.01$, which is computed as a ratio of its frequency, i.e. one, divided by the total number of patterns of length two, i.e.,\ $140$. 
-% \textbf{CHECK IF THIS GRID MATCHES WITH WHAT CAMILE GAVE YOU. IF NOT, YOU SHOULD SAY THAT THIS GRID, INCLUDING SYNTACTIC ROLES AND HEAD NOUN FINDERS, IS GENERATED BY BROWNCOHERENCE TOOLKIT. 
-% HOW IS IT POSSIBLE THAT A SENTENCE DOES NOT HAVE ANY SUBJECT, SEE S2}   
+For instance, consider the grid in Table~\ref{tab:rel-egrid}; the probability of pattern ``O O'' is $.01$, which is computed as a ratio of its frequency, i.e.\ 1, divided by the total number of patterns of length two, i.e.,\ $140$.    
 Therefore, the coherence of a text can be represented by the distribution of patterns in the text. 
 The entity grid model captures frequencies of entity transitions in the entity grid representation of a text with a vector, which represents the coherence of the text. 
-This vector can be interpreted as a feature vector for the coherence of a text, where each feature is the probability of a pattern in the grid representation of the text.  
+This vector can be interpreted as a feature vector for the coherence of the text, where each feature is the probability of a pattern in the grid representation of the text.  
 Table~\ref{tab:rel-egrid-probs} shows the feature vector representation of the grid presented in Table~\ref{tab:rel-egrid} using all transitions of length two. 
 
 \begin{table}
@@ -255,7 +246,7 @@ The key advantage of the entity grid model is that it does not define any prefer
 It just computes probabilities of patterns in entity grids and defines them as features. 
 The ranking or any other interplay among these features are learned by a machine learning model such as support vector machines. 
 
-More concretely, given a dataset consisting of texts with different degrees of coherence, the entity grid model captures the coherence of each text in the dataset with a vector of transition probabilities. 
+In summary, given a dataset consisting of texts with different degrees of coherence, the entity grid model captures the coherence of each text in the dataset with a vector of transition probabilities. 
 These vectors are supplied to machine learning models to distinguish texts concerning their coherence.  
 Machine learning models automatically learn how coherence patterns should interact with each other to accomplish the final evaluation task.  
 %We discuss more about evaluation tasks for coherence in Section \ref{sec:rel-coh-applications}.
@@ -272,7 +263,7 @@ They use WikiRelate \cite{strube.aaai06} to compute relatedness between entities
 Different values of $t$ result in different grid densities. 
 For small values, a grid is almost dense since many entities are grouped into one.  
 
-\newcite{elsner08b} employ the information status, i.e.\ new or the first mention vs given or subsequent mentions, of entities, rather than syntactic roles. 
+\newcite{elsner08b} employ the information status, i.e.\ new or the first mention vs given or subsequent mentions, of entities, rather than grammatical roles. 
 They run a maximum-entropy classifier to assign each noun phrase (i.e.\ mention) a label $L_{np} \in \lbrace new, old \rbrace$. 
 The coherence score of a text is then estimated by the product of probabilities over the information status of each mention. 
 They show that adding such a classifier, which distinguishes discourse-new entities from discourse-old ones, improves the performance of the entity grid model, which uses grammatical role information.  
@@ -293,15 +284,20 @@ Early RST-based models include \newcite{marcu97b} and \newcite{mellish98}, which
 \newcite{nguyen17} propose a deep learning model to learn patterns in the entity grid representation of text. 
 Their model first transforms grammatical roles in an entity grid into vector representations and then supplies them to a convolution operation to model entity transitions in a distributed space. 
 The max-pooled features from the convoluted features are used for coherence scoring. 
+This model limits relations between sentences to entities that are shared by sentences, which makes its performance dependent on the performance of other tools like coreference resolution systems and syntactic parsers. 
 In a later work, \newcite{joty18} extend their neural entity grid model by lexicalizing its entity transitions such that each entry of the entity grid contains two vectors, one representing its corresponding lexicon and one representing the grammatical role of the entity in the corresponding sentence.  
 
-% \newcite{louis12} introduce a coherence model based on syntactic patterns in text by assuming that sentences in a coherent text should share the same structural syntactic patterns.
+\newcite{lijiwei14} model sentences as vectors derived from Recurrent Neural Networks \cite{goldberg17} and train a \mbox{feed-forward} neural network that takes an input window of sentence vectors and assigns a probability which represents the coherence of the sentences in the window. 
+Text coherence is evaluated by sliding the window over sentences and aggregating their coherence probabilities. 
+Similarly, \newcite{lijiwei17} study the same model at a larger scale and use a \mbox{sequence-to-sequence} approach in which the model is trained to generate the next sentence given the current sentence and vice versa. 
+Our approach differs from these methods because it takes distant relations between words in a text into account as it is built on graph representations of texts.   
+
 To conclude this part, we point out the advantages and disadvantages of the entity grid model. 
 The main benefit of the entity grid model is that it learns the properties of coherent texts, which are represented by patterns of entity distributions, from a corpus of texts without recourse to manual annotations or a predefined knowledge base. 
 However, the main limitation of the entity grid model is that it only takes into account relations between adjacent sentences, while in many cases adjacent sentences do not have any entities in common. 
 For example, in an investigation on texts in the CoNLL 2012 dataset \cite{pradhan12}, it is shown that 42.34\% of adjacent sentences do not share any common entities \cite{zhangmuyu15}. 
 Moreover, non-adjacent sentences can be related to each other as well. 
-The entity grid model does not model such relation mainly because its grid representation cannot capture long-distance relations.  
+The entity grid model does not model such relations mainly because its grid representation cannot capture long-distance relations.  
 It is worth noting that increasing the sequence length of grammatical transitions does not lead to incorporating long-distance relations between sentences.  
 In practice, the length of sequences has never been fixed to a value higher than two. 
 The reason is that enlarging the length of sequences increases the number of transitions, many of which do not frequently occur in texts. 
@@ -312,15 +308,16 @@ We discuss more about this problem in Chapter \ref{ch:lex-graph}.
 \subsection{The Entity Graph Model}
 \label{sec:ent_graph}
 
-The entity graph model \cite{guinaudeau13} represents entity-based relations between sentences in a text by a graph\footnote{We formally define the concepts in graphs that are required for the research in this thesis in Chapter \ref{ch:coh-patterns}}. 
+The entity graph model \cite{guinaudeau13} represents entity-based relations between sentences in a text with a graph\footnote{We formally define the concepts in graphs that are required for the research in this thesis in Chapter \ref{ch:coh-patterns}}. 
 Graphs are capable of spanning the entire text and capture connections between any two sentences in a text. 
-Moreover, an advantage of formulating a problem like coherence modelings by graphs is that standard algorithms in graph theory can be employed to solve the problem. 
-Thus, it is sufficient to encode a problem by graphs and then choose a proper solution from graph theory to solve the problem. 
-Here, we review how \newcite{guinaudeau13} use a graph to represent the distribution of entities through a text, and how they use such representations to formulate and solve the task of coherence modeling by connectivity measures in graphs. 
+Moreover, an advantage of formulating a problem, like coherence modeling, with graphs is that standard algorithms in graph theory can be employed to solve the problem. 
+It is sufficient to encode a problem with graphs and then choose a proper solution from graph theory to solve the problem. 
+Here, we review how \newcite{guinaudeau13} use a graph to represent the distribution of entities through a text, and how they use such a representation to formulate, and then solve the task of coherence modeling using connectivity measures in graph theory.  
 
 \subsubsection{Text Representation: Entity Graphs}
 
-The entity grid representations of texts are mostly sparse, which means many entries in grids are ``--'', because each sentence contains few entities, and the rest of entities are absent in the sentence. 
+The entity grid representations of texts are mostly sparse, which means many entries in grids are ``--''.
+It happens because each sentence in a text contains a few entities out of all entities mentioned in the text. 
 Graphs can deal with this sparsity issue in grid representations. 
 \newcite{guinaudeau13} propose to recast the entity grid representation of a text by a graph representation. 
 We refer to this representation as the entity graph because it captures the distribution of entities through a text via a graph. 
@@ -334,7 +331,7 @@ Edges in the entity graph encode entries in the entity grid such that if a sente
 Therefore edges in the entity graph are equivalent to entries in the entity grid that are not equal to ``--''. 
 The value of other entries in the entity grid are encoded as edge weights in the entity graph. 
 More concretely, the grammatical role of an entity in a sentence is encoded in the entity graph by the weight of the edge that connects the entity node to the sentence node. 
-Given the linguistic intuition that entities with important syntactic roles are prominent entities in each sentence, three numbers $3>2>1$ are used to model subject (S), object (O), and any others syntactic roles (X), which are employed by the entity grid model. 
+Given the linguistic intuition that entities with important grammatical roles are prominent entities in each sentence, three numbers $3>2>1$ are used to model subject (S), object (O), and any others grammatical roles (X), which are employed by the entity grid model. 
 % Entity graph model is established on the entity grid representation of a text. 
 % Therefore, the way of obtaining entities in the entity grid representation affects the performance of the entity grid model as well.  
 % Similar to \newcite{elsner11b}, \newcite{guinaudeau13} take all nouns in a text as mentions of entities, even those that are not head of any noun phrase. 
@@ -455,10 +452,10 @@ Given the linguistic intuition that entities with important syntactic roles are 
 \paragraph{Projection graphs.}
 Local coherence is about the connectivity among sentences in a text. 
 However, nodes in the entity graphs consist of two disjoint node sets, one of which represents sentences. The other set captures entities. 
-\newcite{guinaudeau13} propose to transform an entity graph to a graph whose nodes capture only sentences and whose edges encode entity-based relations among sentences. 
+\newcite{guinaudeau13} propose to transform an entity graph to a graph whose nodes capture only sentences and whose edges encode \mbox{entity-based} relations among sentences. 
 Such a graph, which is obtained from the entity graph as a bipartite graph, is called a ``one-mode projection graph'' (or a projection graph for the sake of brevity) in graph theory \cite{newmanmark10}. 
 Edges in projection graphs are weighted in different ways in order to retain specific information about relations between sentence nodes and entity nodes in entity graphs. 
-Moreover, edges in projection graphs are directed to encode the order of sentences in a text. 
+Moreover, edges in projection graphs are directed to encode the order of sentences in texts. 
 
 \newcite{guinaudeau13} apply three kinds of projections, namely $P_U$, $P_W$ and $P_{Acc}$. 
 Figure \ref{fig:rel-proj} shows these graphs obtained from the entity graph presented in Figure \ref{fig:rel-egraph}. 
@@ -467,15 +464,15 @@ These projection graphs differ in the weighting scheme that they use:
 \begin{itemize}
 
 	\item In $P_U$, weights are binary, i.e., 0 or 1. 
-	The weight of an edge between two nodes in this type of the projection graph is equal to $1$ if the corresponding sentence nodes are connected to at least one entity node in the entity graph.  
+	The weight of an edge between two nodes in this type of projection graphs is equal to $1$ if the corresponding sentence nodes are connected to at least one entity node in the entity graph.  
 	This projection graph merely captures which sentences are linked to each other in a text. 
 
 	\item In $P_W$, an edge is weighted according to the number of the entity nodes that are connected with both sentence nodes in the entity graph. 
-    In other words, the weight of an edge between two nodes in this type of the projection graph represents the number of shared entities by the corresponding sentences. 
+    In other words, the weight of an edge between two nodes in this type of projection graphs represents the number of shared entities by the corresponding sentences. 
     This projection graph not only models that which sentences in a text are connected,  but also captures how strongly they are connected. 
     It takes the number of common entities between a pair of sentences as the strength of the relation between sentences. 
 
-	\item In $P_{Acc}$, syntactic information is accounted for by integrating the edge weights in the entity graph. 
+	\item In $P_{Acc}$, grammatical information is accounted for by integrating the edge weights in the entity graph. 
 	In this case, the weight of the edge between nodes $s_i$ and $s_k$ is equal to
 
 	\begin{equation}
@@ -598,7 +595,7 @@ These projection graphs differ in the weighting scheme that they use:
 	\label{fig:rel-proj}
 \end{figure}
 
-Distances between sentences can be integrated into the weighting scheme of edges in projection graphs to decrease the importance of links between non-adjacent sentences \cite{guinaudeau13}.   
+Distances between sentences can be integrated into the weighting schemes of edges in projection graphs to decrease the importance of links between non-adjacent sentences \cite{guinaudeau13}.   
 In this case, edge weights in projection graphs are divided by the difference between sentence IDs. 
 %, i.e.\ the number of sentences in between of two sentences plus one.  
 
@@ -638,7 +635,7 @@ It is worth to mention that the described entity graph model is an unsupervised 
 However, the average outdegree captures no information about the connectivity style of nodes in a projection graph. 
 For example, consider two projection graphs that are shown in Figure \ref{fig:rel-avgod-weakness}. 
 These two graphs have the same average outdegree, i.e.\ five, but graph (b) is disconnected because node $s_2$ is connected to none of its previous nodes. 
-Consequently, its corresponding text is less coherent than the text associated with (a).
+Consequently, its corresponding text is less coherent than the text associated with (a) \cite{karamanis09}. 
 The outdegree does not capture such information. 
 
 \begin{figure}[!ht]
@@ -704,12 +701,12 @@ So it is not clear which type of projection graphs is more useful for a downstre
 
 \subsubsection{Extensions of the Entity Graph Model}
 
-The entity graph model is extended from two different perspectives: text representation and the graph metric that is employed to measure coherence. 
+The entity graph model is extended from two different perspectives: the method that is used to represent texts with graphs and the graph metric that is employed to measure coherence. 
 
 \newcite{dias15} propose to fill in the grid based on the RST relations between sentences in a text. 
 An entry in the entity grid is 1 if an entity is part of a sentence that participates in an RST relation.
-Based on such grid representations, they define a bipartite graph similar to the entity graph and then construct its projection graph to model relations among sentences. 
-Then, they use the average outdegree of projection graphs to measure the coherence of a text. 
+Based on such a grid representation, they define a bipartite graph similar to the entity graph and then construct its projection graph to model relations among sentences. 
+They use the average outdegree metric of projection graphs to measure the coherence of a text. 
 Their model outperforms the entity graph model. 
 However, similar to RST-based extensions of the entity grid model, obtaining RST relations is subjective, and human annotations or discourse parsers are not available for many languages. 
 
@@ -717,11 +714,11 @@ However, similar to RST-based extensions of the entity grid model, obtaining RST
 These metrics are designed to capture more information about the connectivity style of nodes in projection graphs. 
 For example, they leverage the mean of the PageRank scores \cite{newmanmark10} of nodes in a projection graph for distinguishing a star-graph, in which all nodes are connected to one node, and no other edges occur, and a path graph, in which all nodes occur in a chain. 
 Some other assessed metrics include a clustering coefficient, which measures to what extent neighbors of a node are connected among themselves; and betweenness, which is the fraction of shortest paths that contain a node. 
-Although their results are better than the original entity graph which uses the average outdegree, the difference is not substantial to consider these new metrics. 
+Although their results are better than the original entity graph which uses the average outdegree, the difference is not substantial to consider these metrics. 
 We admit that the average outdegree is quite straightforward and efficient to compute. 
 
-\newcite{zhangmuyu15} use semantic relations between entities to identify not only the mentions that refer to the same entity but also the mentions that refer to entities which are semantically related, e.g., \ ``Gates'' and ``Microsoft''.  
-They capture such semantic relations by leveraging WordNet \cite{baccianella10} as a knowledge base, where the semantic relation between entities is limited to argument$_1$-predicate-argument$_2$ patterns, such as \mbox{Gates-create-Microsoft}. 
+\newcite{zhangmuyu15} use semantic relations between entities to identify not only the mentions that refer to the same entity but also the mentions that refer to entities which are semantically related.   
+They capture such semantic relations by leveraging WordNet \cite{baccianella10} as a knowledge base. 
 By incorporating such relations, the performance of the entity graph model improves.  
 They also challenge the average outdegree metric and propose to combine this metric with another score which is named ``reachability''. 
 The reachability score is the sum of the weights of edges in the shortest path that starts from the first sentence node and ends at the current sentence node. 
@@ -744,7 +741,7 @@ However, since these models are based on the lexico-semantic relations between w
 \subsection{Lexical Resources} 
 
 Most lexical models, including coherence models, crucially rely on the existence of resources that encode information about semantic relations between words in a language. 
-Such resources are typically acquired via two main approaches: the knowledge-based approach, or top-down, where humans manually curate such information, and the corpus-based approach, or bottom–up, where information is automatically learned from corpora. 
+Such resources are typically acquired via two main approaches: the knowledge-based approach (or top-down) where humans manually solicit such information, and the corpus-based approach (or bottom-up) where information is automatically learned from corpora. 
 Although the latter has gained ground during the last decades due to the availability of large amounts of texts and increased computing capacities, the former remains fundamental because it allows us to collect reliable, fine-grained, and explicit information. 
 
 \paragraph{Knowledge-based resources.}
@@ -787,7 +784,7 @@ The shorter the path between two word nodes, the more similar the words are.
 \paragraph{Corpus-based resources.} 
 The bottom-up knowledge resources are obtained based on the co-occurrence of words in texts.  
 In these resources, words are taken similar if they frequently occur in a similar context. 
-The main idea of resources is to represent semantic properties of words by vectors in a \mbox{multi-dimensional} space. 
+The main idea of such resources is to represent semantic properties of words by vectors in a \mbox{multi-dimensional} space. 
 Such vectors are obtained by observing the distributional patterns of word co-occurrences with their nearby words in large bodies of texts. 
 The similarity between word vectors in vector space quantifies the semantic relatedness between words in language space. 
 
@@ -798,7 +795,7 @@ It then uses a mathematical method called ``Singular Value Decomposition'' (SVD)
 
 The other method is named ``Latent Dirichlet Allocation'' (LDA) proposed by \newcite{blei03}. 
 LDA is a generative statistical model which allows sets of words to be explained by a set of latent topics.  
-Its intuition is that words of text with similar topics are semantically related. 
+Its intuition is that words of texts with similar topics are semantically related. 
 It is worth noting that in this approach, topics are neither semantically nor epistemologically defined. 
 Topics are defined on the basis of automatic detection of the likelihood of term co-occurrence. 
 This method is identical to probabilistic latent semantic analysis (pLSA), except that in LDA the topic distribution is assumed to have a sparse Dirichlet prior.
@@ -807,7 +804,7 @@ In practice, LDA yields to better disambiguation of words and more precise assig
 %A lexical word may occur in several topics with a different probability, however, with a different typical set of neighboring words in each topic.
 
 Finally, recent methods for representing words in a distributional space utilize deep neural networks rather than co-occurrence matrices. 
-In contrast to the above methods (LSA and LDA) which are unsupervised, the neural network models applied for obtaining word vectors are trained a supervised manner.  This property is an advantage for these methods because as the vocabulary in a language grows, new vectors for new vocabulary can be trained and appended to such knowledge resources.  
+In contrast to the above methods (LSA and LDA) which are unsupervised, the neural network models applied for obtaining word vectors are trained in a supervised manner.  This property is an advantage for these methods because as the vocabulary in a language grows, new vectors for new vocabulary can be trained and appended to such knowledge resources.  
 The word vectors that are generated by these models are named ``word embeddings''. 
 Well-known approaches for obtaining word embedding are ``word2vec''  \cite{mikolov13} and ``GloVe'' \cite{pennington14}. 
 The word2vec approach focuses on learning the embeddings of a word given its local usage context, where a window of words surrounding the word defines its context. 
@@ -819,11 +816,11 @@ Indeed, distributional representations of words, in general, are beneficial if t
 See \newcite{budanitsky06} where they highlight several problems that arise from the imbalance and sparseness of corpora for such methods. 
 
 In resources that are provided bottom-up, the cosine of the angle of a pair of word embeddings (or the inner product between the normalizations of the two vectors) measures the similarity of the two words. 
-Cosine values near one represent semantically similar words, while values near zero represent independent words and values near -1 represent semantically different words. 
+Cosine values near $+1$ represent semantically similar words, while values near $0$ represent independent words and values near $-1$ represent semantically opposite words. 
 
 \subsection{Lexical Cohesion Models}
 
-Here, we review local coherence models that are upon lexical cohesion \cite{halliday76}, i.e., lexical relations between words. 
+Here, we review local coherence models that are built upon lexical cohesion \cite{halliday76}, i.e., lexical relations between words. 
 We categorize these approaches into three high-level research trends: models that are based on lexical chains,  models that are based on sentence similarities, and models that are based on word distributions.  
 
 The first trend of research includes methods that use lexical relations to build lexical chains. 
@@ -836,17 +833,17 @@ Therefore, the distribution of lexical chains is a surface indicator of the stru
 \newcite{galley03a} construct lexical chains for topic segmentation, which is tightly related to coherence. 
 This model does not need any knowledge resource because it builds lexical chains based merely on word repetitions. 
 In contrast, \newcite{stokes04} employ WordNet to extract lexical chains from texts.  
-Weak\footnote{The difference between weak and strong relations is identified using a threshold on the employed similarity function.} relations between words in lexical chains in a text are used as an indicator of topic shifts in texts. 
+Weak\footnote{The difference between weak and strong relations is identified using a threshold on the employed similarity function.} relations between words in lexical chains in a text are used as an indicator of topic shifts.  
 \newcite{barzilay97} propose a lexical chaining algorithm which uses WordNet, Thesaurus, and Part of Speech (POS) tags to extract lexical relations. 
 They do not use this model directly for coherence modeling, but they utilize it for generating coherent summaries. 
 \newcite{somasundaran14} use lexical chaining for measuring the coherence of essays written by non-native English students. 
 To do so, they employ Lin’s thesaurus \cite{lindekang98} to identify semantically similar words in essays.   
 The main lesson learned from this work is that features related to lexical chains measure the coherence of essays. 
-In order to capture different aspects of a lexical chain, they employ several features related to lexical chains, such as the number of chains in a text, the size of a chain, and the number of chains with more than one word. 
+In order to capture different aspects of a lexical chain, they employ several features such as the number of chains in a text, the size of a chain, and the number of chains with more than one word. 
 
 The second trend of research related to lexical cohesion includes papers that consider lexical relations between words of sentences in order to compute the similarity between sentences.    
 The central insight of these approaches, in general, is that sentences of coherent texts are similar because they contain semantically related words. 
-Generally, these models first aggregate word vectors corresponding to words in sentences for representing each sentence via a vector, and then computes the similarity between sentence vectors to measure the similarity between two sentences.  
+Generally, these models first aggregate word vectors corresponding to words in sentences for representing each sentence via a vector, and then compute the similarity between sentence vectors to measure the similarity between two sentences.  
 Finally, the average of all similarities between adjacent sentences in a text measures the coherence of the text: 
 
 \begin{equation}
@@ -860,7 +857,7 @@ The weighting scheme in their approach is inspired by information retrieval tech
 The similarity between two adjacent sentences is computed by applying the cosine function to sentence vectors. 
 \newcite{higgins07} apply a similar strategy for essay coherence, but they use a Random Indexing (RI) model to represent sentences. 
 \newcite{lapata05a} compute the similarity between two adjacent sentences by counting the number of exact repetitions between nouns in sentences. 
-\newcite{yannakoudakis12} represent each sentence by a vector of lemmas and the POS tags of words in sentences, and then the average of the cosine similarities between adjacent sentences encode how coherent the text is.  
+\newcite{yannakoudakis12} represent each sentence by a vector of lemmas and the POS tags of words in sentences, and then the average of the cosine similarities between adjacent sentences encode how coherent a text is.  
 \newcite{hearst94, hearst97} computes the cosine similarity between adjacent windows of words, rather than adjacent sentences. 
 
 The third trend of research related to lexical cohesion uses probabilistic models to assign a coherence score to a text. 
@@ -868,7 +865,7 @@ The third trend of research related to lexical cohesion uses probabilistic model
 This probability for a given pair of sentences is a conditional probability of words in a sentence given all of the words in its immediately preceding sentence. 
 The coherence score of a text is the product of coherence probabilities between adjacent sentences. 
 Although this model does not use any external knowledge resources, it computes its own co-occurrence matrix representation of a text, which captures the distribution of words across adjacent sentences. 
-Moreover, this model learns the order of word pairs in the different type of texts, e.g., \ whether ``CAR'' precedes ``TIRE'' more in coherent texts or in incoherent ones.  
+Moreover, this model learns the order of word pairs in different types of texts, e.g., whether ``CAR'' precedes ``TIRE'' more in coherent texts or in incoherent ones.  
 \newcite{lijiwei14} propose to represent words in sentences by pre-trained word embeddings. 
 Then a recurrent \cite{schuster97} or a recursive neural network is used to represent each sentence based on its word embeddings. 
 A window with length three is sliding through a text, and a coherence probability is computed for every three adjacent sentences.  
@@ -893,7 +890,7 @@ The success is the extent to which they understand it, read it at optimal speed,
 
 Assessing the degree of readability of a text has been a field of research for many decades. 
 Early readability metrics \cite{flesch48,kincaid75} have been established as a function of shallow features of a text, such as the number of syllables per word and the number of words per sentence. 
-These traditional readability metrics are still used currently in many settings and domains, mainly because they are very easy and efficient to compute.  
+These traditional readability metrics are still used in many settings and domains, mainly because they are very easy and efficient to compute.  
 
 Later research has investigated the use of statistical language models 
 (uni-gram in particular) to capture the distribution of vocabulary between two readability grade levels
@@ -906,19 +903,20 @@ In order to accurately model the difficulty of a text for its readers, besides t
 Indeed, well-written texts are more than unrelated sequences of sentences. 
 Discourse-level factors (e.g.\ coherence) of a text play a critical role in the overall understanding of the text \cite{pitler08}.  
 In a high-quality text, sentences relate semantically to one another so that they become less ambiguous.   
-Moreover, the relationships among sentences of coherent texts are easy to recognize and interpret for readers, and therefore information smoothly moves sentence by sentence as the text progresses. 
+Moreover, the relationships among sentences of easy-to-read texts are easy to recognize and interpret for readers, and therefore information smoothly moves sentence by sentence as the text progresses. 
+So coherence is an essential factor of text quality. 
 \newcite{beigman13} use the lexical relations between words of a text to model the quality of the text. 
 The core intuition of their model is that a text segmentation algorithm, which uses information about patterns of word co-occurrences, can detect topic shifts in a text. 
 \newcite{eisenstein08} state that coherent texts contain some proportions of more highly associated word pairs (those in its following sentences within the same topical unit) and of less highly associated pairs (those in sentences from different topical units).  
-They illustrate that the patterns of the distribution of semantically related words correlate with the writing quality. 
-\newcite{pitler08} evaluate coherence features, proposed by the entity grid model, and other discourse features such as the frequency of RST relations for the readability assessment task. 
+They illustrate that the distribution of patterns of semantically related words correlate with the writing quality. 
 
-In order to investigate and compare the impacts of these features on readability assessment, two approaches have been frequently employed. 
+\newcite{pitler08} evaluate the features proposed by the entity grid model and other discourse features such as the frequency obtained based on the RST relations by comparing their performance for the readability assessment task. 
+They employ two approaches. 
 The first approach recast readability assessment as a rating task \cite{pitler08,kate10}. 
 The requirement for this task is a dataset whose texts accompany ratings assigned by human judges. 
 Several human annotators judge each text for its readability by assigning the text a readability rating on an n-point scale, where n is a design choice. 
 The average of these ratings is then the final readability rating of the examined text.  
-Given such a dataset, a statistical correlation coefficient metric, e.g.\ the Pearson correlation coefficient, between values of a feature and the average human ratings of texts in a corpus is computed to measure which feature is more correlated with human judges.  
+Given such a dataset, a statistical correlation coefficient metric, e.g.\ the Pearson correlation coefficient, between values of a feature and the average human ratings of texts in a corpus is computed to measure which feature is more correlated with human-provided ratings. 
 
 The second approach is to distinguish texts which are difficult to read from texts which are easy to read. 
 This approach treats the readability assessment task as a pairwise classification task \cite{pitler08,guinaudeau13,barzilay08}: Given a pair of texts, which one is easier to read? 
@@ -933,16 +931,16 @@ An example of such systems is an automatic text summarization system.
 The input to a summarizer is a text (or several texts in the case of multi-document summarization), and the task of the system is to produce a shorter text which contains the gist of the information presented in the input text(s). 
 This output text, of course, should be readable and understandable to be used by humans or other natural language processing applications. 
 
-The summarization task has several design choices: single-document vs multi-document, and extractive vs abstractive summarization\footnote{There is another type of summarization which is called compressive summarization, where summaries are formed by compressed sentences not necessarily extracts \cite{knight00}.} \cite{hahn00}. 
+The summarization task has several design choices: single-document vs. multi-document, and extractive vs. abstractive summarization\footnote{There is another type of summarization which is called compressive summarization, where summaries are formed by compressed sentences not necessarily extracts \cite{knight00}.} \cite{hahn00}. 
 Single-document summarization systems take only one input text, whereas multi-document summarizers produce a summary from a cluster of texts. 
 Extractive summarizers \cite{kupiec95,carbonell98,gillick09} produce a summary by sequencing a subset of sentences from an input text, while abstractive summarizers \cite{wanglu13b,alfonseca13} involve the generation of sentences for the summary as well.   
 
-The summarization task, in all of its variations, and coherence modeling meet in two general trends. 
+The summarization task, in all of its variations, and coherence modeling meet in two general research trends. 
 The first trend, which is called summary coherence ranking \cite{barzilay08,guinaudeau13}, employs a coherence model to discriminate between pairs of summaries generated by either humans or machines. 
 This trend is (almost) similar to the readability assessment task; just examined texts are summaries. 
 In this trend, the performance of a coherence model is assessed by comparing rankings induced by the model against rankings elicited by human judges. 
 A coherence model that exhibits a high agreement with human judges accurately captures the coherence properties of the texts \cite{barzilay08}. 
-Although this approach can potentially be used for evaluating the quality of summaries produced by any summarization system, it is mainly used to compare the outputs of multi-document extractive summarization models.  
+Although this approach can potentially be used for evaluating the quality of summaries produced by any summarization system, it is mainly used to compare the outputs of \mbox{multi-document} extractive summarization models.  
 
 The second trend combines coherence metrics with an automatic text summarization system, with the intention of producing coherent summaries.  
 This approach is more beneficial for the real application of automatic text summarization. 
@@ -955,14 +953,14 @@ This strategy is especially fruitful if a summary should contain information abo
 \newcite{barzilay97} employ lexical chains occurring in a text to divide the text into segments.  
 The use of lexical chains allows topicality to be taken into account to heighten the quality of summaries.
 \newcite{celikyilmaz10,celikyilmaz11} incorporate the idea of hierarchical topical coherence models for segmentation and sentence extraction. 
-\newcite{clarke10} require the entities that serve as centers of sentences (in the sense of the centering theory) retain in summary. 
+\newcite{clarke10} retain entities which serve as centers of sentences (in the sense of the centering theory) in summaries.  
 \newcite{mckeown99} first initially cluster sentences and then choose the representative sentences of each cluster to be added in the summary. 
 Here, the clustering stage minimizes redundancy, and the representative sentence selection maximizes importance.
 % \newcite{jha15} consider Minimum Independent Discourse Contexts (MIDC) to solve the problem of non-coherence in extractive summarization.
 However, this model does not deal with the problem of coherence within the task of sentence selection. 
 \newcite{carbonell98} propose a global model through the use of the Maximum Marginal Relevance (MMR) criteria, where the model scores sentences by considering a weighted combination of importance plus redundancy with sentences already in the summary. 
 Summaries are then created with an approximate greedy procedure that incrementally includes the sentence that maximizes this criterion.  
-Greedy MMR style algorithms are still a standard baseline for summarization. 
+Greedy MMR style algorithms are still a popular baseline for summarization. 
 
 One of the popular approaches to optimizing three main factors for summarization -- importance, variance, and coherence -- is Integer Linear Programming (ILP). 
 ILP techniques have been used to solve many intractable inference problems in NLP applications. 
@@ -974,15 +972,15 @@ Similar to the other NLP applications, ILP has been popularly employed for autom
 \cite{nishikawa10,galanis12,marciniak05b,mcdonald07,berg-kirkpatrick11,woodsend12,lichen13a,hirao13}.  
 
 \newcite{parveen15a} propose an automatic summarizer using ILP.  
-The objective of the optimization in their ILP formulation is to select a subset of sentences from the input document so that the selected sentences produce a summary.
+The objective of the optimization in their ILP formulation is to select a subset of sentences from the input document so that the selected sentences produce a coherent summary.
 The summary should ideally be optimal regarding importance, non-redundancy, and coherence. 
 This model is of our interest because it sets up the optimization problem on the entity graph representations of texts. 
-Given an input text, the importance and non-redundancy of selected sentences for a summary are measured using the bipartite entity graph of the input text. 
+Given an input text, the importance and non-redundancy of selected sentences for a summary are measured using the bipartite entity graph of an input text. 
 They employ entities as units of information which relate sentences. 
 Entities are also used in other summarization techniques to measure the importance and the diversity of the information presented in sentences.   
 Sentences that contain prominent entities of a text are essential to be extracted. 
 A summary whose sentences refer to few entities may contain redundant information. 
-\newcite{parveen15a} use the outdegree of each node in the projection graph representation of the input text in order to measure how important the sentence associated with the node is for the coherence of the summary.  
-In Chapter \ref{ch:coh-patterns}, we employ this model to evaluate our coherence patterns by replacing their out degree feature with the frequency of our coherence patterns into this summarizer, instead of their outdegree feature, which is used in this summarizer to measure coherence. 
+\newcite{parveen15a} use the outdegree of each node in the projection graph representation of an input text in order to measure how important the sentence associated with the node is for the coherence of the summary.  
+In Chapter \ref{ch:coh-patterns}, we employ this model to evaluate our coherence patterns by replacing their out degree feature with the frequency of our coherence patterns. 
 
 

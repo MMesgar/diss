@@ -4,7 +4,7 @@
 \chapter{Conclusions} 
 \label{ch:conc} 
 
-The aim of the research presented in this thesis was to provide an approach to local coherence modeling based on the connectivity structure of relations among sentences in a text.  
+The aim of the research presented in this dissertation was to provide an approach to local coherence modeling based on the connectivity structure of relations among sentences in a text.  
 To this end, we defined two major research questions: 
 \begin{itemize}
 	\item \textbf{Do there exist nonlinear connectivity patterns in coherent texts such that the patterns capture \mbox{long-distance} relations among sentences?} 
@@ -28,8 +28,8 @@ We formalized the concept of connectivity patterns in linguistics \cite{danes74a
 We referred to these subgraphs as coherence patterns. 
 We represented the connectivity structure among nodes in a graph by a vector where each of its elements is the frequency of one of the extracted subgraphs in the graph. 
 We observed some promising correlation between the frequencies of coherence patterns in texts and readability ratings assigned by humans. 
-We noticed that these vectors could be supplied to a machine learning method in order to rank texts with respect to their coherence. 
-Finally, we learned that by enlarging coherence patterns, i.e.\ increasing the number of nodes in subgraphs, the performance of the presented model in this thesis for the readability assessment task improves. 
+We used these vectors to train a machine learning method for ranking texts with respect to their coherence. 
+Finally, we learned that by enlarging coherence patterns, i.e.\ increasing the number of nodes in subgraphs, the performance of our model improves. 
 
 In another experiment, we evaluated our coherence patterns on extractive document summarization. 
 For doing so, we integrated subgraphs, which are extracted from a set of coherent summaries, into the process of sentence selection in a summarization system. 
@@ -40,7 +40,7 @@ We also noticed that our coherence patterns improve the performance of the summa
 In order to complete our approach, we proposed a new graph-based representation, which is called \mbox{LexGraph}, for sentence relations in texts rather than the projection graph representations used in the entity graph model.   
 LexGraph representations are based on lexico-semantic relations between words in sentences.
 A pair of content words in two sentences makes a connection if there exists a lexico-semantic relation between them. 
-We used the pre-trained word embeddings to find out if such relations exist between two words or not.  
+We used pre-trained word embeddings to find out if such relations exist between two words or not.  
 Our representation connects more sentences in comparison to the entity graph representations. 
 Therefore, the graphs provided by our model are denser than entity graphs. 
 We extracted all subgraphs of lexical graphs as coherence patterns. 
@@ -49,12 +49,12 @@ It shows that our LexGraph model is linguistically sound.
 We observed that frequencies of coherence patterns in lexical cohesion graphs are more predictive than those in entity graphs for the readability ranking task. 
 We also noticed that large coherence patterns perform superior to the small ones on lexical cohesion graphs.  
 However, there exists the risk of sparsity where coherence patterns become very large. 
-We adapted the Kneser-Ney smoothing for this problem, which improved the performance of our model. 
+We adapted Kneser-Ney smoothing for solving this problem, resulting in considerable improvements in the performance of our model. 
 
 \section{Future Work}
 \label{sec:conc-future_work}
 
-Based on the research presented in this thesis, several possible ways for future work exist. 
+Based on the research presented in this dissertation, several possible ways for future work exist. 
 Those can be in directions of either the coherence modeling method or the influence of the coherence model in other natural language processing applications.   
 We discuss three possible extensions of the work presented in this thesis. 
 
@@ -65,11 +65,11 @@ We introduced two methods for subgraph extractions.
 Our first method was an exhaustive search (Chapter \ref{ch:coh-patterns}), and our second method was sampling (Chapter \ref{ch:lex-graph}). 
 This process is independent of the machine learning method that is used to rank texts with respect to their coherence. 
 Recent improvements in deep learning methods are promising to combine these two phases. 
-Deep learning models such as convolutional neural networks (CNNs) \cite{kimyoon14} can be employed to operate on graph representations of texts to extract coherence patterns that are especially beneficial for the ranking task. 
+Deep learning models \cite{goldberg17} such as convolutional neural networks (CNNs) \cite{kimyoon14} can be employed to operate on graph representations of texts to extract coherence patterns that are especially beneficial for the ranking task. 
 
 Furthermore, in the proposed lexical cohesion graph representation, which is based on lexical relations among words in sentences, words are taken into account individually. 
 In other words, sentences are taken as a bag of words while the structure within sentences \cite{louis12} and the order of words in sentences provide some clues for coherence models. 
-Recurrent neural networks (RNNs) can overcome this weakness. 
+It has been shown that Recurrent neural networks (RNNs) can overcome this weakness \cite{goldberg17}. 
 These models sequentially take embeddings of each word in a sentence and at each word return a vector, which is called a state vector.  
 State vectors contain information of their corresponding input word embeddings and information in embeddings of other words in a sentence as context.  
 As we discussed above, a CNN can be used on the top of the RNN states to extract coherence patterns automatically. 
@@ -78,7 +78,7 @@ As we discussed above, a CNN can be used on the top of the RNN states to extract
 In the research presented in this thesis, we evaluated our model on two readability assessment datasets and two summarization datasets. 
 Our coherence model improved the performance of these systems. 
 However, coherence is a crucial factor in other NLP applications as well. 
-An example is the essay scoring task \cite{dikli06,higgins04,miltsakaki04a,}.  
+An example is the essay scoring task \cite{dikli06,higgins04,miltsakaki04a}.  
 This task is about assigning a score to a student essay so that the score reflects the quality of the essay. 
 Of course, the essay quality depends on more circumstances, such as grammatical mistakes, wordlists that are used in essays, the similarity between the content of essays and the topic given for the essay, and so forth. 
 Therefore, in order to employ this task for evaluating a coherence model,  one should integrate frequencies of coherence patterns as features for the coherence of an essay into a feature-based essay scorer. 

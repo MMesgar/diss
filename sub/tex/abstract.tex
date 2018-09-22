@@ -5,30 +5,30 @@ Coherence is an essential property of well-written texts.
 It distinguishes a multi-sentence text from a sequence of randomly strung sentences. 
 The task of local coherence modeling is about the way that sentences in a text link up one another.  
 Solving this task is beneficial for assessing the quality of texts. 
-Moreover, a coherence model can be integrated into text generation systems such as text summarization to produce coherent texts.  
+Moreover, a coherence model can be integrated into text generation systems such as text summarizers to produce coherent texts.  
 
 In this dissertation, we present a graph-based approach to local coherence modeling that accounts for the connectivity structure among sentences in a text. 
 Graphs give our model the capability to take into account relations between non-adjacent sentences as well as those between adjacent sentences. 
-Moreover, the connectivity style among nodes in graphs reflects how sentences in a text are related to each other. 
+Besides, the connectivity style among nodes in graphs reflects the relationships among sentences in a text. 
 
 We first employ the entity graph approach, proposed by \newcite{guinaudeau13}, to represent a text via a graph. 
 In the entity graph representation of a text, nodes encode sentences and edges depict the existence of a pair of coreferent mentions in sentences. 
 We then devise graph-based features to capture the connectivity structure of nodes in a graph, and accordingly the connectivity structure of sentences in the corresponding text. 
 We extract all subgraphs of entity graphs as features which encode the connectivity structure of graphs.    
-Frequencies of subgraphs in graphs correlate with the perceived coherence of their corresponding texts. 
+Frequencies of subgraphs correlate with the perceived coherence of their corresponding texts. 
 Therefore, we refer to these subgraphs as coherence patterns. 
 
 In order to complete our approach to coherence modeling, we propose a new graph representation of texts, rather than the entity graph.  
-Our approach employs lexical relations among words in sentences, instead of only entity coreference relations, to model semantic relations between sentences via a graph. 
-The combination of our method for mining coherence patterns and our lexical approach to text representation yields a complete coherence model. 
+Our approach employs lexico-semantic relations among words in sentences, instead of only entity coreference relations, to model relationships between sentences via a graph. 
+This new lexical graph representation of texts plus our method for mining coherence patterns make our coherence model. 
 
 We mainly evaluate our approach on the readability assessment task because a primary factor of readability is coherence. 
 Coherent texts are easy to read and consequently demand less effort from their readers. 
-Extensive experiments on two separate readability assessment datasets show that frequencies of coherence patterns in texts correlate with readability ratings assigned by human judges.     
-By employing a machine learning method, we show that our coherence patterns outperform its counterparts in ranking texts with respect to readability.   
-As one of the ultimate goals of coherence models is to use them in text generation systems, we investigate how our coherence patterns can be integrated into a graph-based text summarizer for producing informative and coherent summaries. 
-Our coherence patterns improve the performance of the summarization system based on both summarization metrics and human evaluations.  
-An implementation of the frameworks discussed in this thesis is publicly available.
+Our extensive experiments on two separate readability assessment datasets show that frequencies of coherence patterns in texts correlate with the readability ratings assigned by human judges.     
+By training a machine learning method on our coherence patterns, our model outperforms its counterparts in ranking texts with respect to their readability.   
+As one of the ultimate goals of coherence models is to use them in text generation systems, we show how our coherence patterns can be integrated into a graph-based text summarizer to produce informative and coherent summaries. 
+Our coherence patterns improve the performance of the summarization system based on both standard summarization metrics and human evaluations.  
+An implementation of the frameworks discussed in this dissertation is publicly available. 
 
 \selectlanguage{ngerman}
 \addchap*{\abstractname}
