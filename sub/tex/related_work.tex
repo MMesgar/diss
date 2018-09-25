@@ -903,8 +903,9 @@ In order to accurately model the difficulty of a text for its readers, besides t
 Indeed, well-written texts are more than unrelated sequences of sentences. 
 Discourse-level factors (e.g.\ coherence) of a text play a critical role in the overall understanding of the text \cite{pitler08}.  
 In a high-quality text, sentences relate semantically to one another so that they become less ambiguous.   
-Moreover, the relationships among sentences of easy-to-read texts are easy to recognize and interpret for readers, and therefore information smoothly moves sentence by sentence as the text progresses. 
-So coherence is an essential factor of text quality. 
+Moreover, the relationships among sentences of \mbox{easy-to-read} texts are easy to recognize and interpret for readers. 
+In a well-written text, information smoothly flows sentence by sentence as the text progresses.   
+So, coherence is an essential factor of text quality. 
 \newcite{beigman13} use the lexical relations between words of a text to model the quality of the text. 
 The core intuition of their model is that a text segmentation algorithm, which uses information about patterns of word co-occurrences, can detect topic shifts in a text. 
 \newcite{eisenstein08} state that coherent texts contain some proportions of more highly associated word pairs (those in its following sentences within the same topical unit) and of less highly associated pairs (those in sentences from different topical units).  
@@ -914,7 +915,7 @@ They illustrate that the distribution of patterns of semantically related words 
 They employ two approaches. 
 The first approach recast readability assessment as a rating task \cite{pitler08,kate10}. 
 The requirement for this task is a dataset whose texts accompany ratings assigned by human judges. 
-Several human annotators judge each text for its readability by assigning the text a readability rating on an n-point scale, where n is a design choice. 
+Several human annotators judge each text for its readability by assigning the text a readability rating on an $n$-point scale, where $n$ is a design choice. 
 The average of these ratings is then the final readability rating of the examined text.  
 Given such a dataset, a statistical correlation coefficient metric, e.g.\ the Pearson correlation coefficient, between values of a feature and the average human ratings of texts in a corpus is computed to measure which feature is more correlated with human-provided ratings. 
 
