@@ -908,18 +908,17 @@ In a well-written text, information smoothly flows sentence by sentence as the t
 So, coherence is an essential factor of text quality. 
 \newcite{beigman13} use the lexical relations between words of a text to model the quality of the text. 
 The core intuition of their model is that a text segmentation algorithm, which uses information about patterns of word co-occurrences, can detect topic shifts in a text. 
-\newcite{eisenstein08} state that coherent texts contain some proportions of more highly associated word pairs (those in its following sentences within the same topical unit) and of less highly associated pairs (those in sentences from different topical units).  
+\newcite{eisenstein08} state that coherent texts contain some proportions of more highly associated word pairs (those in sentences within the same topical unit) and of less highly associated pairs (those in sentences from different topical units).  
 They illustrate that the distribution of patterns of semantically related words correlate with the writing quality. 
 
-\newcite{pitler08} evaluate the features proposed by the entity grid model and other discourse features such as the frequency obtained based on the RST relations by comparing their performance for the readability assessment task. 
+\newcite{pitler08} compare the performance of several feature sets such as the features proposed by the entity grid model to model local coherence and the frequency of the RST relations in a text for the readability assessment task. 
 They employ two approaches. 
 The first approach recast readability assessment as a rating task \cite{pitler08,kate10}. 
 The requirement for this task is a dataset whose texts accompany ratings assigned by human judges. 
 Several human annotators judge each text for its readability by assigning the text a readability rating on an $n$-point scale, where $n$ is a design choice. 
 The average of these ratings is then the final readability rating of the examined text.  
 Given such a dataset, a statistical correlation coefficient metric, e.g.\ the Pearson correlation coefficient, between values of a feature and the average human ratings of texts in a corpus is computed to measure which feature is more correlated with human-provided ratings. 
-
-The second approach is to distinguish texts which are difficult to read from texts which are easy to read. 
+The second approach is to distinguish difficult-to-read texts from easy-to-read ones.  
 This approach treats the readability assessment task as a pairwise classification task \cite{pitler08,guinaudeau13,barzilay08}: Given a pair of texts, which one is easier to read? 
 In this approach, all related features related to coherence and readability are taken into account to increase the predictive power of the classifier. 
 However, each feature class is also separately used to classify texts.   
