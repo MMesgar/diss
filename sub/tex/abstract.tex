@@ -60,31 +60,4 @@ Durch umfangreiche Versuche auf zwei verschiedenen Datensätzen zur Lesbarkeitsb
 Durch die Schulung eines maschinellen Lernverfahrens auf unsere Kohärenzmuster übertreffen unser Modell seine Gegenstücke im Rangierung der texten hinsichtlich ihrer Lesbarkeit. 
 Da eines der eigentlichen Ziele der Kohärenzmodellierung der Einsatz in Texterzeugungssystemen ist, zeigen wir, wie unsere Kohärenzmuster in ein graphbasiertes Textzusammenfassungssystem zum Erzeugen von informativen und kohärenten Zusammenfassungen integriert werden können. 
 Unsere Kohärenzmuster verbessern die Leistung des Zusammenfassungssystems basierend auf beide Standardzusammenfassungsmetriken und menschliche Bewertungen.
-
-Kohärenz ist eine Schlüsseleigenschaft von gut geschriebenen Texten. 
-Sie unterscheidet einen Text mit mehreren Sätzen von einer Folge zufällig aufgereihter Sätze. 
-Bei der lokalen Kohärenzmodellierung geht es darum, wie Sätze in einem Text miteinander verbunden sind. 
-Sie ist nützlich für die Bewertung von Textqualität, aber auch als Bestandteil von Texterzeugungssystemen wie z.B.\ für die Textzusammenfassung. 
-
-In dieser Doktorarbeit präsentieren wir einen graphbasierten Ansatz zur lokalen Kohärenzmodellierung, welcher die Verbindungsstruktur unter den Sätzen in einem Text darstellt. 
-Die Graphen geben unserem Modell die Fähigkeit, sowohl die Verhältnisse zwischen benachbarten als auch zwischen nicht benachbarten Sätzen zu berücksichtigen. 
-Darüber hinaus spiegelt der Verbindungsstil unter Knoten in Graphen, wie sich die Sätze in einem Text aufeinander beziehen. 
-Zuerst beschäftigen wir uns mit dem von \newcite{guinaudeau13} entwickelten \mbox{Entity-Graph-Ansatz}. 
-In diesem Ansatz werden Sätze durch Knoten repräsentiert, und Kanten zwischen Knoten repräsentieren koreferente Ausdrücke in zwei Sätzen. 
-Unter Berücksichtigung solcher grafischen Darstellungen von Texten führen wir graphbasierte Funktionen ein, um die Strukturen der Kanten in einem Graph und folglich die Kohärenzeigenschaft des entsprechenden Textes zu kodieren. 
-
-Wir extrahieren alle Untergraphen in Graphen und bezeichnen sie als Kohärenzmuster. 
-Die Variabilität der Häufigkeiten der Kohärenzmuster in den Graphdarstellungen erfasst die Unterschiede zwischen den Strukturen der Graphen. 
-Folglich korrelieren die Häufigkeiten der Kohärenzmuster mit der wahrgenommenen Kohärenz von Texten. 
-Um unseren Ansatz zur Kohärenzmodellierung zu vervollständigen, schlagen wir, als Alternative zum \mbox{Entity-Graph-Ansatz}, eine neue Graphrepräsentation von Texten vor. 
-Unser Ansatz nutzt lexikalische Beziehungen zwischen Wörtern, und nicht nur Koreferenzbeziehungen, um semantische Beziehungen zwischen Sätzen als Graph zu modellieren. 
-Die Kombination unserer Methode für die Kohärenzmusterextraktion mit unserem lexikalischen Ansatz zur Textrepräsentation ergibt ein vollständiges Kohärenzmodell. 
-Wir evaluieren unseren Ansatz überwiegend im Hinblick auf die Lesbarkeitsbewertung von Texten, weil Textkohärenz ein Schlüsselfaktor für diese Aufgabe ist. 
-In einem kohärenten Text werden Sätze zu einem Ganzen zusammengefügt. 
-Derartige Texte sind einfach zu lesen und zu verstehen und erfordern folglich weniger Aufwand von ihren Lesern. 
-Durch umfangreiche Versuche auf zwei verschiedenen Datensätzen zur Lesbarkeitsbewertung untersuchen wir die Korrelation zwischen den Häufigkeiten der Kohärenzmuster in Texten und von menschlichen Subjekten vorgenommenen Lesbarkeitsbewertungen. 
-
-Wir verwenden zusätzlich ein maschinelles Lernverfahren, um zu lernen, wie Kohärenzmuster Texte in Bezug auf ihre Lesbarkeit ordnen können. 
-Da das eigentliche Ziel der Kohärenzmodellierung der Einsatz in Texterzeugungssystemen ist, untersuchen wir, wie unsere Kohärenzmuster
-in ein graphbasiertes Textzusammenfassungssystem zum Erzeugen von informativen und kohärenten Zusammenfassungen integriert werden können. 
-Eine Implementierung der in dieser Doktorarbeit diskutierten Ansätze ist  öffentlich verfügbar\footnote{\url{https://github.com/MMesgar/}}. 
+Eine Implementierung der in dieser Doktorarbeit diskutierten Ansätze ist öffentlich verfügbar\footnote{\url{https://github.com/MMesgar/}}. 
